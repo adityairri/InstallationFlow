@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <base href="/">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>Welcome To | Bootstrap Based Admin Template - Material Design</title>
+    <!-- Favicon-->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet"
+        type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap Core Css -->
+  <link href="plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+  <!-- Waves Effect Css -->
+  <link href="plugins/node-waves/waves.css" rel="stylesheet" />
+
+  <!-- Animation Css -->
+  <link href="plugins/animate-css/animate.css" rel="stylesheet" />
+
+  <!-- Morris Chart Css-->
+  <link href="plugins/morrisjs/morris.css" rel="stylesheet" />
+
+  <!-- Custom Css -->
+  <link href="css/style.css" rel="stylesheet">
+
+    <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
+    <link href="css/themes/all-themes.css" rel="stylesheet" />
+</head>
+
+<body class="theme-teal">
+
+    <!-- #END# Page Loader -->
+    <!-- Overlay For Sidebars -->
+    <!-- <div class="overlay"></div> -->
+    <!-- #END# Overlay For Sidebars -->
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <div class="search-icon">
+            <i class="material-icons">search</i>
+        </div>
+        <input type="text" placeholder="START TYPING...">
+        <div class="close-search">
+            <i class="material-icons">close</i>
+        </div>
+    </div>
+    <!-- #END# Search Bar -->
+
+    <!-- Right Sidebar -->
+    <aside id="rightsidebar" class="right-sidebar">
+        <ul class="nav nav-tabs tab-nav-right" role="tablist">
+            <li role="presentation" class="active"><a href="#settings" data-toggle="tab">SETTINGS</a></li>
+        </ul>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade in active in active" id="settings">
+                <div class="demo-settings">
+                    <p>ORDER SETTINGS</p>
+                    <ul class="setting-list">
+                        <li>
+                            <span>Accepting Orders</span>
+                            <div class="switch">
+                                <label><input type="checkbox" checked><span class="lever"></span></label>
+                            </div>
+                        </li>
+                        <li>
+                            <span>Auto Accept Orders</span>
+                            <div class="switch">
+                                <label><input type="checkbox"><span class="lever"></span></label>
+                            </div>
+                        </li>
+                    </ul>
+                    <!-- <p>SYSTEM SETTINGS</p>
+          <ul class="setting-list">
+            <li>
+              <span>Notifications</span>
+              <div class="switch">
+                <label><input type="checkbox" checked><span class="lever"></span></label>
+              </div>
+            </li>
+            <li>
+              <span>Auto Updates</span>
+              <div class="switch">
+                <label><input type="checkbox" checked><span class="lever"></span></label>
+              </div>
+            </li>
+          </ul> -->
+                    <p>ACCOUNT SETTINGS</p>
+                    <ul class="setting-list">
+                        <li>
+                            <span>Offline</span>
+                            <div class="switch">
+                                <label><input type="checkbox"><span class="lever"></span></label>
+                            </div>
+                        </li>
+                        <!-- <li>
+              <span>Location Permission</span>
+              <div class="switch">
+                <label><input type="checkbox" checked><span class="lever"></span></label>
+              </div>
+            </li> -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </aside>
+    <!-- #END# Right Sidebar -->
+
+    <!-- Top Bar -->
+    <nav class="navbar">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#navbar-collapse" aria-expanded="false"></a>
+                <a href="javascript:void(0);" class="bars"></a>
+                <a class="navbar-brand" href="index.html">INSTALLATION FLOW</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <!-- Call Search -->
+                    <li><a href="javascript:void(0);" class="js-search" data-close="true"><i
+                                class="material-icons">search</i></a>
+                    </li>
+                    <!-- #END# Call Search -->
+                    <!-- Notifications -->
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                            <i class="material-icons">notifications</i>
+                            <span class="label-count">7</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">NOTIFICATIONS</li>
+                            <li class="body">
+                                <ul class="menu">
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="icon-circle bg-light-green">
+                                                <i class="material-icons">person_add</i>
+                                            </div>
+                                            <div class="menu-info">
+                                                <h4>12 new members joined</h4>
+                                                <p>
+                                                    <i class="material-icons">access_time</i> 14 mins ago
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="icon-circle bg-cyan">
+                                                <i class="material-icons">add_shopping_cart</i>
+                                            </div>
+                                            <div class="menu-info">
+                                                <h4>4 sales made</h4>
+                                                <p>
+                                                    <i class="material-icons">access_time</i> 22 mins ago
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="icon-circle bg-red">
+                                                <i class="material-icons">delete_forever</i>
+                                            </div>
+                                            <div class="menu-info">
+                                                <h4><b>Nancy Doe</b> deleted account</h4>
+                                                <p>
+                                                    <i class="material-icons">access_time</i> 3 hours ago
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="icon-circle bg-orange">
+                                                <i class="material-icons">mode_edit</i>
+                                            </div>
+                                            <div class="menu-info">
+                                                <h4><b>Nancy</b> changed name</h4>
+                                                <p>
+                                                    <i class="material-icons">access_time</i> 2 hours ago
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="icon-circle bg-blue-grey">
+                                                <i class="material-icons">comment</i>
+                                            </div>
+                                            <div class="menu-info">
+                                                <h4><b>John</b> commented your post</h4>
+                                                <p>
+                                                    <i class="material-icons">access_time</i> 4 hours ago
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="icon-circle bg-light-green">
+                                                <i class="material-icons">cached</i>
+                                            </div>
+                                            <div class="menu-info">
+                                                <h4><b>John</b> updated status</h4>
+                                                <p>
+                                                    <i class="material-icons">access_time</i> 3 hours ago
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="icon-circle bg-purple">
+                                                <i class="material-icons">settings</i>
+                                            </div>
+                                            <div class="menu-info">
+                                                <h4>Settings updated</h4>
+                                                <p>
+                                                    <i class="material-icons">access_time</i> Yesterday
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="footer">
+                                <a href="javascript:void(0);">View All Notifications</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- #END# Notifications -->
+                    <!-- Tasks -->
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                            <i class="material-icons">flag</i>
+                            <span class="label-count">9</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">TASKS</li>
+                            <li class="body">
+                                <ul class="menu tasks">
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <h4>
+                                                Footer display issue
+                                                <small>32%</small>
+                                            </h4>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-pink" role="progressbar" aria-valuenow="85"
+                                                    aria-valuemin="0" aria-valuemax="100" style="width: 32%">
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <h4>
+                                                Make new buttons
+                                                <small>45%</small>
+                                            </h4>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-cyan" role="progressbar" aria-valuenow="85"
+                                                    aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <h4>
+                                                Create new dashboard
+                                                <small>54%</small>
+                                            </h4>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-teal" role="progressbar" aria-valuenow="85"
+                                                    aria-valuemin="0" aria-valuemax="100" style="width: 54%">
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <h4>
+                                                Solve transition issue
+                                                <small>65%</small>
+                                            </h4>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-orange" role="progressbar"
+                                                    aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"
+                                                    style="width: 65%">
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <h4>
+                                                Answer GitHub questions
+                                                <small>92%</small>
+                                            </h4>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-purple" role="progressbar"
+                                                    aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"
+                                                    style="width: 92%">
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="footer">
+                                <a href="javascript:void(0);">View All Tasks</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- #END# Tasks -->
+                    <li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i
+                                class="material-icons">more_vert</i></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- #Top Bar -->
+    <!-- <section>
+        
+        <aside id="leftsidebar" class="sidebar">
+         
+            <div class="user-info">
+                <div class="image">
+                    <img src="images/user.png" width="48" height="48" alt="User" />
+                </div>
+                <div class="info-container">
+                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">John Doe</div>
+                    <div class="email">john.doe@example.com</div>
+                    <div class="btn-group user-helper-dropdown">
+                        <i class="material-icons" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="true">keyboard_arrow_down</i>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="javascript:void(0);"><i class="material-icons">person</i>Profile</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="javascript:void(0);"><i class="material-icons">group</i>Followers</a></li>
+                            <li><a href="javascript:void(0);"><i class="material-icons">shopping_cart</i>Sales</a></li>
+                            <li><a href="javascript:void(0);"><i class="material-icons">favorite</i>Likes</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="javascript:void(0);"><i class="material-icons">input</i>Sign Out</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="menu">
+                <ul class="list">
+                    <li class="header">MAIN NAVIGATION</li>
+                    <li>
+                        <a href="/">
+                            <i class="material-icons">home</i>
+                            <span>Home</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="/assignSE">
+                            <i class="material-icons">assignment</i>
+                            <span>Assign SE</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/myOrders">
+                            <i class="material-icons">work</i>
+                            <span>My Orders</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="legal">
+                <div class="copyright">
+                    &copy; 2016 - 2017 <a href="javascript:void(0);">AdminBSB - Material Design</a>.
+                </div>
+                <div class="version">
+                    <b>Version: </b> 1.0.5
+                </div>
+            </div>
+            
+        </aside>
+        
+
+    </section> -->
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="block-header">
+                <!-- <h2>DASHBOARD</h2> -->
+            </div>
+
+            <!-- Widgets -->
+            <div class="row clearfix">
+                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" onclick="window.location='/';">
+                    <div class="info-box-4 hover-zoom-effect">
+                        <div class="content">
+                            <div class="text">OPEN ORDERS</div>
+                            <div class="number count-to" data-from="0" data-to="<%=OpenOrdersCount%>" data-speed="2"
+                                data-fresh-interval="20"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" onclick="window.location='/listOfDatesConfirmedOrders/0';">
+                    <div class="info-box-4 hover-zoom-effect">
+                        <div class="content">
+                            <div class="text">READY FOR INSTALLATION</div>
+                            <div class="number count-to" data-from="0" data-to="<%=ReadyForInstallationCount%>" data-speed="2" data-fresh-interval="20">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                    <div class="info-box-4 hover-zoom-effect">
+                      <div class="content">
+                        <div class="text">
+                          SE RESPONSE STATUS
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="text">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/viewAssignedToSEOrders/0/pending';">
+                                  Pending </br><b><%=sePendingList.length%></b>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/viewAssignedToSEOrders/0/accepted';">
+                                  Accepted </br><b><%=seAcceptedList.length%></b>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/viewAssignedToSEOrders/0/declined';">
+                                  Cancelled </br><b><%=seDeclinedList.length%></b>
+                                </div>
+                              </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                    <div class="info-box-4 hover-zoom-effect">
+                      <div class="content">
+                        <div class="text">
+                          FARMER RESPONSE STATUS
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="text">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/viewFarmerStatus/pending';">
+                                  Pending </br><b><%=farmerPendingList.length%></b>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/viewFarmerStatus/accepted';">
+                                  Accepted </br><b><%=farmerAcceptedList.length%></b>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/viewFarmerStatus/cancelled';">
+                                  Cancelled </br><b><%=farmerDeclinedList.length%></b>
+                                </div>
+                              </div>
+                        </div>
+                        
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                    <div class="info-box-4 hover-zoom-effect bg-teal">
+                      <div class="content">
+                        <div class="text">
+                          INSTALLATION STATUS
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="text">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/viewInstallationStatus/pending';">
+                                  Pending </br><b><%=installationPendingList.length%></b>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/viewInstallationStatus/partial';">
+                                  Partial </br><b><%=installationPartialCompleteList.length%></b>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/viewInstallationStatus/completed';">
+                                  Completed </br><b><%=installationCompletedList.length%></b>
+                                </div>
+                              </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+                
+            <!-- #END# Widgets -->
+
+            <!-- Hover Rows -->
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>
+                                ASSIGNED ORDERS
+                                <!-- <small>Please assign date by confirming with the customer.</small> -->
+                            </h2>
+                            <ul class="header-dropdown m-r--5">
+                                <li class="dropdown">
+                                    <div class="row clearfix col-lg-12 col-md-12">
+                                        <div class="col-lg-10 col-md-10">
+                                                <script>
+                                                    function selectedSE() {
+                                                      var x = document.getElementById("SElistSelect").value;
+                                                      url = "/viewAssignedToSEOrders/"+x;
+                                                        $("#assignSE").attr("href", url);
+                                                        return true;
+                                                    }
+                                                    </script>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2">
+                                        <a href="viewAssignedToSEOrders/0" id="assignSE">
+                                        <button type="button" class="btn bg-teal waves-effect">
+                                            <i class="material-icons">search</i>
+                                        </button>
+                                    </a>
+                                    </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="body table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: center;">ORDER ID</th>
+                                        <th style="text-align: center;">CONFIRMED DATE</th>
+                                        <th style="text-align: center;">FARMER NAME</th>
+                                        <th style="text-align: center;">FARMER MOBILE</th>
+                                        <th style="text-align: center;">REGION</th>
+                                        <th style="text-align: center;">SHIPPING ADDRESS</th>
+                                        <th style="text-align: center;">ITEMS &nbsp;-&nbsp; ORDERED &nbsp;-&nbsp; INSTALLED</th>
+                                        <th style="text-align: center;">ACTIO</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="text-align: center;">
+                                    <% data1.forEach(function(singleData){ %>
+                                        <tr>
+                                            <td width="5%">
+                                                <%= singleData.order.woo_commerce_order_id %>
+                                              </td>
+                                            <td>
+                                                <%= singleData.confirmed_date.substring(0,10) %>
+                                            </td>
+                                            <td data-toggle="modal" data-target="#modal<%=singleData.id%>">
+                                                <%= singleData.order.farmer.firstname %>
+                                            </td>
+                                            <td>
+                                                <%= singleData.order.farmer.mobile_number %>
+                                            </td>
+                                            <td>
+                                                <%= singleData.region %>
+                                            </td>
+                                            <td width="20%">
+                                                <%= singleData.order.shipping %>
+                                            </td>
+                                            <td width="20%">
+                                                <table style="text-align: center; border: 1px solid black, !important;">
+                                                  <tbody>
+                                                    <% singleData.order.items.forEach(function(itemsList){ %>
+                                                      <tr>
+                                                        <td width="20%" style="border: 1px solid black;">
+                                                          <% if(itemsList.name=="APFC - Automatic power factor Controller" ){%>
+                                                            APFC
+                                                            <%}else{%>
+                                                              <%= itemsList.name %>
+                                                                <%}%>
+                                                        </td>
+                                                        <td width="20%" style="border: 1px solid black;">
+                                                          <%= itemsList.quantity %>
+                                                        </td>
+                                                        <td width="20%" style="border: 1px solid black;">
+                                                          <%= itemsList.completed %>
+                                                        </td>
+                                                      </tr>
+                                                      <% }) %>
+                                                  </tbody>
+                        
+                                                </table>
+                                              </td>
+                                            <td><select id="actionsList" onchange="doActions()">
+                                                <option value="">--SELECT ACTION--</option>
+                                                <option value="1">Farmer Pending</option>
+                                                <option value="2">Farmer Accepted</option>
+                                                <option value="3">Farmer Declined</option>
+                                                </select></br></br>
+                                                <script>
+                                                    function doActions() {
+                                                      var x = document.getElementById("actionsList").value;
+                                                      url = "/changeFarmerStatus/<%= singleData.id %>/"+x;
+                                                        $("#doActions").attr("href", url);
+                                                        return true;
+                                                    }
+                                                    </script>
+                                                <a href="#" id="doActions"><button type="button" class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12">Submit</button></a>
+                                            </td>
+                                        </tr>
+                                        
+                                        <% }) %>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- #END# Hover Rows -->
+        </div>
+    </section>
+
+
+    <!-- Jquery Core Js -->
+  <script src="plugins/jquery/jquery.min.js"></script>
+
+  <!-- Bootstrap Core Js -->
+  <script src="plugins/bootstrap/js/bootstrap.js"></script>
+
+  <!-- Select Plugin Js -->
+  <!-- <script src="plugins/bootstrap-select/js/bootstrap-select.js"></script> -->
+
+  <!-- Slimscroll Plugin Js -->
+  <script src="plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+
+    <!-- Waves Effect Plugin Js -->
+    <script src="plugins/node-waves/waves.js"></script>
+
+    <!-- Jquery CountTo Plugin Js -->
+    <script src="plugins/jquery-countto/jquery.countTo.js"></script>
+
+    <!-- Morris Plugin Js -->
+    <script src="plugins/raphael/raphael.min.js"></script>
+    <script src="plugins/morrisjs/morris.js"></script>
+
+    <!-- ChartJs -->
+    <script src="plugins/chartjs/Chart.bundle.js"></script>
+
+    <!-- Flot Charts Plugin Js -->
+    <script src="plugins/flot-charts/jquery.flot.js"></script>
+    <script src="plugins/flot-charts/jquery.flot.resize.js"></script>
+    <script src="plugins/flot-charts/jquery.flot.pie.js"></script>
+    <script src="plugins/flot-charts/jquery.flot.categories.js"></script>
+    <script src="plugins/flot-charts/jquery.flot.time.js"></script>
+
+    <!-- Sparkline Chart Plugin Js -->
+    <script src="plugins/jquery-sparkline/jquery.sparkline.js"></script>
+
+    <!-- Custom Js -->
+    <script src="js/admin.js"></script>
+    <script src="js/pages/index.js"></script>
+    <script src="js/pages/ui/modals.js"></script>
+
+    <!-- Demo Js -->
+    <script src="js/demo.js"></script>
+</body>
+
+</html>
