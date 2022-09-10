@@ -395,19 +395,28 @@
                                     <% }) %>
                                     
                                       <div class="modal fade" id="modal<%=singleData.data.id%>" tabindex="-1" role="dialog">
-                                        <div class="modal-dialog modal-sm" role="document">
+                                        <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h4 class="modal-title" id="defaultModalLabel">REMARKS</h4>
                                                 </div>
                                                 <div class="modal-body">
+                                                  <table>
                                                   <% singleData.remarks.forEach(singleRemark => {%>
                                                   <% if(singleRemark.remarks.length != 0 ){%>
-                                                    <%= singleRemark.remarks%></br>
+                                                      <tr>
+                                                        <td>
+                                                          <%= singleRemark.modified_date%>
+                                                        </td>
+                                                        <td>
+                                                          <%= singleRemark.remarks%>
+                                                        </td>
+                                                      </tr>
                                                     <%}else if(singleRemark.remarks.length == 0){%>
                                                       No Remarks
                                                       <%}%>
                                                       <% }) %>
+                                                    </table>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
