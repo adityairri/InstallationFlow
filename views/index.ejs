@@ -135,72 +135,7 @@
   </section>
   <!-- #END# Right Sidebar -->
   <!-- #Top Bar -->
-  <!-- <section> -->
-  <!-- Left Sidebar -->
-  <!-- <aside id="leftsidebar" class="sidebar">
-     
-      <div class="user-info">
-        <div class="image">
-          <img src="images/user.png" width="48" height="48" alt="User" />
-        </div>
-        <div class="info-container">
-          <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">John Doe</div>
-          <div class="email">john.doe@example.com</div>
-          <div class="btn-group user-helper-dropdown">
-            <i class="material-icons" data-toggle="dropdown" aria-haspopup="true"
-              aria-expanded="true">keyboard_arrow_down</i>
-            <ul class="dropdown-menu pull-right">
-              <li><a href="javascript:void(0);"><i class="material-icons">person</i>Profile</a></li>
-              <li role="separator" class="divider"></li>
-              <li><a href="javascript:void(0);"><i class="material-icons">group</i>Followers</a></li>
-              <li><a href="javascript:void(0);"><i class="material-icons">shopping_cart</i>Sales</a></li>
-              <li><a href="javascript:void(0);"><i class="material-icons">favorite</i>Likes</a></li>
-              <li role="separator" class="divider"></li>
-              <li><a href="javascript:void(0);"><i class="material-icons">input</i>Sign Out</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-     
-      
-      <div class="menu">
-        <ul class="list">
-          <li class="header">MAIN NAVIGATION</li>
-          <li class="active">
-            <a href="/">
-              <i class="material-icons">home</i>
-              <span>Home</span>
-            </a>
-          </li>
-          <li>
-            <a href="/assignSE">
-              <i class="material-icons">assignment</i>
-              <span>Assign SE</span>
-            </a>
-          </li>
-          <li>
-            <a href="/myOrders">
-              <i class="material-icons">work</i>
-              <span>My Orders</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-     
-      
-      <div class="legal">
-        <div class="copyright">
-          &copy; 2016 - 2017 <a href="javascript:void(0);">AdminBSB - Material Design</a>.
-        </div>
-        <div class="version">
-          <b>Version: </b> 1.0.5
-        </div>
-      </div>
-      
-    </aside> -->
-  <!-- #END# Left Sidebar -->
 
-  <!-- </section> -->
 
   <section class="content">
     <div class="container-fluid">
@@ -408,20 +343,6 @@
                               return true;
                             });
                           });
-                          // function selectedFarm<%=singleData.data.id%> () {
-                          //   localStorage.removeItem("selectedFarmId<%= singleData.data.id%>");
-                          //   var x = document.getElementById("farmNamesId<%=singleData.data.id%>").value;
-                          //   localStorage.setItem("selectedFarmId<%= singleData.data.id%>", x);
-                          //   var selectedFarmId = localStorage.getItem("selectedFarmId<%= singleData.data.id%>");
-                          //   var selectedDate = localStorage.getItem("selectedDate<%= singleData.data.id%>");
-                          //   var selectedTimeframe = localStorage.getItem("selectedTimeframe<%= singleData.data.id%>");
-                          //   var remarks = localStorage.getItem("remarks<%= singleData.data.id%>");
-
-                          //   url = "/assignDate/<%=singleData.data.id%>/" + selectedFarmId + "/" + selectedDate + "/" + selectedTimeframe + "/" + remarks;
-                          //   $("#addBtn<%=singleData.data.id%>").attr("href", url);
-
-                          //   return true;
-                          // }
                         </script>
                       </td>
                       <td>
@@ -437,9 +358,6 @@
                       <td width="15%">
                         <%= singleData.data.order.shipping %>
                       </td>
-                      <!-- <td><% singleData.data.order.items.forEach(function(itemsList){ %>
-                        <%= itemsList.name %>: <%= itemsList.quantity %></br>
-                         <% }) %></td> -->
                       <td width="20%">
                         <table style="text-align: center; border: 1px solid black, !important;">
                           <tbody>
@@ -555,7 +473,6 @@
                               $("#dateTime<%=singleData.data.id%>").attr("disabled", true);
                               localStorage.removeItem("remarks<%= singleData.data.id%>");
                             }
-                            // url = "/assignDate/<%=singleData.data.id%>/" + selectedFarmId + "/" + selectedDate + "/" + selectedTimeframe;
 
 
                             return true;
@@ -639,34 +556,7 @@
               <button type="button" class="btn bg-indigo btn-circle-lg waves-effect waves-circle waves-float">
                 <i class="material-icons float">add</i>
               </button>
-              <!-- <div id="calendar" style="height: 800px"></div> -->
-              <!-- <script>
-                const calendar = new Calendar('#calendar', {
-  defaultView: 'week',
-  template: {
-    time(event) {
-      const { start, end, title } = event;
-
-      return `<span style="color: white;">${formatTime(start)}~${formatTime(end)} ${title}</span>`;
-    },
-    allday(event) {
-      return `<span style="color: gray;">${event.title}</span>`;
-    },
-  },
-  calendars: [
-    {
-      id: 'cal1',
-      name: 'Personal',
-      backgroundColor: '#03bd9e',
-    },
-    {
-      id: 'cal2',
-      name: 'Work',
-      backgroundColor: '#00a9ff',
-    },
-  ],
-});
-              </script> -->
+              
             </div>
           </div>
         </div>
