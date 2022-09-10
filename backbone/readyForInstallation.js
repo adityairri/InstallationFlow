@@ -40,7 +40,7 @@ module.exports = function () {
     var reqBody = JSON.stringify({
       schedule:{
         id: parseInt(req.orderID),
-        schedulestatus: "NEW_ORDER",
+        schedulestatus: "SM_RESCHEDULE",
       }
     });
     const resp = await fetch(
@@ -58,6 +58,38 @@ module.exports = function () {
     await resp.json().then((data) => {
       console.log(data);
       res.redirect("/listOfDatesConfirmedOrders/0");
+    });
+    console.log(reqBody);
+  });
+
+
+
+
+
+
+  app.get("/cancelledSEreschedule/:orderID", async function (req, res) {
+    var req = req.params;
+    var reqBody = JSON.stringify({
+      schedule:{
+        id: parseInt(req.orderID),
+        schedulestatus: "CANCELLED_SE_RESCHEDULE",
+      }
+    });
+    const resp = await fetch(
+      "http://45.79.117.26:8000/api/updateInstallationSchedule/",
+      {
+        method: "post",
+        body: reqBody,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
+        },
+      }
+    );
+
+    await resp.json().then((data) => {
+      console.log(data);
+      res.redirect("/viewAssignedToSEOrders/0/declined");
     });
     console.log(reqBody);
   });

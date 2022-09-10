@@ -39,6 +39,7 @@ app.get('/listOfDatesConfirmedOrders/:date', assignDate);
 var readyForInstallation = require('./backbone/readyForInstallation');
 app.get('/assignSE/:orderID/:SEid', readyForInstallation);
 app.get('/reschedule/:orderID', readyForInstallation);
+app.get('/cancelledSEreschedule/:orderID', readyForInstallation);
 app.get('/viewAssignedToSEOrders/:SEid/:status', readyForInstallation);
 app.get('/doActions/:orderID/:actionID', readyForInstallation);
 

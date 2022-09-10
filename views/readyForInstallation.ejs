@@ -443,7 +443,7 @@
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
                                         onclick="window.location='/viewAssignedToSEOrders/0/declined';">
-                                        Cancelled </br><b>
+                                        Declined </br><b>
                                             <%=seDeclinedList.length%>
                                         </b>
                                     </div>
@@ -668,9 +668,9 @@
                                                         ACTIONS <span class="caret"></span>
                                                     </button>
                                                     <ul class="dropdown-menu">
-                                                        <li><a href="#" id="assignSE<%=singleData.id%>">Assign to SE</a></li>
+                                                        <li class="bg-green"><a href="#" id="assignSE<%=singleData.id%>" style="color: white !important;">Assign to SE</a></li>
                                                         <li role="separator" class="divider"></li>
-                                                        <li class="bg-red"><a href="/reschedule/<%=singleData.id%>">Reschedule</a></li>
+                                                        <li class="bg-red"><a href="/reschedule/<%=singleData.id%>" style="color: white !important;">Reschedule</a></li>
                                                     </ul>
                                                 </div>
                                                 

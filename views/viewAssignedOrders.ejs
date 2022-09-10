@@ -434,7 +434,7 @@
                                   Accepted </br><b><%=seAcceptedList.length%></b>
                                 </div>
                                 <div style="<%=variables.navBarHighlight3%>" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/viewAssignedToSEOrders/0/declined';">
-                                  Cancelled </br><b><%=seDeclinedList.length%></b>
+                                  Declined </br><b><%=seDeclinedList.length%></b>
                                 </div>
                               </div>
                         </div>
@@ -489,7 +489,7 @@
             </div>
                 
             <!-- #END# Widgets -->
-
+<% if(variables.tableTitle == "PENDING"){ %>
             <!-- Hover Rows -->
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -541,7 +541,7 @@
                                         <th style="text-align: center;">REGION</th>
                                         <th style="text-align: center;">SHIPPING ADDRESS</th>
                                         <th style="text-align: center;">ITEMS &nbsp;-&nbsp; ORDERED &nbsp;-&nbsp; INSTALLED</th>
-                                        <th style="text-align: center;">ACTION</th>
+                                        <!-- <th style="text-align: center;">ACTION</th> -->
                                     </tr>
                                 </thead>
                                 <tbody style="text-align: center;">
@@ -592,7 +592,7 @@
                         
                                                 </table>
                                               </td>
-                                            <td><select id="actionsList" onchange="doActions()">
+                                            <!-- <td><select id="actionsList" onchange="doActions()">
                                                 <option value="">--SELECT ACTION--</option>
                                                 </select></br></br>
                                                 <script>
@@ -604,7 +604,7 @@
                                                     }
                                                     </script>
                                                 <a href="#" id="doActions"><button type="button" class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12">Submit</button></a>
-                                            </td>
+                                            </td> -->
                                         </tr>
                                         
                                         <% }) %>
@@ -616,6 +616,275 @@
                 </div>
             </div>
             <!-- #END# Hover Rows -->
+            <% } %>
+
+
+
+
+            <% if(variables.tableTitle == "ACCEPTED"){ %>
+                <!-- Hover Rows -->
+                <div class="row clearfix">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="card">
+                            <div class="header">
+                                <h2>
+                                    <%=variables.tableTitle%> ORDERS
+                                    <!-- <small>Please assign date by confirming with the customer.</small> -->
+                                </h2>
+                                <ul class="header-dropdown m-r--5">
+                                    <li class="dropdown">
+                                        <div class="row clearfix col-lg-12 col-md-12">
+                                            <div class="col-lg-10 col-md-10">
+                                                <select id="SElistSelect" onchange="selectedSE()">
+                                                    <option value="">--SELECT SE--</option>
+                                                    <% seList.forEach(function(SEdetails){ %>
+                                                        <option value="<%=SEdetails.id%>"><%=SEdetails.first_name%></option>
+                                                    <%})%>
+                                                    </select>
+                                                    <script>
+                                                        function selectedSE() {
+                                                          var x = document.getElementById("SElistSelect").value;
+                                                          url = "/viewAssignedToSEOrders/"+x;
+                                                            $("#assignSE").attr("href", url);
+                                                            return true;
+                                                        }
+                                                        </script>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2">
+                                            <a href="viewAssignedToSEOrders/0" id="assignSE">
+                                            <button type="button" class="btn bg-teal waves-effect">
+                                                <i class="material-icons">search</i>
+                                            </button>
+                                        </a>
+                                        </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="body table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: center;">ORDER ID</th>
+                                            <th style="text-align: center;">SERVICE ENGINEER</th>
+                                            <th style="text-align: center;">CONFIRMED DATE</th>
+                                            <th style="text-align: center;">FARMER NAME</th>
+                                            <th style="text-align: center;">FARMER MOBILE</th>
+                                            <th style="text-align: center;">REGION</th>
+                                            <th style="text-align: center;">SHIPPING ADDRESS</th>
+                                            <th style="text-align: center;">ITEMS &nbsp;-&nbsp; ORDERED &nbsp;-&nbsp; INSTALLED</th>
+                                            <!-- <th style="text-align: center;">ACTION</th> -->
+                                        </tr>
+                                    </thead>
+                                    <tbody style="text-align: center;">
+                                        <% data1.forEach(function(singleData){ %>
+                                            <tr>
+                                                <td width="5%">
+                                                    <%= singleData.order.woo_commerce_order_id %>
+                                                  </td>
+                                                <td>
+                                                    <%= singleData.confirmed_date.substring(0,10) %>
+                                                </td>
+                                                <td>
+                                                    <%= singleData.confirmed_date.substring(0,10) %>
+                                                </td>
+                                                <td data-toggle="modal" data-target="#modal<%=singleData.id%>">
+                                                    <%= singleData.order.farmer.firstname %>
+                                                </td>
+                                                <td>
+                                                    <%= singleData.order.farmer.mobile_number %>
+                                                </td>
+                                                <td>
+                                                    <%= singleData.region %>
+                                                </td>
+                                                <td width="20%">
+                                                    <%= singleData.order.shipping %>
+                                                </td>
+                                                <td width="20%">
+                                                    <table style="text-align: center; border: 1px solid black, !important;">
+                                                      <tbody>
+                                                        <% singleData.order.items.forEach(function(itemsList){ %>
+                                                          <tr>
+                                                            <td width="20%" style="border: 1px solid black;">
+                                                              <% if(itemsList.name=="APFC - Automatic power factor Controller" ){%>
+                                                                APFC
+                                                                <%}else{%>
+                                                                  <%= itemsList.name %>
+                                                                    <%}%>
+                                                            </td>
+                                                            <td width="20%" style="border: 1px solid black;">
+                                                              <%= itemsList.quantity %>
+                                                            </td>
+                                                            <td width="20%" style="border: 1px solid black;">
+                                                              <%= itemsList.completed %>
+                                                            </td>
+                                                          </tr>
+                                                          <% }) %>
+                                                      </tbody>
+                            
+                                                    </table>
+                                                  </td>
+                                                <!-- <td><select id="actionsList" onchange="doActions()">
+                                                    <option value="">--SELECT ACTION--</option>
+                                                    </select></br></br>
+                                                    <script>
+                                                        function doActions() {
+                                                          var x = document.getElementById("actionsList").value;
+                                                          url = "/doActions/<%= singleData.id %>/"+x;
+                                                            $("#doActions").attr("href", url);
+                                                            return true;
+                                                        }
+                                                        </script>
+                                                    <a href="#" id="doActions"><button type="button" class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12">Submit</button></a>
+                                                </td> -->
+                                            </tr>
+                                            
+                                            <% }) %>
+    
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- #END# Hover Rows -->
+                <% } %>
+
+
+
+
+
+                <% if(variables.tableTitle == "DECLINED"){ %>
+                    <!-- Hover Rows -->
+                    <div class="row clearfix">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="card">
+                                <div class="header">
+                                    <h2>
+                                        <%=variables.tableTitle%> ORDERS
+                                        <!-- <small>Please assign date by confirming with the customer.</small> -->
+                                    </h2>
+                                    <ul class="header-dropdown m-r--5">
+                                        <li class="dropdown">
+                                            <div class="row clearfix col-lg-12 col-md-12">
+                                                <div class="col-lg-10 col-md-10">
+                                                    <select id="SElistSelect" onchange="selectedSE()">
+                                                        <option value="">--SELECT SE--</option>
+                                                        <% seList.forEach(function(SEdetails){ %>
+                                                            <option value="<%=SEdetails.id%>"><%=SEdetails.first_name%></option>
+                                                        <%})%>
+                                                        </select>
+                                                        <script>
+                                                            function selectedSE() {
+                                                              var x = document.getElementById("SElistSelect").value;
+                                                              url = "/viewAssignedToSEOrders/"+x;
+                                                                $("#assignSE").attr("href", url);
+                                                                return true;
+                                                            }
+                                                            </script>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2">
+                                                <a href="viewAssignedToSEOrders/0" id="assignSE">
+                                                <button type="button" class="btn bg-teal waves-effect">
+                                                    <i class="material-icons">search</i>
+                                                </button>
+                                            </a>
+                                            </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="body table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center;">ORDER ID</th>
+                                                <th style="text-align: center;">SERVICE ENGINEER</th>
+                                                <th style="text-align: center;">CONFIRMED DATE</th>
+                                                <th style="text-align: center;">FARMER NAME</th>
+                                                <th style="text-align: center;">FARMER MOBILE</th>
+                                                <th style="text-align: center;">REGION</th>
+                                                <th style="text-align: center;">SHIPPING ADDRESS</th>
+                                                <th style="text-align: center;">ITEMS &nbsp;-&nbsp; ORDERED &nbsp;-&nbsp; INSTALLED</th>
+                                                <th style="text-align: center;">ACTION</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style="text-align: center;">
+                                            <% data1.forEach(function(singleData){ %>
+                                                <tr>
+                                                    <td width="5%">
+                                                        <%= singleData.order.woo_commerce_order_id %>
+                                                      </td>
+                                                    <td>
+                                                        <%= singleData.confirmed_date.substring(0,10) %>
+                                                    </td>
+                                                    <td>
+                                                        <%= singleData.confirmed_date.substring(0,10) %>
+                                                    </td>
+                                                    <td data-toggle="modal" data-target="#modal<%=singleData.id%>">
+                                                        <%= singleData.order.farmer.firstname %>
+                                                    </td>
+                                                    <td>
+                                                        <%= singleData.order.farmer.mobile_number %>
+                                                    </td>
+                                                    <td>
+                                                        <%= singleData.region %>
+                                                    </td>
+                                                    <td width="20%">
+                                                        <%= singleData.order.shipping %>
+                                                    </td>
+                                                    <td width="20%">
+                                                        <table style="text-align: center; border: 1px solid black, !important;">
+                                                          <tbody>
+                                                            <% singleData.order.items.forEach(function(itemsList){ %>
+                                                              <tr>
+                                                                <td width="20%" style="border: 1px solid black;">
+                                                                  <% if(itemsList.name=="APFC - Automatic power factor Controller" ){%>
+                                                                    APFC
+                                                                    <%}else{%>
+                                                                      <%= itemsList.name %>
+                                                                        <%}%>
+                                                                </td>
+                                                                <td width="20%" style="border: 1px solid black;">
+                                                                  <%= itemsList.quantity %>
+                                                                </td>
+                                                                <td width="20%" style="border: 1px solid black;">
+                                                                  <%= itemsList.completed %>
+                                                                </td>
+                                                              </tr>
+                                                              <% }) %>
+                                                          </tbody>
+                                
+                                                        </table>
+                                                      </td>
+                                                    <!-- <td><select id="actionsList" onchange="doActions()">
+                                                        <option value="">--SELECT ACTION--</option>
+                                                        </select></br></br>
+                                                        <script>
+                                                            function doActions() {
+                                                              var x = document.getElementById("actionsList").value;
+                                                              url = "/doActions/<%= singleData.id %>/"+x;
+                                                                $("#doActions").attr("href", url);
+                                                                return true;
+                                                            }
+                                                            </script>
+                                                        <a href="#" id="doActions"><button type="button" class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12">Submit</button></a>
+                                                    </td> -->
+                                                    <td>
+                                                        <a href="/cancelledSEreschedule/:<%=singleData.id%>"><button type="button" class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12">Reschedule</button></a>
+                                                    </td>
+                                                </tr>
+                                                
+                                                <% }) %>
+        
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- #END# Hover Rows -->
+                    <% } %>
         </div>
     </section>
 
