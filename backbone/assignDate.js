@@ -156,9 +156,13 @@ module.exports = function () {
       }
     );
     await resp.json().then((dataa) => {
-      // console.log(dataa);
-      SEassignedCount = dataa;
+// console.log(dataa);
+SEassignedCount = dataa;
+      
+    }).catch(error => {
+      SEassignedCount = [];
     });
+    
   }
   var assignedToSECount1;
   async function getAssignedToSECount(req, res) {
