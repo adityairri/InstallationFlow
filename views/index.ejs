@@ -678,6 +678,35 @@
                                       No Remarks
                                       <%}%>
                                     <% }) %>
+                                    
+                                      <div class="modal fade" id="modal<%=singleData.data.id%>" tabindex="-1" role="dialog">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" id="defaultModalLabel">REMARKS</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                  <ul>
+                                                  <% singleData.remarks.forEach(singleRemark => {%>
+                                                  <% if(singleRemark.remarks.length != 0 ){%>
+                                                    <li>
+                                                    <%= singleRemark.remarks%></br>
+                                                  </li>
+                                                    <%}else if(singleRemark.remarks.length == 0){%>
+                                                      No Remarks
+                                                      <%}%>
+                                                      <% }) %>
+                                                    </ul>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                      
+                                    
+                                    <i class="material-icons" data-toggle="modal" data-target="#modal<%=singleData.data.id%>">more_horiz</i>
                           </div>
                           
                             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
