@@ -195,97 +195,128 @@
                 <!-- <h2>DASHBOARD</h2> -->
             </div>
 
-            <!-- Widgets -->
+            
             <div class="row clearfix">
-                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" onclick="window.location='/';">
-                    <div class="info-box-4 hover-zoom-effect">
-                        <div class="content">
-                            <div class="text">OPEN ORDERS</div>
-                            <div class="number count-to" data-from="0" data-to="<%=OpenOrdersCount%>" data-speed="2"
-                                data-fresh-interval="20"></div>
+              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/';">
+                <div class="info-box-4 hover-zoom-effect">
+                  <div class="content">
+                    <div class="text"><b>OPEN ORDERS</b></div>
+                    <div class="number count-to" data-from="0" data-to="<%=OpenOrdersCount%>" data-speed="2"
+                      data-fresh-interval="20"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/reconfirm/0';">
+                <div class="info-box-4 hover-zoom-effect">
+                  <div class="content">
+                    <div class="text"><b>RECONFIRM</b></div>
+                    <div class="number count-to" data-from="0" data-to="<%=reconfirmOrdersCount.length%>" data-speed="2"
+                      data-fresh-interval="20">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/rescheduled';">
+                <div class="info-box-4 hover-zoom-effect">
+                  <div class="content">
+                    <div class="text"><b>RESCHEDULED ORDERS</b></div>
+                    <div class="number count-to" data-from="0" data-to="<%=totalRescheduleCount%>" data-speed="2"
+                      data-fresh-interval="20">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/readyForInstallation/0';">
+                <div class="info-box-4 hover-zoom-effect">
+                    <div class="content">
+                        <div class="text">READY FOR INSTALLATION</div>
+                        <div class="number count-to" data-from="0" data-to="<%=ReadyForInstallationCount.length%>" data-speed="2" data-fresh-interval="20">
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" onclick="window.location='/listOfDatesConfirmedOrders/0';">
-                    <div class="info-box-4 hover-zoom-effect">
-                        <div class="content">
-                            <div class="text">READY FOR INSTALLATION</div>
-                            <div class="number count-to" data-from="0" data-to="<%=ReadyForInstallationCount%>" data-speed="2" data-fresh-interval="20">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                    <div class="info-box-4 hover-zoom-effect">
-                      <div class="content">
-                        <div class="text">
-                          SE RESPONSE STATUS
-                        </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="text">
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/viewAssignedToSEOrders/0/pending';">
-                                  Pending</br> <b><%=sePendingList.length%></b>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/viewAssignedToSEOrders/0/accepted';">
-                                  Accepted </br><b><%=seAcceptedList.length%></b>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/viewAssignedToSEOrders/0/declined';">
-                                  Declined </br><b><%=seDeclinedList.length%></b>
-                                </div>
-                              </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                    <div class="info-box-4 hover-zoom-effect bg-teal">
-                      <div class="content">
-                        <div class="text">
-                          FARMER RESPONSE STATUS
-                        </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="text">
-                                <div style="<%=variables.navBarHighlight1%>" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/viewFarmerStatus/pending';">
-                                  Pending </br><b><%=farmerPendingList.length%></b>
-                                </div>
-                                <div style="<%=variables.navBarHighlight2%>" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/viewFarmerStatus/accepted';">
-                                  Accepted </br><b><%=farmerAcceptedList.length%></b>
-                                </div>
-                                <div style="<%=variables.navBarHighlight3%>" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/viewFarmerStatus/cancelled';">
-                                  Cancelled </br><b><%=farmerDeclinedList.length%></b>
-                                </div>
-                              </div>
-                        </div>
-                        
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                    <div class="info-box-4 hover-zoom-effect">
-                      <div class="content">
-                        <div class="text">
-                          INSTALLATION STATUS
-                        </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="text">
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/viewInstallationStatus/pending';">
-                                  Pending </br><b><%=installationPendingList.length%></b>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/viewInstallationStatus/partial';">
-                                  Partial </br><b><%=installationPartialCompleteList.length%></b>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/viewInstallationStatus/completed';">
-                                  Completed </br><b><%=installationCompletedList.length%></b>
-                                </div>
-                              </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
             </div>
-                
+              
+             
+            </div>
+    
+    
+    
+    
+            <div class="row clearfix">
+             
+              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <div class="info-box-4 hover-zoom-effect">
+                  <div class="content">
+                    <div class="text">
+                      <b>SE RESPONSE STATUS</b>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                      <div class="text">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/seResponseStatus/0/pending';">
+                          Pending</br> <b><%=sePendingList.length%></b>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/seResponseStatus/0/accepted';">
+                          Accepted </br><b><%=seAcceptedList.length%></b>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/seResponseStatus/0/declined';">
+                          Declined </br><b><%=seDeclinedList.length%></b>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <div class="info-box-4 hover-zoom-effect bg-teal">
+                  <div class="content">
+                    <div class="text">
+                      <b>FARMER RESPONSE STATUS</b>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                      <div class="text">
+                        <div style="<%=variables.navBarHighlight1%>" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/viewFarmerStatus/pending';">
+                          Pending </br><b><%=farmerPendingList.length%></b>
+                        </div>
+                        <div style="<%=variables.navBarHighlight2%>" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/viewFarmerStatus/accepted';">
+                          Accepted </br><b><%=farmerAcceptedList.length%></b>
+                        </div>
+                        <div style="<%=variables.navBarHighlight3%>" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/viewFarmerStatus/cancelled';">
+                          Cancelled </br><b><%=farmerDeclinedList.length%></b>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <div class="info-box-4 hover-zoom-effect">
+                  <div class="content">
+                    <div class="text">
+                      <b>INSTALLATION STATUS</b>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                      <div class="text">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/viewInstallationStatus/pending';">
+                          Pending </br><b><%=installationPendingList.length%></b>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/viewInstallationStatus/partial';">
+                          Partial </br><b><%=installationPartialCompleteList.length%></b>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/viewInstallationStatus/completed';">
+                          Completed </br><b><%=installationCompletedList.length%></b>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
             <!-- #END# Widgets -->
 
+            <% if(variables.tableTitle == "PENDING"){ %>
             <!-- Hover Rows -->
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -302,7 +333,7 @@
                                                 <script>
                                                     function selectedSE() {
                                                       var x = document.getElementById("SElistSelect").value;
-                                                      url = "/viewAssignedToSEOrders/"+x;
+                                                      url = "/seResponseStatus/"+x;
                                                         $("#assignSE").attr("href", url);
                                                         return true;
                                                     }
@@ -328,7 +359,6 @@
                                         <th style="text-align: center;">FARMER NAME</th>
                                         <th style="text-align: center;">FARMER MOBILE</th>
                                         <th style="text-align: center;">REGION</th>
-                                        <th style="text-align: center;">SHIPPING ADDRESS</th>
                                         <th style="text-align: center;">ITEMS &nbsp;-&nbsp; ORDERED &nbsp;-&nbsp; INSTALLED</th>
                                         <th style="text-align: center;">ACTION</th>
                                     </tr>
@@ -348,36 +378,20 @@
                                             <td>
                                                 <%= singleData.order.farmer.mobile_number %>
                                             </td>
-                                            <td>
-                                                <%= singleData.region %>
-                                            </td>
-                                            <td width="20%">
-                                                <%= singleData.order.shipping %>
-                                            </td>
-                                            <td width="20%">
-                                                <table style="text-align: center; border: 1px solid black, !important;">
-                                                  <tbody>
-                                                    <% singleData.order.items.forEach(function(itemsList){ %>
-                                                      <tr>
-                                                        <td width="20%" style="border: 1px solid black;">
-                                                          <% if(itemsList.name=="APFC - Automatic power factor Controller" ){%>
-                                                            APFC
-                                                            <%}else{%>
-                                                              <%= itemsList.name %>
-                                                                <%}%>
-                                                        </td>
-                                                        <td width="20%" style="border: 1px solid black;">
-                                                          <%= itemsList.quantity %>
-                                                        </td>
-                                                        <td width="20%" style="border: 1px solid black;">
-                                                          <%= itemsList.completed %>
-                                                        </td>
-                                                      </tr>
-                                                      <% }) %>
-                                                  </tbody>
-                        
-                                                </table>
+                                            <td> <button data-trigger="focus" data-container="body" data-toggle="popover"
+                                              data-placement="top" title="Shipping Address" data-content="<%= singleData.order.shipping %>">
+                                                <%= singleData.region %> </button>
                                               </td>
+                                            <td>
+                                              <% singleData.order.items.forEach(function(itemsList){ %>
+                                                <% if(itemsList.name=="APFC - Automatic power factor Controller" ){%>
+                                                  APFC - <%= itemsList.quantity %> - <%= itemsList.completed %> </br>
+                                                      <%}if(itemsList.name=="Powermon 2.0"){%>
+                                                        Powermon - <%= itemsList.quantity %> - <%= itemsList.completed %></br>
+                                                            <%}%>
+                      
+                                                              <% }) %>
+                                            </td>
                                             <!-- <td>
                                                 <% singleData.order.items.forEach(function(itemsList){ %>
                                                     <%= itemsList.name %>: <b><%= itemsList.quantity %></b></br>
@@ -409,12 +423,218 @@
                 </div>
             </div>
             <!-- #END# Hover Rows -->
+            <% } %>
+
+
+
+
+
+
+
+
+
+            <% if(variables.tableTitle == "ACCEPTED"){ %>
+              <!-- Hover Rows -->
+              <div class="row clearfix">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                      <div class="card">
+                          <div class="header">
+                              <h2>
+                                  <%=variables.tableTitle%> ORDERS
+                                  <!-- <small>Please assign date by confirming with the customer.</small> -->
+                              </h2>
+                              <ul class="header-dropdown m-r--5">
+                                  <li class="dropdown">
+                                      <div class="row clearfix col-lg-12 col-md-12">
+                                          <div class="col-lg-10 col-md-10">
+                                                  <script>
+                                                      function selectedSE() {
+                                                        var x = document.getElementById("SElistSelect").value;
+                                                        url = "/seResponseStatus/"+x;
+                                                          $("#assignSE").attr("href", url);
+                                                          return true;
+                                                      }
+                                                      </script>
+                                      </div>
+                                      <div class="col-lg-2 col-md-2">
+                                          <a href="viewAssignedToSEOrders/0" id="assignSE">
+                                          <button type="button" class="btn bg-teal waves-effect">
+                                              <i class="material-icons">search</i>
+                                          </button>
+                                      </a>
+                                      </div>
+                                      </div>
+                                  </li>
+                              </ul>
+                          </div>
+                          <div class="body table-responsive">
+                              <table class="table table-hover">
+                                  <thead>
+                                      <tr>
+                                          <th style="text-align: center;">ORDER ID</th>
+                                          <th style="text-align: center;">CONFIRMED DATE</th>
+                                          <th style="text-align: center;">FARMER NAME</th>
+                                          <th style="text-align: center;">FARMER MOBILE</th>
+                                          <th style="text-align: center;">REGION</th>
+                                          <th style="text-align: center;">ITEMS &nbsp;-&nbsp; ORDERED &nbsp;-&nbsp; INSTALLED</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody style="text-align: center;">
+                                      <% data1.forEach(function(singleData){ %>
+                                          <tr>
+                                              <td width="5%">
+                                                  <%= singleData.order.woo_commerce_order_id %>
+                                                </td>
+                                              <td>
+                                                  <%= singleData.confirmed_date.substring(0,10) %>
+                                              </td>
+                                              <td data-toggle="modal" data-target="#modal<%=singleData.id%>">
+                                                  <%= singleData.order.farmer.firstname %>
+                                              </td>
+                                              <td>
+                                                  <%= singleData.order.farmer.mobile_number %>
+                                              </td>
+                                              <td> <button data-trigger="focus" data-container="body" data-toggle="popover"
+                                                data-placement="top" title="Shipping Address" data-content="<%= singleData.order.shipping %>">
+                                                  <%= singleData.region %> </button>
+                                                </td>
+                                              <td>
+                                                <% singleData.order.items.forEach(function(itemsList){ %>
+                                                  <% if(itemsList.name=="APFC - Automatic power factor Controller" ){%>
+                                                    APFC - <%= itemsList.quantity %> - <%= itemsList.completed %> </br>
+                                                        <%}if(itemsList.name=="Powermon 2.0"){%>
+                                                          Powermon - <%= itemsList.quantity %> - <%= itemsList.completed %></br>
+                                                              <%}%>
+                        
+                                                                <% }) %>
+                                              </td>
+                                              <!-- <td>
+                                                  <% singleData.order.items.forEach(function(itemsList){ %>
+                                                      <%= itemsList.name %>: <b><%= itemsList.quantity %></b></br>
+                                                              <% }) %>
+                                              </td> -->
+                                          </tr>
+                                          
+                                          <% }) %>
+  
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <!-- #END# Hover Rows -->
+              <% } %>
+
+
+
+
+
+
+
+              <% if(variables.tableTitle == "DECLINED"){ %>
+                <!-- Hover Rows -->
+                <div class="row clearfix">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="card">
+                            <div class="header">
+                                <h2>
+                                    <%=variables.tableTitle%> ORDERS
+                                    <!-- <small>Please assign date by confirming with the customer.</small> -->
+                                </h2>
+                                <ul class="header-dropdown m-r--5">
+                                    <li class="dropdown">
+                                        <div class="row clearfix col-lg-12 col-md-12">
+                                            <div class="col-lg-10 col-md-10">
+                                                    <script>
+                                                        function selectedSE() {
+                                                          var x = document.getElementById("SElistSelect").value;
+                                                          url = "/seResponseStatus/"+x;
+                                                            $("#assignSE").attr("href", url);
+                                                            return true;
+                                                        }
+                                                        </script>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2">
+                                            <a href="viewAssignedToSEOrders/0" id="assignSE">
+                                            <button type="button" class="btn bg-teal waves-effect">
+                                                <i class="material-icons">search</i>
+                                            </button>
+                                        </a>
+                                        </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="body table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: center;">ORDER ID</th>
+                                            <th style="text-align: center;">CONFIRMED DATE</th>
+                                            <th style="text-align: center;">FARMER NAME</th>
+                                            <th style="text-align: center;">FARMER MOBILE</th>
+                                            <th style="text-align: center;">REGION</th>
+                                            <th style="text-align: center;">ITEMS &nbsp;-&nbsp; ORDERED &nbsp;-&nbsp; INSTALLED</th>
+                                            <th style="text-align: center;">ACTION</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="text-align: center;">
+                                        <% data1.forEach(function(singleData){ %>
+                                            <tr>
+                                                <td>
+                                                    <%= singleData.order.woo_commerce_order_id %>
+                                                  </td>
+                                                <td>
+                                                    <%= singleData.confirmed_date.substring(0,10) %>
+                                                </td>
+                                                <td data-toggle="modal" data-target="#modal<%=singleData.id%>">
+                                                    <%= singleData.order.farmer.firstname %>
+                                                </td>
+                                                <td>
+                                                    <%= singleData.order.farmer.mobile_number %>
+                                                </td>
+                                                <td> <button data-trigger="focus" data-container="body" data-toggle="popover"
+                                                  data-placement="top" title="Shipping Address" data-content="<%= singleData.order.shipping %>">
+                                                    <%= singleData.region %> </button>
+                                                  </td>
+                                                  <td>
+                                                    <% singleData.order.items.forEach(function(itemsList){ %>
+                                                      <% if(itemsList.name=="APFC - Automatic power factor Controller" ){%>
+                                                        APFC - <%= itemsList.quantity %> - <%= itemsList.completed %> </br>
+                                                            <%}if(itemsList.name=="Powermon 2.0"){%>
+                                                              Powermon - <%= itemsList.quantity %> - <%= itemsList.completed %></br>
+                                                                  <%}%>
+                            
+                                                                    <% }) %>
+                                                  </td>
+                                                <!-- <td>
+                                                    <% singleData.order.items.forEach(function(itemsList){ %>
+                                                        <%= itemsList.name %>: <b><%= itemsList.quantity %></b></br>
+                                                                <% }) %>
+                                                </td> -->
+                                                <td>
+                                                  <a href="/cancelledFarmerReschedule/<%=singleData.id%>"><button type="button" class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12">Reschedule</button></a>
+                                              </td>
+                                            </tr>
+                                            
+                                            <% }) %>
+    
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- #END# Hover Rows -->
+                <% } %>
         </div>
     </section>
 
 
     <!-- Jquery Core Js -->
   <script src="plugins/jquery/jquery.min.js"></script>
+  <script src="js/pages/ui/tooltips-popovers.js"></script>
 
   <!-- Bootstrap Core Js -->
   <script src="plugins/bootstrap/js/bootstrap.js"></script>

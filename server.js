@@ -21,8 +21,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 /************************* #END# Set the view engine******************/
 
 require('./backbone/index')();
+require('./backbone/reconfirm')();
+require('./backbone/reschedule')();
+require('./backbone/seResponseStatus')();
 require('./backbone/readyForInstallation')();
-require('./backbone/assignDate')();
 require('./backbone/farmerResponseStatus')();
 require('./backbone/installationStatus')();
 // require('./backbone/myOrders')();
@@ -32,16 +34,26 @@ var index = require('./backbone/index');
 app.use('/',index);
 app.get('/assignDate/:orderID/:farmID/:date/:time/:remarks', index);
 app.get('/addRemarks/:id/:remarks', index);
-var assignDate = require('./backbone/assignDate');
-app.get('/listOfDatesConfirmedOrders/:date', assignDate);
-
 
 var readyForInstallation = require('./backbone/readyForInstallation');
-app.get('/assignSE/:orderID/:SEid', readyForInstallation);
-app.get('/reschedule/:orderID', readyForInstallation);
-app.get('/cancelledSEreschedule/:orderID', readyForInstallation);
-app.get('/viewAssignedToSEOrders/:SEid/:status', readyForInstallation);
-app.get('/doActions/:orderID/:actionID', readyForInstallation);
+app.get('/readyForInstallation/:date', readyForInstallation);
+
+
+var reconfirm = require('./backbone/reconfirm');
+app.use('/reconfirm/:date',reconfirm);
+app.use('/confirmFarmerReconfirmDate/:orderId',reconfirm);
+
+
+var reschedule = require('./backbone/reschedule');
+app.use('/rescheduled',reschedule);
+
+
+var seResponseStatus = require('./backbone/seResponseStatus');
+app.get('/assignSE/:orderID/:SEid', seResponseStatus);
+app.get('/reschedule/:orderID', seResponseStatus);
+app.get('/cancelledSEreschedule/:orderID', seResponseStatus);
+app.get('/seResponseStatus/:SEid/:status', seResponseStatus);
+app.get('/doActions/:orderID/:actionID', seResponseStatus);
 
 var farmerResStatus = require('./backbone/farmerResponseStatus');
 app.get('/viewFarmerStatus/:status', farmerResStatus);

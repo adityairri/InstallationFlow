@@ -195,124 +195,148 @@
                 <!-- <h2>DASHBOARD</h2> -->
             </div>
 
-            <!-- Widgets -->
+
             <div class="row clearfix">
-                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" onclick="window.location='/';">
-                    <div class="info-box-4 hover-zoom-effect">
-                        <div class="content">
-                            <div class="text">OPEN ORDERS</div>
-                            <div class="number count-to" data-from="0" data-to="<%=dateUnassignedCount%>" data-speed="2"
-                                data-fresh-interval="20"></div>
-                        </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/';">
+                  <div class="info-box-4 hover-zoom-effect">
+                    <div class="content">
+                      <div class="text"><b>OPEN ORDERS</b></div>
+                      <div class="number count-to" data-from="0" data-to="<%=dateUnassignedCount%>" data-speed="2"
+                        data-fresh-interval="20"></div>
                     </div>
+                  </div>
                 </div>
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"
-                    onclick="window.location='/listOfDatesConfirmedOrders/0';">
-                    <div class="info-box-4 hover-zoom-effect bg-teal">
-                        <div class="content">
-                            <div class="text">READY FOR INSTALLATION</div>
-                            <div class="number count-to" data-from="0" data-to="<%=dateConfirmedOrdersCount%>"
-                                data-speed="2" data-fresh-interval="20">
-                            </div>
-                        </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/reconfirm/0';">
+                  <div class="info-box-4 hover-zoom-effect">
+                    <div class="content">
+                      <div class="text"><b>RECONFIRM</b></div>
+                      <div class="number count-to" data-from="0" data-to="<%=reconfirmOrdersCount.length%>" data-speed="2"
+                        data-fresh-interval="20">
+                      </div>
                     </div>
+                  </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                    <div class="info-box-4 hover-zoom-effect">
-                        <div class="content">
-                            <div class="text">
-                                SE RESPONSE STATUS
-                            </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <div class="text">
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                                        onclick="window.location='/viewAssignedToSEOrders/0/pending';">
-                                        Pending </br><b>
-                                            <%=sePendingList.length%>
-                                        </b>
-                                    </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                                        onclick="window.location='/viewAssignedToSEOrders/0/accepted';">
-                                        Accepted </br><b>
-                                            <%=seAcceptedList.length%>
-                                        </b>
-                                    </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                                        onclick="window.location='/viewAssignedToSEOrders/0/declined';">
-                                        Declined </br><b>
-                                            <%=seDeclinedList.length%>
-                                        </b>
-                                    </div>
-                                </div>
-                            </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/rescheduled';">
+                  <div class="info-box-4 hover-zoom-effect">
+                    <div class="content">
+                      <div class="text"><b>RESCHEDULED ORDERS</b></div>
+                      <div class="number count-to" data-from="0" data-to="<%=totalRescheduleCount%>" data-speed="2"
+                        data-fresh-interval="20">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/readyForInstallation/0';">
+                  <div class="info-box-4 hover-zoom-effect bg-teal">
+                      <div class="content">
+                          <div class="text">READY FOR INSTALLATION</div>
+                          <div class="number count-to" data-from="0" data-to="<%=dateConfirmedOrdersCount%>" data-speed="2" data-fresh-interval="20">
+                          </div>
+                      </div>
+                  </div>
+              </div>
+                
+               
+              </div>
 
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                    <div class="info-box-4 hover-zoom-effect">
-                        <div class="content">
-                            <div class="text">
-                                FARMER RESPONSE STATUS
-                            </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <div class="text">
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                                        onclick="window.location='/viewFarmerStatus/pending';">
-                                        Pending </br><b>
-                                            <%=farmerPendingList.length%>
-                                        </b>
-                                    </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                                        onclick="window.location='/viewFarmerStatus/accepted';">
-                                        Accepted </br><b>
-                                            <%=farmerAcceptedList.length%>
-                                        </b>
-                                    </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                                        onclick="window.location='/viewFarmerStatus/cancelled';">
-                                        Cancelled </br><b>
-                                            <%=farmerDeclinedList.length%>
-                                        </b>
-                                    </div>
-                                </div>
-                            </div>
 
+
+              <div class="row clearfix">
+         
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                  <div class="info-box-4 hover-zoom-effect">
+                    <div class="content">
+                      <div class="text">
+                        <b>SE RESPONSE STATUS</b>
+                      </div>
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="text">
+                          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+                            onclick="window.location='/seResponseStatus/0/pending';">
+                            Pending </br> <b>
+                              <%=sePendingList.length%>
+                            </b>
+                          </div>
+                          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+                            onclick="window.location='/seResponseStatus/0/accepted';">
+                            Accepted </br><b>
+                              <%=seAcceptedList.length%>
+                            </b>
+                          </div>
+                          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+                            onclick="window.location='/seResponseStatus/0/declined';">
+                            Declined </br><b>
+                              <%=seDeclinedList.length%>
+                            </b>
+                          </div>
                         </div>
+                      </div>
                     </div>
+                  </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                    <div class="info-box-4 hover-zoom-effect">
-                        <div class="content">
-                            <div class="text">
-                                INSTALLATION STATUS
-                            </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <div class="text">
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                                        onclick="window.location='/viewInstallationStatus/pending';">
-                                        Pending </br><b>
-                                            <%=installationPendingList.length%>
-                                        </b>
-                                    </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                                        onclick="window.location='/viewInstallationStatus/partial';">
-                                        Partial </br><b>
-                                            <%=installationPartialCompleteList.length%>
-                                        </b>
-                                    </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                                        onclick="window.location='/viewInstallationStatus/completed';">
-                                        Completed </br><b>
-                                            <%=installationCompletedList.length%>
-                                        </b>
-                                    </div>
-                                </div>
-                            </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                  <div class="info-box-4 hover-zoom-effect">
+                    <div class="content">
+                      <div class="text">
+                        <b>FARMER RESPONSE STATUS</b>
+                      </div>
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="text">
+                          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+                            onclick="window.location='/viewFarmerStatus/pending';">
+                            Pending </br><b>
+                              <%=farmerPendingList.length%>
+                            </b>
+                          </div>
+                          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+                            onclick="window.location='/viewFarmerStatus/accepted';">
+                            Accepted </br><b>
+                              <%=farmerAcceptedList.length%>
+                            </b>
+                          </div>
+                          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+                            onclick="window.location='/viewFarmerStatus/cancelled';">
+                            Cancelled </br><b>
+                              <%=farmerDeclinedList.length%>
+                            </b>
+                          </div>
                         </div>
+                      </div>
                     </div>
+                  </div>
                 </div>
-            </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                  <div class="info-box-4 hover-zoom-effect">
+                    <div class="content">
+                      <div class="text">
+                        <b>INSTALLATION STATUS</b>
+                      </div>
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="text">
+                          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+                            onclick="window.location='/viewInstallationStatus/pending';">
+                            Pending </br><b>
+                              <%=installationPendingList.length%>
+                            </b>
+                          </div>
+                          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+                            onclick="window.location='/viewInstallationStatus/partial';">
+                            Partial </br><b>
+                              <%=installationPartialCompleteList.length%>
+                            </b>
+                          </div>
+                          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+                            onclick="window.location='/viewInstallationStatus/completed';">
+                            Completed </br><b>
+                              <%=installationCompletedList.length%>
+                            </b>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
 
             <!-- #END# Widgets -->
@@ -342,7 +366,7 @@
                                         <script>
                                             function handler(e) {
                                                 var date = e.target.value;
-                                                url = "/listOfDatesConfirmedOrders/" + date;
+                                                url = "/readyForInstallation/" + date;
                                                 $("#dateFilter").attr("href", url);
                                                 return true;
                                             }

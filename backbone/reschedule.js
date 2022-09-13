@@ -5,200 +5,47 @@ var axios = require("axios");
 var fetch = require("cross-fetch");
 
 module.exports = function () {
-  app.get("/viewInstallationStatus/:status", async function (req, res) {
-    console.log(req.params);
-    if (req.params.status == "pending") {
-      var variables = {
-        "tableTitle": "PROGRESS",
-        "navBarHighlight1": "background-color: #E9E9E9; color: #555555;",
-        "navBarHighlight2": "",
-        "navBarHighlight3": ""
-      };
-      var reqBody = JSON.stringify({
-        filter: {
-          status: "SE_ATTENDED",
-        },
-      });
-    }
-    if (req.params.status == "partial") {
-      var variables = {
-        "tableTitle": "PARTIAL",
-        "navBarHighlight1": "",
-        "navBarHighlight2": "background-color: #E9E9E9; color: #555555;",
-        "navBarHighlight3": ""
-      };
-      var reqBody = JSON.stringify({
-        filter: {
-          status: "PARTIAL_COMPLETED",
-        },
-      });
-    }
-    if (req.params.status == "completed") {
-      var variables = {
-        "tableTitle": "COMPLETED",
-        "navBarHighlight1": "",
-        "navBarHighlight2": "",
-        "navBarHighlight3": "background-color: #E9E9E9; color: #555555;"
-      };
-      var reqBody = JSON.stringify({
-        filter: {
-          status: "COMPLETED",
-        },
-      });
-    }
+  app.get("/rescheduled", async function (req, res) {
+  
+    await getNewOrdersCount();
+    await getReconfirmOrdersCount();
 
-    const resp = await fetch(
-      "http://app.aquaexchange.com/api/getInstallationSchedule/",
-      {
-        method: "post",
-        body: reqBody,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
-        },
-      }
-    );
-    resp.json().then(async (data) => {
-      console.log(data);
-      await getOpenOrdersCount();
-      await getReconfirmOrdersCount();
+    await getSErescheduledOrders();
+    await getSMrescheduledOrders();
+    await getFarmerRescheduledOrders();
+
+    await getReadyToInstallCount();
+    await getSePendingList();
+    await getSeAcceptedList();
+    await getSeDeclinedList();
+    await getFarmerPendingList();
+    await getFarmerAcceptedList();
+    await getFarmerDeclinedList();
+    await getInstallationPendingList();
+    await getInstallationPartialCompleteList();
+    await getInstallationCompletedList();
+    res.render("reschedule", {
       
-      await getSErescheduledOrders();
-      await getSMrescheduledOrders();
-      await getFarmerRescheduledOrders();
+      newOrdersCount: newOrdersCount,
+      reconfirmOrdersCount: reconfirmOrdersCount,
 
-      await getReadyForInstallationCount();
-      await getSePendingList();
-      await getSeAcceptedList();
-      await getSeDeclinedList();
-      await getFarmerPendingList();
-      await getFarmerAcceptedList();
-      await getFarmerDeclinedList();
-      await getInstallationPendingList();
-      await getInstallationPartialCompleteList();
-      await getInstallationCompletedList();
-      res.render("installationStatus", {
-        data1: data,
-        variables: variables,
-        OpenOrdersCount: OpenOrdersCount.length,
-        reconfirmOrdersCount: reconfirmOrdersCount,
-       
-        SErescheduledOrders: SErescheduledOrders,
-        SMrescheduledOrders: SMrescheduledOrders,
-        FarmerRescheduledOrders: FarmerRescheduledOrders,
-        totalRescheduleCount: SErescheduledOrders.length+SMrescheduledOrders.length+FarmerRescheduledOrders.length,
+      SErescheduledOrders: SErescheduledOrders,
+      SMrescheduledOrders: SMrescheduledOrders,
+      FarmerRescheduledOrders: FarmerRescheduledOrders,
+      totalRescheduleCount: SErescheduledOrders.length+SMrescheduledOrders.length+FarmerRescheduledOrders.length,
 
-        ReadyForInstallationCount: ReadyForInstallationCount.length,
-        sePendingList: sePendingList,
-        seAcceptedList: seAcceptedList,
-        seDeclinedList: seDeclinedList,
-        farmerPendingList: farmerPendingList,
-        farmerAcceptedList: farmerAcceptedList,
-        farmerDeclinedList: farmerDeclinedList,
-        installationPendingList: installationPendingList,
-        installationPartialCompleteList: installationPartialCompleteList,
-        installationCompletedList: installationCompletedList
-      });
+      readyToInstallCount: readyToInstallCount,
+      sePendingList: sePendingList,
+      seAcceptedList: seAcceptedList,
+      seDeclinedList: seDeclinedList,
+      farmerPendingList: farmerPendingList,
+      farmerAcceptedList: farmerAcceptedList,
+      farmerDeclinedList: farmerDeclinedList,
+      installationPendingList: installationPendingList,
+      installationPartialCompleteList: installationPartialCompleteList,
+      installationCompletedList: installationCompletedList,
     });
   });
-
-
-
-
-
-
-  app.get("/changeFarmerStatus/:id/:status", async function (req, res) {
-    console.log(req.params);
-    if (req.params.status == "1") {
-      var reqBody = JSON.stringify({
-        schedule: {
-          id: parseInt(req.params.id),
-          schedulestatus: "SEND_FARMER_CONFIRM",
-        },
-      });
-    }
-    if (req.params.status == "2") {
-      var reqBody = JSON.stringify({
-        schedule: {
-          id: parseInt(req.params.id),
-          schedulestatus: "FARMER_FINAl_CONFIRM",
-        },
-      });
-    }
-    if (req.params.status == "3") {
-      var reqBody = JSON.stringify({
-        schedule: {
-          id: parseInt(req.params.id),
-          schedulestatus: "FARMER_FINAL_CANCEL",
-        },
-      });
-    }
-
-    const resp = await fetch(
-      "http://app.aquaexchange.com/api/updateInstallationSchedule/",
-      {
-        method: "post",
-        body: reqBody,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
-        },
-      }
-    );
-    resp.json().then(async (data) => {
-      console.log(data);
-      res.redirect("/viewFarmerStatus/pending");
-    });
-  });
-
-  // -------------------------------------------- Counts Functions----------------------------------
-  var OpenOrdersCount;
-  async function getOpenOrdersCount(req, res) {
-    var reqBody = JSON.stringify({
-      filter: {
-        status: "NEW_ORDER",
-      },
-    });
-    const resp = await fetch(
-      "http://app.aquaexchange.com/api/getInstallationSchedule/",
-      {
-        method: "post",
-        body: reqBody,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
-        },
-      }
-    );
-    await resp.json().then((dataa) => {
-      console.log(dataa);
-      OpenOrdersCount = dataa;
-    });
-  }
-
-  var reconfirmOrdersCount;
-  async function getReconfirmOrdersCount(req, res) {
-    var reqBody = JSON.stringify({
-      filter: {
-        status: "FARMER_DATE_CONFIRM",
-      },
-    });
-    const resp = await fetch(
-      "http://app.aquaexchange.com/api/getInstallationSchedule/",
-      {
-        method: "post",
-        body: reqBody,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
-        },
-      }
-    );
-    await resp.json().then((dataa) => {
-      // console.log(dataa);
-      reconfirmOrdersCount = dataa;
-    });
-  }
 
   var SErescheduledOrders;
   async function getSErescheduledOrders(req, res) {
@@ -299,9 +146,32 @@ module.exports = function () {
     });
   }
 
-  
-  var ReadyForInstallationCount;
-  async function getReadyForInstallationCount(req, res) {
+  var newOrdersCount;
+  async function getNewOrdersCount(req, res) {
+    var reqBody = JSON.stringify({
+      filter: {
+        status: "NEW_ORDER",
+      },
+    });
+    const resp = await fetch(
+      "http://app.aquaexchange.com/api/getInstallationSchedule/",
+      {
+        method: "post",
+        body: reqBody,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
+        },
+      }
+    );
+    await resp.json().then((dataa) => {
+      // console.log(dataa);
+      newOrdersCount = dataa;
+    });
+  }
+
+  var reconfirmOrdersCount;
+  async function getReconfirmOrdersCount(req, res) {
     var reqBody = JSON.stringify({
       filter: {
         status: "FARMER_DATE_CONFIRM",
@@ -319,8 +189,32 @@ module.exports = function () {
       }
     );
     await resp.json().then((dataa) => {
-      console.log(dataa);
-      ReadyForInstallationCount = dataa;
+      // console.log(dataa);
+      reconfirmOrdersCount = dataa;
+    });
+  }
+
+  var readyToInstallCount;
+  async function getReadyToInstallCount(req, res) {
+    var reqBody = JSON.stringify({
+      filter: {
+        status: "FARMER_RECONFIRM",
+      },
+    });
+    const resp = await fetch(
+      "http://app.aquaexchange.com/api/getInstallationSchedule/",
+      {
+        method: "post",
+        body: reqBody,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
+        },
+      }
+    );
+    await resp.json().then((dataa) => {
+      // console.log(dataa);
+      readyToInstallCount = dataa;
     });
   }
 
@@ -343,7 +237,7 @@ module.exports = function () {
       }
     );
     await resp.json().then((dataa) => {
-      console.log(dataa);
+      // console.log(dataa);
       sePendingList = dataa;
     });
   }
@@ -367,7 +261,7 @@ module.exports = function () {
       }
     );
     await resp.json().then((dataa) => {
-      console.log(dataa);
+      // console.log(dataa);
       seAcceptedList = dataa;
     });
   }
@@ -391,7 +285,7 @@ module.exports = function () {
       }
     );
     await resp.json().then((dataa) => {
-      console.log(dataa);
+      // console.log(dataa);
       seDeclinedList = dataa;
     });
   }
@@ -415,7 +309,7 @@ module.exports = function () {
       }
     );
     await resp.json().then((dataa) => {
-      console.log(dataa);
+      // console.log(dataa);
       farmerPendingList = dataa;
     });
   }
@@ -439,7 +333,7 @@ module.exports = function () {
       }
     );
     await resp.json().then((dataa) => {
-      console.log(dataa);
+      // console.log(dataa);
       farmerAcceptedList = dataa;
     });
   }
@@ -463,19 +357,18 @@ module.exports = function () {
       }
     );
     await resp.json().then((dataa) => {
-      console.log(dataa);
+      // console.log(dataa);
       farmerDeclinedList = dataa;
     });
   }
 
   var installationPendingList;
   async function getInstallationPendingList(req, res) {
-    var reqBody=JSON.stringify({
-      "filter" :{
-          "status" :"SE_ATTENDED"
-      }
-      
-  })
+    var reqBody = JSON.stringify({
+      filter: {
+        status: "SE_ATTENDED",
+      },
+    });
     const resp = await fetch(
       "http://app.aquaexchange.com/api/getInstallationSchedule/",
       {
@@ -483,24 +376,23 @@ module.exports = function () {
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Token e50f000f342fe8453e714454abac13be07f18ac3",
+          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
         },
       }
     );
     await resp.json().then((dataa) => {
-      console.log(dataa);
+      // console.log(dataa);
       installationPendingList = dataa;
     });
   }
 
   var installationPartialCompleteList;
   async function getInstallationPartialCompleteList(req, res) {
-    var reqBody=JSON.stringify({
-      "filter" :{
-          "status" :"PARTIAL_COMPLETED"
-      }
-      
-  })
+    var reqBody = JSON.stringify({
+      filter: {
+        status: "PARTIAL_COMPLETED",
+      },
+    });
     const resp = await fetch(
       "http://app.aquaexchange.com/api/getInstallationSchedule/",
       {
@@ -508,24 +400,23 @@ module.exports = function () {
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Token e50f000f342fe8453e714454abac13be07f18ac3",
+          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
         },
       }
     );
     await resp.json().then((dataa) => {
-      console.log(dataa);
+      // console.log(dataa);
       installationPartialCompleteList = dataa;
     });
   }
 
   var installationCompletedList;
   async function getInstallationCompletedList(req, res) {
-    var reqBody=JSON.stringify({
-      "filter" :{
-          "status" :"COMPLETED"
-      }
-      
-  })
+    var reqBody = JSON.stringify({
+      filter: {
+        status: "COMPLETED",
+      },
+    });
     const resp = await fetch(
       "http://app.aquaexchange.com/api/getInstallationSchedule/",
       {
@@ -533,12 +424,12 @@ module.exports = function () {
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Token e50f000f342fe8453e714454abac13be07f18ac3",
+          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
         },
       }
     );
     await resp.json().then((dataa) => {
-      console.log(dataa);
+      // console.log(dataa);
       installationCompletedList = dataa;
     });
   }
@@ -547,7 +438,7 @@ module.exports = function () {
   async function getRemarksList(req, res) {
     var req = req;
     const resp = await fetch(
-      "http://app.aquaexchange.com/api/getremarksfororder/"+req+"",
+      "http://app.aquaexchange.com/api/getremarksfororder/" + req + "",
       {
         method: "get",
         headers: {
@@ -557,7 +448,6 @@ module.exports = function () {
       }
     );
     await resp.json().then((dataa) => {
-    
       remarks = dataa;
     });
   }

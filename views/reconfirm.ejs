@@ -2,6 +2,7 @@
 <html>
 
 <head>
+  <base href="/">
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -34,7 +35,15 @@
   <script>
     localStorage.clear();
   </script>
-
+  <script>
+    $("#dateTime").datetimepicker({
+      pickDate: false,
+      pickTime: true,
+      useSeconds: false,
+      format: 'hh:mm',
+      stepping: 30 //will change increments to 15m, default is 1m
+    });
+  </script>
 </head>
 
 <body class="theme-teal">
@@ -137,16 +146,16 @@
       <!-- Widgets -->
         <div class="row clearfix">
           <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/';">
-            <div class="info-box-4 hover-zoom-effect bg-teal">
+            <div class="info-box-4 hover-zoom-effect">
               <div class="content">
                 <div class="text"><b>OPEN ORDERS</b></div>
-                <div class="number count-to" data-from="0" data-to="<%=newOrdersCount%>" data-speed="2"
+                <div class="number count-to" data-from="0" data-to="<%=newOrdersCount.length%>" data-speed="2"
                   data-fresh-interval="20"></div>
               </div>
             </div>
           </div>
           <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/reconfirm/0';">
-            <div class="info-box-4 hover-zoom-effect">
+            <div class="info-box-4 hover-zoom-effect bg-teal">
               <div class="content">
                 <div class="text"><b>RECONFIRM</b></div>
                 <div class="number count-to" data-from="0" data-to="<%=reconfirmOrdersCount%>" data-speed="2"
@@ -169,7 +178,7 @@
             <div class="info-box-4 hover-zoom-effect">
                 <div class="content">
                     <div class="text">READY FOR INSTALLATION</div>
-                    <div class="number count-to" data-from="0" data-to="<%=readyToInstallCount%>" data-speed="2" data-fresh-interval="20">
+                    <div class="number count-to" data-from="0" data-to="<%=readyToInstallCount.length%>" data-speed="2" data-fresh-interval="20">
                     </div>
                 </div>
             </div>
@@ -287,7 +296,7 @@
           <div class="card">
             <div class="header">
               <h2>
-                OPEN ORDERS
+                RECONFIRM ORDERS
               </h2>
               <ul class="header-dropdown m-r--5">
                 <li class="dropdown">
@@ -322,47 +331,23 @@
                 <tbody style="text-align: center;">
                   <% data1.forEach(function(singleData){ %>
                     <tr>
-                      <td width="5%">
+                      <td>
                         <%= singleData.data.order.woo_commerce_order_id %>
                       </td>
-                      <td width="7%">
+                      <td>
                         <%= singleData.data.order.farmer.relationship_BDE.first_name %>
                       </td>
-                      <td width="7%">
+                      <td>
                         <%= singleData.data.created_date.substring(0,10) %>
                       </td>
                       <td>
                         <%= singleData.data.order.farmer.firstname %>
                       </td>
                       <td>
-                        <!-- onchange="selectedFarm<%=singleData.id%>()" -->
-                        <select id="farmNamesId<%=singleData.data.id%>" multiple>
-                          <% singleData.data.order.farmer.farms.forEach(function(farmNames){ %>
-                            <option value="<%=farmNames.id%>">
-                              <%=farmNames.farm_name%>
-                            </option>
-                            <%});%>
-                        </select>
+                        <% singleData.data.farms.forEach(singleFarmName=>{%>
+                          <%= singleFarmName.farm.farm_name %> </br>
+                          <%}) %>
 
-                        <script>
-                          $(function () {
-                            $('#farmNamesId<%=singleData.data.id%>').change(function (e) {
-
-                              localStorage.removeItem("selectedFarmId<%= singleData.data.id%>");
-                              var selected = $(e.target).val();
-                              localStorage.setItem("selectedFarmId<%= singleData.data.id%>", selected);
-                              var selectedFarmId = localStorage.getItem("selectedFarmId<%= singleData.data.id%>");
-                              var selectedDate = localStorage.getItem("selectedDate<%= singleData.data.id%>");
-                              var selectedTimeframe = localStorage.getItem("selectedTimeframe<%= singleData.data.id%>");
-                              var remarks = localStorage.getItem("remarks<%= singleData.data.id%>");
-
-                              url = "/assignDate/<%=singleData.data.id%>/" + selectedFarmId + "/" + selectedDate + "/" + selectedTimeframe + "/" + remarks;
-                              $("#addBtn<%=singleData.data.id%>").attr("href", url);
-
-                              return true;
-                            });
-                          });
-                        </script>
                       </td>
                       <td>
                         <%= singleData.data.order.farmer.mobile_number %></br><a
@@ -372,22 +357,21 @@
                             </button></a>
                       </td>
                       <td> <button data-trigger="focus" data-container="body" data-toggle="popover"
-                      data-placement="top" title="Shipping Address" data-content="<%= singleData.data.order.shipping %>">
-                        <%= singleData.data.region %> </button>
-                      </td>
+                        data-placement="top" title="Shipping Address" data-content="<%= singleData.data.order.shipping %>">
+                          <%= singleData.data.region %> </button>
+                        </td>
+                        <td>
+                          <% singleData.data.order.items.forEach(function(itemsList){ %>
+                            <% if(itemsList.name=="APFC - Automatic power factor Controller" ){%>
+                              APFC - <%= itemsList.quantity %> - <%= itemsList.completed %> </br>
+                                  <%}if(itemsList.name=="Powermon 2.0"){%>
+                                    Powermon - <%= itemsList.quantity %> - <%= itemsList.completed %></br>
+                                        <%}%>
+  
+                                          <% }) %>
+                        </td>
                       <td>
-                        <% singleData.data.order.items.forEach(function(itemsList){ %>
-                          <% if(itemsList.name=="APFC - Automatic power factor Controller" ){%>
-                            APFC - <%= itemsList.quantity %> - <%= itemsList.completed %> </br>
-                                <%}if(itemsList.name=="Powermon 2.0"){%>
-                                  Powermon - <%= itemsList.quantity %> - <%= itemsList.completed %></br>
-                                      <%}%>
-
-                                        <% }) %>
-                      </td>
-                      <td style="width: 20%;">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                          <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
 
                             <% singleData.remarks.slice(0, 3).forEach(singleRemark=> {%>
                               <% if(singleRemark.remarks.length !=0 ){%>
@@ -433,72 +417,8 @@
 
                                         <i class="material-icons" data-toggle="modal"
                                           data-target="#modal<%=singleData.data.id%>">more_horiz</i>
-                          </div>
-
-                          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <ul>
-                              <li class="dropdown">
-                                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"
-                                  role="button" aria-haspopup="true" aria-expanded="false">
-                                  <i class="material-icons">keyboard_arrow_down</i>
-                                </a>
-                                <ul class="dropdown-menu pull-right">
-                                  <li><a href="#"
-                                      onclick="enableSubmitButton<%=singleData.data.id%>(1,'CS - Call Pickedup and Confirmed')">Call
-                                      Pickedup and
-                                      Confirmed</a></li>
-                                  <li><a href="#"
-                                      onclick="enableSubmitButton<%=singleData.data.id%>(1,'CS - BDE Confirmed')">BDE
-                                      Confirmed</a>
-                                  </li>
-                                  <li><a href="/addRemarks/<%=singleData.data.id%>/CS - Didnt Pick Call"
-                                      onclick="enableSubmitButton<%=singleData.data.id%>(0)">Didn't Pick Call</a>
-                                  </li>
-                                  <li><a href="/addRemarks/<%=singleData.data.id%>/CS - Number doesnt exist"
-                                      onclick="enableSubmitButton<%=singleData.data.id%>(0)">Number doesn't exist</a>
-                                  </li>
-                                  <li><a href="/addRemarks/<%=singleData.data.id%>/CS - Call me after 1hr"
-                                      onclick="enableSubmitButton<%=singleData.data.id%>(0)">Call me after 1 hr</a>
-                                  </li>
-                                  <li><a href="/addRemarks/<%=singleData.data.id%>/CS - Call me after 1 day"
-                                      onclick="enableSubmitButton<%=singleData.data.id%>(0)">Call me after 1 day</a>
-                                  </li>
-                                  <li><a href="/addRemarks/<%=singleData.data.id%>/CS - Call me after 1 week"
-                                      onclick="enableSubmitButton<%=singleData.data.id%>(0)">Call me after 1 week</a>
-                                  </li>
-                                  <li><a href="/addRemarks/<%=singleData.data.id%>/CS - Call me after 1 month"
-                                      onclick="enableSubmitButton<%=singleData.data.id%>(0)">Call me after 1 month</a>
-                                  </li>
-                                  <li><a href="/addRemarks/<%=singleData.data.id%>/CS - Customer Abused"
-                                      onclick="enableSubmitButton<%=singleData.data.id%>(0)">Customer Abused</a></li>
-                                </ul>
-                              </li>
-                            </ul>
-                          </div>
 
                         </div>
-                        <script>
-                          function enableSubmitButton<%=singleData.data.id%> (a, b) {
-
-                            if (a == 1) {
-                              $("#addBtn<%=singleData.data.id%>1").attr("disabled", false);
-                              $("#timeframe<%=singleData.data.id%>").attr("disabled", false);
-                              $("#dateTime<%=singleData.data.id%>").attr("disabled", false);
-
-                              localStorage.removeItem("remarks<%= singleData.data.id%>");
-                              var x = b;
-                              localStorage.setItem("remarks<%= singleData.data.id%>", x);
-                            } else if (a == 0) {
-                              $("#addBtn<%=singleData.data.id%>1").attr("disabled", true);
-                              $("#timeframe<%=singleData.data.id%>").attr("disabled", true);
-                              $("#dateTime<%=singleData.data.id%>").attr("disabled", true);
-                              localStorage.removeItem("remarks<%= singleData.data.id%>");
-                            }
-
-
-                            return true;
-                          }
-                        </script>
                         <style>
                           li {
                             list-style-type: none;
@@ -506,77 +426,19 @@
                         </style>
 
                       </td>
-                      <td width="18%">
+                      <td>
                         <div class="row clearfix">
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><input type="date" class="form-control date"
-                              id="dateTime<%=singleData.data.id%>" onchange="handler<%=singleData.data.id%>(event)"
-                              required disabled></div>
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                            <select id="timeframe<%=singleData.data.id%>"
-                              onchange="selectedTimeFrameFunction<%=singleData.data.id%>()" disabled>
-                              <option value="">--Select Time--</option>
-                              <option value="7AM - 10AM">7:00 AM - 10:00 AM</option>
-                              <option value="10AM - 1PM">10:00 AM - 1:00 PM</option>
-                              <option value="2PM - 5PM">2:00 PM - 5:00 PM</option>
-                              <option value="7AM - 1PM">7:00 AM - 1:00 PM</option>
-                              <option value="7AM - 5PM">7:00 AM - 5:00 PM</option>
-                            </select>
-                          </div>
+                          <a href="/confirmFarmerReconfirmDate/<%=singleData.data.id%>"><button class="btn bg-green waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12">Confirm Date</button>
+                        </a></br>
+                        <a href="#"><button class="btn bg-orange waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12" disabled>Reschedule</button>
+                      </a>
                         </div>
-                        </br>
-
-                        <a href="#" id="addBtn<%=singleData.data.id%>"><button onclick="removeLocalSTorage()"
-                            type="button date" id="addBtn<%=singleData.data.id%>1"
-                            class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12" disabled>Schedule
-                            Date</button>
-                        </a>
-                        <script>
-                          function handler<%=singleData.data.id%> (e) {
-                            localStorage.removeItem("selectedDate<%= singleData.data.id%>");
-                            var x = document.getElementById("dateTime<%=singleData.data.id%>").value;
-                            localStorage.setItem("selectedDate<%= singleData.data.id%>", x);
-                            var selectedFarmId = localStorage.getItem("selectedFarmId<%= singleData.data.id%>");
-                            var selectedDate = localStorage.getItem("selectedDate<%= singleData.data.id%>");
-                            var selectedTimeframe = localStorage.getItem("selectedTimeframe<%= singleData.data.id%>");
-                            var remarks = localStorage.getItem("remarks<%= singleData.data.id%>");
-
-                            url = "/assignDate/<%=singleData.data.id%>/" + selectedFarmId + "/" + selectedDate + "/" + selectedTimeframe + "/" + remarks;
-                            $("#addBtn<%=singleData.data.id%>").attr("href", url);
-
-                            return true;
-                          }
-                          function removeLocalSTorage() {
-                            localStorage.removeItem("selectedFarmId<%= singleData.data.id%>");
-                            localStorage.removeItem("selectedDate<%= singleData.data.id%>");
-                            localStorage.removeItem("selectedTimeframe<%= singleData.data.id%>");
-                            localStorage.removeItem("remarks<%= singleData.data.id%>");
-                          }
-                        </script>
-                        <script>
-                          function selectedTimeFrameFunction<%=singleData.data.id%> () {
-                            localStorage.removeItem("selectedTimeFrame<%= singleData.data.id%>");
-                            var x = document.getElementById("timeframe<%=singleData.data.id%>").value;
-                            localStorage.setItem("selectedTimeFrame<%= singleData.data.id%>", x);
-                            var selectedFarmId = localStorage.getItem("selectedFarmId<%= singleData.data.id%>");
-                            var selectedDate = localStorage.getItem("selectedDate<%= singleData.data.id%>");
-                            var selectedTimeframe = localStorage.getItem("selectedTimeFrame<%= singleData.data.id%>");
-                            var remarks = localStorage.getItem("remarks<%= singleData.data.id%>");
-
-                            url = "/assignDate/<%=singleData.data.id%>/" + selectedFarmId + "/" + selectedDate + "/" + selectedTimeframe + "/" + remarks;
-                            $("#addBtn<%=singleData.data.id%>").attr("href", url);
-
-                            return true;
-                          }
-                        </script>
+                        
                       </td>
                     </tr>
                     <% }) %>
                 </tbody>
               </table>
-
-              <button type="button" class="btn bg-indigo btn-circle-lg waves-effect waves-circle waves-float">
-                <i class="material-icons float">add</i>
-              </button>
 
             </div>
           </div>

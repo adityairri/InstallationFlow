@@ -31,13 +31,13 @@ module.exports = function () {
 
       // console.log(reqBody);
       const resp = await fetch(
-        "http://45.79.117.26:8000/api/updateInstallationSchedule/",
+        "http://app.aquaexchange.com/api/updateInstallationSchedule/",
         {
           method: "post",
           body: reqBody,
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
+            Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
           },
         }
       );
@@ -61,13 +61,13 @@ module.exports = function () {
         }
       });
       const resp = await fetch(
-        "http://45.79.117.26:8000/api/updateInstallationSchedule/",
+        "http://app.aquaexchange.com/api/updateInstallationSchedule/",
         {
           method: "post",
           body: reqBody,
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
+            Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
           },
         }
       );
@@ -84,7 +84,6 @@ module.exports = function () {
 
   var finalRenderData = [];
   var farmDetailsArray = [];
-  var confirmedByFarmerCount1;
   app.get("/", async function (req, res) {
     var reqBody = JSON.stringify({
       filter: {
@@ -93,13 +92,13 @@ module.exports = function () {
     });
 
     const resp = await fetch(
-      "http://45.79.117.26:8000/api/getInstallationSchedule/",
+      "http://app.aquaexchange.com/api/getInstallationSchedule/",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
+          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
         },
       }
       
@@ -107,7 +106,6 @@ module.exports = function () {
 var daata = [];
     await resp.json().then(async (data) => {
       data.forEach(async singleInData => {
-       
         var wooCommerseID = singleInData.order.woo_commerce_order_id;
         var a = await getRemarksList(wooCommerseID);
         // console.log(remarks);
@@ -117,7 +115,12 @@ var daata = [];
         })
       });
       // console.log(daata);
-      await getConfirmedByFarmerCount();
+      await getSErescheduledOrders();
+      await getSMrescheduledOrders();
+      await getFarmerRescheduledOrders();
+
+      await getReconfirmOrdersCount();
+      await getReadyToInstallCount();
       await getAssignedToSECount();
       await getSePendingList();
       await getSeAcceptedList();
@@ -131,7 +134,14 @@ var daata = [];
       res.render("index", {
         data1: daata,
         newOrdersCount: data.length,
-        confirmedByFarmerCount: confirmedByFarmerCount1.length,
+        reconfirmOrdersCount: reconfirmOrdersCount.length,
+
+        SErescheduledOrders: SErescheduledOrders,
+        SMrescheduledOrders: SMrescheduledOrders,
+        FarmerRescheduledOrders: FarmerRescheduledOrders,
+        totalRescheduleCount: SErescheduledOrders.length+SMrescheduledOrders.length+FarmerRescheduledOrders.length,
+
+        readyToInstallCount: readyToInstallCount.length,
         assignedToSECount: assignedToSECount1.length,
         sePendingList: sePendingList,
         seAcceptedList: seAcceptedList,
@@ -146,28 +156,158 @@ var daata = [];
     });
   });
 
-  async function getConfirmedByFarmerCount(req, res) {
+
+
+  var SErescheduledOrders;
+  async function getSErescheduledOrders(req, res) {
+    var reqBody = JSON.stringify({
+      filter: {
+        status: "CANCELLED_SE_RESCHEDULE",
+      },
+    });
+    const resp = await fetch(
+      "http://app.aquaexchange.com/api/getInstallationSchedule/",
+      {
+        method: "post",
+        body: reqBody,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
+        },
+      }
+    );
+    var daata = [];
+    await resp.json().then((data) => {
+        data.forEach(async singleInData => {
+            var wooCommerseID = singleInData.order.woo_commerce_order_id;
+            var a = await getRemarksList(wooCommerseID);
+            // console.log(remarks);
+            daata.push({
+              'remarks': remarks,
+              'data': singleInData
+            })
+          });
+      SErescheduledOrders = daata;
+    });
+  }
+
+  var SMrescheduledOrders;
+  async function getSMrescheduledOrders(req, res) {
+    var reqBody = JSON.stringify({
+      filter: {
+        status: "SM_RESCHEDULE",
+      },
+    });
+    const resp = await fetch(
+      "http://app.aquaexchange.com/api/getInstallationSchedule/",
+      {
+        method: "post",
+        body: reqBody,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
+        },
+      }
+    );
+    var daata = [];
+    await resp.json().then((data) => {
+        data.forEach(async singleInData => {
+            var wooCommerseID = singleInData.order.woo_commerce_order_id;
+            var a = await getRemarksList(wooCommerseID);
+            // console.log(remarks);
+            daata.push({
+              'remarks': remarks,
+              'data': singleInData
+            })
+          });
+      SMrescheduledOrders = daata;
+    });
+  }
+
+  var FarmerRescheduledOrders;
+  async function getFarmerRescheduledOrders(req, res) {
+    var reqBody = JSON.stringify({
+      filter: {
+        status: "FARMER_FINAL_CANCEL",
+      },
+    });
+    const resp = await fetch(
+      "http://app.aquaexchange.com/api/getInstallationSchedule/",
+      {
+        method: "post",
+        body: reqBody,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
+        },
+      }
+    );
+    var daata = [];
+    await resp.json().then((data) => {
+        data.forEach(async singleInData => {
+            var wooCommerseID = singleInData.order.woo_commerce_order_id;
+            var a = await getRemarksList(wooCommerseID);
+            // console.log(remarks);
+            daata.push({
+              'remarks': remarks,
+              'data': singleInData
+            })
+          });
+      FarmerRescheduledOrders = daata;
+    });
+  }
+
+
+  
+  var readyToInstallCount;
+  async function getReadyToInstallCount(req, res) {
+    var reqBody = JSON.stringify({
+      filter: {
+        status: "FARMER_RECONFIRM",
+      },
+    });
+    const resp = await fetch(
+      "http://app.aquaexchange.com/api/getInstallationSchedule/",
+      {
+        method: "post",
+        body: reqBody,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
+        },
+      }
+    );
+    await resp.json().then((dataa) => {
+      // console.log(dataa);
+      readyToInstallCount = dataa;
+    });
+  }
+
+
+  var reconfirmOrdersCount;
+  async function getReconfirmOrdersCount(req, res) {
     var reqBody = JSON.stringify({
       filter: {
         status: "FARMER_DATE_CONFIRM",
       },
     });
     const resp = await fetch(
-      "http://45.79.117.26:8000/api/getInstallationSchedule/",
+      "http://app.aquaexchange.com/api/getInstallationSchedule/",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
+          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
         },
       }
     );
     await resp.json().then((dataa) => {
       // console.log(dataa);
-      confirmedByFarmerCount1 = dataa;
+      reconfirmOrdersCount = dataa;
     });
   }
+
 
   var assignedToSECount1;
   async function getAssignedToSECount(req, res) {
@@ -177,13 +317,13 @@ var daata = [];
       },
     });
     const resp = await fetch(
-      "http://45.79.117.26:8000/api/getInstallationSchedule/",
+      "http://app.aquaexchange.com/api/getInstallationSchedule/",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
+          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
         },
       }
     );
@@ -202,13 +342,13 @@ var daata = [];
       
   })
     const resp = await fetch(
-      "http://45.79.117.26:8000/api/getInstallationSchedule/",
+      "http://app.aquaexchange.com/api/getInstallationSchedule/",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
+          "Authorization": "Token e50f000f342fe8453e714454abac13be07f18ac3",
         },
       }
     );
@@ -227,13 +367,13 @@ var daata = [];
       
   })
     const resp = await fetch(
-      "http://45.79.117.26:8000/api/getInstallationSchedule/",
+      "http://app.aquaexchange.com/api/getInstallationSchedule/",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
+          "Authorization": "Token e50f000f342fe8453e714454abac13be07f18ac3",
         },
       }
     );
@@ -253,13 +393,13 @@ var daata = [];
       
   })
     const resp = await fetch(
-      "http://45.79.117.26:8000/api/getInstallationSchedule/",
+      "http://app.aquaexchange.com/api/getInstallationSchedule/",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
+          "Authorization": "Token e50f000f342fe8453e714454abac13be07f18ac3",
         },
       }
     );
@@ -278,13 +418,13 @@ var daata = [];
       
   })
     const resp = await fetch(
-      "http://45.79.117.26:8000/api/getInstallationSchedule/",
+      "http://app.aquaexchange.com/api/getInstallationSchedule/",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
+          "Authorization": "Token e50f000f342fe8453e714454abac13be07f18ac3",
         },
       }
     );
@@ -303,13 +443,13 @@ var daata = [];
       
   })
     const resp = await fetch(
-      "http://45.79.117.26:8000/api/getInstallationSchedule/",
+      "http://app.aquaexchange.com/api/getInstallationSchedule/",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
+          "Authorization": "Token e50f000f342fe8453e714454abac13be07f18ac3",
         },
       }
     );
@@ -328,13 +468,13 @@ var daata = [];
       
   })
     const resp = await fetch(
-      "http://45.79.117.26:8000/api/getInstallationSchedule/",
+      "http://app.aquaexchange.com/api/getInstallationSchedule/",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
+          "Authorization": "Token e50f000f342fe8453e714454abac13be07f18ac3",
         },
       }
     );
@@ -353,13 +493,13 @@ var daata = [];
       
   })
     const resp = await fetch(
-      "http://45.79.117.26:8000/api/getInstallationSchedule/",
+      "http://app.aquaexchange.com/api/getInstallationSchedule/",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
+          "Authorization": "Token e50f000f342fe8453e714454abac13be07f18ac3",
         },
       }
     );
@@ -378,13 +518,13 @@ var daata = [];
       
   })
     const resp = await fetch(
-      "http://45.79.117.26:8000/api/getInstallationSchedule/",
+      "http://app.aquaexchange.com/api/getInstallationSchedule/",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
+          "Authorization": "Token e50f000f342fe8453e714454abac13be07f18ac3",
         },
       }
     );
@@ -403,13 +543,13 @@ var daata = [];
       
   })
     const resp = await fetch(
-      "http://45.79.117.26:8000/api/getInstallationSchedule/",
+      "http://app.aquaexchange.com/api/getInstallationSchedule/",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
+          "Authorization": "Token e50f000f342fe8453e714454abac13be07f18ac3",
         },
       }
     );
@@ -423,12 +563,12 @@ var daata = [];
   async function getRemarksList(req, res) {
     var req = req;
     const resp = await fetch(
-      "http://45.79.117.26:8000/api/getremarksfororder/"+req+"",
+      "http://app.aquaexchange.com/api/getremarksfororder/"+req+"",
       {
         method: "get",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
+          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
         },
       }
     );
