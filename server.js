@@ -34,6 +34,7 @@ var index = require('./backbone/index');
 app.use('/',index);
 app.get('/assignDate/:orderID/:farmID/:date/:time/:remarks', index);
 app.get('/addRemarks/:id/:remarks', index);
+app.get('/assignFollowupDate/:id/:remarks/:followupDate', index);
 
 var readyForInstallation = require('./backbone/readyForInstallation');
 app.get('/readyForInstallation/:date', readyForInstallation);

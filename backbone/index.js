@@ -50,6 +50,43 @@ module.exports = function () {
     }
   );
 
+
+  app.get("/assignFollowupDate/:id/:remarks/:followupDate",
+  async function (req, res) {
+    var req = req.params;
+    // console.log(req);
+    var date = req.followupDate + " 00:00";
+    var reqBody = JSON.stringify({
+      schedule: {
+        id: parseInt(req.id),
+        followup_date: date,
+        remarks: req.remarks,
+        schedulestatus: "NEW_ORDER",
+      }
+    });
+
+    // console.log(reqBody);
+    const resp = await fetch(
+      "http://app.aquaexchange.com/api/updateInstallationSchedule/",
+      {
+        method: "post",
+        body: reqBody,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
+        },
+      }
+    );
+
+    await resp.json().then((data) => {
+      // console.log(data);
+      res.redirect("/");
+    });
+    // console.log(reqBody);
+  }
+);
+
+
   app.get("/addRemarks/:id/:remarks",
     async function (req, res) {
       var req = req.params;
@@ -258,7 +295,7 @@ var daata = [];
   }
 
 
-  
+
   var readyToInstallCount;
   async function getReadyToInstallCount(req, res) {
     var reqBody = JSON.stringify({

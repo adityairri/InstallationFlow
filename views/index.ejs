@@ -135,148 +135,149 @@
         <!-- <h2>DASHBOARD</h2> -->
       </div>
       <!-- Widgets -->
-        <div class="row clearfix">
-          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/';">
-            <div class="info-box-4 hover-zoom-effect bg-teal">
-              <div class="content">
-                <div class="text"><b>OPEN ORDERS</b></div>
-                <div class="number count-to" data-from="0" data-to="<%=newOrdersCount%>" data-speed="2"
-                  data-fresh-interval="20"></div>
-              </div>
+      <div class="row clearfix">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/';">
+          <div class="info-box-4 hover-zoom-effect bg-teal">
+            <div class="content">
+              <div class="text"><b>OPEN ORDERS</b></div>
+              <div class="number count-to" data-from="0" data-to="<%=newOrdersCount%>" data-speed="2"
+                data-fresh-interval="20"></div>
             </div>
           </div>
-          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/reconfirm/0';">
-            <div class="info-box-4 hover-zoom-effect">
-              <div class="content">
-                <div class="text"><b>RECONFIRM</b></div>
-                <div class="number count-to" data-from="0" data-to="<%=reconfirmOrdersCount%>" data-speed="2"
-                  data-fresh-interval="20">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/rescheduled';">
-            <div class="info-box-4 hover-zoom-effect">
-              <div class="content">
-                <div class="text"><b>RESCHEDULED ORDERS</b></div>
-                <div class="number count-to" data-from="0" data-to="<%=totalRescheduleCount%>" data-speed="2"
-                  data-fresh-interval="20">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/readyForInstallation/0';">
-            <div class="info-box-4 hover-zoom-effect">
-                <div class="content">
-                    <div class="text">READY FOR INSTALLATION</div>
-                    <div class="number count-to" data-from="0" data-to="<%=readyToInstallCount%>" data-speed="2" data-fresh-interval="20">
-                    </div>
-                </div>
-            </div>
         </div>
-          
-         
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/reconfirm/0';">
+          <div class="info-box-4 hover-zoom-effect">
+            <div class="content">
+              <div class="text"><b>RECONFIRM</b></div>
+              <div class="number count-to" data-from="0" data-to="<%=reconfirmOrdersCount%>" data-speed="2"
+                data-fresh-interval="20">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/rescheduled';">
+          <div class="info-box-4 hover-zoom-effect">
+            <div class="content">
+              <div class="text"><b>RESCHEDULED ORDERS</b></div>
+              <div class="number count-to" data-from="0" data-to="<%=totalRescheduleCount%>" data-speed="2"
+                data-fresh-interval="20">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/readyForInstallation/0';">
+          <div class="info-box-4 hover-zoom-effect">
+            <div class="content">
+              <div class="text">READY FOR INSTALLATION</div>
+              <div class="number count-to" data-from="0" data-to="<%=readyToInstallCount%>" data-speed="2"
+                data-fresh-interval="20">
+              </div>
+            </div>
+          </div>
         </div>
 
 
+      </div>
 
 
-        <div class="row clearfix">
-         
-          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-            <div class="info-box-4 hover-zoom-effect">
-              <div class="content">
-                <div class="text">
-                  <b>SE RESPONSE STATUS</b>
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                  <div class="text">
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                      onclick="window.location='/seResponseStatus/0/pending';">
-                      Pending </br> <b>
-                        <%=sePendingList.length%>
-                      </b>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                      onclick="window.location='/seResponseStatus/0/accepted';">
-                      Accepted </br><b>
-                        <%=seAcceptedList.length%>
-                      </b>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                      onclick="window.location='/seResponseStatus/0/declined';">
-                      Declined </br><b>
-                        <%=seDeclinedList.length%>
-                      </b>
-                    </div>
-                  </div>
-                </div>
+
+
+      <div class="row clearfix">
+
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+          <div class="info-box-4 hover-zoom-effect">
+            <div class="content">
+              <div class="text">
+                <b>SE RESPONSE STATUS</b>
               </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-            <div class="info-box-4 hover-zoom-effect">
-              <div class="content">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="text">
-                  <b>FARMER RESPONSE STATUS</b>
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                  <div class="text">
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                      onclick="window.location='/viewFarmerStatus/pending';">
-                      Pending </br><b>
-                        <%=farmerPendingList.length%>
-                      </b>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                      onclick="window.location='/viewFarmerStatus/accepted';">
-                      Accepted </br><b>
-                        <%=farmerAcceptedList.length%>
-                      </b>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                      onclick="window.location='/viewFarmerStatus/cancelled';">
-                      Cancelled </br><b>
-                        <%=farmerDeclinedList.length%>
-                      </b>
-                    </div>
+                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+                    onclick="window.location='/seResponseStatus/0/pending';">
+                    Pending </br> <b>
+                      <%=sePendingList.length%>
+                    </b>
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-            <div class="info-box-4 hover-zoom-effect">
-              <div class="content">
-                <div class="text">
-                  <b>INSTALLATION STATUS</b>
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                  <div class="text">
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                      onclick="window.location='/viewInstallationStatus/pending';">
-                      Pending </br><b>
-                        <%=installationPendingList.length%>
-                      </b>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                      onclick="window.location='/viewInstallationStatus/partial';">
-                      Partial </br><b>
-                        <%=installationPartialCompleteList.length%>
-                      </b>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                      onclick="window.location='/viewInstallationStatus/completed';">
-                      Completed </br><b>
-                        <%=installationCompletedList.length%>
-                      </b>
-                    </div>
+                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+                    onclick="window.location='/seResponseStatus/0/accepted';">
+                    Accepted </br><b>
+                      <%=seAcceptedList.length%>
+                    </b>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+                    onclick="window.location='/seResponseStatus/0/declined';">
+                    Declined </br><b>
+                      <%=seDeclinedList.length%>
+                    </b>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+          <div class="info-box-4 hover-zoom-effect">
+            <div class="content">
+              <div class="text">
+                <b>FARMER RESPONSE STATUS</b>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="text">
+                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+                    onclick="window.location='/viewFarmerStatus/pending';">
+                    Pending </br><b>
+                      <%=farmerPendingList.length%>
+                    </b>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+                    onclick="window.location='/viewFarmerStatus/accepted';">
+                    Accepted </br><b>
+                      <%=farmerAcceptedList.length%>
+                    </b>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+                    onclick="window.location='/viewFarmerStatus/cancelled';">
+                    Cancelled </br><b>
+                      <%=farmerDeclinedList.length%>
+                    </b>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+          <div class="info-box-4 hover-zoom-effect">
+            <div class="content">
+              <div class="text">
+                <b>INSTALLATION STATUS</b>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="text">
+                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+                    onclick="window.location='/viewInstallationStatus/pending';">
+                    Pending </br><b>
+                      <%=installationPendingList.length%>
+                    </b>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+                    onclick="window.location='/viewInstallationStatus/partial';">
+                    Partial </br><b>
+                      <%=installationPartialCompleteList.length%>
+                    </b>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+                    onclick="window.location='/viewInstallationStatus/completed';">
+                    Completed </br><b>
+                      <%=installationCompletedList.length%>
+                    </b>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
 
       <!-- #END# Widgets -->
@@ -310,6 +311,7 @@
                     <th style="text-align: center;">ORDER ID</th>
                     <th style="text-align: center;">BDE NAME</th>
                     <th style="text-align: center;">CREATED DATE</th>
+                    <th style="text-align: center;">FOLLOWUP DATE</th>
                     <th style="text-align: center;">FARMER NAME</th>
                     <th style="text-align: center;">FARM NAME</th>
                     <th style="text-align: center;">FARMER MOBILE</th>
@@ -330,6 +332,13 @@
                       </td>
                       <td width="7%">
                         <%= singleData.data.created_date.substring(0,10) %>
+                      </td>
+                      <td width="7%">
+                        <% if(singleData.data.followup_date != null){%>
+                          <%=singleData.data.followup_date.substring(0,10)%>
+                          <%}else{%>
+                       No Followups
+                       <%}%>
                       </td>
                       <td>
                         <%= singleData.data.order.farmer.firstname %>
@@ -371,9 +380,10 @@
                               <i class="material-icons">call</i>
                             </button></a>
                       </td>
-                      <td> <button data-trigger="focus" data-container="body" data-toggle="popover"
-                      data-placement="top" title="Shipping Address" data-content="<%= singleData.data.order.shipping %>">
-                        <%= singleData.data.region %> </button>
+                      <td> <button data-trigger="focus" data-container="body" data-toggle="popover" data-placement="top"
+                          title="Shipping Address" data-content="<%= singleData.data.order.shipping %>">
+                          <%= singleData.data.region %>
+                        </button>
                       </td>
                       <td>
                         <% singleData.data.order.items.forEach(function(itemsList){ %>
@@ -457,23 +467,61 @@
                                   <li><a href="/addRemarks/<%=singleData.data.id%>/CS - Number doesnt exist"
                                       onclick="enableSubmitButton<%=singleData.data.id%>(0)">Number doesn't exist</a>
                                   </li>
-                                  <li><a href="/addRemarks/<%=singleData.data.id%>/CS - Call me after 1hr"
-                                      onclick="enableSubmitButton<%=singleData.data.id%>(0)">Call me after 1 hr</a>
-                                  </li>
-                                  <li><a href="/addRemarks/<%=singleData.data.id%>/CS - Call me after 1 day"
-                                      onclick="enableSubmitButton<%=singleData.data.id%>(0)">Call me after 1 day</a>
-                                  </li>
-                                  <li><a href="/addRemarks/<%=singleData.data.id%>/CS - Call me after 1 week"
-                                      onclick="enableSubmitButton<%=singleData.data.id%>(0)">Call me after 1 week</a>
-                                  </li>
-                                  <li><a href="/addRemarks/<%=singleData.data.id%>/CS - Call me after 1 month"
-                                      onclick="enableSubmitButton<%=singleData.data.id%>(0)">Call me after 1 month</a>
+                                  <li onclick="openFollowupModal<%=singleData.data.id%>()"><a>Call me later</a>
                                   </li>
                                   <li><a href="/addRemarks/<%=singleData.data.id%>/CS - Customer Abused"
                                       onclick="enableSubmitButton<%=singleData.data.id%>(0)">Customer Abused</a></li>
                                 </ul>
                               </li>
                             </ul>
+
+                           
+
+                            <div class="modal fade" id="followbackModal<%=singleData.data.id%>" tabindex="-1"
+                              role="dialog">
+                              <div class="modal-dialog modal-sm" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h4 class="modal-title" id="largeModalLabel">Add Followup Date</h4>
+                                  </div>
+                                  <div class="modal-body">
+                                    <div class="row clearfix">
+                                      <div><input type="date" class="form-control date"
+                                        id="followupDate<%=singleData.data.id%>" onchange="addFollowupDate<%=singleData.data.id%>(event)"
+                                        required></div>
+                                    </div>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <a href="#" id="followupBtn<%=singleData.data.id%>"><button onclick="removeLocalSTorage()" id="followupBtn<%=singleData.data.id%>1" type="button" class="btn btn-link waves-effect">CREATE FOLLOWUP</button></a>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+
+                            <script>
+                              function openFollowupModal<%=singleData.data.id%>() {
+                                $('#followbackModal<%=singleData.data.id%>').modal('show');
+                              }
+
+                              function addFollowupDate<%=singleData.data.id%> (e) {
+                            localStorage.removeItem("followupDate<%= singleData.data.id%>");
+                            var x = document.getElementById("followupDate<%=singleData.data.id%>").value;
+                            localStorage.setItem("followupDate<%= singleData.data.id%>", x);
+                            localStorage.removeItem("selectedFarmId<%= singleData.data.id%>");
+                            localStorage.removeItem("selectedDate<%= singleData.data.id%>");
+                            localStorage.removeItem("selectedTimeframe<%= singleData.data.id%>");
+                            localStorage.removeItem("remarks<%= singleData.data.id%>");
+                            var followupDate = localStorage.getItem("followupDate<%= singleData.data.id%>");
+
+                            url = "/assignFollowupDate/<%=singleData.data.id%>/Call me later/" + followupDate;
+                            $("#followupBtn<%=singleData.data.id%>").attr("href", url);
+
+                            return true;
+                          }
+                            </script>
+
+
                           </div>
 
                         </div>
