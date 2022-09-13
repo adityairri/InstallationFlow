@@ -55,12 +55,12 @@ module.exports = function () {
   async function (req, res) {
     var req = req.params;
     // console.log(req);
-    var date = req.followupDate + " 00:00";
+    var date = req.followupDate;
     var reqBody = JSON.stringify({
       schedule: {
         id: parseInt(req.id),
         followup_date: date,
-        remarks: req.remarks,
+        remarks: req.remarks+' - '+date,
         schedulestatus: "NEW_ORDER",
       }
     });

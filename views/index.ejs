@@ -385,7 +385,7 @@
                           <%= singleData.data.region %>
                         </button>
                       </td>
-                      <td>
+                      <td style="width: 15%;">
                         <% singleData.data.order.items.forEach(function(itemsList){ %>
                           <% if(itemsList.name=="APFC - Automatic power factor Controller" ){%>
                             APFC - <%= itemsList.quantity %> - <%= itemsList.completed %> </br>
@@ -478,7 +478,7 @@
                            
 
                             <div class="modal fade" id="followbackModal<%=singleData.data.id%>" tabindex="-1"
-                              role="dialog">
+                              role="dialog" data-keyboard="false" data-backdrop="static">
                               <div class="modal-dialog modal-sm" role="document">
                                 <div class="modal-content">
                                   <div class="modal-header">
@@ -486,13 +486,14 @@
                                   </div>
                                   <div class="modal-body">
                                     <div class="row clearfix">
-                                      <div><input type="date" class="form-control date"
+                                      <div><input type="datetime-local" class="form-control date"
                                         id="followupDate<%=singleData.data.id%>" onchange="addFollowupDate<%=singleData.data.id%>(event)"
                                         required></div>
                                     </div>
                                   </div>
                                   <div class="modal-footer">
-                                    <a href="#" id="followupBtn<%=singleData.data.id%>"><button onclick="removeLocalSTorage()" id="followupBtn<%=singleData.data.id%>1" type="button" class="btn btn-link waves-effect">CREATE FOLLOWUP</button></a>
+                                    <a href="#" id="followupBtn<%=singleData.data.id%>"><button onclick="removeLocalSTorage()" id="followupBtn<%=singleData.data.id%>1" type="button" class="btn btn-link waves-effect bg-teal">CREATE FOLLOWUP</button></a>
+                                    <button type="button" class="btn btn-link waves-effect bg-red" data-dismiss="modal">CLOSE</button>
                                   </div>
                                 </div>
                               </div>
