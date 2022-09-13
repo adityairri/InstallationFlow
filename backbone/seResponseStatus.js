@@ -565,7 +565,7 @@ module.exports = function () {
   async function getFarmerPendingList(req, res) {
     var reqBody=JSON.stringify({
       "filter" :{
-          "status" :"FARMER_RECONFIRM"
+          "status" :"SEND_FARMER_CONFIRM"
       }
       
   })
