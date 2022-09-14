@@ -27,6 +27,9 @@
   <!-- Morris Chart Css-->
   <link href="plugins/morrisjs/morris.css" rel="stylesheet" />
 
+     <!-- JQuery DataTable Css -->
+     <link href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet">
+
   <!-- Custom Css -->
   <link href="css/style.css" rel="stylesheet">
 
@@ -216,6 +219,15 @@
                   </div>
                 </div>
               </div>
+              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/readyForInstallation/0';">
+                <div class="info-box-4 hover-zoom-effect">
+                    <div class="content">
+                        <div class="text">READY FOR INSTALLATION</div>
+                        <div class="number count-to" data-from="0" data-to="<%=ReadyForInstallationCount.length%>" data-speed="2" data-fresh-interval="20">
+                        </div>
+                    </div>
+                </div>
+            </div>
               <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/rescheduled';">
                 <div class="info-box-4 hover-zoom-effect">
                   <div class="content">
@@ -226,15 +238,6 @@
                   </div>
                 </div>
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/readyForInstallation/0';">
-                <div class="info-box-4 hover-zoom-effect">
-                    <div class="content">
-                        <div class="text">READY FOR INSTALLATION</div>
-                        <div class="number count-to" data-from="0" data-to="<%=ReadyForInstallationCount.length%>" data-speed="2" data-fresh-interval="20">
-                        </div>
-                    </div>
-                </div>
-            </div>
               
              
             </div>
@@ -348,7 +351,7 @@
                             </ul>
                         </div>
                         <div class="body table-responsive">
-                            <table class="table table-hover">
+                            <table class="table table-bordered table-striped table-hover js-basic-example dataTable" id="installationTable">
                                 <thead>
                                     <tr>
                                         <th style="text-align: center;">ORDER ID</th>
@@ -436,15 +439,18 @@
         </div>
     </section>
 
-
+    <script>
+      $(document).ready( function () {
+      $('#installationTable').DataTable();
+  } );
+    </script>
     <!-- Jquery Core Js -->
   <script src="plugins/jquery/jquery.min.js"></script>
 
   <!-- Bootstrap Core Js -->
   <script src="plugins/bootstrap/js/bootstrap.js"></script>
 
-  <!-- Select Plugin Js -->
-  <!-- <script src="plugins/bootstrap-select/js/bootstrap-select.js"></script> -->
+  <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 
   <!-- Slimscroll Plugin Js -->
   <script src="plugins/jquery-slimscroll/jquery.slimscroll.js"></script>

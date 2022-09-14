@@ -216,6 +216,15 @@
                   </div>
                 </div>
               </div>
+              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/readyForInstallation/0';">
+                <div class="info-box-4 hover-zoom-effect">
+                    <div class="content">
+                        <div class="text">READY FOR INSTALLATION</div>
+                        <div class="number count-to" data-from="0" data-to="<%=ReadyForInstallationCount.length%>" data-speed="2" data-fresh-interval="20">
+                        </div>
+                    </div>
+                </div>
+            </div>
               <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/rescheduled';">
                 <div class="info-box-4 hover-zoom-effect">
                   <div class="content">
@@ -226,15 +235,6 @@
                   </div>
                 </div>
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/readyForInstallation/0';">
-                <div class="info-box-4 hover-zoom-effect">
-                    <div class="content">
-                        <div class="text">READY FOR INSTALLATION</div>
-                        <div class="number count-to" data-from="0" data-to="<%=ReadyForInstallationCount.length%>" data-speed="2" data-fresh-interval="20">
-                        </div>
-                    </div>
-                </div>
-            </div>
               
              
             </div>
@@ -397,20 +397,20 @@
                                                     <%= itemsList.name %>: <b><%= itemsList.quantity %></b></br>
                                                             <% }) %>
                                             </td> -->
-                                            <td><select id="actionsList" onchange="doActions()">
+                                            <td><select id="actionsList<%=singleData.id %>" onchange="doActions<%=singleData.id %>()">
                                                 <option>--SELECT ACTION--</option>
                                                 <option value="1">Farmer Accepted</option>
                                                 <option value="2">Farmer Declined</option>
                                                 </select></br></br>
                                                 <script>
-                                                    function doActions() {
-                                                      var x = document.getElementById("actionsList").value;
-                                                      url = "/changeFarmerStatus/<%= singleData.id %>/"+x;
-                                                        $("#doActions").attr("href", url);
+                                                    function doActions<%=singleData.id %>() {
+                                                      var x = document.getElementById("actionsList<%=singleData.id %>").value;
+                                                      url = "/changeFarmerStatus/<%=singleData.id %>/"+x;
+                                                        $("#doActions<%=singleData.id %>").attr("href", url);
                                                         return true;
                                                     }
                                                     </script>
-                                                <a href="#" id="doActions"><button type="button" class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12">Submit</button></a>
+                                                <a href="#" id="doActions<%=singleData.id %>"><button type="button" class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12">Submit</button></a>
                                             </td>
                                         </tr>
                                         
