@@ -33,7 +33,6 @@ module.exports = function () {
         },
       });
     }
-    // var seDates = new Date(+new Date().setHours(0, 0, 0, 0) + 86400000).toLocaleDateString("fr-CA");
     const resp = await fetch(
       "http://app.aquaexchange.com/api/getInstallationSchedule/",
       {
