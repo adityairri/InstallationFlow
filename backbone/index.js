@@ -136,8 +136,8 @@ module.exports = function () {
     await resp.json().then(async (data) => {
       data.forEach(async (singleInData) => {
         var wooCommerseID = singleInData.order.woo_commerce_order_id;
-        // await getRemarksList(wooCommerseID);
-        var remarks = [];
+        await getRemarksList(wooCommerseID);
+        // var remarks = [];
         // console.log(remarks);
         daata.push({
           remarks: remarks,

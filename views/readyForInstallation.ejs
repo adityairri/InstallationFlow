@@ -268,7 +268,7 @@
                           </div>
                           <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
                             onclick="window.location='/seResponseStatus/0/declined';">
-                            Declined </br><b>
+                            Cancelled </br><b>
                               <%=seDeclinedList.length%>
                             </b>
                           </div>
@@ -395,7 +395,7 @@
                                         <th style="text-align: center;">ACTION</th>
                                     </tr>
                                 </thead>
-                                <tfoot>
+                                <!-- <tfoot>
                                   <tr>
                                       <th style="text-align: center;">ORDER ID</th>
                                       <th style="text-align: center;">BDE NAME</th>
@@ -409,7 +409,7 @@
                                           INSTALLED</th>
                                       <th style="text-align: center;">ACTION</th>
                                   </tr>
-                              </tfoot>
+                              </tfoot> -->
                                 <tbody style="text-align: center;">
                                     <% data1.forEach(function(singleData){ %>
                                         <tr>
@@ -439,30 +439,15 @@
                                             <td width="20%">
                                                 <%= singleData.order.shipping %>
                                             </td>
-                                            <td width="20%">
-                                                <table style="text-align: center; border: 1px solid black, !important;">
-                                                    <tbody>
-                                                        <% singleData.order.items.forEach(function(itemsList){ %>
-                                                            <tr>
-                                                                <td width="20%" style="border: 1px solid black;">
-                                                                    <% if(itemsList.name=="APFC - Automatic power factor Controller"
-                                                                        ){%>
-                                                                        APFC
-                                                                        <%}else{%>
-                                                                            <%= itemsList.name %>
-                                                                                <%}%>
-                                                                </td>
-                                                                <td width="20%" style="border: 1px solid black;">
-                                                                    <%= itemsList.quantity %>
-                                                                </td>
-                                                                <td width="20%" style="border: 1px solid black;">
-                                                                    <%= itemsList.completed %>
-                                                                </td>
-                                                            </tr>
-                                                            <% }) %>
-                                                    </tbody>
-
-                                                </table>
+                                            <td style="width: 15%;">
+                                              <% singleData.order.items.forEach(function(itemsList){ %>
+                                                <% if(itemsList.name=="APFC - Automatic power factor Controller" ){%>
+                                                  APFC - <%= itemsList.quantity %> - <%= itemsList.completed %>0 </br>
+                                                      <%}if(itemsList.name=="Powermon 2.0"){%>
+                                                        Powermon - <%= itemsList.quantity %> - <%= itemsList.completed %>0</br>
+                                                            <%}%>
+                      
+                                                              <% }) %>
                                             </td>
                                             <td>
                                                 <select id="SElistSelect<%=singleData.id%>"

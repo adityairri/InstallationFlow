@@ -209,7 +209,7 @@
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
                     onclick="window.location='/seResponseStatus/0/declined';">
-                    Declined </br><b>
+                    Cancelled </br><b>
                       <%=seDeclinedList.length%>
                     </b>
                   </div>
@@ -324,7 +324,7 @@
                     <th style="text-align: center;">ACTION</th>
                   </tr>
                 </thead>
-                <tfoot>
+                <!-- <tfoot>
                   <tr>
                     <th style="text-align: center;">ORDER ID</th>
                     <th style="text-align: center;">BDE NAME</th>
@@ -338,7 +338,7 @@
                     <th style="text-align: center;">REMARKS</th>
                     <th style="text-align: center;">ACTION</th>
                   </tr>
-                </tfoot>
+                </tfoot> -->
                 <tbody style="text-align: center;">
                   <% data1.forEach(function(singleData){ %>
                     <tr>
@@ -406,9 +406,9 @@
                       <td style="width: 15%;">
                         <% singleData.data.order.items.forEach(function(itemsList){ %>
                           <% if(itemsList.name=="APFC - Automatic power factor Controller" ){%>
-                            APFC - <%= itemsList.quantity %> - <%= itemsList.completed %> </br>
+                            APFC - <%= itemsList.quantity %> - <%= itemsList.completed %> 0 </br>
                                 <%}if(itemsList.name=="Powermon 2.0"){%>
-                                  Powermon - <%= itemsList.quantity %> - <%= itemsList.completed %></br>
+                                  Powermon - <%= itemsList.quantity %> - <%= itemsList.completed %> 0</br>
                                       <%}%>
 
                                         <% }) %>
@@ -640,10 +640,10 @@
                     <% }) %>
                 </tbody>
               </table>
-
+<!-- 
               <button type="button" class="btn bg-indigo btn-circle-lg waves-effect waves-circle waves-float">
                 <i class="material-icons float">add</i>
-              </button>
+              </button> -->
 
             </div>
           </div>

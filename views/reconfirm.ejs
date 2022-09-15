@@ -217,7 +217,7 @@
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
                       onclick="window.location='/seResponseStatus/0/declined';">
-                      Declined </br><b>
+                      Cancelled </br><b>
                         <%=seDeclinedList.length%>
                       </b>
                     </div>
@@ -333,7 +333,7 @@
                   <tr>
                     <th style="text-align: center;">ORDER ID</th>
                     <th style="text-align: center;">BDE NAME</th>
-                    <th style="text-align: center;">CREATED DATE</th>
+                    <th style="text-align: center;">CONFIRMED DATE</th>
                     <th style="text-align: center;">FARMER NAME</th>
                     <th style="text-align: center;">FARM NAME</th>
                     <th style="text-align: center;">FARMER MOBILE</th>
@@ -343,7 +343,7 @@
                     <th style="text-align: center;">ACTION</th>
                   </tr>
                 </thead>
-                <tfoot>
+                <!-- <tfoot>
                   <tr>
                     <th style="text-align: center;">ORDER ID</th>
                     <th style="text-align: center;">BDE NAME</th>
@@ -356,7 +356,7 @@
                     <th style="text-align: center;">REMARKS</th>
                     <th style="text-align: center;">ACTION</th>
                   </tr>
-                </tfoot>
+                </tfoot> -->
                 <tbody style="text-align: center;">
                   <% data1.forEach(function(singleData){ %>
                     <tr>
@@ -367,7 +367,7 @@
                         <%= singleData.data.order.farmer.relationship_BDE.first_name %>
                       </td>
                       <td>
-                        <%= singleData.data.created_date.substring(0,10) %>
+                        <%= singleData.data.confirmed_date.substring(0,10) %>
                       </td>
                       <td>
                         <%= singleData.data.order.farmer.firstname %>
@@ -389,12 +389,12 @@
                         data-placement="top" title="Shipping Address" data-content="<%= singleData.data.order.shipping %>">
                           <%= singleData.data.region %> </button>
                         </td>
-                        <td>
+                        <td style="width: 15%;">
                           <% singleData.data.order.items.forEach(function(itemsList){ %>
                             <% if(itemsList.name=="APFC - Automatic power factor Controller" ){%>
-                              APFC - <%= itemsList.quantity %> - <%= itemsList.completed %> </br>
+                              APFC - <%= itemsList.quantity %> - <%= itemsList.completed %> 0 </br>
                                   <%}if(itemsList.name=="Powermon 2.0"){%>
-                                    Powermon - <%= itemsList.quantity %> - <%= itemsList.completed %></br>
+                                    Powermon - <%= itemsList.quantity %> - <%= itemsList.completed %> 0</br>
                                         <%}%>
   
                                           <% }) %>
@@ -455,14 +455,13 @@
                         </style>
 
                       </td>
-                      <td>
-                        <div class="row clearfix">
-                          <a href="/confirmFarmerReconfirmDate/<%=singleData.data.id%>"><button class="btn bg-green waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12">Confirm Date</button>
+                      <td style="width: 10%;">
+                          <a href="/confirmFarmerReconfirmDate/<%=singleData.data.id%>"><button class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12">Confirm</button>
                         </a></br>
-                        <a href="#"><button class="btn bg-orange waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12" disabled>Reschedule</button>
-                      </a>
-                        </div>
-                        
+                        <a href="#"><button class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12"> Confirm Date</button>
+                        </a>
+                        <a href="#"><button class="btn bg-orange waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12" >Reschedule</button>
+                        </a>
                       </td>
                     </tr>
                     <% }) %>

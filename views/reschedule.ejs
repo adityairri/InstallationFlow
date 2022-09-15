@@ -217,7 +217,7 @@
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
                       onclick="window.location='/seResponseStatus/0/declined';">
-                      Declined </br><b>
+                      Cancelled </br><b>
                         <%=seDeclinedList.length%>
                       </b>
                     </div>
@@ -320,6 +320,7 @@
                 <thead>
                   <tr>
                     <th style="text-align: center;">ORDER ID</th>
+                    <th style="text-align: center;">REASON</th>
                     <th style="text-align: center;">BDE NAME</th>
                     <th style="text-align: center;">CREATED DATE</th>
                     <th style="text-align: center;">FARMER NAME</th>
@@ -331,7 +332,7 @@
                     <th style="text-align: center;">ACTION</th>
                   </tr>
                 </thead>
-                <tfoot>
+                <!-- <tfoot>
                   <tr>
                     <th style="text-align: center;">ORDER ID</th>
                     <th style="text-align: center;">BDE NAME</th>
@@ -344,7 +345,7 @@
                     <th style="text-align: center;">REMARKS</th>
                     <th style="text-align: center;">ACTION</th>
                   </tr>
-                </tfoot>
+                </tfoot> -->
                 <tbody style="text-align: center;">
                   <% SErescheduledOrders.forEach(function(singleData){ %>
                     <tr>
@@ -352,6 +353,9 @@
                         <%= singleData.data.order.woo_commerce_order_id %>
                       </td>
                       <td>
+                        <b>SE Rescheduled</b>
+                      </td>
+                      <td>
                         <%= singleData.data.order.farmer.relationship_BDE.first_name %>
                       </td>
                       <td>
@@ -380,9 +384,9 @@
                         <td>
                           <% singleData.data.order.items.forEach(function(itemsList){ %>
                             <% if(itemsList.name=="APFC - Automatic power factor Controller" ){%>
-                              APFC - <%= itemsList.quantity %> - <%= itemsList.completed %> </br>
+                              APFC - <%= itemsList.quantity %> - <%= itemsList.completed %> 0 </br>
                                   <%}if(itemsList.name=="Powermon 2.0"){%>
-                                    Powermon - <%= itemsList.quantity %> - <%= itemsList.completed %></br>
+                                    Powermon - <%= itemsList.quantity %> - <%= itemsList.completed %> 0</br>
                                         <%}%>
   
                                           <% }) %>
@@ -444,375 +448,235 @@
 
                       </td>
                       <td>
-                        <div class="row clearfix">
-                          <a href="/confirmFarmerReconfirmDate/<%=singleData.data.id%>"><button class="btn bg-green waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12">Confirm Date</button>
-                        </a></br>
-                        <a href="#"><button class="btn bg-orange waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12" disabled>Reschedule</button>
-                      </a>
-                        </div>
+                        <a href="#"><button class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12"> Confirm Date</button>
+                        </a>
                         
                       </td>
                     </tr>
                     <% }) %>
-                </tbody>
-              </table>
-
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- #END# Hover Rows -->
 
 
 
-
-
-
-
-
-
-
-
-      <!-- Hover Rows -->
-      <div class="row clearfix">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-          <div class="card">
-            <div class="header">
-              <h2>
-                SM-RESCHEDULED ORDERS
-              </h2>
-              <ul class="header-dropdown m-r--5">
-                <li class="dropdown">
-                  <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                    aria-haspopup="true" aria-expanded="false">
-                    <i class="material-icons">more_vert</i>
-                  </a>
-                  <ul class="dropdown-menu pull-right">
-                    <li><a href="javascript:void(0);">Action</a></li>
-                    <li><a href="javascript:void(0);">Another action</a></li>
-                    <li><a href="javascript:void(0);">Something else here</a></li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-            <div class="body table-responsive">
-              <table class="table table-bordered table-striped table-hover js-basic-example dataTable" id="smRescheduleTable">
-                <thead>
-                  <tr>
-                    <th style="text-align: center;">ORDER ID</th>
-                    <th style="text-align: center;">BDE NAME</th>
-                    <th style="text-align: center;">CREATED DATE</th>
-                    <th style="text-align: center;">FARMER NAME</th>
-                    <th style="text-align: center;">FARM NAME</th>
-                    <th style="text-align: center;">FARMER MOBILE</th>
-                    <th style="text-align: center;">REGION</th>
-                    <th style="text-align: center;">ITEMS &nbsp;-&nbsp; ORD &nbsp;-&nbsp; INST</th>
-                    <th style="text-align: center;">REMARKS</th>
-                    <th style="text-align: center;">ACTION</th>
-                  </tr>
-                </thead>
-                <tfoot>
-                  <tr>
-                    <th style="text-align: center;">ORDER ID</th>
-                    <th style="text-align: center;">BDE NAME</th>
-                    <th style="text-align: center;">CREATED DATE</th>
-                    <th style="text-align: center;">FARMER NAME</th>
-                    <th style="text-align: center;">FARM NAME</th>
-                    <th style="text-align: center;">FARMER MOBILE</th>
-                    <th style="text-align: center;">REGION</th>
-                    <th style="text-align: center;">ITEMS &nbsp;-&nbsp; ORD &nbsp;-&nbsp; INST</th>
-                    <th style="text-align: center;">REMARKS</th>
-                    <th style="text-align: center;">ACTION</th>
-                  </tr>
-                </tfoot>
-                <tbody style="text-align: center;">
-                  <% SMrescheduledOrders.forEach(function(singleData){ %>
-                    <tr>
-                      <td>
-                        <%= singleData.data.order.woo_commerce_order_id %>
-                      </td>
-                      <td>
-                        <%= singleData.data.order.farmer.relationship_BDE.first_name %>
-                      </td>
-                      <td>
-                        <%= singleData.data.created_date.substring(0,10) %>
-                      </td>
-                      <td>
-                        <%= singleData.data.order.farmer.firstname %>
-                      </td>
-                      <td>
-                        <% singleData.data.farms.forEach(singleFarmName=>{%>
-                          <%= singleFarmName.farm.farm_name %> </br>
-                          <%}) %>
-
-                      </td>
-                      <td>
-                        <%= singleData.data.order.farmer.mobile_number %></br><a
-                            href="tel:<%= singleData.data.order.farmer.mobile_number %>"><button type="button"
-                              class="btn bg-teal btn-circle waves-effect waves-circle waves-float">
-                              <i class="material-icons">call</i>
-                            </button></a>
-                      </td>
-                      <td> <button data-trigger="focus" data-container="body" data-toggle="popover"
-                        data-placement="top" title="Shipping Address" data-content="<%= singleData.data.order.shipping %>">
-                          <%= singleData.data.region %> </button>
+                    <% SMrescheduledOrders.forEach(function(singleData){ %>
+                      <tr>
+                        <td>
+                          <%= singleData.data.order.woo_commerce_order_id %>
                         </td>
                         <td>
-                          <% singleData.data.order.items.forEach(function(itemsList){ %>
-                            <% if(itemsList.name=="APFC - Automatic power factor Controller" ){%>
-                              APFC - <%= itemsList.quantity %> - <%= itemsList.completed %> </br>
-                                  <%}if(itemsList.name=="Powermon 2.0"){%>
-                                    Powermon - <%= itemsList.quantity %> - <%= itemsList.completed %></br>
-                                        <%}%>
-  
-                                          <% }) %>
+                          <b>SM Rescheduled</b>
                         </td>
-                      <td>
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
-                            <% singleData.remarks.slice(0, 3).forEach(singleRemark=> {%>
-                              <% if(singleRemark.remarks.length !=0 ){%>
-                                <%= singleRemark.remarks%></br>
-                                  <%}else if(singleRemark.remarks.length==0){%>
-                                    No Remarks
-                                    <%}%>
-                                      <% }) %>
-
-                                        <div class="modal fade" id="modal<%=singleData.data.id%>" tabindex="-1"
-                                          role="dialog">
-                                          <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                              <div class="modal-header">
-                                                <h4 class="modal-title" id="defaultModalLabel">REMARKS</h4>
-                                              </div>
-                                              <div class="modal-body">
-                                                <table>
-                                                  <% singleData.remarks.forEach(singleRemark=> {%>
-                                                    <% if(singleRemark.remarks.length !=0 ){%>
-                                                      <tr>
-                                                        <td>
-                                                          <%= singleRemark.modified_date%>
-                                                        </td>
-                                                        <td>
-                                                          <%= singleRemark.remarks%>
-                                                        </td>
-                                                      </tr>
-                                                      <%}else if(singleRemark.remarks.length==0){%>
-                                                        No Remarks
-                                                        <%}%>
-                                                          <% }) %>
-                                                </table>
-                                              </div>
-                                              <div class="modal-footer">
-                                                <button type="button" class="btn btn-link waves-effect"
-                                                  data-dismiss="modal">CLOSE</button>
+                        <td>
+                          <%= singleData.data.order.farmer.relationship_BDE.first_name %>
+                        </td>
+                        <td>
+                          <%= singleData.data.created_date.substring(0,10) %>
+                        </td>
+                        <td>
+                          <%= singleData.data.order.farmer.firstname %>
+                        </td>
+                        <td>
+                          <% singleData.data.farms.forEach(singleFarmName=>{%>
+                            <%= singleFarmName.farm.farm_name %> </br>
+                            <%}) %>
+  
+                        </td>
+                        <td>
+                          <%= singleData.data.order.farmer.mobile_number %></br><a
+                              href="tel:<%= singleData.data.order.farmer.mobile_number %>"><button type="button"
+                                class="btn bg-teal btn-circle waves-effect waves-circle waves-float">
+                                <i class="material-icons">call</i>
+                              </button></a>
+                        </td>
+                        <td> <button data-trigger="focus" data-container="body" data-toggle="popover"
+                          data-placement="top" title="Shipping Address" data-content="<%= singleData.data.order.shipping %>">
+                            <%= singleData.data.region %> </button>
+                          </td>
+                          <td>
+                            <% singleData.data.order.items.forEach(function(itemsList){ %>
+                              <% if(itemsList.name=="APFC - Automatic power factor Controller" ){%>
+                                APFC - <%= itemsList.quantity %> - <%= itemsList.completed %> 0 </br>
+                                    <%}if(itemsList.name=="Powermon 2.0"){%>
+                                      Powermon - <%= itemsList.quantity %> - <%= itemsList.completed %> 0</br>
+                                          <%}%>
+    
+                                            <% }) %>
+                          </td>
+                        <td>
+                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+  
+                              <% singleData.remarks.slice(0, 3).forEach(singleRemark=> {%>
+                                <% if(singleRemark.remarks.length !=0 ){%>
+                                  <%= singleRemark.remarks%></br>
+                                    <%}else if(singleRemark.remarks.length==0){%>
+                                      No Remarks
+                                      <%}%>
+                                        <% }) %>
+  
+                                          <div class="modal fade" id="modal<%=singleData.data.id%>" tabindex="-1"
+                                            role="dialog">
+                                            <div class="modal-dialog" role="document">
+                                              <div class="modal-content">
+                                                <div class="modal-header">
+                                                  <h4 class="modal-title" id="defaultModalLabel">REMARKS</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                  <table>
+                                                    <% singleData.remarks.forEach(singleRemark=> {%>
+                                                      <% if(singleRemark.remarks.length !=0 ){%>
+                                                        <tr>
+                                                          <td>
+                                                            <%= singleRemark.modified_date%>
+                                                          </td>
+                                                          <td>
+                                                            <%= singleRemark.remarks%>
+                                                          </td>
+                                                        </tr>
+                                                        <%}else if(singleRemark.remarks.length==0){%>
+                                                          No Remarks
+                                                          <%}%>
+                                                            <% }) %>
+                                                  </table>
+                                                </div>
+                                                <div class="modal-footer">
+                                                  <button type="button" class="btn btn-link waves-effect"
+                                                    data-dismiss="modal">CLOSE</button>
+                                                </div>
                                               </div>
                                             </div>
                                           </div>
-                                        </div>
-
-
-                                        <i class="material-icons" data-toggle="modal"
-                                          data-target="#modal<%=singleData.data.id%>">more_horiz</i>
-
-                        </div>
-                        <style>
-                          li {
-                            list-style-type: none;
-                          }
-                        </style>
-
-                      </td>
-                      <td>
-                        <div class="row clearfix">
-                          <a href="/confirmFarmerReconfirmDate/<%=singleData.data.id%>"><button class="btn bg-green waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12">Confirm Date</button>
-                        </a></br>
-                        <a href="#"><button class="btn bg-orange waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12" disabled>Reschedule</button>
-                      </a>
-                        </div>
-                        
-                      </td>
-                    </tr>
-                    <% }) %>
-                </tbody>
-              </table>
-
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- #END# Hover Rows -->
-
-
-
-
-
-
-
-
-
-
-      <!-- Hover Rows -->
-      <div class="row clearfix">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-          <div class="card">
-            <div class="header">
-              <h2>
-                FARMER RESCHEDULED ORDERS
-              </h2>
-              <ul class="header-dropdown m-r--5">
-                <li class="dropdown">
-                  <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                    aria-haspopup="true" aria-expanded="false">
-                    <i class="material-icons">more_vert</i>
-                  </a>
-                  <ul class="dropdown-menu pull-right">
-                    <li><a href="javascript:void(0);">Action</a></li>
-                    <li><a href="javascript:void(0);">Another action</a></li>
-                    <li><a href="javascript:void(0);">Something else here</a></li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-            <div class="body table-responsive">
-              <table class="table table-bordered table-striped table-hover js-basic-example dataTable" id="farmRescheduleTable">
-                <thead>
-                  <tr>
-                    <th style="text-align: center;">ORDER ID</th>
-                    <th style="text-align: center;">BDE NAME</th>
-                    <th style="text-align: center;">CREATED DATE</th>
-                    <th style="text-align: center;">FARMER NAME</th>
-                    <th style="text-align: center;">FARM NAME</th>
-                    <th style="text-align: center;">FARMER MOBILE</th>
-                    <th style="text-align: center;">REGION</th>
-                    <th style="text-align: center;">ITEMS &nbsp;-&nbsp; ORD &nbsp;-&nbsp; INST</th>
-                    <th style="text-align: center;">REMARKS</th>
-                    <th style="text-align: center;">ACTION</th>
-                  </tr>
-                </thead>
-                <tfoot>
-                  <tr>
-                    <th style="text-align: center;">ORDER ID</th>
-                    <th style="text-align: center;">BDE NAME</th>
-                    <th style="text-align: center;">CREATED DATE</th>
-                    <th style="text-align: center;">FARMER NAME</th>
-                    <th style="text-align: center;">FARM NAME</th>
-                    <th style="text-align: center;">FARMER MOBILE</th>
-                    <th style="text-align: center;">REGION</th>
-                    <th style="text-align: center;">ITEMS &nbsp;-&nbsp; ORD &nbsp;-&nbsp; INST</th>
-                    <th style="text-align: center;">REMARKS</th>
-                    <th style="text-align: center;">ACTION</th>
-                  </tr>
-                </tfoot>
-                <tbody style="text-align: center;">
-                  <% FarmerRescheduledOrders.forEach(function(singleData){ %>
-                    <tr>
-                      <td>
-                        <%= singleData.data.order.woo_commerce_order_id %>
-                      </td>
-                      <td>
-                        <%= singleData.data.order.farmer.relationship_BDE.first_name %>
-                      </td>
-                      <td>
-                        <%= singleData.data.created_date.substring(0,10) %>
-                      </td>
-                      <td>
-                        <%= singleData.data.order.farmer.firstname %>
-                      </td>
-                      <td>
-                        <% singleData.data.farms.forEach(singleFarmName=>{%>
-                          <%= singleFarmName.farm.farm_name %> </br>
-                          <%}) %>
-
-                      </td>
-                      <td>
-                        <%= singleData.data.order.farmer.mobile_number %></br><a
-                            href="tel:<%= singleData.data.order.farmer.mobile_number %>"><button type="button"
-                              class="btn bg-teal btn-circle waves-effect waves-circle waves-float">
-                              <i class="material-icons">call</i>
-                            </button></a>
-                      </td>
-                      <td> <button data-trigger="focus" data-container="body" data-toggle="popover"
-                        data-placement="top" title="Shipping Address" data-content="<%= singleData.data.order.shipping %>">
-                          <%= singleData.data.region %> </button>
+  
+  
+                                          <i class="material-icons" data-toggle="modal"
+                                            data-target="#modal<%=singleData.data.id%>">more_horiz</i>
+  
+                          </div>
+                          <style>
+                            li {
+                              list-style-type: none;
+                            }
+                          </style>
+  
                         </td>
                         <td>
-                          <% singleData.data.order.items.forEach(function(itemsList){ %>
-                            <% if(itemsList.name=="APFC - Automatic power factor Controller" ){%>
-                              APFC - <%= itemsList.quantity %> - <%= itemsList.completed %> </br>
-                                  <%}if(itemsList.name=="Powermon 2.0"){%>
-                                    Powermon - <%= itemsList.quantity %> - <%= itemsList.completed %></br>
-                                        <%}%>
-  
-                                          <% }) %>
+                          <a href="#"><button class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12"> Confirm Date</button>
+                          </a>
+                          
                         </td>
-                      <td>
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                      </tr>
+                      <% }) %>
 
-                            <% singleData.remarks.slice(0, 3).forEach(singleRemark=> {%>
-                              <% if(singleRemark.remarks.length !=0 ){%>
-                                <%= singleRemark.remarks%></br>
-                                  <%}else if(singleRemark.remarks.length==0){%>
-                                    No Remarks
-                                    <%}%>
-                                      <% }) %>
 
-                                        <div class="modal fade" id="modal<%=singleData.data.id%>" tabindex="-1"
-                                          role="dialog">
-                                          <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                              <div class="modal-header">
-                                                <h4 class="modal-title" id="defaultModalLabel">REMARKS</h4>
-                                              </div>
-                                              <div class="modal-body">
-                                                <table>
-                                                  <% singleData.remarks.forEach(singleRemark=> {%>
-                                                    <% if(singleRemark.remarks.length !=0 ){%>
-                                                      <tr>
-                                                        <td>
-                                                          <%= singleRemark.modified_date%>
-                                                        </td>
-                                                        <td>
-                                                          <%= singleRemark.remarks%>
-                                                        </td>
-                                                      </tr>
-                                                      <%}else if(singleRemark.remarks.length==0){%>
-                                                        No Remarks
-                                                        <%}%>
-                                                          <% }) %>
-                                                </table>
-                                              </div>
-                                              <div class="modal-footer">
-                                                <button type="button" class="btn btn-link waves-effect"
-                                                  data-dismiss="modal">CLOSE</button>
+
+
+
+
+                      <% FarmerRescheduledOrders.forEach(function(singleData){ %>
+                        <tr>
+                          <td>
+                            <%= singleData.data.order.woo_commerce_order_id %>
+                          </td>
+                          <td>
+                            <b>Farmer Rescheduled</b>
+                          </td>
+                          <td>
+                            <%= singleData.data.order.farmer.relationship_BDE.first_name %>
+                          </td>
+                          <td>
+                            <%= singleData.data.created_date.substring(0,10) %>
+                          </td>
+                          <td>
+                            <%= singleData.data.order.farmer.firstname %>
+                          </td>
+                          <td>
+                            <% singleData.data.farms.forEach(singleFarmName=>{%>
+                              <%= singleFarmName.farm.farm_name %> </br>
+                              <%}) %>
+    
+                          </td>
+                          <td>
+                            <%= singleData.data.order.farmer.mobile_number %></br><a
+                                href="tel:<%= singleData.data.order.farmer.mobile_number %>"><button type="button"
+                                  class="btn bg-teal btn-circle waves-effect waves-circle waves-float">
+                                  <i class="material-icons">call</i>
+                                </button></a>
+                          </td>
+                          <td> <button data-trigger="focus" data-container="body" data-toggle="popover"
+                            data-placement="top" title="Shipping Address" data-content="<%= singleData.data.order.shipping %>">
+                              <%= singleData.data.region %> </button>
+                            </td>
+                            <td>
+                              <% singleData.data.order.items.forEach(function(itemsList){ %>
+                                <% if(itemsList.name=="APFC - Automatic power factor Controller" ){%>
+                                  APFC - <%= itemsList.quantity %> - <%= itemsList.completed %> 0 </br>
+                                      <%}if(itemsList.name=="Powermon 2.0"){%>
+                                        Powermon - <%= itemsList.quantity %> - <%= itemsList.completed %> 0</br>
+                                            <%}%>
+      
+                                              <% }) %>
+                            </td>
+                          <td>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    
+                                <% singleData.remarks.slice(0, 3).forEach(singleRemark=> {%>
+                                  <% if(singleRemark.remarks.length !=0 ){%>
+                                    <%= singleRemark.remarks%></br>
+                                      <%}else if(singleRemark.remarks.length==0){%>
+                                        No Remarks
+                                        <%}%>
+                                          <% }) %>
+    
+                                            <div class="modal fade" id="modal<%=singleData.data.id%>" tabindex="-1"
+                                              role="dialog">
+                                              <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                  <div class="modal-header">
+                                                    <h4 class="modal-title" id="defaultModalLabel">REMARKS</h4>
+                                                  </div>
+                                                  <div class="modal-body">
+                                                    <table>
+                                                      <% singleData.remarks.forEach(singleRemark=> {%>
+                                                        <% if(singleRemark.remarks.length !=0 ){%>
+                                                          <tr>
+                                                            <td>
+                                                              <%= singleRemark.modified_date%>
+                                                            </td>
+                                                            <td>
+                                                              <%= singleRemark.remarks%>
+                                                            </td>
+                                                          </tr>
+                                                          <%}else if(singleRemark.remarks.length==0){%>
+                                                            No Remarks
+                                                            <%}%>
+                                                              <% }) %>
+                                                    </table>
+                                                  </div>
+                                                  <div class="modal-footer">
+                                                    <button type="button" class="btn btn-link waves-effect"
+                                                      data-dismiss="modal">CLOSE</button>
+                                                  </div>
+                                                </div>
                                               </div>
                                             </div>
-                                          </div>
-                                        </div>
-
-
-                                        <i class="material-icons" data-toggle="modal"
-                                          data-target="#modal<%=singleData.data.id%>">more_horiz</i>
-
-                        </div>
-                        <style>
-                          li {
-                            list-style-type: none;
-                          }
-                        </style>
-
-                      </td>
-                      <td>
-                        <div class="row clearfix">
-                          <a href="/confirmFarmerReconfirmDate/<%=singleData.data.id%>"><button class="btn bg-green waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12">Confirm Date</button>
-                        </a></br>
-                        <a href="#"><button class="btn bg-orange waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12" disabled>Reschedule</button>
-                      </a>
-                        </div>
-                        
-                      </td>
-                    </tr>
-                    <% }) %>
+    
+    
+                                            <i class="material-icons" data-toggle="modal"
+                                              data-target="#modal<%=singleData.data.id%>">more_horiz</i>
+    
+                            </div>
+                            <style>
+                              li {
+                                list-style-type: none;
+                              }
+                            </style>
+    
+                          </td>
+                          <td>
+                            <a href="#"><button class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12"> Confirm Date</button>
+                            </a>
+                            
+                          </td>
+                        </tr>
+                        <% }) %>
                 </tbody>
               </table>
 
@@ -821,7 +685,11 @@
         </div>
       </div>
       <!-- #END# Hover Rows -->
-    </div>
+
+
+
+
+ </div>
 
   </section>
 

@@ -262,7 +262,7 @@
                           Accepted </br><b><%=seAcceptedList.length%></b>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/seResponseStatus/0/declined';">
-                          Declined </br><b><%=seDeclinedList.length%></b>
+                          Cancelled </br><b><%=seDeclinedList.length%></b>
                         </div>
                       </div>
                     </div>
@@ -359,7 +359,6 @@
                                         <th style="text-align: center;">FARMER NAME</th>
                                         <th style="text-align: center;">FARMER MOBILE</th>
                                         <th style="text-align: center;">REGION</th>
-                                        <th style="text-align: center;">SHIPPING ADDRESS</th>
                                         <th style="text-align: center;">ITEMS &nbsp;-&nbsp; ORDERED &nbsp;-&nbsp; INSTALLED</th>
                                         <!-- <th style="text-align: center;">ACTION</th> -->
                                     </tr>
@@ -379,41 +378,25 @@
                                             <td>
                                                 <%= singleData.order.farmer.mobile_number %>
                                             </td>
-                                            <td>
-                                                <%= singleData.region %>
-                                            </td>
-                                            <td width="20%">
-                                                <%= singleData.order.shipping %>
-                                            </td>
-                                            <td width="20%">
-                                                <table style="text-align: center; border: 1px solid black, !important;">
-                                                  <tbody>
-                                                    <% singleData.order.items.forEach(function(itemsList){ %>
-                                                      <tr>
-                                                        <td width="20%" style="border: 1px solid black;">
-                                                          <% if(itemsList.name=="APFC - Automatic power factor Controller" ){%>
-                                                            APFC
-                                                            <%}else{%>
-                                                              <%= itemsList.name %>
-                                                                <%}%>
-                                                        </td>
-                                                        <td width="20%" style="border: 1px solid black;">
-                                                          <%= itemsList.quantity %>
-                                                        </td>
-                                                        <td width="20%" style="border: 1px solid black;">
-                                                          <%= itemsList.completed %>
-                                                        </td>
-                                                      </tr>
-                                                      <% }) %>
-                                                  </tbody>
-                        
-                                                </table>
+                                            <td> <button data-trigger="focus" data-container="body" data-toggle="popover"
+                                              data-placement="top" title="Shipping Address" data-content="<%= singleData.order.shipping %>">
+                                                <%= singleData.region %> </button>
                                               </td>
+                                            <td style="width: 15%;">
+                                              <% singleData.order.items.forEach(function(itemsList){ %>
+                                                <% if(itemsList.name=="APFC - Automatic power factor Controller" ){%>
+                                                  APFC - <%= itemsList.quantity %> - <%= itemsList.completed %>0 </br>
+                                                      <%}if(itemsList.name=="Powermon 2.0"){%>
+                                                        Powermon - <%= itemsList.quantity %> - <%= itemsList.completed %>0</br>
+                                                            <%}%>
+                      
+                                                              <% }) %>
+                                            </td>
                                             <!-- <td><select id="actionsList" onchange="doActions()">
                                                 <option value="">--SELECT ACTION--</option>
                                                 <option value="1">Farmer Pending</option>
                                                 <option value="2">Farmer Accepted</option>
-                                                <option value="3">Farmer Declined</option>
+                                                <option value="3">Farmer Cancelled</option>
                                                 </select></br></br>
                                                 <script>
                                                     function doActions() {
@@ -446,6 +429,7 @@
     </script>
     <!-- Jquery Core Js -->
   <script src="plugins/jquery/jquery.min.js"></script>
+  <script src="js/pages/ui/tooltips-popovers.js"></script>
 
   <!-- Bootstrap Core Js -->
   <script src="plugins/bootstrap/js/bootstrap.js"></script>
