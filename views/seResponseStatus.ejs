@@ -380,7 +380,7 @@
                             </ul>
                         </div>
                         <div class="body table-responsive">
-                            <table class="table table-hover">
+                          <table class="table table-bordered table-striped table-hover js-basic-example dataTable1" id="seRespStatusPendingTable">
                                 <thead>
                                     <tr>
                                         <th style="text-align: center;">ORDER ID</th>
@@ -416,7 +416,7 @@
                                                 <%= singleData.region %> </button>
                                               </td>
                                               <td style="width: 15%;">
-                                                <% singleData.data.order.items.forEach(function(itemsList){ %>
+                                                <% singleData.order.items.forEach(function(itemsList){ %>
                                                   <% if(itemsList.name=="APFC - Automatic power factor Controller" ){%>
                                                     APFC - <%= itemsList.quantity %> - <%= itemsList.completed %> 0 </br>
                                                         <%}if(itemsList.name=="Powermon 2.0"){%>
@@ -495,7 +495,7 @@
                                 </ul>
                             </div>
                             <div class="body table-responsive">
-                                <table class="table table-hover">
+                              <table class="table table-bordered table-striped table-hover js-basic-example dataTable2" id="seRespStatusAcceptedTable">
                                     <thead>
                                         <tr>
                                             <th style="text-align: center;">ORDER ID</th>
@@ -611,7 +611,7 @@
                                     </ul>
                                 </div>
                                 <div class="body table-responsive">
-                                    <table class="table table-hover">
+                                  <table class="table table-bordered table-striped table-hover js-basic-example dataTable3" id="seRespStatusCancelTable">
                                         <thead>
                                             <tr>
                                                 <th style="text-align: center;">ORDER ID</th>
@@ -660,19 +660,7 @@
                                                     <td>
                                                       <%= singleData.order.remarks %>
                                                   </td>
-                                                    <!-- <td><select id="actionsList" onchange="doActions()">
-                                                        <option value="">--SELECT ACTION--</option>
-                                                        </select></br></br>
-                                                        <script>
-                                                            function doActions() {
-                                                              var x = document.getElementById("actionsList").value;
-                                                              url = "/doActions/<%= singleData.id %>/"+x;
-                                                                $("#doActions").attr("href", url);
-                                                                return true;
-                                                            }
-                                                            </script>
-                                                        <a href="#" id="doActions"><button type="button" class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12">Submit</button></a>
-                                                    </td> -->
+                                                    
                                                     <td>
                                                         <a href="/cancelledSEreschedule/<%=singleData.id%>"><button type="button" class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12">Reschedule</button></a>
                                                     </td>
@@ -691,11 +679,13 @@
         </div>
     </section>
 
-    <!-- <script>
+    <script>
       $(document).ready( function () {
-      $('#seResponseTable').DataTable();
+        $('#seRespStatusPendingTable').DataTable1();
+        $('#seRespStatusAcceptedTable').DataTable2();
+      $('#seRespStatusCancelTable').DataTable3();
   } );
-    </script> -->
+    </script>
     <!-- Jquery Core Js -->
   <script src="plugins/jquery/jquery.min.js"></script>
   <script src="js/pages/ui/tooltips-popovers.js"></script>
@@ -736,6 +726,7 @@
     <script src="js/admin.js"></script>
     <script src="js/pages/index.js"></script>
     <script src="js/pages/ui/modals.js"></script>
+    <script src="js/pages/tables/jquery-datatable.js"></script>
 
     <!-- Demo Js -->
     <script src="js/demo.js"></script>
