@@ -30,13 +30,13 @@ module.exports = function () {
 
       // console.log(reqBody);
       const resp = await fetch(
-        "http://app.aquaexchange.com/api/updateInstallationSchedule/",
+        "http://45.79.117.26:8000/api/updateInstallationSchedule/",
         {
           method: "post",
           body: reqBody,
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
+            "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
           },
         }
       );
@@ -65,13 +65,13 @@ module.exports = function () {
 
       // console.log(reqBody);
       const resp = await fetch(
-        "http://app.aquaexchange.com/api/updateInstallationSchedule/",
+        "http://45.79.117.26:8000/api/updateInstallationSchedule/",
         {
           method: "post",
           body: reqBody,
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
+            "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
           },
         }
       );
@@ -94,13 +94,13 @@ module.exports = function () {
       },
     });
     const resp = await fetch(
-      "http://app.aquaexchange.com/api/updateInstallationSchedule/",
+      "http://45.79.117.26:8000/api/updateInstallationSchedule/",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
+          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
         },
       }
     );
@@ -122,13 +122,13 @@ module.exports = function () {
       },
     });
     const resp = await fetch(
-      "http://app.aquaexchange.com/api/getInstallationSchedule/",
+      "http://45.79.117.26:8000/api/getInstallationSchedule/",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
+          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
         },
       }
     );
@@ -137,9 +137,10 @@ module.exports = function () {
       data.forEach(async (singleInData) => {
         var wooCommerseID = singleInData.order.woo_commerce_order_id;
         // await getRemarksList(wooCommerseID);
+        var remarks = [];
         // console.log(remarks);
         daata.push({
-          remarks: [],
+          remarks: remarks,
           data: singleInData,
         });
       });
@@ -194,12 +195,12 @@ module.exports = function () {
         status: "CANCELLED_SE_RESCHEDULE",
       },
     });
-    var resp = await fetch("http://app.aquaexchange.com/api/getInstallationSchedule/",{
+    var resp = await fetch("http://45.79.117.26:8000/api/getInstallationSchedule/",{
         method: "POST",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
+          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
         },
       }
     );
@@ -228,13 +229,13 @@ module.exports = function () {
       },
     });
     const resp = await fetch(
-      "http://app.aquaexchange.com/api/getInstallationSchedule/",
+      "http://45.79.117.26:8000/api/getInstallationSchedule/",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
+          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
         },
       }
     );
@@ -261,13 +262,13 @@ module.exports = function () {
       },
     });
     const resp = await fetch(
-      "http://app.aquaexchange.com/api/getInstallationSchedule/",
+      "http://45.79.117.26:8000/api/getInstallationSchedule/",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
+          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
         },
       }
     );
@@ -294,13 +295,13 @@ module.exports = function () {
       },
     });
     const resp = await fetch(
-      "http://app.aquaexchange.com/api/getInstallationSchedule/",
+      "http://45.79.117.26:8000/api/getInstallationSchedule/",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
+          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
         },
       }
     );
@@ -318,13 +319,13 @@ module.exports = function () {
       },
     });
     const resp = await fetch(
-      "http://app.aquaexchange.com/api/getInstallationSchedule/",
+      "http://45.79.117.26:8000/api/getInstallationSchedule/",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
+          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
         },
       }
     );
@@ -342,13 +343,13 @@ module.exports = function () {
       },
     });
     const resp = await fetch(
-      "http://app.aquaexchange.com/api/getInstallationSchedule/",
+      "http://45.79.117.26:8000/api/getInstallationSchedule/",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
+          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
         },
       }
     );
@@ -366,13 +367,13 @@ module.exports = function () {
       },
     });
     const resp = await fetch(
-      "http://app.aquaexchange.com/api/getInstallationSchedule/",
+      "http://45.79.117.26:8000/api/getInstallationSchedule/",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
+          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
         },
       }
     );
@@ -390,13 +391,13 @@ module.exports = function () {
       },
     });
     const resp = await fetch(
-      "http://app.aquaexchange.com/api/getInstallationSchedule/",
+      "http://45.79.117.26:8000/api/getInstallationSchedule/",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
+          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
         },
       }
     );
@@ -414,13 +415,13 @@ module.exports = function () {
       },
     });
     const resp = await fetch(
-      "http://app.aquaexchange.com/api/getInstallationSchedule/",
+      "http://45.79.117.26:8000/api/getInstallationSchedule/",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
+          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
         },
       }
     );
@@ -438,13 +439,13 @@ module.exports = function () {
       },
     });
     const resp = await fetch(
-      "http://app.aquaexchange.com/api/getInstallationSchedule/",
+      "http://45.79.117.26:8000/api/getInstallationSchedule/",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
+          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
         },
       }
     );
@@ -462,13 +463,13 @@ module.exports = function () {
       },
     });
     const resp = await fetch(
-      "http://app.aquaexchange.com/api/getInstallationSchedule/",
+      "http://45.79.117.26:8000/api/getInstallationSchedule/",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
+          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
         },
       }
     );
@@ -486,13 +487,13 @@ module.exports = function () {
       },
     });
     const resp = await fetch(
-      "http://app.aquaexchange.com/api/getInstallationSchedule/",
+      "http://45.79.117.26:8000/api/getInstallationSchedule/",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
+          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
         },
       }
     );
@@ -510,13 +511,13 @@ module.exports = function () {
       },
     });
     const resp = await fetch(
-      "http://app.aquaexchange.com/api/getInstallationSchedule/",
+      "http://45.79.117.26:8000/api/getInstallationSchedule/",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
+          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
         },
       }
     );
@@ -534,13 +535,13 @@ module.exports = function () {
       },
     });
     const resp = await fetch(
-      "http://app.aquaexchange.com/api/getInstallationSchedule/",
+      "http://45.79.117.26:8000/api/getInstallationSchedule/",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
+          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
         },
       }
     );
@@ -558,13 +559,13 @@ module.exports = function () {
       },
     });
     const resp = await fetch(
-      "http://app.aquaexchange.com/api/getInstallationSchedule/",
+      "http://45.79.117.26:8000/api/getInstallationSchedule/",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
+          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
         },
       }
     );
@@ -578,12 +579,12 @@ module.exports = function () {
   async function getRemarksList(req, res) {
     var req = req;
     const resp = await fetch(
-      "http://app.aquaexchange.com/api/getremarksfororder/"+req+"",
+      "http://45.79.117.26:8000/api/getremarksfororder/"+req+"",
       {
         method: "get",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Token e50f000f342fe8453e714454abac13be07f18ac3",
+          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
         },
       }
     );
