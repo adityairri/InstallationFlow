@@ -145,7 +145,7 @@ module.exports = function () {
 
       console.log(daata);
       await getAllStatusCount();
-      
+      await getAllStatusCount();
 
       res.render("index", {
         data1: daata,
