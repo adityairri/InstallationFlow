@@ -134,9 +134,27 @@ module.exports = function () {
     await resp.json().then(async (data) => {
       data.forEach(async (singleInData) => {
         var wooCommerseID = singleInData.order.woo_commerce_order_id;
-        await getRemarksList(wooCommerseID);
-        // var remarks = [];
-        // console.log(remarks);
+
+        new Promise(function(resolve, reject){
+          fetch("http://45.79.117.26:8000/api/getremarksfororder/" + wooCommerseID + "",
+            {
+              method: "get",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
+              },
+            }
+          ).then(resp=>{
+            resp.json().then((dataa) => {
+              remarks = dataa;
+              resolve();
+            });
+          })
+          
+        });
+
+        // await getRemarksList(wooCommerseID);
+        var remarks = [];
         daata.push({
           remarks: remarks,
           data: singleInData,
