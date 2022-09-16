@@ -147,18 +147,16 @@ module.exports = function () {
           ).then(resp=>{
             resp.json().then((dataa) => {
               remarks = dataa;
+              daata.push({
+                remarks: remarks,
+                data: singleInData,
+              });
               resolve();
             });
           })
-          
         });
 
-        // await getRemarksList(wooCommerseID);
-        var remarks = [];
-        daata.push({
-          remarks: remarks,
-          data: singleInData,
-        });
+      
       });
 
       console.log(daata);
