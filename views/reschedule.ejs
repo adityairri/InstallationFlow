@@ -448,7 +448,7 @@
 
                       </td>
                       <td>
-                        <a href="#"><button class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12"> Confirm Date</button>
+                        <a><button data-toggle="modal" data-target="#openFollowupModal" class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12"> Confirm Date</button>
                         </a>
                         
                       </td>
@@ -558,7 +558,7 @@
   
                         </td>
                         <td>
-                          <a href="#"><button class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12"> Confirm Date</button>
+                          <a><button data-toggle="modal" data-target="#openFollowupModal" class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12"> Confirm Date</button>
                           </a>
                           
                         </td>
@@ -671,7 +671,8 @@
     
                           </td>
                           <td>
-                            <a href="#"><button class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12"> Confirm Date</button>
+                            <a><button data-toggle="modal" data-target="#openFollowupModal" class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12"> Confirm Date</button>
+                            </a>
                             </a>
                             
                           </td>
@@ -679,6 +680,34 @@
                         <% }) %>
                 </tbody>
               </table>
+
+
+
+
+              <div class="modal fade" id="openFollowupModal" tabindex="-1"
+                  role="dialog" data-keyboard="false" data-backdrop="static">
+                  <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 class="modal-title" id="largeModalLabel">Add Confirmed Date</h4>
+                      </div>
+                      <div class="modal-body">
+                        <div class="row clearfix">
+                          <div><input type="datetime-local" class="form-control date"
+                            id="followupDate"
+                            required></div>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <a href="#" id="followupBtn"><button onclick="removeLocalSTorage()" id="followupBtn" type="button" class="btn btn-link waves-effect bg-teal">ASSIGN DATE</button></a>
+                        <button type="button" class="btn btn-link waves-effect bg-red" data-dismiss="modal">CLOSE</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+
 
             </div>
           </div>
