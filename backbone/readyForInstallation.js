@@ -294,7 +294,12 @@ module.exports = function () {
     );
     await resp.json().then((dataa) => {
 // console.log(dataa);
-SEassignedCount = dataa;
+if(dataa.status!=false){
+  SEassignedCount = dataa;
+}else{
+  SEassignedCount = [];
+}
+
       
     }).catch(error => {
       SEassignedCount = [];
