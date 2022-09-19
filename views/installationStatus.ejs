@@ -213,7 +213,7 @@
                 <div class="info-box-4 hover-zoom-effect">
                   <div class="content">
                     <div class="text"><b>RECONFIRM</b></div>
-                    <div class="number count-to" data-from="0" data-to="<%=reconfirmOrdersCount.length%>" data-speed="2"
+                    <div class="number count-to" data-from="0" data-to="<%=reconfirmOrdersCount%>" data-speed="2"
                       data-fresh-interval="20">
                     </div>
                   </div>
@@ -223,7 +223,7 @@
                 <div class="info-box-4 hover-zoom-effect">
                     <div class="content">
                         <div class="text">READY FOR INSTALLATION</div>
-                        <div class="number count-to" data-from="0" data-to="<%=ReadyForInstallationCount.length%>" data-speed="2" data-fresh-interval="20">
+                        <div class="number count-to" data-from="0" data-to="<%=ReadyForInstallationCount%>" data-speed="2" data-fresh-interval="20">
                         </div>
                     </div>
                 </div>
@@ -256,13 +256,13 @@
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                       <div class="text">
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/seResponseStatus/0/pending/1';">
-                          Pending</br> <b><%=sePendingList.length%></b>
+                          Pending</br> <b><%=sePendingList%></b>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/seResponseStatus/0/accepted/1';">
-                          Accepted </br><b><%=seAcceptedList.length%></b>
+                          Accepted </br><b><%=seAcceptedList%></b>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/seResponseStatus/0/declined/1';">
-                          Cancelled </br><b><%=seDeclinedList.length%></b>
+                          Cancelled </br><b><%=seDeclinedList%></b>
                         </div>
                       </div>
                     </div>
@@ -278,13 +278,13 @@
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                       <div class="text">
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/viewFarmerStatus/pending/1';">
-                          Pending </br><b><%=farmerPendingList.length%></b>
+                          Pending </br><b><%=farmerPendingList%></b>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/viewFarmerStatus/accepted/1';">
-                          Accepted </br><b><%=farmerAcceptedList.length%></b>
+                          Accepted </br><b><%=farmerAcceptedList%></b>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/viewFarmerStatus/cancelled/1';">
-                          Cancelled </br><b><%=farmerDeclinedList.length%></b>
+                          Cancelled </br><b><%=farmerDeclinedList%></b>
                         </div>
                       </div>
                     </div>
@@ -300,13 +300,13 @@
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                       <div class="text">
                         <div style="<%=variables.navBarHighlight1%>" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/viewInstallationStatus/pending/1';">
-                          In Progress </br><b><%=installationPendingList.length%></b>
+                          In Progress </br><b><%=installationPendingList%></b>
                         </div>
                         <div style="<%=variables.navBarHighlight2%>" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/viewInstallationStatus/partial/1';">
-                          Partial </br><b><%=installationPartialCompleteList.length%></b>
+                          Partial </br><b><%=installationPartialCompleteList%></b>
                         </div>
                         <div style="<%=variables.navBarHighlight3%>" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" onclick="window.location='/viewInstallationStatus/completed/1';">
-                          Completed </br><b><%=installationCompletedList.length%></b>
+                          Completed </br><b><%=installationCompletedList%></b>
                         </div>
                       </div>
                     </div>
