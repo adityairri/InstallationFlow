@@ -138,6 +138,7 @@ module.exports = function () {
     );
     var daata = [];
     await resp.json().then(async (data) => {
+      if (data.msg != "Invalid page.") {
       data.results.forEach(async (singleInData) => {
         var wooCommerseID = singleInData.order.woo_commerce_order_id;
         
@@ -162,6 +163,17 @@ module.exports = function () {
           })
         });
       });
+    }else if(data.msg == "Invalid page."){
+      data.links={
+        "next": null,
+        "previous": null
+    };
+    data.page={
+      "page": 1,
+      "pages": 1,
+      "count": 0
+  }
+    }
       await getAllStatusCount();
       await getAllStatusCount();
       res.render("reconfirm", {
