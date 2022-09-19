@@ -158,7 +158,7 @@ module.exports = function () {
       
       });
 
-      console.log(daata);
+      // console.log(daata);
       await getAllStatusCount();
       await getAllStatusCount();
 
@@ -251,7 +251,6 @@ module.exports = function () {
   }
     }
 
-      console.log(daata);
       await getAllStatusCount();
       await getAllStatusCount();
 

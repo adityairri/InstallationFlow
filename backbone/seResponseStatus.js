@@ -30,16 +30,16 @@ module.exports = function () {
     );
 
     await resp.json().then((data) => {
-      console.log(data);
+      // console.log(data);
       res.redirect("/seResponseStatus/0/declined/1");
     });
-    console.log(reqBody);
+    // console.log(reqBody);
   });
 
 
 
   app.get("/seResponseStatus/:SEid/:status/:pageNo", async function (req, res) {
-    console.log(req.params);
+    // console.log(req.params);
     if (req.params.status == "pending"){
       var variables = {
         "tableTitle": "PENDING",
@@ -158,7 +158,7 @@ module.exports = function () {
       "count": 0
   }
     }
-      console.log(data);
+      // console.log(data);
       
       await getSEList();
       await getAllStatusCount();
@@ -394,7 +394,7 @@ module.exports = function () {
       }
     );
     await resp.json().then((dataa) => {
-      console.log(dataa);
+      // console.log(dataa);
       SElist = dataa;
     });
   }

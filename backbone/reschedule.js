@@ -59,7 +59,7 @@ module.exports = function () {
     const key = Object.keys(pagesCount).find(
       (key) => pagesCount[key] === maxVal
     );
-    console.log(key);
+    // console.log(key);
     if (key == "SEpageCount") {
       var dataPaginationNext = SErescheduledOrdersPaginationLinks.next;
       var dataPaginationPrevious = SErescheduledOrdersPaginationLinks.previous;

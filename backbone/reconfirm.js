@@ -29,10 +29,10 @@ module.exports = function () {
         );
     
         await resp.json().then((data) => {
-          console.log(data);
+          // console.log(data);
           res.redirect("/reconfirm/0/1");
         });
-        console.log(reqBody);
+        // console.log(reqBody);
       });
 
 
@@ -57,7 +57,7 @@ module.exports = function () {
           }
         );
         resp.json().then(async (data) => {
-          console.log(data);
+          // console.log(data);
           res.redirect("/reconfirm/0/1");
         });
       });

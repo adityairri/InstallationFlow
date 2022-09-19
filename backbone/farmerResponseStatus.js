@@ -8,7 +8,7 @@ const token="Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd";
 
 module.exports = function () {
   app.get("/viewFarmerStatus/:status/:pageNo", async function (req, res) {
-    console.log(req.params);
+    // console.log(req.params);
     if (req.params.status == "pending") {
       var variables = {
         "tableTitle": "PENDING",
@@ -136,7 +136,7 @@ module.exports = function () {
 
 
   app.get("/changeFarmerStatus/:id/:status", async function (req, res) {
-    console.log(req.params);
+    // console.log(req.params);
     if (req.params.status == "1") {
       var reqBody = JSON.stringify({
         schedule: {
@@ -166,7 +166,7 @@ module.exports = function () {
       }
     );
     resp.json().then(async (data) => {
-      console.log(data);
+      // console.log(data);
       res.redirect("/viewFarmerStatus/pending/1");
     });
   });
@@ -355,78 +355,6 @@ module.exports = function () {
     });
   }
  
-
-  // var farmerPendingList;
-  // async function getFarmerPendingList(req, res) {
-  //   var reqBody = JSON.stringify({
-  //     filter: {
-  //       status: "SEND_FARMER_CONFIRM",
-  //     },
-  //   });
-  //   const resp = await fetch(
-  //     apiURL+"/getInstallationSchedule/",
-  //     {
-  //       method: "post",
-  //       body: reqBody,
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         "Authorization": token,
-  //       },
-  //     }
-  //   );
-  //   await resp.json().then((dataa) => {
-  //     console.log(dataa);
-  //     farmerPendingList = dataa;
-  //   });
-  // }
-
-  // var farmerAcceptedList;
-  // async function getFarmerAcceptedList(req, res) {
-  //   var reqBody = JSON.stringify({
-  //     filter: {
-  //       status: "FARMER_FINAl_CONFIRM",
-  //     },
-  //   });
-  //   const resp = await fetch(
-  //     apiURL+"/getInstallationSchedule/",
-  //     {
-  //       method: "post",
-  //       body: reqBody,
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         "Authorization": token,
-  //       },
-  //     }
-  //   );
-  //   await resp.json().then((dataa) => {
-  //     console.log(dataa);
-  //     farmerAcceptedList = dataa;
-  //   });
-  // }
-
-  // var farmerDeclinedList;
-  // async function getFarmerDeclinedList(req, res) {
-  //   var reqBody = JSON.stringify({
-  //     filter: {
-  //       status: "FARMER_FINAL_CANCEL",
-  //     },
-  //   });
-  //   const resp = await fetch(
-  //     apiURL+"/getInstallationSchedule/",
-  //     {
-  //       method: "post",
-  //       body: reqBody,
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         "Authorization": token,
-  //       },
-  //     }
-  //   );
-  //   await resp.json().then((dataa) => {
-  //     console.log(dataa);
-  //     farmerDeclinedList = dataa;
-  //   });
-  // }
 
   var remarks = [];
   async function getRemarksList(req, res) {

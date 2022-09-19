@@ -29,10 +29,10 @@ module.exports = function () {
     );
 
     await resp.json().then((data) => {
-      console.log(data);
+      // console.log(data);
       res.redirect("/readyForInstallation/0/1");
     });
-    console.log(reqBody);
+    // console.log(reqBody);
   });
 
 
@@ -61,10 +61,10 @@ module.exports = function () {
     );
 
     await resp.json().then((data) => {
-      console.log(data);
+      // console.log(data);
       res.redirect("/readyForInstallation/0/1");
     });
-    console.log(reqBody);
+    // console.log(reqBody);
   });
   var dateUnassignedCount1;
   app.get("/readyForInstallation/:date/:pageNo", async function (req, res) {
@@ -391,7 +391,7 @@ module.exports = function () {
       }
     );
     await resp.json().then((dataa) => {
-      console.log(dataa);
+      // console.log(dataa);
       SElist = dataa;
     });
   }

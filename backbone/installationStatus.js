@@ -8,7 +8,7 @@ const token="Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd";
 
 module.exports = function () {
   app.get("/viewInstallationStatus/:status/:pageNo", async function (req, res) {
-    console.log(req.params);
+    // console.log(req.params);
     if (req.params.status == "pending") {
       var variables = {
         "tableTitle": "PROGRESS",
@@ -96,7 +96,7 @@ module.exports = function () {
       "count": 0
   }
     }
-      console.log(data);
+      // console.log(data);
       await getAllStatusCount();
       await getAllStatusCount();
       res.render("installationStatus", {
@@ -131,7 +131,7 @@ module.exports = function () {
 
 
   app.get("/changeFarmerStatus/:id/:status", async function (req, res) {
-    console.log(req.params);
+    // console.log(req.params);
     if (req.params.status == "1") {
       var reqBody = JSON.stringify({
         schedule: {
@@ -169,7 +169,7 @@ module.exports = function () {
       }
     );
     resp.json().then(async (data) => {
-      console.log(data);
+      // console.log(data);
       res.redirect("/viewFarmerStatus/pending/1");
     });
   });
