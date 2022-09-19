@@ -157,17 +157,17 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/reconfirm/0';">
+          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/reconfirm/0/1';">
             <div class="info-box-4 hover-zoom-effect bg-teal">
               <div class="content">
                 <div class="text"><b>RECONFIRM</b></div>
-                <div class="number count-to" data-from="0" data-to="<%=reconfirmOrdersCount%>" data-speed="2"
-                  data-fresh-interval="20">
+                <div class="number">
+                  <%=reconfirmOrdersCount%> / <%=totalReconfirmOrdersCount%>
                 </div>
               </div>
             </div>
           </div>
-          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/readyForInstallation/0';">
+          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/readyForInstallation/0/1';">
             <div class="info-box-4 hover-zoom-effect">
                 <div class="content">
                     <div class="text">READY FOR INSTALLATION</div>
@@ -176,7 +176,7 @@
                 </div>
             </div>
         </div>
-          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/rescheduled';">
+          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/rescheduled/1';">
             <div class="info-box-4 hover-zoom-effect">
               <div class="content">
                 <div class="text"><b>RESCHEDULED ORDERS</b></div>
@@ -204,19 +204,19 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                   <div class="text">
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                      onclick="window.location='/seResponseStatus/0/pending';">
+                      onclick="window.location='/seResponseStatus/0/pending/1';">
                       Pending </br> <b>
                         <%=sePendingList%>
                       </b>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                      onclick="window.location='/seResponseStatus/0/accepted';">
+                      onclick="window.location='/seResponseStatus/0/accepted/1';">
                       Accepted </br><b>
                         <%=seAcceptedList%>
                       </b>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                      onclick="window.location='/seResponseStatus/0/declined';">
+                      onclick="window.location='/seResponseStatus/0/declined/1';">
                       Cancelled </br><b>
                         <%=seDeclinedList%>
                       </b>
@@ -235,19 +235,19 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                   <div class="text">
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                      onclick="window.location='/viewFarmerStatus/pending';">
+                      onclick="window.location='/viewFarmerStatus/pending/1';">
                       Pending </br><b>
                         <%=farmerPendingList%>
                       </b>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                      onclick="window.location='/viewFarmerStatus/accepted';">
+                      onclick="window.location='/viewFarmerStatus/accepted/1';">
                       Accepted </br><b>
                         <%=farmerAcceptedList%>
                       </b>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                      onclick="window.location='/viewFarmerStatus/cancelled';">
+                      onclick="window.location='/viewFarmerStatus/cancelled/1';">
                       Cancelled </br><b>
                         <%=farmerDeclinedList%>
                       </b>
@@ -266,19 +266,19 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                   <div class="text">
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                      onclick="window.location='/viewInstallationStatus/pending';">
+                      onclick="window.location='/viewInstallationStatus/pending/1';">
                       In Progress </br><b>
                         <%=installationPendingList%>
                       </b>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                      onclick="window.location='/viewInstallationStatus/partial';">
+                      onclick="window.location='/viewInstallationStatus/partial/1';">
                       Partial </br><b>
                         <%=installationPartialCompleteList%>
                       </b>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                      onclick="window.location='/viewInstallationStatus/completed';">
+                      onclick="window.location='/viewInstallationStatus/completed/1';">
                       Completed </br><b>
                         <%=installationCompletedList%>
                       </b>
@@ -299,7 +299,7 @@
           <div class="card">
             <div class="header">
               <h2>
-                RECONFIRM ORDERS
+                RECONFIRM ORDERS (<%=date%>)
               </h2>
               <ul class="header-dropdown m-r--5">
                 <li class="dropdown">
@@ -309,7 +309,7 @@
                             onchange="handler(event)">
                     </div>
                     <div class="col-lg-2 col-md-2">
-                        <a href="reconfirm/0" id="dateFilter">
+                        <a href="reconfirm/0/1" id="dateFilter">
                             <button type="button" class="btn bg-teal waves-effect">
                                 <i class="material-icons">search</i>
                             </button>
@@ -318,7 +318,7 @@
                     <script>
                         function handler(e) {
                             var date = e.target.value;
-                            url = "/reconfirm/" + date;
+                            url = "/reconfirm/" + date +"/1";
                             $("#dateFilter").attr("href", url);
                             return true;
                         }
@@ -458,15 +458,126 @@
                       <td style="width: 10%;">
                           <a href="/confirmFarmerReconfirmDate/<%=singleData.data.id%>"><button class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12">Confirm</button>
                         </a></br>
-                        <a><button data-toggle="modal" data-target="#openFollowupModal" class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12"> Confirm Date</button>
+                        <a><button data-toggle="modal" data-target="#openFollowupModal<%=singleData.data.id%>" class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12"> Confirm Date</button>
                         </a>
-                        <a href="#"><button class="btn bg-orange waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12" >Reschedule</button>
+                        <a href="/farmerReschedule/<%=singleData.data.id%>"><button class="btn bg-orange waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12" >Reschedule</button>
                         </a>
                       </td>
                     </tr>
+
+
+
+
+                    <div class="modal fade" id="openFollowupModal<%=singleData.data.id%>" tabindex="-1"
+                      role="dialog" data-keyboard="false" data-backdrop="static">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h4 class="modal-title" id="largeModalLabel">Add Confirmed Date</h4>
+                          </div>
+                          <div class="modal-body">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                              <div><input type="date" class="form-control date" id="dateTime<%=singleData.data.id%>"  onchange="handler<%=singleData.data.id%>(event)"></div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                              <select id="timeframe<%=singleData.data.id%>"
+                                onchange="selectedTimeFrameFunction<%=singleData.data.id%>()">
+                                <option value="">--Select Time--</option>
+                                <option value="7AM - 10AM">7:00 AM - 10:00 AM</option>
+                                <option value="10AM - 1PM">10:00 AM - 1:00 PM</option>
+                                <option value="2PM - 5PM">2:00 PM - 5:00 PM</option>
+                                <option value="7AM - 1PM">7:00 AM - 1:00 PM</option>
+                                <option value="7AM - 5PM">7:00 AM - 5:00 PM</option>
+                              </select>
+                            </div>
+                          </div>
+    
+                          <script>
+                            function handler<%=singleData.data.id%> (e) {
+                              localStorage.removeItem("selectedDate<%= singleData.data.id%>");
+                              var x = document.getElementById("dateTime<%=singleData.data.id%>").value;
+                              localStorage.setItem("selectedDate<%= singleData.data.id%>", x);
+                              var selectedDate = localStorage.getItem("selectedDate<%= singleData.data.id%>");
+                              var selectedTimeframe = localStorage.getItem("selectedTimeFrame<%= singleData.data.id%>");
+    
+                              url = "/assignDateFromReconfirm/<%=singleData.data.id%>/"+ selectedDate + "/" + selectedTimeframe;
+                              $("#addBtn<%=singleData.data.id%>").attr("href", url);
+    
+                              return true;
+                            }
+    
+    
+                            function selectedTimeFrameFunction<%=singleData.data.id%> () {
+                                localStorage.removeItem("selectedTimeFrame<%= singleData.data.id%>");
+                                var x = document.getElementById("timeframe<%=singleData.data.id%>").value;
+                                localStorage.setItem("selectedTimeFrame<%= singleData.data.id%>", x);
+                                var selectedDate = localStorage.getItem("selectedDate<%= singleData.data.id%>");
+                                var selectedTimeframe = localStorage.getItem("selectedTimeFrame<%= singleData.data.id%>");
+    
+                                url = "/assignDateFromReconfirm/<%=singleData.data.id%>/"+ selectedDate + "/" + selectedTimeframe;
+                                $("#addBtn<%=singleData.data.id%>").attr("href", url);
+    
+                                return true;
+                              }
+    
+    
+                              function removeLocalSTorage() {
+                                localStorage.removeItem("selectedFarmId<%= singleData.data.id%>");
+                                localStorage.removeItem("selectedDate<%= singleData.data.id%>");
+                                localStorage.removeItem("selectedTimeframe<%= singleData.data.id%>");
+                                localStorage.removeItem("remarks<%= singleData.data.id%>");
+                              }
+                          </script>
+    
+    
+                          <div class="modal-footer">
+                            <a href="#" id="addBtn<%=singleData.data.id%>"><button onclick="removeLocalSTorage()" id="followupBtn" type="button" class="btn btn-link waves-effect bg-teal">ASSIGN DATE</button></a>
+                            <button onclick="removeLocalSTorage()" type="button" class="btn btn-link waves-effect bg-red" data-dismiss="modal">CLOSE</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+
                     <% }) %>
                 </tbody>
 
+                <nav>
+                  <ul class="pagination">
+                    <% if(dataPaginationPrevious==null){%>
+                      <li class="disabled">
+                          <a href="javascript:void(0);">
+                              <i class="material-icons">chevron_left</i>
+                          </a>
+                      </li>
+                      <%}else{%>
+                        <li>
+                          <a href="/reconfirm/0/<%=dataPaginationPageNo-1%>">
+                              <i class="material-icons">chevron_left</i>
+                          </a>
+                      </li>
+                      <%}%>
+                      <li class="active"><a href="javascript:void(0);">Page <%=dataPaginationPageNo%> of <%=dataPaginationTotalPages%></a></li>
+
+                      <% if(dataPaginationNext==null){%>
+                        <li class="disabled">
+                            <a href="javascript:void(0);">
+                                <i class="material-icons">chevron_right</i>
+                            </a>
+                        </li>
+                        <%}else{%>
+                          <li>
+                            <a href="/reconfirm/0/<%=dataPaginationPageNo-1%>">
+                                <i class="material-icons">chevron_right</i>
+                            </a>
+                        </li>
+                        <%}%>
+                  </ul>
+              </nav>
+
+              
                 <div class="modal fade" id="openFollowupModal" tabindex="-1"
                   role="dialog" data-keyboard="false" data-backdrop="static">
                   <div class="modal-dialog modal-sm" role="document">
@@ -498,13 +609,6 @@
     </div>
 
   </section>
-
-
-  <script>
-    $(document).ready( function () {
-    $('#reconfirmTable').DataTable();
-} );
-  </script>
 
   <!-- Jquery Core Js -->
   <script src="plugins/jquery/jquery.min.js"></script>

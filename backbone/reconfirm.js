@@ -3,6 +3,8 @@ var ejs = require("ejs");
 var http = require("http");
 var axios = require("axios");
 var fetch = require("cross-fetch");
+const apiURL='http://45.79.117.26:8000/api';
+const token="Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd";
 
 module.exports = function () {
   
@@ -15,28 +17,90 @@ module.exports = function () {
           }
         });
         const resp = await fetch(
-          "http://45.79.117.26:8000/api/updateInstallationSchedule/",
+          apiURL+"/updateInstallationSchedule/",
           {
             method: "post",
             body: reqBody,
             headers: {
               "Content-Type": "application/json",
-              "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
+              "Authorization": token,
             },
           }
         );
     
         await resp.json().then((data) => {
           console.log(data);
-          res.redirect("/reconfirm/0");
+          res.redirect("/reconfirm/0/1");
         });
         console.log(reqBody);
       });
 
 
+      app.get("/farmerReschedule/:orderID", async function (req, res) {
+        
+          var reqBody = JSON.stringify({
+            schedule: {
+              id: parseInt(req.params.orderID),
+              schedulestatus: "FARMER_FINAL_CANCEL",
+            },
+          });
+    
+        const resp = await fetch(
+          apiURL+"/updateInstallationSchedule/",
+          {
+            method: "post",
+            body: reqBody,
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": token,
+            },
+          }
+        );
+        resp.json().then(async (data) => {
+          console.log(data);
+          res.redirect("/reconfirm/0/1");
+        });
+      });
+
+
+      app.get("/assignDateFromReconfirm/:orderID/:date/:time",
+    async function (req, res) {
+      var req = req.params;
+      // console.log(req);
+      var date = req.date + " 00:00";
+      var reqBody = JSON.stringify({
+        schedule: {
+          id: parseInt(req.orderID),
+          confirmed_date: date,
+          confirmed_slot: req.time,
+          schedulestatus: "FARMER_DATE_CONFIRM",
+        },
+      });
+
+      // console.log(reqBody);
+      const resp = await fetch(apiURL + "/updateInstallationSchedule/", {
+        method: "post",
+        body: reqBody,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      });
+
+      await resp.json().then((data) => {
+        // console.log(data);
+        res.redirect("/reconfirm/0/1");
+      });
+      // console.log(reqBody);
+    }
+  );
+
+
+
   
-    app.get("/reconfirm/:date", async function (req, res) {
+    app.get("/reconfirm/:date/:pageNo", async function (req, res) {
     if (req.params.date == "0") {
+      var page = req.params.pageNo;
         var fromDate = new Date(+new Date().setHours(0, 0, 0, 0) + 86400000).toLocaleDateString("fr-CA")  + " 00:00";
         var toDate = fromDate;
         var reqBody = JSON.stringify({
@@ -48,6 +112,7 @@ module.exports = function () {
         });
       } else {
         var req = req.params;
+        var page = req.pageNo;
         var fromDate = req.date + " 00:00";
         var toDate = fromDate;
         var reqBody = JSON.stringify({
@@ -61,28 +126,28 @@ module.exports = function () {
    
 
     const resp = await fetch(
-      "http://45.79.117.26:8000/api/getInstallationSchedule/",
+      apiURL+"/getInstallationSchedule/?page="+parseInt(page)+"",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
+          "Authorization": token,
         },
       }
     );
     var daata = [];
     await resp.json().then(async (data) => {
-      data.forEach(async (singleInData) => {
+      data.results.forEach(async (singleInData) => {
         var wooCommerseID = singleInData.order.woo_commerce_order_id;
         
         new Promise(function(resolve, reject){
-          fetch("http://45.79.117.26:8000/api/getremarksfororder/" + wooCommerseID + "",
+          fetch(apiURL+"/getremarksfororder/" + wooCommerseID + "",
             {
               method: "get",
               headers: {
                 "Content-Type": "application/json",
-                Authorization: "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
+                Authorization: token,
               },
             }
           ).then(resp=>{
@@ -96,16 +161,21 @@ module.exports = function () {
             });
           })
         });
-
-        
       });
       await getAllStatusCount();
       await getAllStatusCount();
       res.render("reconfirm", {
         data1: daata,
+        date: fromDate,
         newOrdersCount: newOrdersCount,
-        reconfirmOrdersCount: FarmerDateConfirm,
+        reconfirmOrdersCount: data.page.count,
+        totalReconfirmOrdersCount: FarmerDateConfirm,
         
+        dataPaginationNext: data.links.next,
+        dataPaginationPrevious: data.links.previous,
+        dataPaginationPageNo: data.page.page,
+        dataPaginationTotalPages: data.page.pages,
+
         readyToInstallCount: FarmerReconfirm,
         totalRescheduleCount: CancelledSEReSchedule + SMReschedule + FarmerCancelledReschedule,
         sePendingList: AssignedSE,
@@ -139,13 +209,13 @@ module.exports = function () {
   async function getAllStatusCount(req, res) {
     var reqBody = JSON.stringify({});
     const resp = await fetch(
-      "http://45.79.117.26:8000/api/getinstallStatuscount/",
+      apiURL+"/getinstallStatuscount/",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
+          Authorization: token,
         },
       }
     );
@@ -305,21 +375,21 @@ module.exports = function () {
 
 
   var remarks = [];
-  async function getRemarksList(req, res) {
-    var req = req;
-    const resp = await fetch(
-      "http://45.79.117.26:8000/api/getremarksfororder/"+req+"",
-      {
-        method: "get",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
-        },
-      }
-    );
-    await resp.json().then((dataa) => {
+  // async function getRemarksList(req, res) {
+  //   var req = req;
+  //   const resp = await fetch(
+  //     apiURL+"/getremarksfororder/"+req+"",
+  //     {
+  //       method: "get",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         "Authorization": token,
+  //       },
+  //     }
+  //   );
+  //   await resp.json().then((dataa) => {
     
-      remarks = dataa;
-    });
-  }
+  //     remarks = dataa;
+  //   });
+  // }
 };

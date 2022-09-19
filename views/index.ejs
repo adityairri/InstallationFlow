@@ -2,6 +2,7 @@
 <html>
 
 <head>
+  <base href="/">
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -148,7 +149,7 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/reconfirm/0';">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/reconfirm/0/1';">
           <div class="info-box-4 hover-zoom-effect">
             <div class="content">
               <div class="text"><b>RECONFIRM</b></div>
@@ -158,7 +159,7 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/readyForInstallation/0';">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/readyForInstallation/0/1';">
           <div class="info-box-4 hover-zoom-effect">
             <div class="content">
               <div class="text">READY FOR INSTALLATION</div>
@@ -168,7 +169,7 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/rescheduled';">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/rescheduled/1';">
           <div class="info-box-4 hover-zoom-effect">
             <div class="content">
               <div class="text"><b>RESCHEDULED ORDERS</b></div>
@@ -196,19 +197,19 @@
               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="text">
                   <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                    onclick="window.location='/seResponseStatus/0/pending';">
+                    onclick="window.location='/seResponseStatus/0/pending/1';">
                     Pending </br> <b>
                       <%=sePendingList%>
                     </b>
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                    onclick="window.location='/seResponseStatus/0/accepted';">
+                    onclick="window.location='/seResponseStatus/0/accepted/1';">
                     Accepted </br><b>
                       <%=seAcceptedList%>
                     </b>
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                    onclick="window.location='/seResponseStatus/0/declined';">
+                    onclick="window.location='/seResponseStatus/0/declined/1';">
                     Cancelled </br><b>
                       <%=seDeclinedList%>
                     </b>
@@ -227,19 +228,19 @@
               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="text">
                   <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                    onclick="window.location='/viewFarmerStatus/pending';">
+                    onclick="window.location='/viewFarmerStatus/pending/1';">
                     Pending </br><b>
                       <%=farmerPendingList%>
                     </b>
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                    onclick="window.location='/viewFarmerStatus/accepted';">
+                    onclick="window.location='/viewFarmerStatus/accepted/1';">
                     Accepted </br><b>
                       <%=farmerAcceptedList%>
                     </b>
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                    onclick="window.location='/viewFarmerStatus/cancelled';">
+                    onclick="window.location='/viewFarmerStatus/cancelled/1';">
                     Cancelled </br><b>
                       <%=farmerDeclinedList%>
                     </b>
@@ -258,19 +259,19 @@
               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="text">
                   <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                    onclick="window.location='/viewInstallationStatus/pending';">
+                    onclick="window.location='/viewInstallationStatus/pending/1';">
                     In Progress </br><b>
                       <%=installationPendingList%>
                     </b>
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                    onclick="window.location='/viewInstallationStatus/partial';">
+                    onclick="window.location='/viewInstallationStatus/partial/1';">
                     Partial </br><b>
                       <%=installationPartialCompleteList%>
                     </b>
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                    onclick="window.location='/viewInstallationStatus/completed';">
+                    onclick="window.location='/viewInstallationStatus/completed/1';">
                     Completed </br><b>
                       <%=installationCompletedList%>
                     </b>
@@ -406,9 +407,17 @@
                       <td style="width: 15%;">
                         <% singleData.data.order.items.forEach(function(itemsList){ %>
                           <% if(itemsList.name=="APFC - Automatic power factor Controller" ){%>
-                            APFC - <%= itemsList.quantity %> - <%= itemsList.completed %> 0 </br>
+                            APFC - <%= itemsList.quantity %> - <%if(itemsList.isInstalled == false){ %>
+                               0 </br>
+                               <%}if(itemsList.isInstalled == true){%>
+                                1 </br>
+                                <%}%>
                                 <%}if(itemsList.name=="Powermon 2.0"){%>
-                                  Powermon - <%= itemsList.quantity %> - <%= itemsList.completed %> 0</br>
+                                  Powermon - <%= itemsList.quantity %> - <%if(itemsList.isInstalled == false){ %>
+                                    0 </br>
+                                    <%}if(itemsList.isInstalled == true){%>
+                                     1 </br>
+                                     <%}%>
                                       <%}%>
 
                                         <% }) %>
@@ -471,11 +480,11 @@
                                   <i class="material-icons">keyboard_arrow_down</i>
                                 </a>
                                 <ul class="dropdown-menu pull-right">
-                                  <li><a href="#"
+                                  <li><a href="javascript:void(0)"
                                       onclick="enableSubmitButton<%=singleData.data.id%>(1,'CS - Call Pickedup and Confirmed')">Call
                                       Pickedup and
                                       Confirmed</a></li>
-                                  <li><a href="#"
+                                  <li><a href="javascript:void(0)"
                                       onclick="enableSubmitButton<%=singleData.data.id%>(1,'CS - BDE Confirmed')">BDE
                                       Confirmed</a>
                                   </li>
@@ -604,7 +613,7 @@
                             localStorage.setItem("selectedDate<%= singleData.data.id%>", x);
                             var selectedFarmId = localStorage.getItem("selectedFarmId<%= singleData.data.id%>");
                             var selectedDate = localStorage.getItem("selectedDate<%= singleData.data.id%>");
-                            var selectedTimeframe = localStorage.getItem("selectedTimeframe<%= singleData.data.id%>");
+                            var selectedTimeframe = localStorage.getItem("selectedTimeFrame<%= singleData.data.id%>");
                             var remarks = localStorage.getItem("remarks<%= singleData.data.id%>");
 
                             url = "/assignDate/<%=singleData.data.id%>/" + selectedFarmId + "/" + selectedDate + "/" + selectedTimeframe + "/" + remarks;
@@ -615,7 +624,7 @@
                           function removeLocalSTorage() {
                             localStorage.removeItem("selectedFarmId<%= singleData.data.id%>");
                             localStorage.removeItem("selectedDate<%= singleData.data.id%>");
-                            localStorage.removeItem("selectedTimeframe<%= singleData.data.id%>");
+                            localStorage.removeItem("selectedTimeFrame<%= singleData.data.id%>");
                             localStorage.removeItem("remarks<%= singleData.data.id%>");
                           }
                         </script>
@@ -639,6 +648,38 @@
                     </tr>
                     <% }) %>
                 </tbody>
+                <nav>
+                  <ul class="pagination">
+                    <% if(dataPaginationPrevious==null){%>
+                      <li class="disabled">
+                          <a href="javascript:void(0);">
+                              <i class="material-icons">chevron_left</i>
+                          </a>
+                      </li>
+                      <%}else{%>
+                        <li>
+                          <a href="/page/<%=dataPaginationPageNo-1%>">
+                              <i class="material-icons">chevron_left</i>
+                          </a>
+                      </li>
+                      <%}%>
+                      <li class="active"><a href="javascript:void(0);">Page <%=dataPaginationPageNo%> of <%=dataPaginationTotalPages%></a></li>
+
+                      <% if(dataPaginationNext==null){%>
+                        <li class="disabled">
+                            <a href="javascript:void(0);">
+                                <i class="material-icons">chevron_right</i>
+                            </a>
+                        </li>
+                        <%}else{%>
+                          <li>
+                            <a href="/page/<%=dataPaginationPageNo+1%>">
+                                <i class="material-icons">chevron_right</i>
+                            </a>
+                        </li>
+                        <%}%>
+                  </ul>
+              </nav>
               </table>
 <!-- 
               <button type="button" class="btn bg-indigo btn-circle-lg waves-effect waves-circle waves-float">
@@ -654,11 +695,6 @@
 
   </section>
 
-  <script>
-    $(document).ready( function () {
-    $('#openOrdersTable').DataTable();
-} );
-  </script>
   <!-- Jquery Core Js -->
   <script src="plugins/jquery/jquery.min.js"></script>
   <script src="js/pages/ui/tooltips-popovers.js"></script>

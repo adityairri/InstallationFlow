@@ -3,6 +3,8 @@ var ejs = require("ejs");
 var http = require("http");
 var axios = require("axios");
 var fetch = require("cross-fetch");
+const apiURL='http://45.79.117.26:8000/api';
+const token="Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd";
 
 module.exports = function () {
   app.get("/assignDate/:orderID/:farmID/:date/:time/:remarks",
@@ -29,14 +31,13 @@ module.exports = function () {
       });
 
       // console.log(reqBody);
-      const resp = await fetch(
-        "http://45.79.117.26:8000/api/updateInstallationSchedule/",
+      const resp = await fetch(apiURL+"/updateInstallationSchedule/",
         {
           method: "post",
           body: reqBody,
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
+            Authorization: token,
           },
         }
       );
@@ -64,14 +65,13 @@ module.exports = function () {
       });
 
       // console.log(reqBody);
-      const resp = await fetch(
-        "http://45.79.117.26:8000/api/updateInstallationSchedule/",
+      const resp = await fetch(apiURL+"/updateInstallationSchedule/",
         {
           method: "post",
           body: reqBody,
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
+            Authorization: token,
           },
         }
       );
@@ -93,14 +93,13 @@ module.exports = function () {
         schedulestatus: "NEW_ORDER",
       },
     });
-    const resp = await fetch(
-      "http://45.79.117.26:8000/api/updateInstallationSchedule/",
+    const resp = await fetch(apiURL+"/updateInstallationSchedule/",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
+          Authorization: token,
         },
       }
     );
@@ -120,28 +119,28 @@ module.exports = function () {
       },
     });
     const resp = await fetch(
-      "http://45.79.117.26:8000/api/getInstallationSchedule/",
+      apiURL+"/getInstallationSchedule/?page=1",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
+          Authorization: token,
         },
       }
     );
     var daata = [];
     await resp.json().then(async (data) => {
-      data.forEach(async (singleInData) => {
+      data.results.forEach(async (singleInData) => {
         var wooCommerseID = singleInData.order.woo_commerce_order_id;
 
         new Promise(function(resolve, reject){
-          fetch("http://45.79.117.26:8000/api/getremarksfororder/" + wooCommerseID + "",
+          fetch(apiURL+"/getremarksfororder/" + wooCommerseID + "",
             {
               method: "get",
               headers: {
                 "Content-Type": "application/json",
-                Authorization: "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
+                Authorization: token,
               },
             }
           ).then(resp=>{
@@ -165,6 +164,11 @@ module.exports = function () {
 
       res.render("index", {
         data1: daata,
+        dataPaginationNext: data.links.next,
+        dataPaginationPrevious: data.links.previous,
+        dataPaginationPageNo: data.page.page,
+        dataPaginationTotalPages: data.page.pages,
+
         newOrdersCount: newOrdersCount,
         reconfirmOrdersCount: FarmerDateConfirm,
         readyToInstallCount: FarmerReconfirm,
@@ -181,6 +185,94 @@ module.exports = function () {
       });
     });
   });
+
+
+
+
+
+
+
+
+
+
+  app.get("/page/:pageNo", async function (req, res) {
+    var reqBody = JSON.stringify({
+      filter: {
+        status: "NEW_ORDER",
+      },
+    });
+    const resp = await fetch(
+      apiURL+"/getInstallationSchedule/?page="+req.params.pageNo+"",
+      {
+        method: "post",
+        body: reqBody,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      }
+    );
+    var daata = [];
+    await resp.json().then(async (data) => {
+      data.results.forEach(async (singleInData) => {
+        var wooCommerseID = singleInData.order.woo_commerce_order_id;
+
+        new Promise(function(resolve, reject){
+          fetch(apiURL+"/getremarksfororder/" + wooCommerseID + "",
+            {
+              method: "get",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: token,
+              },
+            }
+          ).then(resp=>{
+            resp.json().then((dataa) => {
+              remarks = dataa;
+              daata.push({
+                remarks: remarks,
+                data: singleInData,
+              });
+              resolve();
+            });
+          })
+        });
+
+      
+      });
+
+      console.log(daata);
+      await getAllStatusCount();
+      await getAllStatusCount();
+
+      res.render("index", {
+        data1: daata,
+        dataPaginationNext: data.links.next,
+        dataPaginationPrevious: data.links.previous,
+        dataPaginationPageNo: data.page.page,
+        dataPaginationTotalPages: data.page.pages,
+        
+        newOrdersCount: newOrdersCount,
+        reconfirmOrdersCount: FarmerDateConfirm,
+        readyToInstallCount: FarmerReconfirm,
+        totalRescheduleCount: CancelledSEReSchedule + SMReschedule + FarmerCancelledReschedule,
+        sePendingList: AssignedSE,
+        seAcceptedList: ConfirmedSE,
+        seDeclinedList: CancelledSE,
+        farmerPendingList: SendFarmerConfirmation,
+        farmerAcceptedList: FarmerFinalConfirmation,
+        farmerDeclinedList: FamerFinalCancelled,
+        installationPendingList: SEAttended,
+        installationPartialCompleteList: PartialCompleted,
+        installationCompletedList: Completed,
+      });
+    });
+  });
+
+
+
+
+
 
 
   var newOrdersCount;
@@ -200,14 +292,13 @@ module.exports = function () {
   var Completed;
   async function getAllStatusCount(req, res) {
     var reqBody = JSON.stringify({});
-    const resp = await fetch(
-      "http://45.79.117.26:8000/api/getinstallStatuscount/",
+    const resp = await fetch(apiURL+"/getinstallStatuscount/",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
+          Authorization: token,
         },
       }
     );
@@ -369,13 +460,12 @@ module.exports = function () {
   var remarks = [];
   async function getRemarksList(req, res) {
     var req = req;
-    const resp = await fetch(
-      "http://45.79.117.26:8000/api/getremarksfororder/" + req + "",
+    const resp = await fetch(apiURL+"/getremarksfororder/" + req + "",
       {
         method: "get",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
+          Authorization: token,
         },
       }
     );

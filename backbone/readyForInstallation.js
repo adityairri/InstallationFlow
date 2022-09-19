@@ -3,13 +3,75 @@ var ejs = require("ejs");
 var http = require("http");
 var axios = require("axios");
 var fetch = require("cross-fetch");
+const apiURL='http://45.79.117.26:8000/api';
+const token="Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd";
 
 module.exports = function () {
+  app.get("/assignSE/:orderID/:SEid", async function (req, res) {
+    var req = req.params;
+    var reqBody = JSON.stringify({
+      schedule:{
+        id: parseInt(req.orderID),
+        service_engineer: req.SEid,
+        schedulestatus: "ASSIGNED_SE",
+      }
+    });
+    const resp = await fetch(
+      apiURL+"/updateInstallationSchedule/",
+      {
+        method: "post",
+        body: reqBody,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token,
+        },
+      }
+    );
+
+    await resp.json().then((data) => {
+      console.log(data);
+      res.redirect("/readyForInstallation/0/1");
+    });
+    console.log(reqBody);
+  });
+
+
+
+
+
+
+
+  app.get("/reschedule/:orderID", async function (req, res) {
+    var req = req.params;
+    var reqBody = JSON.stringify({
+      schedule:{
+        id: parseInt(req.orderID),
+        schedulestatus: "SM_RESCHEDULE",
+      }
+    });
+    const resp = await fetch(apiURL+"/updateInstallationSchedule/",
+      {
+        method: "post",
+        body: reqBody,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token,
+        },
+      }
+    );
+
+    await resp.json().then((data) => {
+      console.log(data);
+      res.redirect("/readyForInstallation/0/1");
+    });
+    console.log(reqBody);
+  });
   var dateUnassignedCount1;
-  app.get("/readyForInstallation/:date", async function (req, res) {
+  app.get("/readyForInstallation/:date/:pageNo", async function (req, res) {
     // console.log(req.params);
     var seDates;
     if (req.params.date == "0") {
+      var page = req.params.pageNo;
       var fromDate = new Date(+new Date().setHours(0, 0, 0, 0) + 86400000).toLocaleDateString("fr-CA");
       var toDate = fromDate;
       seDates = fromDate;
@@ -22,6 +84,7 @@ module.exports = function () {
       });
     } else {
       var req = req.params;
+      var page = req.pageNo;
       var fromDate = req.date + " 00:00";
       var toDate = fromDate;
       seDates = req.date;
@@ -34,20 +97,46 @@ module.exports = function () {
       });
     }
     const resp = await fetch(
-      "http://45.79.117.26:8000/api/getInstallationSchedule/",
+      apiURL+"/getInstallationSchedule/?page="+parseInt(page)+"",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
+          "Authorization": token,
         },
       }
     );
     var seListWithCount = [];
+    var daata = [];
     resp.json().then(async (data) => {
+
+      data.results.forEach(async (singleInData) => {
+        var wooCommerseID = singleInData.order.woo_commerce_order_id;
+        
+        new Promise(function(resolve, reject){
+          fetch(apiURL+"/getremarksfororder/" + wooCommerseID + "",
+            {
+              method: "get",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: token,
+              },
+            }
+          ).then(resp=>{
+            resp.json().then((dataa) => {
+              remarks = dataa;
+              daata.push({
+                remarks: remarks,
+                data: singleInData,
+              });
+              resolve();
+            });
+          })
+        });
+      });
+
       // console.log(data);
-      await getDateUnassignedCount();
       await getSEList();
       await getSEassignedCount(seDates);
       SElist.forEach(eachSE => {
@@ -69,8 +158,13 @@ module.exports = function () {
       await getAllStatusCount();
       
       res.render("readyForInstallation", {
-        data1: data,
+        data1: daata,
         date: fromDate,
+
+        dataPaginationNext: data.links.next,
+        dataPaginationPrevious: data.links.previous,
+        dataPaginationPageNo: data.page.page,
+        dataPaginationTotalPages: data.page.pages,
 
         newOrdersCount: newOrdersCount,
         reconfirmOrdersCount: FarmerDateConfirm,
@@ -91,28 +185,6 @@ module.exports = function () {
     });
   });
 
-  async function getDateUnassignedCount(req, res) {
-    var reqBody = JSON.stringify({
-      filter: {
-        status: "NEW_ORDER",
-      },
-    });
-    const resp = await fetch(
-      "http://45.79.117.26:8000/api/getInstallationSchedule/",
-      {
-        method: "post",
-        body: reqBody,
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
-        },
-      }
-    );
-    await resp.json().then((dataa) => {
-      console.log(dataa);
-      dateUnassignedCount1 = dataa;
-    });
-  }
 
   var newOrdersCount;
   var FarmerDateConfirm;
@@ -132,13 +204,13 @@ module.exports = function () {
   async function getAllStatusCount(req, res) {
     var reqBody = JSON.stringify({});
     const resp = await fetch(
-      "http://45.79.117.26:8000/api/getinstallStatuscount/",
+      apiURL+"/getinstallStatuscount/",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
+          Authorization: token,
         },
       }
     );
@@ -296,16 +368,15 @@ module.exports = function () {
     });
   }
 
-
   var SElist;
   async function getSEList(req, res) {
     const resp = await fetch(
-      "http://45.79.117.26:8000/api/general/serviceengineers/",
+      apiURL+"/general/serviceengineers/",
       {
         method: "get",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
+          "Authorization": token,
         },
       }
     );
@@ -322,13 +393,13 @@ module.exports = function () {
       date: date
     });
     const resp = await fetch(
-      "http://45.79.117.26:8000/api/assignedorderforse/",
+      apiURL+"/assignedorderforse/",
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
+          "Authorization": token,
         },
       }
     );
@@ -346,46 +417,46 @@ if(dataa.status!=false){
     });
     
   }
-  var assignedToSECount1;
-  async function getAssignedToSECount(req, res) {
-    var reqBody = JSON.stringify({
-      filter: {
-        status: "ASSIGNED_SE",
-      },
-    });
-    const resp = await fetch(
-      "http://45.79.117.26:8000/api/getInstallationSchedule/",
-      {
-        method: "post",
-        body: reqBody,
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
-        },
-      }
-    );
-    await resp.json().then((dataa) => {
-      console.log(dataa);
-      assignedToSECount1 = dataa;
-    });
-  }
+  // var assignedToSECount1;
+  // async function getAssignedToSECount(req, res) {
+  //   var reqBody = JSON.stringify({
+  //     filter: {
+  //       status: "ASSIGNED_SE",
+  //     },
+  //   });
+  //   const resp = await fetch(
+  //     apiURL+"/getInstallationSchedule/",
+  //     {
+  //       method: "post",
+  //       body: reqBody,
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         "Authorization": token,
+  //       },
+  //     }
+  //   );
+  //   await resp.json().then((dataa) => {
+  //     console.log(dataa);
+  //     assignedToSECount1 = dataa;
+  //   });
+  // }
 
   var remarks = [];
-  async function getRemarksList(req, res) {
-    var req = req;
-    const resp = await fetch(
-      "http://45.79.117.26:8000/api/getremarksfororder/"+req+"",
-      {
-        method: "get",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd",
-        },
-      }
-    );
-    await resp.json().then((dataa) => {
+  // async function getRemarksList(req, res) {
+  //   var req = req;
+  //   const resp = await fetch(
+  //     apiURL+"/getremarksfororder/"+req+"",
+  //     {
+  //       method: "get",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         "Authorization": token,
+  //       },
+  //     }
+  //   );
+  //   await resp.json().then((dataa) => {
     
-      remarks = dataa;
-    });
-  }
+  //     remarks = dataa;
+  //   });
+  // }
 };

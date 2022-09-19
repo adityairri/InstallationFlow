@@ -32,37 +32,41 @@ require('./backbone/installationStatus')();
 
 var index = require('./backbone/index');
 app.use('/',index);
+app.use('/page/:pageNo',index);
 app.get('/assignDate/:orderID/:farmID/:date/:time/:remarks', index);
 app.get('/addRemarks/:id/:remarks', index);
 app.get('/assignFollowupDate/:id/:remarks/:followupDate', index);
 
 var readyForInstallation = require('./backbone/readyForInstallation');
-app.get('/readyForInstallation/:date', readyForInstallation);
+app.get('/readyForInstallation/:date/:pageNo', readyForInstallation);
+app.get('/assignSE/:orderID/:SEid', readyForInstallation);
+app.get('/reschedule/:orderID', readyForInstallation);
 
 
 var reconfirm = require('./backbone/reconfirm');
-app.use('/reconfirm/:date',reconfirm);
+app.use('/reconfirm/:date/:pageNo',reconfirm);
 app.use('/confirmFarmerReconfirmDate/:orderId',reconfirm);
+app.use('/farmerReschedule/:orderID',reconfirm);
+app.use('/assignDateFromReconfirm/:orderID/:date/:time', reconfirm);
 
 
 var reschedule = require('./backbone/reschedule');
-app.use('/rescheduled',reschedule);
+app.use('/rescheduled/:pageNo',reschedule);
+app.use('/assignRescheduleDate/:orderID/:date/:time', reschedule);
 
 
 var seResponseStatus = require('./backbone/seResponseStatus');
-app.get('/assignSE/:orderID/:SEid', seResponseStatus);
-app.get('/reschedule/:orderID', seResponseStatus);
 app.get('/cancelledSEreschedule/:orderID', seResponseStatus);
-app.get('/seResponseStatus/:SEid/:status', seResponseStatus);
+app.get('/seResponseStatus/:SEid/:status/:pageNo', seResponseStatus);
 app.get('/doActions/:orderID/:actionID', seResponseStatus);
 
 var farmerResStatus = require('./backbone/farmerResponseStatus');
-app.get('/viewFarmerStatus/:status', farmerResStatus);
+app.get('/viewFarmerStatus/:status/:pageNo', farmerResStatus);
 app.get('/changeFarmerStatus/:id/:status', farmerResStatus);
 
 var installationStatus = require('./backbone/installationStatus');
-app.get('/viewInstallationStatus/:status', installationStatus);
+app.get('/viewInstallationStatus/:status/:pageNo', installationStatus);
 /****************** Run Server ***************************************/
 app.listen(process.env.PORT || 8081);
-console.log('Server is listening on port 8080');
+console.log('Server is listening on port 8081');
 /****************** #END# Run Server *********************************/
