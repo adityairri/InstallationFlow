@@ -5915,7 +5915,7 @@ fieldset[disabled] .form-control {
   color: #bbb; }
 
 .pagination li.active a {
-  background-color: #2196F3; }
+  background-color: teal; }
 
 .pagination li {
   -webkit-border-radius: 0;
