@@ -453,27 +453,35 @@
                                         <td style="width: 15%;">
                                           <% singleData.data.order.items.forEach(function(itemsList){ %>
                                             <% if(itemsList.name=="APFC - Automatic power factor Controller" ){%>
-                                              APFC - <%= itemsList.quantity %> - <%= itemsList.completed %>0 </br>
+                                              APFC - <%= itemsList.quantity %> - <%if(itemsList.isInstalled == false){ %>
+                                                 0 </br>
+                                                 <%}if(itemsList.isInstalled == true){%>
+                                                  1 </br>
+                                                  <%}%>
                                                   <%}if(itemsList.name=="Powermon 2.0"){%>
-                                                    Powermon - <%= itemsList.quantity %> - <%= itemsList.completed %>0</br>
+                                                    Powermon - <%= itemsList.quantity %> - <%if(itemsList.isInstalled == false){ %>
+                                                      0 </br>
+                                                      <%}if(itemsList.isInstalled == true){%>
+                                                       1 </br>
+                                                       <%}%>
                                                         <%}%>
                   
                                                           <% }) %>
                                         </td>
-                                            <td><select id="actionsList<%=singleData.id %>" onchange="doActions<%=singleData.id %>()">
+                                            <td><select id="actionsList<%=singleData.data.id %>" onchange="doActions<%=singleData.data.id %>()">
                                                 <option>--SELECT ACTION--</option>
                                                 <option value="1">Farmer Accepted</option>
                                                 <option value="2">Farmer Cancelled</option>
                                                 </select></br></br>
                                                 <script>
-                                                    function doActions<%=singleData.id %>() {
-                                                      var x = document.getElementById("actionsList<%=singleData.id %>").value;
-                                                      url = "/changeFarmerStatus/<%=singleData.id %>/"+x;
-                                                        $("#doActions<%=singleData.id %>").attr("href", url);
+                                                    function doActions<%=singleData.data.id %>() {
+                                                      var x = document.getElementById("actionsList<%=singleData.data.id %>").value;
+                                                      url = "/changeFarmerStatus/<%=singleData.data.id %>/"+x;
+                                                        $("#doActions<%=singleData.data.id %>").attr("href", url);
                                                         return true;
                                                     }
                                                     </script>
-                                                <a href="#" id="doActions<%=singleData.id %>"><button type="button" class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12">Submit</button></a>
+                                                <a href="#" id="doActions<%=singleData.data.id %>"><button type="button" class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12">Submit</button></a>
                                             </td>
                                         </tr>
                                         
@@ -664,9 +672,17 @@
                                           <td style="width: 15%;">
                                             <% singleData.data.order.items.forEach(function(itemsList){ %>
                                               <% if(itemsList.name=="APFC - Automatic power factor Controller" ){%>
-                                                APFC - <%= itemsList.quantity %> - <%= itemsList.completed %>0 </br>
+                                                APFC - <%= itemsList.quantity %> - <%if(itemsList.isInstalled == false){ %>
+                                                   0 </br>
+                                                   <%}if(itemsList.isInstalled == true){%>
+                                                    1 </br>
+                                                    <%}%>
                                                     <%}if(itemsList.name=="Powermon 2.0"){%>
-                                                      Powermon - <%= itemsList.quantity %> - <%= itemsList.completed %>0</br>
+                                                      Powermon - <%= itemsList.quantity %> - <%if(itemsList.isInstalled == false){ %>
+                                                        0 </br>
+                                                        <%}if(itemsList.isInstalled == true){%>
+                                                         1 </br>
+                                                         <%}%>
                                                           <%}%>
                     
                                                             <% }) %>
@@ -859,9 +875,17 @@
                                             <td style="width: 15%;">
                                               <% singleData.data.order.items.forEach(function(itemsList){ %>
                                                 <% if(itemsList.name=="APFC - Automatic power factor Controller" ){%>
-                                                  APFC - <%= itemsList.quantity %> - <%= itemsList.completed %>0 </br>
+                                                  APFC - <%= itemsList.quantity %> - <%if(itemsList.isInstalled == false){ %>
+                                                     0 </br>
+                                                     <%}if(itemsList.isInstalled == true){%>
+                                                      1 </br>
+                                                      <%}%>
                                                       <%}if(itemsList.name=="Powermon 2.0"){%>
-                                                        Powermon - <%= itemsList.quantity %> - <%= itemsList.completed %>0</br>
+                                                        Powermon - <%= itemsList.quantity %> - <%if(itemsList.isInstalled == false){ %>
+                                                          0 </br>
+                                                          <%}if(itemsList.isInstalled == true){%>
+                                                           1 </br>
+                                                           <%}%>
                                                             <%}%>
                       
                                                               <% }) %>
