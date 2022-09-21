@@ -38,22 +38,22 @@
   <script>
     localStorage.clear();
     var pathArray = window.location.pathname.split('/');
-    if(pathArray[2] == undefined){
+    if (pathArray[2] == undefined) {
       localStorage.setItem("fromDate", 0);
-    }else if(pathArray[2] != undefined){
+    } else if (pathArray[2] != undefined) {
       localStorage.setItem("fromDate", pathArray[2]);
     }
-    if(pathArray[3] == undefined){
+    if (pathArray[3] == undefined) {
       localStorage.setItem("toDate", 0);
-    }else if(pathArray[3] != undefined){
+    } else if (pathArray[3] != undefined) {
       localStorage.setItem("toDate", pathArray[3]);
     }
-    if(pathArray[4] == undefined){
+    if (pathArray[4] == undefined) {
       localStorage.setItem("pageNo", 1);
-    }else if(pathArray[4] != undefined){
+    } else if (pathArray[4] != undefined) {
       localStorage.setItem("pageNo", pathArray[4]);
     }
-          
+
   </script>
 
 </head>
@@ -312,77 +312,77 @@
                 <span id="titleText"></span>
               </h2>
               <script>
-                  
-                  var fromDate1 = localStorage.getItem("fromDate");
-                  var toDate1 = localStorage.getItem("toDate");
-                  if(parseInt(fromDate1) == 0 && parseInt(toDate1) == 0){ 
-                    document.getElementById("titleText").innerHTML = "OPEN ORDERS";
-                  }else{
-                    document.getElementById("titleText").innerHTML = "OPEN ORDERS ("+fromDate1+" to "+toDate1+")";
-                  }           
-                    </script>
+
+                var fromDate1 = localStorage.getItem("fromDate");
+                var toDate1 = localStorage.getItem("toDate");
+                if (parseInt(fromDate1) == 0 && parseInt(toDate1) == 0) {
+                  document.getElementById("titleText").innerHTML = "OPEN ORDERS";
+                } else {
+                  document.getElementById("titleText").innerHTML = "OPEN ORDERS (" + fromDate1 + " to " + toDate1 + ")";
+                }           
+              </script>
               <ul class="header-dropdown m-r--5">
                 <li class="dropdown">
                   <div class="row clearfix col-lg-12 col-md-12">
                     <div class="col-lg-5 col-md-5">
-                        <input type="date" class="form-control date" id="FromDate" onchange="handler()">
+                      <input type="date" class="form-control date" id="FromDate" onchange="handler()">
                     </div>
                     <div class="col-lg-5 col-md-5">
                       <input type="date" class="form-control date" id="ToDate" onchange="handler()">
-                  </div>
+                    </div>
                     <div class="col-lg-2 col-md-2">
-                        <a href="/page/0/0/1" id="dateRangeFilter">
-                            <button type="button" class="btn bg-teal waves-effect">
-                                <i class="material-icons">search</i>
-                            </button>
-                        </a>
+                      <a href="/page/0/0/1" id="dateRangeFilter">
+                        <button type="button" class="btn bg-teal waves-effect">
+                          <i class="material-icons">search</i>
+                        </button>
+                      </a>
                     </div>
                     <script>
-                        function handler() {
-                            var fromDate = document.getElementById("FromDate").value;
-                            var toDate = document.getElementById("ToDate").value;
-                            localStorage.setItem("fromDate", fromDate);
-                            localStorage.setItem("toDate", toDate);
-                            var fromDateLocalStorage = localStorage.getItem("fromDate");
-                                var toDateLocalStorage = localStorage.getItem("toDate");
-                            
-                            var url = "/page/"+fromDateLocalStorage+"/"+toDateLocalStorage+"/1";
-                                $("#dateRangeFilter").attr("href", url);
-                                
+                      function handler() {
+                        var fromDate = document.getElementById("FromDate").value;
+                        var toDate = document.getElementById("ToDate").value;
+                        localStorage.setItem("fromDate", fromDate);
+                        localStorage.setItem("toDate", toDate);
+                        var fromDateLocalStorage = localStorage.getItem("fromDate");
+                        var toDateLocalStorage = localStorage.getItem("toDate");
 
-                                var fromDateLocalStorage = localStorage.getItem("fromDate");
-                                var toDateLocalStorage = localStorage.getItem("toDate");
-
-                                url1 = "/page/"+fromDateLocalStorage+"/"+toDateLocalStorage+"/<%=dataPaginationPageNo-1%>";
-                                $("#previosPageUrl").attr("href", url1);
-
-                                url2 = "/page/"+fromDateLocalStorage+"/"+toDateLocalStorage+"/<%=dataPaginationPageNo+1%>";
-                                $("#nextPageUrl").attr("href", url2);
-
-                        }
-
-//                         $(function() {
-//                           var fromDateLocalStorage = localStorage.getItem("fromDate");
-//                                 var toDateLocalStorage = localStorage.getItem("toDate");
-
-//                                 url1 = "/page/"+fromDateLocalStorage+"/"+toDateLocalStorage+"/<%=dataPaginationPageNo-1%>";
-//                                 $("#previosPageUrl").attr("href", url1);
-
-//                                 url2 = "/page/"+fromDateLocalStorage+"/"+toDateLocalStorage+"/<%=dataPaginationPageNo+1%>";
-//                                 $("#nextPageUrl").attr("href", url2);
-// });
+                        var url = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/1";
+                        $("#dateRangeFilter").attr("href", url);
 
 
-$( window ).on( "load", function() {
-  var fromDateLocalStorage = localStorage.getItem("fromDate");
-                                var toDateLocalStorage = localStorage.getItem("toDate");
+                        var fromDateLocalStorage = localStorage.getItem("fromDate");
+                        var toDateLocalStorage = localStorage.getItem("toDate");
 
-                                url1 = "/page/"+fromDateLocalStorage+"/"+toDateLocalStorage+"/<%=dataPaginationPageNo-1%>";
-                                $("#previosPageUrl").attr("href", url1);
+                        url1 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo-1%>";
+                        $("#previosPageUrl").attr("href", url1);
 
-                                url2 = "/page/"+fromDateLocalStorage+"/"+toDateLocalStorage+"/<%=dataPaginationPageNo+1%>";
-                                $("#nextPageUrl").attr("href", url2);
-    });
+                        url2 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo+1%>";
+                        $("#nextPageUrl").attr("href", url2);
+
+                      }
+
+                      //                         $(function() {
+                      //                           var fromDateLocalStorage = localStorage.getItem("fromDate");
+                      //                                 var toDateLocalStorage = localStorage.getItem("toDate");
+
+                      //                                 url1 = "/page/"+fromDateLocalStorage+"/"+toDateLocalStorage+"/<%=dataPaginationPageNo-1%>";
+                      //                                 $("#previosPageUrl").attr("href", url1);
+
+                      //                                 url2 = "/page/"+fromDateLocalStorage+"/"+toDateLocalStorage+"/<%=dataPaginationPageNo+1%>";
+                      //                                 $("#nextPageUrl").attr("href", url2);
+                      // });
+
+
+                      $(window).on("load", function () {
+                        var fromDateLocalStorage = localStorage.getItem("fromDate");
+                        var toDateLocalStorage = localStorage.getItem("toDate");
+
+                        url1 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo-1%>";
+                        $("#previosPageUrl").attr("href", url1);
+
+                        url2 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo+1%>";
+                        $("#nextPageUrl").attr("href", url2);
+                      });
                         // function toDate() {
                         //   var toDate = document.getElementById("ToDate").value;
                         //     localStorage.setItem("toDate", toDate);
@@ -393,7 +393,7 @@ $( window ).on( "load", function() {
                         //         $("#dateRangeFilter").attr("href", url);
                         // }
                     </script>
-                </div>
+                  </div>
                 </li>
               </ul>
             </div>
@@ -473,8 +473,12 @@ $( window ).on( "load", function() {
                               var selectedDate = localStorage.getItem("selectedDate<%= singleData.data.id%>");
                               var selectedTimeframe = localStorage.getItem("selectedTimeframe<%= singleData.data.id%>");
                               var remarks = localStorage.getItem("remarks<%= singleData.data.id%>");
+                              var remarks = localStorage.getItem("remarks<%= singleData.data.id%>");
+                              var fromDate1 = localStorage.getItem("fromDate");
+                              var toDate1 = localStorage.getItem("toDate");
+                              var pageNo1 = localStorage.getItem("pageNo");
 
-                              url = "/assignDate/<%=singleData.data.id%>/" + selectedFarmId + "/" + selectedDate + "/" + selectedTimeframe + "/" + remarks;
+                              url = "/assignDate/<%=singleData.data.id%>/" + selectedFarmId + "/" + selectedDate + "/" + selectedTimeframe + "/" + remarks + "/" + fromDate1 + "/" + toDate1 + "/" + pageNo1;
                               $("#addBtn<%=singleData.data.id%>").attr("href", url);
 
                               return true;
@@ -707,9 +711,10 @@ $( window ).on( "load", function() {
                                 <!-- onchange="enableButton<%=singleData.data.id%>(this.value)"  -->
                               </div>
                               <div class="modal-footer">
-                                <a href="#" id="confirmButtonWithDates<%=singleData.data.id%>"><button onclick="removeLocalSTorage()"
-                                  id="confirmButton<%=singleData.data.id%>" type="button" class="btn btn-link waves-effect bg-teal"
-                                    disabled>Mark as Completed</button></a>
+                                <a href="#" id="confirmButtonWithDates<%=singleData.data.id%>"><button
+                                    onclick="removeLocalSTorage()" id="confirmButton<%=singleData.data.id%>"
+                                    type="button" class="btn btn-link waves-effect bg-teal" disabled>Mark as
+                                    Completed</button></a>
                                 <button onclick="removeLocalSTorage()" type="button"
                                   class="btn btn-link waves-effect bg-red" data-dismiss="modal">CLOSE</button>
                               </div>
@@ -721,7 +726,7 @@ $( window ).on( "load", function() {
                             var toDate2 = localStorage.getItem("toDate");
                             var pageNo = localStorage.getItem("pageNo");
 
-                            url = "/markAsComplete/"+orderID+"/"+fromDate2+"/"+toDate2+"/"+pageNo;
+                            url = "/markAsComplete/" + orderID + "/" + fromDate2 + "/" + toDate2 + "/" + pageNo;
                             console.log(url);
                             $("#confirmButtonWithDates<%=singleData.data.id%>").attr("href", url);
                           </script>
@@ -737,9 +742,9 @@ $( window ).on( "load", function() {
                             el.addEventListener('keyup', function () {
                               var inputValue = document.getElementById("confirmCompleteInput<%=singleData.data.id%>").value;
                               var confirmValue = <%=singleData.data.order.woo_commerce_order_id%>;
-                              if(parseInt(inputValue) == parseInt(confirmValue)){
+                              if (parseInt(inputValue) == parseInt(confirmValue)) {
                                 $("#confirmButton<%=singleData.data.id%>").attr("disabled", false);
-                              }else{
+                              } else {
                                 $("#confirmButton<%=singleData.data.id%>").attr("disabled", true);
                               }
                               console.log(inputValue, confirmValue);
@@ -785,8 +790,11 @@ $( window ).on( "load", function() {
                                 var selectedDate = localStorage.getItem("selectedDate<%= singleData.data.id%>");
                                 var selectedTimeframe = localStorage.getItem("selectedTimeFrame<%= singleData.data.id%>");
                                 var remarks = localStorage.getItem("remarks<%= singleData.data.id%>");
+                                var fromDate1 = localStorage.getItem("fromDate");
+                              var toDate1 = localStorage.getItem("toDate");
+                              var pageNo1 = localStorage.getItem("pageNo");
 
-                                url = "/assignDate/<%=singleData.data.id%>/" + selectedFarmId + "/" + selectedDate + "/" + selectedTimeframe + "/" + remarks;
+                                url = "/assignDate/<%=singleData.data.id%>/" + selectedFarmId + "/" + selectedDate + "/" + selectedTimeframe + "/" + remarks + "/" + fromDate1 + "/" + toDate1 + "/" + pageNo1;
                                 $("#addBtn<%=singleData.data.id%>").attr("href", url);
 
                                 return true;
@@ -801,9 +809,12 @@ $( window ).on( "load", function() {
                                 var selectedDate = localStorage.getItem("selectedDate<%= singleData.data.id%>");
                                 var selectedTimeframe = localStorage.getItem("selectedTimeFrame<%= singleData.data.id%>");
                                 var remarks = localStorage.getItem("remarks<%= singleData.data.id%>");
+                                var fromDate1 = localStorage.getItem("fromDate");
+                              var toDate1 = localStorage.getItem("toDate");
+                              var pageNo1 = localStorage.getItem("pageNo");
 
 
-                                url = "/assignDate/<%=singleData.data.id%>/" + selectedFarmId + "/" + selectedDate + "/" + selectedTimeframe + "/" + remarks;
+                                url = "/assignDate/<%=singleData.data.id%>/" + selectedFarmId + "/" + selectedDate + "/" + selectedTimeframe + "/" + remarks + "/" + fromDate1 + "/" + toDate1 + "/" + pageNo1;
                                 $("#addBtn<%=singleData.data.id%>").attr("href", url);
 
                                 return true;
@@ -905,18 +916,18 @@ $( window ).on( "load", function() {
                 </tbody>
 
                 <script>
-                  
-                                function setURLs(){
-                                var fromDateLocalStorage = localStorage.getItem("fromDate");
-                                var toDateLocalStorage = localStorage.getItem("toDate");
 
-                                url1 = "/page/"+fromDateLocalStorage+"/"+toDateLocalStorage+"/<%=dataPaginationPageNo-1%>";
-                                $("#previosPageUrl").attr("href", url1);
+                  function setURLs() {
+                    var fromDateLocalStorage = localStorage.getItem("fromDate");
+                    var toDateLocalStorage = localStorage.getItem("toDate");
 
-                                url2 = "/page/"+fromDateLocalStorage+"/"+toDateLocalStorage+"/<%=dataPaginationPageNo+1%>";
-                                $("#nextPageUrl").attr("href", url2);
-                                return true;
-                                }
+                    url1 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo-1%>";
+                    $("#previosPageUrl").attr("href", url1);
+
+                    url2 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo+1%>";
+                    $("#nextPageUrl").attr("href", url2);
+                    return true;
+                  }
                 </script>
                 <nav>
                   <ul class="pagination">
@@ -952,29 +963,29 @@ $( window ).on( "load", function() {
                   </ul>
                 </nav>
               </table>
-              
+
               <script>
-                  var table, rows, switching, i, x, y, shouldSwitch;
-                  table = document.getElementById("openOrdersTable");
-                  switching = true;
-                  while (switching) {
-                    switching = false;
-                    rows = table.rows;
-                    for (i = 1; i < (rows.length - 1); i++) {
-                      shouldSwitch = false;
-                      x = rows[i].getElementsByTagName("TD")[0];
-                      y = rows[i + 1].getElementsByTagName("TD")[0];
-                      if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                        shouldSwitch = true;
-                        break;
-                      }
-                    }
-                    if (shouldSwitch) {
-                      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                      switching = true;
+                var table, rows, switching, i, x, y, shouldSwitch;
+                table = document.getElementById("openOrdersTable");
+                switching = true;
+                while (switching) {
+                  switching = false;
+                  rows = table.rows;
+                  for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    x = rows[i].getElementsByTagName("TD")[0];
+                    y = rows[i + 1].getElementsByTagName("TD")[0];
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                      shouldSwitch = true;
+                      break;
                     }
                   }
-                </script>
+                  if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                  }
+                }
+              </script>
 
 
             </div>

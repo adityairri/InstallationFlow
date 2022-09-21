@@ -33,7 +33,7 @@ require('./backbone/installationStatus')();
 var index = require('./backbone/index');
 app.use('/',index);
 app.use('/page/:fromDate/:toDate/:pageNo',index);
-app.get('/assignDate/:orderID/:farmID/:date/:time/:remarks', index);
+app.get('/assignDate/:orderID/:farmID/:date/:time/:remarks/:fromDate/:toDate/:pageNo', index);
 app.get('/addRemarks/:id/:remarks', index);
 app.get('/assignFollowupDate/:id/:remarks/:followupDate', index);
 app.use('/markAsComplete/:orderID/:fromDate/:toDate/:pageNo',index);
