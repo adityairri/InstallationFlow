@@ -215,7 +215,7 @@ module.exports = function () {
       var reqBody = JSON.stringify({
         filter: {
           from_date: req.params.fromDate + " 00:00",
-          to_date: req.params.toDate + " 00:00",
+          to_date: req.params.toDate + " 23:59",
           status: "NEW_ORDER",
         },
       });
