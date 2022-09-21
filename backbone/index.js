@@ -7,8 +7,7 @@ const apiURL = "http://app.aquaexchange.com/api";
 const token = "Token e50f000f342fe8453e714454abac13be07f18ac3";
 
 module.exports = function () {
-  app.get(
-    "/assignDate/:orderID/:farmID/:date/:time/:remarks",
+  app.get("/assignDate/:orderID/:farmID/:date/:time/:remarks",
     async function (req, res) {
       var req = req.params;
       var farmID = req.farmID.split(",");
@@ -49,8 +48,7 @@ module.exports = function () {
     }
   );
 
-  app.get(
-    "/assignFollowupDate/:id/:remarks/:followupDate",
+  app.get("/assignFollowupDate/:id/:remarks/:followupDate",
     async function (req, res) {
       var req = req.params;
       // console.log(req);
@@ -82,7 +80,7 @@ module.exports = function () {
     }
   );
 
-  app.get("/markAsComplete/:orderID", async function (req, res) {
+  app.get("/markAsComplete/:orderID/:fromDate/:toDate/:pageNo", async function (req, res) {
     var req = req.params;
     // console.log(req);
     var orderID = req.orderID;
@@ -105,7 +103,7 @@ module.exports = function () {
 
     await resp.json().then((data) => {
       // console.log(data);
-      res.redirect("/");
+      res.redirect("/page/"+req.fromDate+"/"+req.toDate+"/"+req.pageNo);
     });
     // console.log(reqBody);
   });

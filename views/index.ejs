@@ -48,17 +48,12 @@
     }else if(pathArray[3] != undefined){
       localStorage.setItem("toDate", pathArray[3]);
     }
-    
-    
-    
-    // var fromDate1 = localStorage.getItem("fromDate");
-    // var toDate1 = localStorage.getItem("toDate");
-    // console.log(fromDate1, toDate1);
-    // if(parseInt(fromDate1) == 0 && parseInt(toDate1) == 0){ 
-    //   document.getElementById("titleText").innerHTML = "OPEN ORDERS (No Date Filters)";
-    // }else{
-    //   document.getElementById("titleText").innerHTML = "OPEN ORDERS ("+fromDate1+" to "+toDate1+")";
-    // }        
+    if(pathArray[4] == undefined){
+      localStorage.setItem("pageNo", 1);
+    }else if(pathArray[4] != undefined){
+      localStorage.setItem("pageNo", pathArray[4]);
+    }
+          
   </script>
 
 </head>
@@ -320,7 +315,6 @@
                   
                   var fromDate1 = localStorage.getItem("fromDate");
                   var toDate1 = localStorage.getItem("toDate");
-                  console.log(fromDate1, toDate1);
                   if(parseInt(fromDate1) == 0 && parseInt(toDate1) == 0){ 
                     document.getElementById("titleText").innerHTML = "OPEN ORDERS";
                   }else{
@@ -713,7 +707,7 @@ $( window ).on( "load", function() {
                                 <!-- onchange="enableButton<%=singleData.data.id%>(this.value)"  -->
                               </div>
                               <div class="modal-footer">
-                                <a href="/markAsComplete/<%=singleData.data.id%>"><button onclick="removeLocalSTorage()"
+                                <a href="#" id="confirmButtonWithDates<%=singleData.data.id%>"><button onclick="removeLocalSTorage()"
                                   id="confirmButton<%=singleData.data.id%>" type="button" class="btn btn-link waves-effect bg-teal"
                                     disabled>Mark as Completed</button></a>
                                 <button onclick="removeLocalSTorage()" type="button"
@@ -721,7 +715,16 @@ $( window ).on( "load", function() {
                               </div>
                             </div>
                           </div>
+                          <script>
+                            var orderID = <%=singleData.data.id%>;
+                            var fromDate2 = localStorage.getItem("fromDate");
+                            var toDate2 = localStorage.getItem("toDate");
+                            var pageNo = localStorage.getItem("pageNo");
 
+                            url = "/markAsComplete/"+orderID+"/"+fromDate2+"/"+toDate2+"/"+pageNo;
+                            console.log(url);
+                            $("#confirmButtonWithDates<%=singleData.data.id%>").attr("href", url);
+                          </script>
                           <script>
                             // function enableButton<%=singleData.data.id%>(inputValue){
                             //   var inputValue = inputValue;
