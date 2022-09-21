@@ -49,7 +49,7 @@ module.exports = function () {
       });
     }
 
-    const resp = await fetch(apiURL+"/getInstallationSchedule/",
+    const resp = await fetch(apiURL+"/getInstallationSchedule/?page=" + req.params.pageNo + "",
       {
         method: "post",
         body: reqBody,
