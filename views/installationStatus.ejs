@@ -377,7 +377,11 @@
                                             <%= singleData.data.order.farmer.relationship_BDE.first_name %>
                                           </td>
                                         <td>
+                                          <% if (!singleData.data.confirmed_date){%>
+                                            No Date
+                                            <%}else{%>
                                             <%= singleData.data.confirmed_date.substring(0,10) %>
+                                            <%}%>
                                         </td>
                                         <td>
                                             <%= singleData.data.order.farmer.firstname %>
