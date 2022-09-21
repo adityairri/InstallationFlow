@@ -3,11 +3,12 @@ var ejs = require("ejs");
 var http = require("http");
 var axios = require("axios");
 var fetch = require("cross-fetch");
-const apiURL='http://app.aquaexchange.com/api';
-const token="Token e50f000f342fe8453e714454abac13be07f18ac3";
+const apiURL = "http://app.aquaexchange.com/api";
+const token = "Token e50f000f342fe8453e714454abac13be07f18ac3";
 
 module.exports = function () {
-  app.get("/assignDate/:orderID/:farmID/:date/:time/:remarks",
+  app.get(
+    "/assignDate/:orderID/:farmID/:date/:time/:remarks",
     async function (req, res) {
       var req = req.params;
       var farmID = req.farmID.split(",");
@@ -31,16 +32,14 @@ module.exports = function () {
       });
 
       // console.log(reqBody);
-      const resp = await fetch(apiURL+"/updateInstallationSchedule/",
-        {
-          method: "post",
-          body: reqBody,
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: token,
-          },
-        }
-      );
+      const resp = await fetch(apiURL + "/updateInstallationSchedule/", {
+        method: "post",
+        body: reqBody,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      });
 
       await resp.json().then((data) => {
         // console.log(data);
@@ -50,7 +49,8 @@ module.exports = function () {
     }
   );
 
-  app.get("/assignFollowupDate/:id/:remarks/:followupDate",
+  app.get(
+    "/assignFollowupDate/:id/:remarks/:followupDate",
     async function (req, res) {
       var req = req.params;
       // console.log(req);
@@ -65,16 +65,14 @@ module.exports = function () {
       });
 
       // console.log(reqBody);
-      const resp = await fetch(apiURL+"/updateInstallationSchedule/",
-        {
-          method: "post",
-          body: reqBody,
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: token,
-          },
-        }
-      );
+      const resp = await fetch(apiURL + "/updateInstallationSchedule/", {
+        method: "post",
+        body: reqBody,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      });
 
       await resp.json().then((data) => {
         // console.log(data);
@@ -83,6 +81,34 @@ module.exports = function () {
       // console.log(reqBody);
     }
   );
+
+  app.get("/markAsComplete/:orderID", async function (req, res) {
+    var req = req.params;
+    // console.log(req);
+    var orderID = req.orderID;
+    var reqBody = JSON.stringify({
+      schedule: {
+        id: parseInt(orderID),
+        schedulestatus: "COMPLETED",
+      },
+    });
+
+    // console.log(reqBody);
+    const resp = await fetch(apiURL + "/updateInstallationSchedule/", {
+      method: "post",
+      body: reqBody,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+
+    await resp.json().then((data) => {
+      // console.log(data);
+      res.redirect("/");
+    });
+    // console.log(reqBody);
+  });
 
   app.get("/addRemarks/:id/:remarks", async function (req, res) {
     var req = req.params;
@@ -93,16 +119,14 @@ module.exports = function () {
         schedulestatus: "NEW_ORDER",
       },
     });
-    const resp = await fetch(apiURL+"/updateInstallationSchedule/",
-      {
-        method: "post",
-        body: reqBody,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token,
-        },
-      }
-    );
+    const resp = await fetch(apiURL + "/updateInstallationSchedule/", {
+      method: "post",
+      body: reqBody,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
 
     await resp.json().then((data) => {
       // console.log(data);
@@ -118,32 +142,27 @@ module.exports = function () {
         status: "NEW_ORDER",
       },
     });
-    const resp = await fetch(
-      apiURL+"/getInstallationSchedule/?page=1",
-      {
-        method: "post",
-        body: reqBody,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token,
-        },
-      }
-    );
+    const resp = await fetch(apiURL + "/getInstallationSchedule/?page=1", {
+      method: "post",
+      body: reqBody,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
     var daata = [];
     await resp.json().then(async (data) => {
       data.results.forEach(async (singleInData) => {
         var wooCommerseID = singleInData.order.woo_commerce_order_id;
 
-        new Promise(function(resolve, reject){
-          fetch(apiURL+"/getremarksfororder/" + wooCommerseID + "",
-            {
-              method: "get",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: token,
-              },
-            }
-          ).then(resp=>{
+        new Promise(function (resolve, reject) {
+          fetch(apiURL + "/getremarksfororder/" + wooCommerseID + "", {
+            method: "get",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: token,
+            },
+          }).then((resp) => {
             resp.json().then((dataa) => {
               remarks = dataa;
               daata.push({
@@ -152,10 +171,8 @@ module.exports = function () {
               });
               resolve();
             });
-          })
+          });
         });
-
-      
       });
 
       // console.log(daata);
@@ -172,7 +189,8 @@ module.exports = function () {
         newOrdersCount: newOrdersCount,
         reconfirmOrdersCount: FarmerDateConfirm,
         readyToInstallCount: FarmerReconfirm,
-        totalRescheduleCount: CancelledSEReSchedule + SMReschedule + FarmerCancelledReschedule,
+        totalRescheduleCount:
+          CancelledSEReSchedule + SMReschedule + FarmerCancelledReschedule,
         sePendingList: AssignedSE,
         seAcceptedList: ConfirmedSE,
         seDeclinedList: CancelledSE,
@@ -186,23 +204,25 @@ module.exports = function () {
     });
   });
 
+  app.get("/page/:fromDate/:toDate/:pageNo", async function (req, res) {
+    if (req.params.fromDate == 0 || req.params.fromDate == 0) {
+      var reqBody = JSON.stringify({
+        filter: {
+          status: "NEW_ORDER",
+        },
+      });
+    } else if (req.params.fromDate != null && req.params.fromDate != null) {
+      var reqBody = JSON.stringify({
+        filter: {
+          from_date: req.params.fromDate + " 00:00",
+          to_date: req.params.toDate + " 00:00",
+          status: "NEW_ORDER",
+        },
+      });
+    }
 
-
-
-
-
-
-
-
-
-  app.get("/page/:pageNo", async function (req, res) {
-    var reqBody = JSON.stringify({
-      filter: {
-        status: "NEW_ORDER",
-      },
-    });
     const resp = await fetch(
-      apiURL+"/getInstallationSchedule/?page="+req.params.pageNo+"",
+      apiURL + "/getInstallationSchedule/?page=" + req.params.pageNo + "",
       {
         method: "post",
         body: reqBody,
@@ -215,41 +235,39 @@ module.exports = function () {
     var daata = [];
     await resp.json().then(async (data) => {
       if (data.msg != "Invalid page.") {
-      data.results.forEach(async (singleInData) => {
-        var wooCommerseID = singleInData.order.woo_commerce_order_id;
+        data.results.forEach(async (singleInData) => {
+          var wooCommerseID = singleInData.order.woo_commerce_order_id;
 
-        new Promise(function(resolve, reject){
-          fetch(apiURL+"/getremarksfororder/" + wooCommerseID + "",
-            {
+          new Promise(function (resolve, reject) {
+            fetch(apiURL + "/getremarksfororder/" + wooCommerseID + "", {
               method: "get",
               headers: {
                 "Content-Type": "application/json",
                 Authorization: token,
               },
-            }
-          ).then(resp=>{
-            resp.json().then((dataa) => {
-              remarks = dataa;
-              daata.push({
-                remarks: remarks,
-                data: singleInData,
+            }).then((resp) => {
+              resp.json().then((dataa) => {
+                remarks = dataa;
+                daata.push({
+                  remarks: remarks,
+                  data: singleInData,
+                });
+                resolve();
               });
-              resolve();
             });
-          })
+          });
         });
-      });
-    }else if(data.msg == "Invalid page."){
-      data.links={
-        "next": null,
-        "previous": null
-    };
-    data.page={
-      "page": 1,
-      "pages": 1,
-      "count": 0
-  }
-    }
+      } else if (data.msg == "Invalid page.") {
+        data.links = {
+          next: null,
+          previous: null,
+        };
+        data.page = {
+          page: 1,
+          pages: 1,
+          count: 0,
+        };
+      }
 
       await getAllStatusCount();
       await getAllStatusCount();
@@ -260,11 +278,12 @@ module.exports = function () {
         dataPaginationPrevious: data.links.previous,
         dataPaginationPageNo: data.page.page,
         dataPaginationTotalPages: data.page.pages,
-        
+
         newOrdersCount: newOrdersCount,
         reconfirmOrdersCount: FarmerDateConfirm,
         readyToInstallCount: FarmerReconfirm,
-        totalRescheduleCount: CancelledSEReSchedule + SMReschedule + FarmerCancelledReschedule,
+        totalRescheduleCount:
+          CancelledSEReSchedule + SMReschedule + FarmerCancelledReschedule,
         sePendingList: AssignedSE,
         seAcceptedList: ConfirmedSE,
         seDeclinedList: CancelledSE,
@@ -277,12 +296,6 @@ module.exports = function () {
       });
     });
   });
-
-
-
-
-
-
 
   var newOrdersCount;
   var FarmerDateConfirm;
@@ -301,183 +314,229 @@ module.exports = function () {
   var Completed;
   async function getAllStatusCount(req, res) {
     var reqBody = JSON.stringify({});
-    const resp = await fetch(apiURL+"/getinstallStatuscount/",
-      {
-        method: "post",
-        body: reqBody,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token,
-        },
-      }
-    );
+    const resp = await fetch(apiURL + "/getinstallStatuscount/", {
+      method: "post",
+      body: reqBody,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
     await resp.json().then((data) => {
+      if (
+        data.some((singleData) => singleData.schedulestatus === "New Order")
+      ) {
+        data.forEach((element) => {
+          if (element.schedulestatus === "New Order") {
+            newOrdersCount = element.total;
+          }
+        });
+      } else {
+        newOrdersCount = 0;
+      }
 
-        if(data.some(singleData => singleData.schedulestatus === "New Order")){
-          data.forEach(element => {
-            if(element.schedulestatus==="New Order"){
-              newOrdersCount = element.total;
-            }
-          });
-        }else{
-          newOrdersCount = 0;
-        }
+      if (
+        data.some(
+          (singleData) => singleData.schedulestatus === "Farmer_Date_Confirm"
+        )
+      ) {
+        data.forEach((element) => {
+          if (element.schedulestatus === "Farmer_Date_Confirm") {
+            FarmerDateConfirm = element.total;
+          }
+        });
+      } else {
+        FarmerDateConfirm = 0;
+      }
 
-        if(data.some(singleData => singleData.schedulestatus === "Farmer_Date_Confirm")){
-          data.forEach(element => {
-            if(element.schedulestatus==="Farmer_Date_Confirm"){
-              FarmerDateConfirm = element.total;
-            }
-          });
-        }else{
-          FarmerDateConfirm = 0;
-        }
+      if (
+        data.some(
+          (singleData) => singleData.schedulestatus === "Farmer_Reconfirm"
+        )
+      ) {
+        data.forEach((element) => {
+          if (element.schedulestatus === "Farmer_Reconfirm") {
+            FarmerReconfirm = element.total;
+          }
+        });
+      } else {
+        FarmerReconfirm = 0;
+      }
 
-        if(data.some(singleData => singleData.schedulestatus === "Farmer_Reconfirm")){
-          data.forEach(element => {
-            if(element.schedulestatus==="Farmer_Reconfirm"){
-              FarmerReconfirm = element.total;
-            }
-          });
-        }else{
-          FarmerReconfirm = 0;
-        }
+      if (
+        data.some(
+          (singleData) =>
+            singleData.schedulestatus === "Cancelled_SE_ReSchedule"
+        )
+      ) {
+        data.forEach((element) => {
+          if (element.schedulestatus === "Cancelled_SE_ReSchedule") {
+            CancelledSEReSchedule = element.total;
+          }
+        });
+      } else {
+        CancelledSEReSchedule = 0;
+      }
 
-        if(data.some(singleData => singleData.schedulestatus === "Cancelled_SE_ReSchedule")){
-          data.forEach(element => {
-            if(element.schedulestatus==="Cancelled_SE_ReSchedule"){
-              CancelledSEReSchedule = element.total;
-            }
-          });
-        }else{
-          CancelledSEReSchedule = 0;
-        }
+      if (
+        data.some((singleData) => singleData.schedulestatus === "SM_Reschedule")
+      ) {
+        data.forEach((element) => {
+          if (element.schedulestatus === "SM_Reschedule") {
+            SMReschedule = element.total;
+          }
+        });
+      } else {
+        SMReschedule = 0;
+      }
 
-        if(data.some(singleData => singleData.schedulestatus === "SM_Reschedule")){
-          data.forEach(element => {
-            if(element.schedulestatus==="SM_Reschedule"){
-              SMReschedule = element.total;
-            }
-          });
-        }else{
-          SMReschedule = 0;
-        }
+      if (
+        data.some(
+          (singleData) => singleData.schedulestatus === "Famer_Final_Cancelled"
+        )
+      ) {
+        data.forEach((element) => {
+          if (element.schedulestatus === "Famer_Final_Cancelled") {
+            FarmerCancelledReschedule = element.total;
+          }
+        });
+      } else {
+        FarmerCancelledReschedule = 0;
+      }
 
-        if(data.some(singleData => singleData.schedulestatus === "Famer_Final_Cancelled")){
-          data.forEach(element => {
-            if(element.schedulestatus==="Famer_Final_Cancelled"){
-              FarmerCancelledReschedule = element.total;
-            }
-          });
-        }else{
-          FarmerCancelledReschedule = 0;
-        }
+      if (
+        data.some((singleData) => singleData.schedulestatus === "Assigned_SE")
+      ) {
+        data.forEach((element) => {
+          if (element.schedulestatus === "Assigned_SE") {
+            AssignedSE = element.total;
+          }
+        });
+      } else {
+        AssignedSE = 0;
+      }
 
-        if(data.some(singleData => singleData.schedulestatus === "Assigned_SE")){
-          data.forEach(element => {
-            if(element.schedulestatus==="Assigned_SE"){
-              AssignedSE = element.total;
-            }
-          });
-        }else{
-          AssignedSE = 0;
-        }
+      if (
+        data.some(
+          (singleData) =>
+            singleData.schedulestatus === "Send_Farmer_Confirmation"
+        )
+      ) {
+        data.forEach((element) => {
+          if (element.schedulestatus === "Send_Farmer_Confirmation") {
+            ConfirmedSE = element.total;
+          }
+        });
+      } else {
+        ConfirmedSE = 0;
+      }
 
-        if(data.some(singleData => singleData.schedulestatus === "Send_Farmer_Confirmation")){
-          data.forEach(element => {
-            if(element.schedulestatus==="Send_Farmer_Confirmation"){
-              ConfirmedSE = element.total;
-            }
-          });
-        }else{
-          ConfirmedSE = 0;
-        }
+      if (
+        data.some((singleData) => singleData.schedulestatus === "Cancelled_SE")
+      ) {
+        data.forEach((element) => {
+          if (element.schedulestatus === "Cancelled_SE") {
+            CancelledSE = element.total;
+          }
+        });
+      } else {
+        CancelledSE = 0;
+      }
 
-        if(data.some(singleData => singleData.schedulestatus === "Cancelled_SE")){
-          data.forEach(element => {
-            if(element.schedulestatus==="Cancelled_SE"){
-              CancelledSE = element.total;
-            }
-          });
-        }else{
-          CancelledSE = 0;
-        }
+      if (
+        data.some(
+          (singleData) =>
+            singleData.schedulestatus === "Send_Farmer_Confirmation"
+        )
+      ) {
+        data.forEach((element) => {
+          if (element.schedulestatus === "Send_Farmer_Confirmation") {
+            SendFarmerConfirmation = element.total;
+          }
+        });
+      } else {
+        SendFarmerConfirmation = 0;
+      }
 
-        if(data.some(singleData => singleData.schedulestatus === "Send_Farmer_Confirmation")){
-          data.forEach(element => {
-            if(element.schedulestatus==="Send_Farmer_Confirmation"){
-              SendFarmerConfirmation = element.total;
-            }
-          });
-        }else{
-          SendFarmerConfirmation = 0;
-        }
+      if (
+        data.some(
+          (singleData) =>
+            singleData.schedulestatus === "Farmer_Final_Confirmation"
+        )
+      ) {
+        data.forEach((element) => {
+          if (element.schedulestatus === "Farmer_Final_Confirmation") {
+            FarmerFinalConfirmation = element.total;
+          }
+        });
+      } else {
+        FarmerFinalConfirmation = 0;
+      }
 
-        if(data.some(singleData => singleData.schedulestatus === "Farmer_Final_Confirmation")){
-          data.forEach(element => {
-            if(element.schedulestatus==="Farmer_Final_Confirmation"){
-              FarmerFinalConfirmation = element.total;
-            }
-          });
-        }else{
-          FarmerFinalConfirmation = 0;
-        }
+      if (
+        data.some(
+          (singleData) => singleData.schedulestatus === "Famer_Final_Cancelled"
+        )
+      ) {
+        data.forEach((element) => {
+          if (element.schedulestatus === "Famer_Final_Cancelled") {
+            FamerFinalCancelled = element.total;
+          }
+        });
+      } else {
+        FamerFinalCancelled = 0;
+      }
 
-        if(data.some(singleData => singleData.schedulestatus === "Famer_Final_Cancelled")){
-          data.forEach(element => {
-            if(element.schedulestatus==="Famer_Final_Cancelled"){
-              FamerFinalCancelled = element.total;
-            }
-          });
-        }else{
-          FamerFinalCancelled = 0;
-        }
+      if (
+        data.some((singleData) => singleData.schedulestatus === "SE_Attended")
+      ) {
+        data.forEach((element) => {
+          if (element.schedulestatus === "SE_Attended") {
+            SEAttended = element.total;
+          }
+        });
+      } else {
+        SEAttended = 0;
+      }
 
-        if(data.some(singleData => singleData.schedulestatus === "SE_Attended")){
-          data.forEach(element => {
-            if(element.schedulestatus==="SE_Attended"){
-              SEAttended = element.total;
-            }
-          });
-        }else{
-          SEAttended = 0;
-        }
+      if (
+        data.some(
+          (singleData) => singleData.schedulestatus === "Partial Completed"
+        )
+      ) {
+        data.forEach((element) => {
+          if (element.schedulestatus === "Partial Completed") {
+            PartialCompleted = element.total;
+          }
+        });
+      } else {
+        PartialCompleted = 0;
+      }
 
-        if(data.some(singleData => singleData.schedulestatus === "Partial Completed")){
-          data.forEach(element => {
-            if(element.schedulestatus==="Partial Completed"){
-              PartialCompleted = element.total;
-            }
-          });
-        }else{
-          PartialCompleted = 0;
-        }
-
-        if(data.some(singleData => singleData.schedulestatus === "Completed")){
-          data.forEach(element => {
-            if(element.schedulestatus==="Completed"){
-              Completed = element.total;
-            }
-          });
-        }else{
-          Completed = 0;
-        }
+      if (
+        data.some((singleData) => singleData.schedulestatus === "Completed")
+      ) {
+        data.forEach((element) => {
+          if (element.schedulestatus === "Completed") {
+            Completed = element.total;
+          }
+        });
+      } else {
+        Completed = 0;
+      }
     });
   }
-
 
   var remarks = [];
   async function getRemarksList(req, res) {
     var req = req;
-    const resp = await fetch(apiURL+"/getremarksfororder/" + req + "",
-      {
-        method: "get",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token,
-        },
-      }
-    );
+    const resp = await fetch(apiURL + "/getremarksfororder/" + req + "", {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
     await resp.json().then((dataa) => {
       remarks = dataa;
     });

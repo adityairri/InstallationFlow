@@ -27,8 +27,8 @@
   <!-- Morris Chart Css-->
   <link href="plugins/morrisjs/morris.css" rel="stylesheet" />
 
-   <!-- JQuery DataTable Css -->
-   <link href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet">
+  <!-- JQuery DataTable Css -->
+  <link href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet">
 
   <!-- Custom Css -->
   <link href="css/style.css" rel="stylesheet">
@@ -37,6 +37,10 @@
   <link href="css/themes/all-themes.css" rel="stylesheet" />
   <script>
     localStorage.clear();
+    var pathArray = window.location.pathname.split('/');
+    console.log(pathArray);
+    localStorage.setItem("fromDate", pathArray[2]);
+    localStorage.setItem("toDate", pathArray[3]);
   </script>
 
 </head>
@@ -296,20 +300,83 @@
               </h2>
               <ul class="header-dropdown m-r--5">
                 <li class="dropdown">
-                  <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                    aria-haspopup="true" aria-expanded="false">
-                    <i class="material-icons">more_vert</i>
-                  </a>
-                  <ul class="dropdown-menu pull-right">
-                    <li><a href="javascript:void(0);">Action</a></li>
-                    <li><a href="javascript:void(0);">Another action</a></li>
-                    <li><a href="javascript:void(0);">Something else here</a></li>
-                  </ul>
+                  <div class="row clearfix col-lg-12 col-md-12">
+                    <div class="col-lg-5 col-md-5">
+                        <input type="date" class="form-control date" id="FromDate" onchange="handler()">
+                    </div>
+                    <div class="col-lg-5 col-md-5">
+                      <input type="date" class="form-control date" id="ToDate" onchange="handler()">
+                  </div>
+                    <div class="col-lg-2 col-md-2">
+                        <a href="/page/0/0/1" id="dateRangeFilter">
+                            <button type="button" class="btn bg-teal waves-effect">
+                                <i class="material-icons">search</i>
+                            </button>
+                        </a>
+                    </div>
+                    <script>
+                        function handler() {
+                            var fromDate = document.getElementById("FromDate").value;
+                            var toDate = document.getElementById("ToDate").value;
+                            localStorage.setItem("fromDate", fromDate);
+                            localStorage.setItem("toDate", toDate);
+                            var fromDateLocalStorage = localStorage.getItem("fromDate");
+                                var toDateLocalStorage = localStorage.getItem("toDate");
+                            
+                            var url = "/page/"+fromDateLocalStorage+"/"+toDateLocalStorage+"/1";
+                                $("#dateRangeFilter").attr("href", url);
+                                
+
+                                var fromDateLocalStorage = localStorage.getItem("fromDate");
+                                var toDateLocalStorage = localStorage.getItem("toDate");
+
+                                url1 = "/page/"+fromDateLocalStorage+"/"+toDateLocalStorage+"/<%=dataPaginationPageNo-1%>";
+                                $("#previosPageUrl").attr("href", url1);
+
+                                url2 = "/page/"+fromDateLocalStorage+"/"+toDateLocalStorage+"/<%=dataPaginationPageNo+1%>";
+                                $("#nextPageUrl").attr("href", url2);
+
+                        }
+
+//                         $(function() {
+//                           var fromDateLocalStorage = localStorage.getItem("fromDate");
+//                                 var toDateLocalStorage = localStorage.getItem("toDate");
+
+//                                 url1 = "/page/"+fromDateLocalStorage+"/"+toDateLocalStorage+"/<%=dataPaginationPageNo-1%>";
+//                                 $("#previosPageUrl").attr("href", url1);
+
+//                                 url2 = "/page/"+fromDateLocalStorage+"/"+toDateLocalStorage+"/<%=dataPaginationPageNo+1%>";
+//                                 $("#nextPageUrl").attr("href", url2);
+// });
+
+
+$( window ).on( "load", function() {
+  var fromDateLocalStorage = localStorage.getItem("fromDate");
+                                var toDateLocalStorage = localStorage.getItem("toDate");
+
+                                url1 = "/page/"+fromDateLocalStorage+"/"+toDateLocalStorage+"/<%=dataPaginationPageNo-1%>";
+                                $("#previosPageUrl").attr("href", url1);
+
+                                url2 = "/page/"+fromDateLocalStorage+"/"+toDateLocalStorage+"/<%=dataPaginationPageNo+1%>";
+                                $("#nextPageUrl").attr("href", url2);
+    });
+                        // function toDate() {
+                        //   var toDate = document.getElementById("ToDate").value;
+                        //     localStorage.setItem("toDate", toDate);
+                        //     var fromDateLocalStorage = localStorage.getItem("fromDate");
+                        //     var toDateLocalStorage = localStorage.getItem("toDate");
+                        //     function setURLs();
+                        //     url = "/page/"+fromDateLocalStorage+"/"+toDateLocalStorage+"/1";
+                        //         $("#dateRangeFilter").attr("href", url);
+                        // }
+                    </script>
+                </div>
                 </li>
               </ul>
             </div>
             <div class="body table-responsive">
-              <table class="table table-bordered table-striped table-hover js-basic-example dataTable" id="openOrdersTable">
+              <table class="table table-bordered table-striped table-hover js-basic-example dataTable"
+                id="openOrdersTable">
                 <thead>
                   <tr>
                     <th style="text-align: center;">ORDER ID</th>
@@ -350,14 +417,14 @@
                         <%= singleData.data.order.farmer.relationship_BDE.first_name %>
                       </td>
                       <td width="7%">
-                        <%= singleData.data.created_date.substring(0,10) %>
+                        <%= singleData.data.order.ordercreated.substring(0,10) %>
                       </td>
                       <td width="7%">
-                        <% if(singleData.data.followup_date != null){%>
+                        <% if(singleData.data.followup_date !=null){%>
                           <%=singleData.data.followup_date.substring(0,10)%>
-                          <%}else{%>
-                       No Followups
-                       <%}%>
+                            <%}else{%>
+                              No Followups
+                              <%}%>
                       </td>
                       <td>
                         <%= singleData.data.order.farmer.firstname %>
@@ -407,20 +474,20 @@
                       <td style="width: 15%;">
                         <% singleData.data.order.items.forEach(function(itemsList){ %>
                           <% if(itemsList.name=="APFC - Automatic power factor Controller" ){%>
-                            APFC - <%= itemsList.quantity %> - <%if(itemsList.isInstalled == false){ %>
-                               0 </br>
-                               <%}if(itemsList.isInstalled == true){%>
-                                1 </br>
-                                <%}%>
-                                <%}if(itemsList.name=="Powermon 2.0"){%>
-                                  Powermon - <%= itemsList.quantity %> - <%if(itemsList.isInstalled == false){ %>
-                                    0 </br>
-                                    <%}if(itemsList.isInstalled == true){%>
-                                     1 </br>
-                                     <%}%>
-                                      <%}%>
+                            APFC - <%= itemsList.quantity %> - <%if(itemsList.isInstalled==false){ %>
+                                0 </br>
+                                <%}if(itemsList.isInstalled==true){%>
+                                  1 </br>
+                                  <%}%>
+                                    <%}if(itemsList.name=="Powermon 2.0"){%>
+                                      Powermon - <%= itemsList.quantity %> - <%if(itemsList.isInstalled==false){ %>
+                                          0 </br>
+                                          <%}if(itemsList.isInstalled==true){%>
+                                            1 </br>
+                                            <%}%>
+                                              <%}%>
 
-                                        <% }) %>
+                                                <% }) %>
                       </td>
                       <td style="width: 20%;">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -502,7 +569,7 @@
                               </li>
                             </ul>
 
-                           
+
 
                             <div class="modal fade" id="followbackModal<%=singleData.data.id%>" tabindex="-1"
                               role="dialog" data-keyboard="false" data-backdrop="static">
@@ -514,13 +581,17 @@
                                   <div class="modal-body">
                                     <div class="row clearfix">
                                       <div><input type="datetime-local" class="form-control date"
-                                        id="followupDate<%=singleData.data.id%>" onchange="addFollowupDate<%=singleData.data.id%>(event)"
-                                        required></div>
+                                          id="followupDate<%=singleData.data.id%>"
+                                          onchange="addFollowupDate<%=singleData.data.id%>(event)" required></div>
                                     </div>
                                   </div>
                                   <div class="modal-footer">
-                                    <a href="#" id="followupBtn<%=singleData.data.id%>"><button onclick="removeLocalSTorage()" id="followupBtn<%=singleData.data.id%>1" type="button" class="btn btn-link waves-effect bg-teal">CREATE FOLLOWUP</button></a>
-                                    <button type="button" class="btn btn-link waves-effect bg-red" data-dismiss="modal">CLOSE</button>
+                                    <a href="#" id="followupBtn<%=singleData.data.id%>"><button
+                                        onclick="removeLocalSTorage()" id="followupBtn<%=singleData.data.id%>1"
+                                        type="button" class="btn btn-link waves-effect bg-teal">CREATE
+                                        FOLLOWUP</button></a>
+                                    <button type="button" class="btn btn-link waves-effect bg-red"
+                                      data-dismiss="modal">CLOSE</button>
                                   </div>
                                 </div>
                               </div>
@@ -528,25 +599,25 @@
 
 
                             <script>
-                              function openFollowupModal<%=singleData.data.id%>() {
+                              function openFollowupModal<%=singleData.data.id%> () {
                                 $('#followbackModal<%=singleData.data.id%>').modal('show');
                               }
 
                               function addFollowupDate<%=singleData.data.id%> (e) {
-                            localStorage.removeItem("followupDate<%= singleData.data.id%>");
-                            var x = document.getElementById("followupDate<%=singleData.data.id%>").value;
-                            localStorage.setItem("followupDate<%= singleData.data.id%>", x);
-                            localStorage.removeItem("selectedFarmId<%= singleData.data.id%>");
-                            localStorage.removeItem("selectedDate<%= singleData.data.id%>");
-                            localStorage.removeItem("selectedTimeframe<%= singleData.data.id%>");
-                            localStorage.removeItem("remarks<%= singleData.data.id%>");
-                            var followupDate = localStorage.getItem("followupDate<%= singleData.data.id%>");
+                                localStorage.removeItem("followupDate<%= singleData.data.id%>");
+                                var x = document.getElementById("followupDate<%=singleData.data.id%>").value;
+                                localStorage.setItem("followupDate<%= singleData.data.id%>", x);
+                                localStorage.removeItem("selectedFarmId<%= singleData.data.id%>");
+                                localStorage.removeItem("selectedDate<%= singleData.data.id%>");
+                                localStorage.removeItem("selectedTimeframe<%= singleData.data.id%>");
+                                localStorage.removeItem("remarks<%= singleData.data.id%>");
+                                var followupDate = localStorage.getItem("followupDate<%= singleData.data.id%>");
 
-                            url = "/assignFollowupDate/<%=singleData.data.id%>/Call me later/" + followupDate;
-                            $("#followupBtn<%=singleData.data.id%>").attr("href", url);
+                                url = "/assignFollowupDate/<%=singleData.data.id%>/Call me later/" + followupDate;
+                                $("#followupBtn<%=singleData.data.id%>").attr("href", url);
 
-                            return true;
-                          }
+                                return true;
+                              }
                             </script>
 
 
@@ -582,83 +653,150 @@
 
 
                       <td style="width: 10%;">
-                      <a><button data-toggle="modal" data-target="#openScheduleDateModal<%=singleData.data.id%>" class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12" id="addBtn<%=singleData.data.id%>1" disabled>Schedule Date</button>
-                      </a>
-                    </td>
-                    <div class="modal fade" id="openScheduleDateModal<%=singleData.data.id%>" tabindex="-1"
-                      role="dialog" data-keyboard="false" data-backdrop="static">
-                      <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h4 class="modal-title" id="largeModalLabel">Add Confirmed Date</h4>
-                          </div>
-                          <div class="modal-body">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><input type="date" class="form-control date"
-                              id="dateTime<%=singleData.data.id%>" onchange="handler<%=singleData.data.id%>(event)"
-                              required></div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                              <select id="timeframe<%=singleData.data.id%>"
-                                onchange="selectedTimeFrameFunction<%=singleData.data.id%>()">
-                                <option value="">--Select Time--</option>
-                                <option value="7AM - 10AM">7:00 AM - 10:00 AM</option>
-                                <option value="10AM - 1PM">10:00 AM - 1:00 PM</option>
-                                <option value="2PM - 5PM">2:00 PM - 5:00 PM</option>
-                                <option value="7AM - 1PM">7:00 AM - 1:00 PM</option>
-                                <option value="7AM - 5PM">7:00 AM - 5:00 PM</option>
-                              </select>
+                        <a><button data-toggle="modal" data-target="#openScheduleDateModal<%=singleData.data.id%>"
+                            class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                            id="addBtn<%=singleData.data.id%>1" disabled>Schedule Date</button>
+                        </a></br>
+                        <!-- <a><button data-toggle="modal" data-target="#openMarkAsCompleteModal<%=singleData.data.id%>"
+                            class="btn bg-red waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                            id="addBtn<%=singleData.data.id%>1">Mark as Complete</button>
+                        </a> -->
+
+
+
+
+
+                        <div class="modal fade" id="openMarkAsCompleteModal<%=singleData.data.id%>" tabindex="-1"
+                          role="dialog" data-keyboard="false" data-backdrop="static">
+                          <div class="modal-dialog modal-sm" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h4 class="modal-title" id="largeModalLabel">Enter Order ID to mark as Complete</h4>
+                              </div>
+                              <div class="modal-body">
+                                <div class="form-group">
+                                  <div class="form-line">
+                                    <input type="text" class="form-control"
+                                      placeholder="<%=singleData.data.order.woo_commerce_order_id%>"
+                                      id="confirmCompleteInput<%=singleData.data.id%>" />
+                                  </div>
+                                </div>
+                                <!-- onchange="enableButton<%=singleData.data.id%>(this.value)"  -->
+                              </div>
+                              <div class="modal-footer">
+                                <a href="/markAsComplete/<%=singleData.data.id%>"><button onclick="removeLocalSTorage()"
+                                  id="confirmButton<%=singleData.data.id%>" type="button" class="btn btn-link waves-effect bg-teal"
+                                    disabled>Mark as Completed</button></a>
+                                <button onclick="removeLocalSTorage()" type="button"
+                                  class="btn btn-link waves-effect bg-red" data-dismiss="modal">CLOSE</button>
+                              </div>
                             </div>
                           </div>
-    
-                          <script>
-                            function handler<%=singleData.data.id%> (e) {
-                              localStorage.removeItem("selectedDate<%= singleData.data.id%>");
-                            var x = document.getElementById("dateTime<%=singleData.data.id%>").value;
-                            localStorage.setItem("selectedDate<%= singleData.data.id%>", x);
-                            var selectedFarmId = localStorage.getItem("selectedFarmId<%= singleData.data.id%>");
-                            var selectedDate = localStorage.getItem("selectedDate<%= singleData.data.id%>");
-                            var selectedTimeframe = localStorage.getItem("selectedTimeFrame<%= singleData.data.id%>");
-                            var remarks = localStorage.getItem("remarks<%= singleData.data.id%>");
-    
-                              url = "/assignDate/<%=singleData.data.id%>/" + selectedFarmId + "/" + selectedDate + "/" + selectedTimeframe + "/" + remarks;
-                              $("#addBtn<%=singleData.data.id%>").attr("href", url);
-    
-                              return true;
-                            }
-    
-    
-                            function selectedTimeFrameFunction<%=singleData.data.id%> () {
-                              localStorage.removeItem("selectedTimeFrame<%= singleData.data.id%>");
-                            var x = document.getElementById("timeframe<%=singleData.data.id%>").value;
-                            localStorage.setItem("selectedTimeFrame<%= singleData.data.id%>", x);
-                            var selectedFarmId = localStorage.getItem("selectedFarmId<%= singleData.data.id%>");
-                            var selectedDate = localStorage.getItem("selectedDate<%= singleData.data.id%>");
-                            var selectedTimeframe = localStorage.getItem("selectedTimeFrame<%= singleData.data.id%>");
-                            var remarks = localStorage.getItem("remarks<%= singleData.data.id%>");
 
-    
+                          <script>
+                            // function enableButton<%=singleData.data.id%>(inputValue){
+                            //   var inputValue = inputValue;
+                            //   var confirmValue = <%=singleData.data.order.woo_commerce_order_id%>;
+
+                            //   console.log(inputValue, confirmValue);
+                            // }
+
+                            var el = document.getElementById("confirmCompleteInput<%=singleData.data.id%>");
+                            el.addEventListener('keyup', function () {
+                              var inputValue = document.getElementById("confirmCompleteInput<%=singleData.data.id%>").value;
+                              var confirmValue = <%=singleData.data.order.woo_commerce_order_id%>;
+                              if(parseInt(inputValue) == parseInt(confirmValue)){
+                                $("#confirmButton<%=singleData.data.id%>").attr("disabled", false);
+                              }else{
+                                $("#confirmButton<%=singleData.data.id%>").attr("disabled", true);
+                              }
+                              console.log(inputValue, confirmValue);
+                            });
+                          </script>
+                        </div>
+
+
+
+
+
+                      </td>
+                      <div class="modal fade" id="openScheduleDateModal<%=singleData.data.id%>" tabindex="-1"
+                        role="dialog" data-keyboard="false" data-backdrop="static">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h4 class="modal-title" id="largeModalLabel">Add Confirmed Date</h4>
+                            </div>
+                            <div class="modal-body">
+                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><input type="date"
+                                  class="form-control date" id="dateTime<%=singleData.data.id%>"
+                                  onchange="handler<%=singleData.data.id%>(event)" required></div>
+                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <select id="timeframe<%=singleData.data.id%>"
+                                  onchange="selectedTimeFrameFunction<%=singleData.data.id%>()">
+                                  <option value="">--Select Time--</option>
+                                  <option value="7AM - 10AM">7:00 AM - 10:00 AM</option>
+                                  <option value="10AM - 1PM">10:00 AM - 1:00 PM</option>
+                                  <option value="2PM - 5PM">2:00 PM - 5:00 PM</option>
+                                  <option value="7AM - 1PM">7:00 AM - 1:00 PM</option>
+                                  <option value="7AM - 5PM">7:00 AM - 5:00 PM</option>
+                                </select>
+                              </div>
+                            </div>
+
+                            <script>
+                              function handler<%=singleData.data.id%> (e) {
+                                localStorage.removeItem("selectedDate<%= singleData.data.id%>");
+                                var x = document.getElementById("dateTime<%=singleData.data.id%>").value;
+                                localStorage.setItem("selectedDate<%= singleData.data.id%>", x);
+                                var selectedFarmId = localStorage.getItem("selectedFarmId<%= singleData.data.id%>");
+                                var selectedDate = localStorage.getItem("selectedDate<%= singleData.data.id%>");
+                                var selectedTimeframe = localStorage.getItem("selectedTimeFrame<%= singleData.data.id%>");
+                                var remarks = localStorage.getItem("remarks<%= singleData.data.id%>");
+
                                 url = "/assignDate/<%=singleData.data.id%>/" + selectedFarmId + "/" + selectedDate + "/" + selectedTimeframe + "/" + remarks;
                                 $("#addBtn<%=singleData.data.id%>").attr("href", url);
-    
+
                                 return true;
                               }
-    
-    
+
+
+                              function selectedTimeFrameFunction<%=singleData.data.id%> () {
+                                localStorage.removeItem("selectedTimeFrame<%= singleData.data.id%>");
+                                var x = document.getElementById("timeframe<%=singleData.data.id%>").value;
+                                localStorage.setItem("selectedTimeFrame<%= singleData.data.id%>", x);
+                                var selectedFarmId = localStorage.getItem("selectedFarmId<%= singleData.data.id%>");
+                                var selectedDate = localStorage.getItem("selectedDate<%= singleData.data.id%>");
+                                var selectedTimeframe = localStorage.getItem("selectedTimeFrame<%= singleData.data.id%>");
+                                var remarks = localStorage.getItem("remarks<%= singleData.data.id%>");
+
+
+                                url = "/assignDate/<%=singleData.data.id%>/" + selectedFarmId + "/" + selectedDate + "/" + selectedTimeframe + "/" + remarks;
+                                $("#addBtn<%=singleData.data.id%>").attr("href", url);
+
+                                return true;
+                              }
+
+
                               function removeLocalSTorage() {
-                            localStorage.removeItem("selectedFarmId<%= singleData.data.id%>");
-                            localStorage.removeItem("selectedDate<%= singleData.data.id%>");
-                            localStorage.removeItem("selectedTimeFrame<%= singleData.data.id%>");
-                            localStorage.removeItem("remarks<%= singleData.data.id%>");
-                          }
-                          </script>
-    
-    
-                          <div class="modal-footer">
-                            <a href="#" id="addBtn<%=singleData.data.id%>"><button onclick="removeLocalSTorage()" id="followupBtn" type="button" class="btn btn-link waves-effect bg-teal">ASSIGN DATE</button></a>
-                            <button onclick="removeLocalSTorage()" type="button" class="btn btn-link waves-effect bg-red" data-dismiss="modal">CLOSE</button>
+                                localStorage.removeItem("selectedFarmId<%= singleData.data.id%>");
+                                localStorage.removeItem("selectedDate<%= singleData.data.id%>");
+                                localStorage.removeItem("selectedTimeFrame<%= singleData.data.id%>");
+                                localStorage.removeItem("remarks<%= singleData.data.id%>");
+                              }
+                            </script>
+
+
+                            <div class="modal-footer">
+                              <a href="#" id="addBtn<%=singleData.data.id%>"><button onclick="removeLocalSTorage()"
+                                  id="followupBtn" type="button" class="btn btn-link waves-effect bg-teal">ASSIGN
+                                  DATE</button></a>
+                              <button onclick="removeLocalSTorage()" type="button"
+                                class="btn btn-link waves-effect bg-red" data-dismiss="modal">CLOSE</button>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
 
 
 
@@ -733,40 +871,56 @@
                     </tr>
                     <% }) %>
                 </tbody>
+
+                <script>
+                  
+                                function setURLs(){
+                                var fromDateLocalStorage = localStorage.getItem("fromDate");
+                                var toDateLocalStorage = localStorage.getItem("toDate");
+
+                                url1 = "/page/"+fromDateLocalStorage+"/"+toDateLocalStorage+"/<%=dataPaginationPageNo-1%>";
+                                $("#previosPageUrl").attr("href", url1);
+
+                                url2 = "/page/"+fromDateLocalStorage+"/"+toDateLocalStorage+"/<%=dataPaginationPageNo+1%>";
+                                $("#nextPageUrl").attr("href", url2);
+                                return true;
+                                }
+                </script>
                 <nav>
                   <ul class="pagination">
                     <% if(dataPaginationPrevious==null){%>
                       <li class="disabled">
-                          <a href="javascript:void(0);">
-                              <i class="material-icons">chevron_left</i>
-                          </a>
+                        <a href="javascript:void(0);">
+                          <i class="material-icons">chevron_left</i>
+                        </a>
                       </li>
                       <%}else{%>
                         <li>
-                          <a href="/page/<%=dataPaginationPageNo-1%>">
-                              <i class="material-icons">chevron_left</i>
+                          <a id="previosPageUrl" href="#">
+                            <i class="material-icons">chevron_left</i>
                           </a>
-                      </li>
-                      <%}%>
-                      <li class="active bg-teal"><a href="javascript:void(0);">Page <%=dataPaginationPageNo%> of <%=dataPaginationTotalPages%></a></li>
-
-                      <% if(dataPaginationNext==null){%>
-                        <li class="disabled">
-                            <a href="javascript:void(0);">
-                                <i class="material-icons">chevron_right</i>
-                            </a>
-                        </li>
-                        <%}else{%>
-                          <li>
-                            <a href="/page/<%=dataPaginationPageNo+1%>">
-                                <i class="material-icons">chevron_right</i>
-                            </a>
                         </li>
                         <%}%>
+                          <li class="active bg-teal"><a href="javascript:void(0);">Page <%=dataPaginationPageNo%> of
+                                <%=dataPaginationTotalPages%></a></li>
+
+                          <% if(dataPaginationNext==null){%>
+                            <li class="disabled">
+                              <a href="javascript:void(0);">
+                                <i class="material-icons">chevron_right</i>
+                              </a>
+                            </li>
+                            <%}else{%>
+                              <li>
+                                <a id="nextPageUrl" href="#">
+                                  <i class="material-icons">chevron_right</i>
+                                </a>
+                              </li>
+                              <%}%>
                   </ul>
-              </nav>
+                </nav>
               </table>
-<!-- 
+              <!-- 
               <button type="button" class="btn bg-indigo btn-circle-lg waves-effect waves-circle waves-float">
                 <i class="material-icons float">add</i>
               </button> -->
