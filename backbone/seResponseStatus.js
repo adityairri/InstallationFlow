@@ -134,10 +134,13 @@ module.exports = function () {
                 "Content-Type": "application/json",
                 Authorization: token,
               },
-            }
-          ).then(resp=>{
+            }).then(resp=>{
             resp.json().then((dataa) => {
               remarks = dataa;
+
+
+
+              
               daata.push({
                 remarks: remarks,
                 data: singleInData,

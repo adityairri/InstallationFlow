@@ -361,17 +361,6 @@
 
                       }
 
-                      //                         $(function() {
-                      //                           var fromDateLocalStorage = localStorage.getItem("fromDate");
-                      //                                 var toDateLocalStorage = localStorage.getItem("toDate");
-
-                      //                                 url1 = "/page/"+fromDateLocalStorage+"/"+toDateLocalStorage+"/<%=dataPaginationPageNo-1%>";
-                      //                                 $("#previosPageUrl").attr("href", url1);
-
-                      //                                 url2 = "/page/"+fromDateLocalStorage+"/"+toDateLocalStorage+"/<%=dataPaginationPageNo+1%>";
-                      //                                 $("#nextPageUrl").attr("href", url2);
-                      // });
-
 
                       $(window).on("load", function () {
                         var fromDateLocalStorage = localStorage.getItem("fromDate");
@@ -383,15 +372,6 @@
                         url2 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo+1%>";
                         $("#nextPageUrl").attr("href", url2);
                       });
-                        // function toDate() {
-                        //   var toDate = document.getElementById("ToDate").value;
-                        //     localStorage.setItem("toDate", toDate);
-                        //     var fromDateLocalStorage = localStorage.getItem("fromDate");
-                        //     var toDateLocalStorage = localStorage.getItem("toDate");
-                        //     function setURLs();
-                        //     url = "/page/"+fromDateLocalStorage+"/"+toDateLocalStorage+"/1";
-                        //         $("#dateRangeFilter").attr("href", url);
-                        // }
                     </script>
                   </div>
                 </li>
@@ -437,7 +417,11 @@
                         <%= singleData.data.order.woo_commerce_order_id %>
                       </td>
                       <td width="7%">
+                        <% if(singleData.data.order.farmer.relationship_BDE.first_name == "Archived"){%>
+                          --
+                          <%}else{%>
                         <%= singleData.data.order.farmer.relationship_BDE.first_name %>
+                        <%}%>
                       </td>
                       <td width="7%">
                         <%= singleData.data.order.ordercreated.substring(0,10) %>
@@ -450,7 +434,12 @@
                               <%}%>
                       </td>
                       <td>
-                        <%= singleData.data.order.farmer.firstname %>
+                        <% if(singleData.data.order.farmer.firstname == "Default"){%>
+                          --
+                          <%}else{%>
+                            <%= singleData.data.order.farmer.firstname %>
+                        <%}%>
+                        
                       </td>
                       <td>
                         <!-- onchange="selectedFarm<%=singleData.id%>()" -->
@@ -487,11 +476,18 @@
                         </script>
                       </td>
                       <td>
-                        <%= singleData.data.order.farmer.mobile_number %></br><a
+                        <% if(singleData.data.order.farmer.mobile_number == "9000278567"){%>
+                          --
+                          <%}else{%>
+                            <%= singleData.data.order.farmer.mobile_number %></br><a
                             href="tel:<%= singleData.data.order.farmer.mobile_number %>"><button type="button"
                               class="btn bg-teal btn-circle waves-effect waves-circle waves-float">
                               <i class="material-icons">call</i>
                             </button></a>
+                        <%}%>
+
+
+                        
                       </td>
                       <td> <button data-trigger="focus" data-container="body" data-toggle="popover" data-placement="top"
                           title="Shipping Address" data-content="<%= singleData.data.order.shipping %>">
