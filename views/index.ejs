@@ -38,9 +38,17 @@
   <script>
     localStorage.clear();
     var pathArray = window.location.pathname.split('/');
-    console.log(pathArray);
     localStorage.setItem("fromDate", pathArray[2]);
     localStorage.setItem("toDate", pathArray[3]);
+    
+    // var fromDate1 = localStorage.getItem("fromDate");
+    // var toDate1 = localStorage.getItem("toDate");
+    // console.log(fromDate1, toDate1);
+    // if(parseInt(fromDate1) == 0 && parseInt(toDate1) == 0){ 
+    //   document.getElementById("titleText").innerHTML = "OPEN ORDERS (No Date Filters)";
+    // }else{
+    //   document.getElementById("titleText").innerHTML = "OPEN ORDERS ("+fromDate1+" to "+toDate1+")";
+    // }        
   </script>
 
 </head>
@@ -296,8 +304,19 @@
           <div class="card">
             <div class="header">
               <h2>
-                OPEN ORDERS
+                <span id="titleText"></span>
               </h2>
+              <script>
+                  
+                  var fromDate1 = localStorage.getItem("fromDate");
+                  var toDate1 = localStorage.getItem("toDate");
+                  console.log(fromDate1, toDate1);
+                  if(parseInt(fromDate1) == 0 && parseInt(toDate1) == 0){ 
+                    document.getElementById("titleText").innerHTML = "OPEN ORDERS";
+                  }else{
+                    document.getElementById("titleText").innerHTML = "OPEN ORDERS ("+fromDate1+" to "+toDate1+")";
+                  }           
+                    </script>
               <ul class="header-dropdown m-r--5">
                 <li class="dropdown">
                   <div class="row clearfix col-lg-12 col-md-12">
