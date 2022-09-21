@@ -38,8 +38,18 @@
   <script>
     localStorage.clear();
     var pathArray = window.location.pathname.split('/');
-    localStorage.setItem("fromDate", pathArray[2]);
-    localStorage.setItem("toDate", pathArray[3]);
+    if(pathArray[2] == undefined){
+      localStorage.setItem("fromDate", 0);
+    }else if(pathArray[2] != undefined){
+      localStorage.setItem("fromDate", pathArray[2]);
+    }
+    if(pathArray[3] == undefined){
+      localStorage.setItem("toDate", 0);
+    }else if(pathArray[3] != undefined){
+      localStorage.setItem("toDate", pathArray[3]);
+    }
+    
+    
     
     // var fromDate1 = localStorage.getItem("fromDate");
     // var toDate1 = localStorage.getItem("toDate");
