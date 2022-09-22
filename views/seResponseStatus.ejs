@@ -32,6 +32,15 @@
 
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="css/themes/all-themes.css" rel="stylesheet" />
+
+
+    <script>
+      localStorage.clear();
+      var pathArray = window.location.pathname.split('/');
+      localStorage.setItem("seResponseState", pathArray[3]);
+      localStorage.setItem("seResponseStatePage", pathArray[4]);
+  
+    </script>
 </head>
 
 <body class="theme-teal">
@@ -362,14 +371,15 @@
                                                 <script>
                                                     function selectedSE() {
                                                       var x = document.getElementById("SElistSelect").value;
-                                                      url = "/seResponseStatus/"+x;
+                                                      var seResponseState = localStorage.getItem("seResponseState");
+                                                      url = "/seResponseStatus/"+x+"/"+seResponseState+"/1";
                                                         $("#assignSE").attr("href", url);
                                                         return true;
                                                     }
                                                     </script>
                                     </div>
                                     <div class="col-lg-2 col-md-2">
-                                        <a href="viewAssignedToSEOrders/0" id="assignSE">
+                                        <a href="/seResponseStatus/0/pending/1" id="assignSE">
                                         <button type="button" class="btn bg-teal waves-effect">
                                             <i class="material-icons">search</i>
                                         </button>
@@ -567,16 +577,17 @@
                                                     <%})%>
                                                     </select>
                                                     <script>
-                                                        function selectedSE() {
-                                                          var x = document.getElementById("SElistSelect").value;
-                                                          url = "/seResponseStatus/"+x;
-                                                            $("#assignSE").attr("href", url);
-                                                            return true;
-                                                        }
-                                                        </script>
+                                                      function selectedSE() {
+                                                        var x = document.getElementById("SElistSelect").value;
+                                                        var seResponseState = localStorage.getItem("seResponseState");
+                                                        url = "/seResponseStatus/"+x+"/"+seResponseState+"/1";
+                                                          $("#assignSE").attr("href", url);
+                                                          return true;
+                                                      }
+                                                      </script>
                                         </div>
                                         <div class="col-lg-2 col-md-2">
-                                            <a href="viewAssignedToSEOrders/0" id="assignSE">
+                                            <a href="/seResponseStatus/0/accepted/1" id="assignSE">
                                             <button type="button" class="btn bg-teal waves-effect">
                                                 <i class="material-icons">search</i>
                                             </button>
@@ -775,16 +786,17 @@
                                                         <%})%>
                                                         </select>
                                                         <script>
-                                                            function selectedSE() {
-                                                              var x = document.getElementById("SElistSelect").value;
-                                                              url = "/seResponseStatus/"+x;
-                                                                $("#assignSE").attr("href", url);
-                                                                return true;
-                                                            }
-                                                            </script>
+                                                          function selectedSE() {
+                                                            var x = document.getElementById("SElistSelect").value;
+                                                            var seResponseState = localStorage.getItem("seResponseState");
+                                                            url = "/seResponseStatus/"+x+"/"+seResponseState+"/1";
+                                                              $("#assignSE").attr("href", url);
+                                                              return true;
+                                                          }
+                                                          </script>
                                             </div>
                                             <div class="col-lg-2 col-md-2">
-                                                <a href="viewAssignedToSEOrders/0" id="assignSE">
+                                                <a href="/seResponseStatus/0/declined/1" id="assignSE">
                                                 <button type="button" class="btn bg-teal waves-effect">
                                                     <i class="material-icons">search</i>
                                                 </button>
