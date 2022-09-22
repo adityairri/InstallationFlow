@@ -75,6 +75,8 @@
       </div>
       <div class="collapse navbar-collapse" id="navbar-collapse">
         <ul class="nav navbar-nav navbar-right">
+
+          
           <!-- Call Search -->
           <li><a href="javascript:location.reload();"><i class="material-icons">refresh</i></a>
           </li>
@@ -322,6 +324,31 @@
                 }           
               </script>
               <ul class="header-dropdown m-r--5">
+
+                <li class="dropdown">
+                  <div class="row clearfix col-lg-12 col-md-12">
+                    <div class="col-lg-10 col-md-10">
+                      <input type="text" class="form-control" id="orderID" placeholder="Order ID" oninput="searchByOrderID()">
+                    </div>
+                    <div class="col-lg-2 col-md-2">
+                      <a href="/page/0/0/1/0" id="searchByOrderID">
+                        <button type="button" class="btn bg-teal waves-effect">
+                          <i class="material-icons">search</i>
+                        </button>
+                      </a>
+                    </div>
+                    <script>
+                      function searchByOrderID() {
+                        var orderID = document.getElementById("orderID").value;
+
+                        var url = "/page/0/0/1/"+orderID;
+                        $("#searchByOrderID").attr("href", url);
+                      }
+                    </script>
+                  </div>
+                </li>
+
+
                 <li class="dropdown">
                   <div class="row clearfix col-lg-12 col-md-12">
                     <div class="col-lg-5 col-md-5">
@@ -331,7 +358,7 @@
                       <input type="date" class="form-control date" id="ToDate" onchange="handler()">
                     </div>
                     <div class="col-lg-2 col-md-2">
-                      <a href="/page/0/0/1" id="dateRangeFilter">
+                      <a href="/page/0/0/1/0" id="dateRangeFilter">
                         <button type="button" class="btn bg-teal waves-effect">
                           <i class="material-icons">search</i>
                         </button>
@@ -346,17 +373,17 @@
                         var fromDateLocalStorage = localStorage.getItem("fromDate");
                         var toDateLocalStorage = localStorage.getItem("toDate");
 
-                        var url = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/1";
+                        var url = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/1/0";
                         $("#dateRangeFilter").attr("href", url);
 
 
                         var fromDateLocalStorage = localStorage.getItem("fromDate");
                         var toDateLocalStorage = localStorage.getItem("toDate");
 
-                        url1 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo-1%>";
+                        url1 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo-1%>/0";
                         $("#previosPageUrl").attr("href", url1);
 
-                        url2 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo+1%>";
+                        url2 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo+1%>/0";
                         $("#nextPageUrl").attr("href", url2);
 
                       }
@@ -366,10 +393,10 @@
                         var fromDateLocalStorage = localStorage.getItem("fromDate");
                         var toDateLocalStorage = localStorage.getItem("toDate");
 
-                        url1 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo-1%>";
+                        url1 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo-1%>/0";
                         $("#previosPageUrl").attr("href", url1);
 
-                        url2 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo+1%>";
+                        url2 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo+1%>/0";
                         $("#nextPageUrl").attr("href", url2);
                       });
                     </script>
@@ -917,10 +944,10 @@
                     var fromDateLocalStorage = localStorage.getItem("fromDate");
                     var toDateLocalStorage = localStorage.getItem("toDate");
 
-                    url1 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo-1%>";
+                    url1 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo-1%>/0";
                     $("#previosPageUrl").attr("href", url1);
 
-                    url2 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo+1%>";
+                    url2 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo+1%>/0";
                     $("#nextPageUrl").attr("href", url2);
                     return true;
                   }
