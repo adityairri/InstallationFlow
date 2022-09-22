@@ -142,7 +142,7 @@
                                     <i class="material-icons">devices_other</i>
                                 </div>
                                 <div class="menu-info">
-                                    <h4>Powermon</h4>
+                                    <h4>Powermon - <%=totalPowermonCount%></h4>
                                     <p>
                                         <i class="material-icons">keyboard_arrow_right</i> Today / Total
                                     </p>
@@ -155,9 +155,9 @@
                                     <i class="material-icons">devices_other</i>
                                 </div>
                                 <div class="menu-info">
-                                    <h4>APFC</h4>
+                                    <h4>APFC - <%=totalAPFCcount%></h4>
                                     <p>
-                                        <i class="material-icons">keyboard_arrow_right</i> 22 mins ago
+                                      <i class="material-icons">keyboard_arrow_right</i> Today / Total
                                     </p>
                                 </div>
                             </a>
@@ -464,11 +464,15 @@
                         <%= singleData.data.order.woo_commerce_order_id %>
                       </td>
                       <td width="7%">
-                        <%= singleData.seName %>
+                        <% if (!singleData.seName){%>
+                          --
+                          <%}else{%>
+                            <%= singleData.seName %>
+                              <%}%>
                       </td>
                       <td>
                         <% if (!singleData.data.confirmed_date){%>
-                          No Date
+                          --
                           <%}else{%>
                             <%= singleData.data.confirmed_date.substring(0,10) %>
                               <%}%>
@@ -477,9 +481,14 @@
                         <%= singleData.data.order.farmer.firstname %>
                       </td>
                       <td>
-                        <% singleData.data.farms.forEach(function(farmDataSingle){ %>
-                          <%= farmDataSingle.farm.farm_name%> </br>
-                            <%})%>
+                        <% if (singleData.data.farms.length == 0){%>
+                          --
+                          <%}else{%>
+                            <% singleData.data.farms.forEach(function(farmDataSingle){ %>
+                              <%= farmDataSingle.farm.farm_name%> </br>
+                                <%})%>
+                              <%}%>
+                        
                       </td>
                       <td>
                         <%= singleData.data.order.farmer.mobile_number %>
@@ -546,22 +555,16 @@
 
                       </td>
                       <td style="width: 15%;">
-                        <% singleData.data.order.items.forEach(function(itemsList){ %>
-                          <% if(itemsList.name=="APFC - Automatic power factor Controller" ){%>
-                            APFC - <%= itemsList.quantity %> - <%if(itemsList.isInstalled==false){ %>
-                                0 </br>
-                                <%}if(itemsList.isInstalled==true){%>
-                                  1 </br>
-                                  <%}%>
-                                    <%}if(itemsList.name=="Powermon 2.0"){%>
-                                      Powermon - <%= itemsList.quantity %> - <%if(itemsList.isInstalled==false){ %>
-                                          0 </br>
-                                          <%}if(itemsList.isInstalled==true){%>
-                                            1 </br>
-                                            <%}%>
-                                              <%}%>
-
-                                                <% }) %>
+                        <% if(singleData.powermonItems != "Powermon - 0 - 0" && singleData.apfcItems != "APFC - 0 - 0"){%>
+                          <%= singleData.powermonItems %></br>
+                          <%= singleData.apfcItems %>
+                          <%}else if(singleData.powermonItems == "Powermon - 0 - 0" && singleData.apfcItems != "APFC - 0 - 0"){%>
+                            <%= singleData.apfcItems %>
+                            <%}else if(singleData.powermonItems != "Powermon - 0 - 0" && singleData.apfcItems == "APFC - 0 - 0"){%>
+                              <%= singleData.powermonItems %>
+                              <%}else{%>
+                                --
+                                <%}%>
                       </td>
                     </tr>
 

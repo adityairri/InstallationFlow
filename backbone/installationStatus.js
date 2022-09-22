@@ -3,6 +3,7 @@ var ejs = require("ejs");
 var http = require("http");
 var axios = require("axios");
 var fetch = require("cross-fetch");
+const { exitCode } = require("process");
 //const apiURL = "http://172.105.47.223:8000/api";
 //const token = "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd";
 
@@ -12,7 +13,7 @@ const token="Token e50f000f342fe8453e714454abac13be07f18ac3";
 module.exports = function () {
   app.get("/viewInstallationStatus/:status/:pageNo/:orderID", async function (req, res) {
     await getSEList();
-    // await getinstallationCompleteCount();
+    await getinstallationCompleteCount();
     if(req.params.orderID == 0){
     if (req.params.status == "pending") {
       var variables = {
@@ -133,10 +134,36 @@ module.exports = function () {
                   }
                 });
               });
+
+
+              var powermonInstalled = 0;
+              var powermonNotInstalled = 0;
+              var apfcInstalled = 0;
+              var apfcNotInstalled = 0;
+              singleInData.order.items.forEach(element => {
+                if(element.name == "Powermon 2.0"){
+                    if(element.isInstalled == true){
+                      powermonInstalled = powermonInstalled+1;
+                    }if(element.isInstalled == false){
+                      powermonNotInstalled = powermonNotInstalled+1;
+                    }
+                }else if(element.name == "APFC - Automatic power factor Controller"){
+                    if(element.isInstalled == true){
+                      apfcInstalled = apfcInstalled+1;
+                    }if(element.isInstalled == false){
+                      apfcNotInstalled = apfcNotInstalled+1;
+                    }
+                }
+              });
+
+
+
               daata.push({
                 remarks: remarks,
                 data: singleInData,
-                seName: SEname
+                seName: SEname,
+                powermonItems: "Powermon - "+(powermonInstalled + powermonNotInstalled)+" - "+powermonInstalled,
+                apfcItems: "APFC - "+(apfcInstalled + apfcNotInstalled)+" - "+apfcInstalled
               });
               resolve();
             });
@@ -178,7 +205,10 @@ module.exports = function () {
         farmerDeclinedList: FamerFinalCancelled,
         installationPendingList: SEAttended,
         installationPartialCompleteList: PartialCompleted,
-        installationCompletedList: Completed
+        installationCompletedList: Completed,
+
+        totalPowermonCount: totalPowermonCount,
+        totalAPFCcount: totalAPFCcount
       });
     });
   });
@@ -459,42 +489,42 @@ module.exports = function () {
 
 
 
-// var todayPowermonCount;
-// var totalPowermonCount;
-// var todayAPFCcount;
-// var totalAPFCcount;
-//   async function getinstallationCompleteCount(req, res) {
-//     var reqBody = JSON.stringify({
-//       filter: {
-//         schedulestatus: "COMPLETED",
-//       },
-//     });
-//     const resp = await fetch(apiURL+"/getInstallationSchedule/",
-//       {
-//         method: "post",
-//         body: reqBody,
-//         headers: {
-//           "Content-Type": "application/json",
-//           "Authorization": token,
-//         },
-//       }
-//     );
-//     var todayPowermonCount;
-//     var totalPowermonCount = 0;
-//     var todayAPFCcount;
-//     var totalAPFCcount = 0;
-//     await resp.json().then((data) => {
-//     data.results.forEach(element => {
-//       element.order.items.forEach(element1=>{
-//         if(element1.name == "Powermon 2.0"){
-//           if(element1.isInstalled == true){
-//             totalPowermonCount = totalPowermonCount+1
-//           }
-//         }
-//       })
-//     });
-//       console.log(totalPowermonCount);
-//     });
-//   }
+  var totalPowermonCount = 0;
+  var totalAPFCcount = 0;
+  var pageNo = 1;
+  async function getinstallationCompleteCount(req, res) {
+    var reqBody = JSON.stringify({
+      filter: {
+        schedulestatus: "COMPLETED",
+      },
+    });
+    const resp = await fetch(apiURL+"/getInstallationSchedule/?page="+pageNo,
+      {
+        method: "post",
+        body: reqBody,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token,
+        },
+      }
+    );
+    
+    await resp.json().then((data) => {
+        pageNo = pageNo+1
+    data.results.forEach(element => {
+      element.order.items.forEach(element1=>{
+        if(element1.name == "Powermon 2.0"){
+          if(element1.isInstalled == true){
+            totalPowermonCount = totalPowermonCount+1
+          }
+        }else if(element1.name == "APFC - Automatic power factor Controller"){
+          if(element1.isInstalled == true){
+            totalAPFCcount = totalAPFCcount+1
+          }
+        }
+      })
+    });
+    });
+  }
 
 };

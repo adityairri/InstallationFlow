@@ -157,9 +157,36 @@ module.exports = function () {
           ).then(resp=>{
             resp.json().then((dataa) => {
               remarks = dataa;
+
+
+              var powermonInstalled = 0;
+                var powermonNotInstalled = 0;
+                var apfcInstalled = 0;
+                var apfcNotInstalled = 0;
+                singleInData.order.items.forEach(element => {
+                  if(element.name == "Powermon 2.0"){
+                      if(element.isInstalled == true){
+                        powermonInstalled = powermonInstalled+1;
+                      }if(element.isInstalled == false){
+                        powermonNotInstalled = powermonNotInstalled+1;
+                      }
+                  }else if(element.name == "APFC - Automatic power factor Controller"){
+                      if(element.isInstalled == true){
+                        apfcInstalled = apfcInstalled+1;
+                      }if(element.isInstalled == false){
+                        apfcNotInstalled = apfcNotInstalled+1;
+                      }
+                  }
+                });
+
+
+
+
               daata.push({
                 remarks: remarks,
                 data: singleInData,
+                powermonItems: "Powermon - "+(powermonInstalled + powermonNotInstalled)+" - "+powermonInstalled,
+                apfcItems: "APFC - "+(apfcInstalled + apfcNotInstalled)+" - "+apfcInstalled
               });
               resolve();
             });

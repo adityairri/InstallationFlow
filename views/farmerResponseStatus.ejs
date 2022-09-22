@@ -451,22 +451,16 @@
                   
                                         </td>
                                         <td style="width: 15%;">
-                                          <% singleData.data.order.items.forEach(function(itemsList){ %>
-                                            <% if(itemsList.name=="APFC - Automatic power factor Controller" ){%>
-                                              APFC - <%= itemsList.quantity %> - <%if(itemsList.isInstalled == false){ %>
-                                                 0 </br>
-                                                 <%}if(itemsList.isInstalled == true){%>
-                                                  1 </br>
+                                          <% if(singleData.powermonItems != "Powermon - 0 - 0" && singleData.apfcItems != "APFC - 0 - 0"){%>
+                                            <%= singleData.powermonItems %></br>
+                                            <%= singleData.apfcItems %>
+                                            <%}else if(singleData.powermonItems == "Powermon - 0 - 0" && singleData.apfcItems != "APFC - 0 - 0"){%>
+                                              <%= singleData.apfcItems %>
+                                              <%}else if(singleData.powermonItems != "Powermon - 0 - 0" && singleData.apfcItems == "APFC - 0 - 0"){%>
+                                                <%= singleData.powermonItems %>
+                                                <%}else{%>
+                                                  --
                                                   <%}%>
-                                                  <%}if(itemsList.name=="Powermon 2.0"){%>
-                                                    Powermon - <%= itemsList.quantity %> - <%if(itemsList.isInstalled == false){ %>
-                                                      0 </br>
-                                                      <%}if(itemsList.isInstalled == true){%>
-                                                       1 </br>
-                                                       <%}%>
-                                                        <%}%>
-                  
-                                                          <% }) %>
                                         </td>
                                             <td><select id="actionsList<%=singleData.data.id %>" onchange="doActions<%=singleData.data.id %>()">
                                                 <option>--SELECT ACTION--</option>
@@ -670,22 +664,16 @@
                     
                                           </td>
                                           <td style="width: 15%;">
-                                            <% singleData.data.order.items.forEach(function(itemsList){ %>
-                                              <% if(itemsList.name=="APFC - Automatic power factor Controller" ){%>
-                                                APFC - <%= itemsList.quantity %> - <%if(itemsList.isInstalled == false){ %>
-                                                   0 </br>
-                                                   <%}if(itemsList.isInstalled == true){%>
-                                                    1 </br>
+                                            <% if(singleData.powermonItems != "Powermon - 0 - 0" && singleData.apfcItems != "APFC - 0 - 0"){%>
+                                              <%= singleData.powermonItems %></br>
+                                              <%= singleData.apfcItems %>
+                                              <%}else if(singleData.powermonItems == "Powermon - 0 - 0" && singleData.apfcItems != "APFC - 0 - 0"){%>
+                                                <%= singleData.apfcItems %>
+                                                <%}else if(singleData.powermonItems != "Powermon - 0 - 0" && singleData.apfcItems == "APFC - 0 - 0"){%>
+                                                  <%= singleData.powermonItems %>
+                                                  <%}else{%>
+                                                    --
                                                     <%}%>
-                                                    <%}if(itemsList.name=="Powermon 2.0"){%>
-                                                      Powermon - <%= itemsList.quantity %> - <%if(itemsList.isInstalled == false){ %>
-                                                        0 </br>
-                                                        <%}if(itemsList.isInstalled == true){%>
-                                                         1 </br>
-                                                         <%}%>
-                                                          <%}%>
-                    
-                                                            <% }) %>
                                           </td>
                                           </tr>
                                           
@@ -873,22 +861,16 @@
                       
                                             </td>
                                             <td style="width: 15%;">
-                                              <% singleData.data.order.items.forEach(function(itemsList){ %>
-                                                <% if(itemsList.name=="APFC - Automatic power factor Controller" ){%>
-                                                  APFC - <%= itemsList.quantity %> - <%if(itemsList.isInstalled == false){ %>
-                                                     0 </br>
-                                                     <%}if(itemsList.isInstalled == true){%>
-                                                      1 </br>
+                                              <% if(singleData.powermonItems != "Powermon - 0 - 0" && singleData.apfcItems != "APFC - 0 - 0"){%>
+                                                <%= singleData.powermonItems %></br>
+                                                <%= singleData.apfcItems %>
+                                                <%}else if(singleData.powermonItems == "Powermon - 0 - 0" && singleData.apfcItems != "APFC - 0 - 0"){%>
+                                                  <%= singleData.apfcItems %>
+                                                  <%}else if(singleData.powermonItems != "Powermon - 0 - 0" && singleData.apfcItems == "APFC - 0 - 0"){%>
+                                                    <%= singleData.powermonItems %>
+                                                    <%}else{%>
+                                                      --
                                                       <%}%>
-                                                      <%}if(itemsList.name=="Powermon 2.0"){%>
-                                                        Powermon - <%= itemsList.quantity %> - <%if(itemsList.isInstalled == false){ %>
-                                                          0 </br>
-                                                          <%}if(itemsList.isInstalled == true){%>
-                                                           1 </br>
-                                                           <%}%>
-                                                            <%}%>
-                      
-                                                              <% }) %>
                                             </td>
                                                 <td>
                                                   <a href="/cancelledFarmerReschedule/<%=singleData.id%>"><button type="button" class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12">Reschedule</button></a>

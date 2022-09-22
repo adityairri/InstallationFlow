@@ -494,22 +494,16 @@
                       
                                             </td>
                                             <td style="width: 15%;">
-                                              <% singleData.data.order.items.forEach(function(itemsList){ %>
-                                                <% if(itemsList.name=="APFC - Automatic power factor Controller" ){%>
-                                                  APFC - <%= itemsList.quantity %> - <%if(itemsList.isInstalled == false){ %>
-                                                     0 </br>
-                                                     <%}if(itemsList.isInstalled == true){%>
-                                                      1 </br>
+                                              <% if(singleData.powermonItems != "Powermon - 0 - 0" && singleData.apfcItems != "APFC - 0 - 0"){%>
+                                                <%= singleData.powermonItems %></br>
+                                                <%= singleData.apfcItems %>
+                                                <%}else if(singleData.powermonItems == "Powermon - 0 - 0" && singleData.apfcItems != "APFC - 0 - 0"){%>
+                                                  <%= singleData.apfcItems %>
+                                                  <%}else if(singleData.powermonItems != "Powermon - 0 - 0" && singleData.apfcItems == "APFC - 0 - 0"){%>
+                                                    <%= singleData.powermonItems %>
+                                                    <%}else{%>
+                                                      --
                                                       <%}%>
-                                                      <%}if(itemsList.name=="Powermon 2.0"){%>
-                                                        Powermon - <%= itemsList.quantity %> - <%if(itemsList.isInstalled == false){ %>
-                                                          0 </br>
-                                                          <%}if(itemsList.isInstalled == true){%>
-                                                           1 </br>
-                                                           <%}%>
-                                                            <%}%>
-                      
-                                                              <% }) %>
                                             </td>
                                             <td>
                                                 <select id="SElistSelect<%=singleData.data.id%>"
