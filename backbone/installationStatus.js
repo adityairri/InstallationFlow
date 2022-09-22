@@ -3,8 +3,8 @@ var ejs = require("ejs");
 var http = require("http");
 var axios = require("axios");
 var fetch = require("cross-fetch");
-//const apiURL='http://172.105.47.223:8000/api';
-//const token="Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd";
+//const apiURL = "http://172.105.47.223:8000/api";
+//const token = "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd";
 
 const apiURL='http://app.aquaexchange.com/api';
 const token="Token e50f000f342fe8453e714454abac13be07f18ac3";
@@ -12,6 +12,7 @@ const token="Token e50f000f342fe8453e714454abac13be07f18ac3";
 module.exports = function () {
   app.get("/viewInstallationStatus/:status/:pageNo/:orderID", async function (req, res) {
     await getSEList();
+    // await getinstallationCompleteCount();
     if(req.params.orderID == 0){
     if (req.params.status == "pending") {
       var variables = {
@@ -132,8 +133,6 @@ module.exports = function () {
                   }
                 });
               });
-
-
               daata.push({
                 remarks: remarks,
                 data: singleInData,
@@ -455,4 +454,47 @@ module.exports = function () {
       remarks = dataa;
     });
   }
+
+
+
+
+
+// var todayPowermonCount;
+// var totalPowermonCount;
+// var todayAPFCcount;
+// var totalAPFCcount;
+//   async function getinstallationCompleteCount(req, res) {
+//     var reqBody = JSON.stringify({
+//       filter: {
+//         schedulestatus: "COMPLETED",
+//       },
+//     });
+//     const resp = await fetch(apiURL+"/getInstallationSchedule/",
+//       {
+//         method: "post",
+//         body: reqBody,
+//         headers: {
+//           "Content-Type": "application/json",
+//           "Authorization": token,
+//         },
+//       }
+//     );
+//     var todayPowermonCount;
+//     var totalPowermonCount = 0;
+//     var todayAPFCcount;
+//     var totalAPFCcount = 0;
+//     await resp.json().then((data) => {
+//     data.results.forEach(element => {
+//       element.order.items.forEach(element1=>{
+//         if(element1.name == "Powermon 2.0"){
+//           if(element1.isInstalled == true){
+//             totalPowermonCount = totalPowermonCount+1
+//           }
+//         }
+//       })
+//     });
+//       console.log(totalPowermonCount);
+//     });
+//   }
+
 };
