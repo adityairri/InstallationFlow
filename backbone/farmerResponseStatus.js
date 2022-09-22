@@ -8,7 +8,7 @@ const token="Token e50f000f342fe8453e714454abac13be07f18ac3";
 
 module.exports = function () {
   app.get("/viewFarmerStatus/:status/:pageNo", async function (req, res) {
-    // console.log(req.params);
+    await getSEList();
     if (req.params.status == "pending") {
       var variables = {
         "tableTitle": "PENDING",
@@ -76,10 +76,22 @@ module.exports = function () {
               }
             ).then(resp=>{
               resp.json().then((dataa) => {
+
+                var SEname;
+              new Promise(function(resolve, reject){
+                SElist.forEach(element => {
+                  if(singleInData.service_engineer == element.id){
+                    SEname = element.first_name;
+                  }
+                });
+              });
+
+
                 remarks = dataa;
                 daata.push({
                   remarks: remarks,
                   data: singleInData,
+                  seName: SEname
                 });
                 resolve();
               });
@@ -355,6 +367,25 @@ module.exports = function () {
     });
   }
  
+
+
+  var SElist;
+  async function getSEList(req, res) {
+    const resp = await fetch(apiURL+"/general/serviceengineers/",
+      {
+        method: "get",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token,
+        },
+      }
+    );
+    await resp.json().then((dataa) => {
+      // console.log(dataa);
+      SElist = dataa;
+    });
+  }
+
 
   var remarks = [];
   async function getRemarksList(req, res) {

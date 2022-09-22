@@ -40,6 +40,7 @@ module.exports = function () {
 
   app.get("/seResponseStatus/:SEid/:status/:pageNo", async function (req, res) {
     // console.log(req.params);
+    await getSEList();
     if (req.params.status == "pending"){
       var variables = {
         "tableTitle": "PENDING",
@@ -124,8 +125,8 @@ module.exports = function () {
     resp.json().then(async (data) => {
       if (data.msg != "Invalid page.") {
       data.results.forEach(async (singleInData) => {
+       
         var wooCommerseID = singleInData.order.woo_commerce_order_id;
-        
         new Promise(function(resolve, reject){
           fetch(apiURL+"/getremarksfororder/" + wooCommerseID + "",
             {
@@ -137,13 +138,19 @@ module.exports = function () {
             }).then(resp=>{
             resp.json().then((dataa) => {
               remarks = dataa;
+              var SEname;
+              new Promise(function(resolve, reject){
+                SElist.forEach(element => {
+                  if(singleInData.service_engineer == element.id){
+                    SEname = element.first_name;
+                  }
+                });
+              });
 
-
-
-              
               daata.push({
                 remarks: remarks,
                 data: singleInData,
+                seName: SEname
               });
               resolve();
             });
@@ -163,7 +170,7 @@ module.exports = function () {
     }
       // console.log(data);
       
-      await getSEList();
+      // await getSEList();
       await getAllStatusCount();
       await getAllStatusCount();
       res.render("seResponseStatus", {
