@@ -7,8 +7,9 @@ const apiURL='http://app.aquaexchange.com/api';
 const token="Token e50f000f342fe8453e714454abac13be07f18ac3";
 
 module.exports = function () {
-  app.get("/viewInstallationStatus/:status/:pageNo", async function (req, res) {
+  app.get("/viewInstallationStatus/:status/:pageNo/:orderID", async function (req, res) {
     // console.log(req.params);
+    if(req.params.orderID == 0){
     if (req.params.status == "pending") {
       var variables = {
         "tableTitle": "PROGRESS",
@@ -48,7 +49,50 @@ module.exports = function () {
         },
       });
     }
-
+  }else if(req.params.orderID != 0){
+    if (req.params.status == "pending") {
+      var variables = {
+        "tableTitle": "PROGRESS",
+        "navBarHighlight1": "background-color: #E9E9E9; color: #555555;",
+        "navBarHighlight2": "",
+        "navBarHighlight3": ""
+      };
+      var reqBody = JSON.stringify({
+        filter: {
+          order_id: parseInt(req.params.orderID),
+          status: "SE_ATTENDED",
+        },
+      });
+    }
+    if (req.params.status == "partial") {
+      var variables = {
+        "tableTitle": "PARTIAL",
+        "navBarHighlight1": "",
+        "navBarHighlight2": "background-color: #E9E9E9; color: #555555;",
+        "navBarHighlight3": ""
+      };
+      var reqBody = JSON.stringify({
+        filter: {
+          order_id: parseInt(req.params.orderID),
+          status: "PARTIAL_COMPLETED",
+        },
+      });
+    }
+    if (req.params.status == "completed") {
+      var variables = {
+        "tableTitle": "COMPLETED",
+        "navBarHighlight1": "",
+        "navBarHighlight2": "",
+        "navBarHighlight3": "background-color: #E9E9E9; color: #555555;"
+      };
+      var reqBody = JSON.stringify({
+        filter: {
+          order_id: parseInt(req.params.orderID),
+          status: "COMPLETED",
+        },
+      });
+    }
+  }
     const resp = await fetch(apiURL+"/getInstallationSchedule/?page=" + req.params.pageNo + "",
       {
         method: "post",

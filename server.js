@@ -66,7 +66,7 @@ app.get('/viewFarmerStatus/:status/:pageNo', farmerResStatus);
 app.get('/changeFarmerStatus/:id/:status', farmerResStatus);
 
 var installationStatus = require('./backbone/installationStatus');
-app.get('/viewInstallationStatus/:status/:pageNo', installationStatus);
+app.get('/viewInstallationStatus/:status/:pageNo/:orderID', installationStatus);
 /****************** Run Server ***************************************/
 app.listen(process.env.PORT || 8081);
 console.log('Server is listening on port 8081');
