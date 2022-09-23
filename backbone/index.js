@@ -3,8 +3,8 @@ var ejs = require("ejs");
 var http = require("http");
 var axios = require("axios");
 var fetch = require("cross-fetch");
-//const apiURL = "http://172.105.47.223:8000/api";
-//const token = "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd";
+// const apiURL = "http://172.105.47.223:8000/api";
+// const token = "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd";
 
 const apiURL='http://app.aquaexchange.com/api';
 const token="Token e50f000f342fe8453e714454abac13be07f18ac3";

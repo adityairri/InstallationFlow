@@ -38,12 +38,6 @@ module.exports = function () {
     // console.log(reqBody);
   });
 
-
-
-
-
-
-
   app.get("/reschedule/:orderID", async function (req, res) {
     var req = req.params;
     var reqBody = JSON.stringify({

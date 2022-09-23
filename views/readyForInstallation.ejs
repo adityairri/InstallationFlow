@@ -360,7 +360,7 @@
                                                 onchange="handler(event)">
                                         </div>
                                         <div class="col-lg-2 col-md-2">
-                                            <a href="listOfDatesConfirmedOrders/0" id="dateFilter">
+                                            <a href="/readyForInstallation/0/1" id="dateFilter">
                                                 <button type="button" class="btn bg-teal waves-effect">
                                                     <i class="material-icons">search</i>
                                                 </button>
@@ -369,7 +369,7 @@
                                         <script>
                                             function handler(e) {
                                                 var date = e.target.value;
-                                                url = "/readyForInstallation/" + date;
+                                                url = "/readyForInstallation/" + date +"/<%=dataPaginationPageNo%>";
                                                 $("#dateFilter").attr("href", url);
                                                 return true;
                                             }
