@@ -3,11 +3,8 @@ var ejs = require("ejs");
 var http = require("http");
 var axios = require("axios");
 var fetch = require("cross-fetch");
-// const apiURL = "http://172.105.47.223:8000/api";
-// const token = "Token 4861d9484816c25e94be97410fd9f1ffa0b0c1fd";
-
-const apiURL='http://app.aquaexchange.com/api';
-const token="Token e50f000f342fe8453e714454abac13be07f18ac3";
+const apiURL = "http://app.aquaexchange.com/api";
+const token = "Token e50f000f342fe8453e714454abac13be07f18ac3";
 
 module.exports = function () {
   app.get("/assignDate/:orderID/:farmID/:date/:time/:remarks/:fromDate/:toDate/:pageNo",
@@ -96,6 +93,34 @@ module.exports = function () {
 
     // console.log(reqBody);
     const resp = await fetch(apiURL + "/updateInstallationSchedule/", {
+      method: "post",
+      body: reqBody,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+
+    await resp.json().then((data) => {
+      // console.log(data);
+      res.redirect("/page/"+req.fromDate+"/"+req.toDate+"/"+req.pageNo+"/0");
+    });
+    // console.log(reqBody);
+  });
+
+
+
+
+  app.get("/cancelOrder/:orderID/:fromDate/:toDate/:pageNo", async function (req, res) {
+    var req = req.params;
+    // console.log(req);
+    var orderID = req.orderID;
+    var reqBody = JSON.stringify({
+        order_id: parseInt(orderID)
+      });
+
+    // console.log(reqBody);
+    const resp = await fetch(apiURL + "/cancelorder/", {
       method: "post",
       body: reqBody,
       headers: {

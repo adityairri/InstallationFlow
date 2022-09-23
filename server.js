@@ -30,43 +30,43 @@ require('./backbone/installationStatus')();
 // require('./backbone/myOrders')();
 
 
-var index = require('./backbone/index');
-app.use('/',index);
-app.use('/page/:fromDate/:toDate/:pageNo/:searchByOrderID',index);
-app.get('/assignDate/:orderID/:farmID/:date/:time/:remarks/:fromDate/:toDate/:pageNo', index);
-app.get('/addRemarks/:id/:remarks', index);
-app.get('/assignFollowupDate/:id/:remarks/:followupDate', index);
-app.use('/markAsComplete/:orderID/:fromDate/:toDate/:pageNo',index);
+// var index = require('./backbone/index');
+// app.use('/',index);
+// app.use('/page/:fromDate/:toDate/:pageNo/:searchByOrderID',index);
+// app.get('/assignDate/:orderID/:farmID/:date/:time/:remarks/:fromDate/:toDate/:pageNo', index);
+// app.get('/addRemarks/:id/:remarks', index);
+// app.get('/assignFollowupDate/:id/:remarks/:followupDate', index);
+// app.use('/markAsComplete/:orderID/:fromDate/:toDate/:pageNo',index);
 
-var readyForInstallation = require('./backbone/readyForInstallation');
-app.get('/readyForInstallation/:date/:pageNo', readyForInstallation);
-app.get('/assignSE/:orderID/:SEid', readyForInstallation);
-app.get('/reschedule/:orderID', readyForInstallation);
-
-
-var reconfirm = require('./backbone/reconfirm');
-app.use('/reconfirm/:date/:pageNo',reconfirm);
-app.use('/confirmFarmerReconfirmDate/:orderId',reconfirm);
-app.use('/farmerReschedule/:orderID',reconfirm);
-app.use('/assignDateFromReconfirm/:orderID/:date/:time', reconfirm);
+// var readyForInstallation = require('./backbone/readyForInstallation');
+// app.get('/readyForInstallation/:date/:pageNo', readyForInstallation);
+// app.get('/assignSE/:orderID/:SEid', readyForInstallation);
+// app.get('/reschedule/:orderID', readyForInstallation);
 
 
-var reschedule = require('./backbone/reschedule');
-app.use('/rescheduled/:pageNo',reschedule);
-app.use('/assignRescheduleDate/:orderID/:date/:time', reschedule);
+// var reconfirm = require('./backbone/reconfirm');
+// app.use('/reconfirm/:date/:pageNo',reconfirm);
+// app.use('/confirmFarmerReconfirmDate/:orderId',reconfirm);
+// app.use('/farmerReschedule/:orderID',reconfirm);
+// app.use('/assignDateFromReconfirm/:orderID/:date/:time', reconfirm);
 
 
-var seResponseStatus = require('./backbone/seResponseStatus');
-app.get('/cancelledSEreschedule/:orderID', seResponseStatus);
-app.get('/seResponseStatus/:SEid/:status/:pageNo', seResponseStatus);
-app.get('/doActions/:orderID/:actionID', seResponseStatus);
+// var reschedule = require('./backbone/reschedule');
+// app.use('/rescheduled/:pageNo',reschedule);
+// app.use('/assignRescheduleDate/:orderID/:date/:time', reschedule);
 
-var farmerResStatus = require('./backbone/farmerResponseStatus');
-app.get('/viewFarmerStatus/:status/:pageNo', farmerResStatus);
-app.get('/changeFarmerStatus/:id/:status', farmerResStatus);
 
-var installationStatus = require('./backbone/installationStatus');
-app.get('/viewInstallationStatus/:status/:pageNo/:orderID', installationStatus);
+// var seResponseStatus = require('./backbone/seResponseStatus');
+// app.get('/cancelledSEreschedule/:orderID', seResponseStatus);
+// app.get('/seResponseStatus/:SEid/:status/:pageNo', seResponseStatus);
+// app.get('/doActions/:orderID/:actionID', seResponseStatus);
+
+// var farmerResStatus = require('./backbone/farmerResponseStatus');
+// app.get('/viewFarmerStatus/:status/:pageNo', farmerResStatus);
+// app.get('/changeFarmerStatus/:id/:status', farmerResStatus);
+
+// var installationStatus = require('./backbone/installationStatus');
+// app.get('/viewInstallationStatus/:status/:pageNo/:orderID', installationStatus);
 /****************** Run Server ***************************************/
 app.listen(process.env.PORT || 8081);
 console.log('Server is listening on port 8081');

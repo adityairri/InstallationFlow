@@ -702,9 +702,13 @@
                             id="addBtn<%=singleData.data.id%>1" disabled>Schedule Date</button>
                         </a></br>
                         <a><button data-toggle="modal" data-target="#openMarkAsCompleteModal<%=singleData.data.id%>"
-                            class="btn bg-red waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                            class="btn bg-orange waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12"
                             id="addBtn<%=singleData.data.id%>1">Mark as Complete</button>
-                        </a>
+                        </a></br>
+                        <a><button data-toggle="modal" data-target="#cancelOrderModal<%=singleData.data.id%>"
+                          class="btn bg-red waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                          id="addBtn<%=singleData.data.id%>1">Cancel Order</button>
+                      </a>
 
 
 
@@ -770,6 +774,60 @@
                         </div>
 
 
+
+
+
+                        <div class="modal fade" id="cancelOrderModal<%=singleData.data.id%>" tabindex="-1"
+                          role="dialog" data-keyboard="false" data-backdrop="static">
+                          <div class="modal-dialog modal-sm" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h4 class="modal-title" id="largeModalLabel">Enter Order ID to Calcel Order</h4>
+                              </div>
+                              <div class="modal-body">
+                                <div class="form-group">
+                                  <div class="form-line">
+                                    <input type="text" class="form-control"
+                                      placeholder="<%=singleData.data.order.woo_commerce_order_id%>"
+                                      id="confirmCancelInput<%=singleData.data.id%>" />
+                                  </div>
+                                </div>
+                                <!-- onchange="enableButton<%=singleData.data.id%>(this.value)"  -->
+                              </div>
+                              <div class="modal-footer">
+                                <a href="#" id="cancelButtonWithDates<%=singleData.data.id%>"><button
+                                    onclick="removeLocalSTorage()" id="calcelButton<%=singleData.data.id%>"
+                                    type="button" class="btn btn-link waves-effect bg-teal" disabled>Cancel Order</button></a>
+                                <button onclick="removeLocalSTorage()" type="button"
+                                  class="btn btn-link waves-effect bg-red" data-dismiss="modal">CLOSE</button>
+                              </div>
+                            </div>
+                          </div>
+                          <script>
+                            var orderID1 = <%=singleData.data.order.woo_commerce_order_id%>;
+                            var fromDate3 = localStorage.getItem("fromDate");
+                            var toDate3 = localStorage.getItem("toDate");
+                            var pageNo1 = localStorage.getItem("pageNo");
+
+                            url = "/cancelOrder/" + orderID1 + "/" + fromDate3 + "/" + toDate3 + "/" + pageNo1;
+                            console.log(url);
+                            $("#cancelButtonWithDates<%=singleData.data.id%>").attr("href", url);
+                          </script>
+                          <script>
+
+                            var el = document.getElementById("confirmCancelInput<%=singleData.data.id%>");
+                            el.addEventListener('keyup', function () {
+                              var inputValue = document.getElementById("confirmCancelInput<%=singleData.data.id%>").value;
+                              var confirmValue = <%=singleData.data.order.woo_commerce_order_id%>;
+                              if (parseInt(inputValue) == parseInt(confirmValue)) {
+                                $("#calcelButton<%=singleData.data.id%>").attr("disabled", false);
+                              } else {
+                                $("#calcelButton<%=singleData.data.id%>").attr("disabled", true);
+                              }
+                              console.log(inputValue, confirmValue);
+                            });
+                          </script>
+                        </div>
 
 
 
