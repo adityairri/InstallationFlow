@@ -40,7 +40,30 @@ module.exports = function () {
   );
 
 
+  app.get("/cancelOrder/:orderID/:pageNo", async function (req, res) {
+    var req = req.params;
+    // console.log(req);
+    var orderID = req.orderID;
+    var reqBody = JSON.stringify({
+        order_id: parseInt(orderID)
+      });
 
+    // console.log(reqBody);
+    const resp = await fetch(apiURL + "/cancelorder/", {
+      method: "post",
+      body: reqBody,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+
+    await resp.json().then((data) => {
+      // console.log(data);
+      res.redirect("/rescheduled/"+req.pageNo);
+    });
+    // console.log(reqBody);
+  });
   
 
   app.get("/rescheduled/:pageNo", async function (req, res) {
