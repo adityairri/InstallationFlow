@@ -30,7 +30,7 @@ module.exports = function () {
     
         await resp.json().then((data) => {
           // console.log(data);
-          res.redirect("/reconfirm/0/1");
+          res.redirect("/reconfirm/0/1/0");
         });
         // console.log(reqBody);
       });
@@ -58,7 +58,7 @@ module.exports = function () {
         );
         resp.json().then(async (data) => {
           // console.log(data);
-          res.redirect("/reconfirm/0/1");
+          res.redirect("/reconfirm/0/1/0");
         });
       });
 
@@ -89,7 +89,7 @@ module.exports = function () {
 
       await resp.json().then((data) => {
         // console.log(data);
-        res.redirect("/reconfirm/0/1");
+        res.redirect("/reconfirm/0/1/0");
       });
       // console.log(reqBody);
     }
@@ -98,7 +98,8 @@ module.exports = function () {
 
 
   
-    app.get("/reconfirm/:date/:pageNo", async function (req, res) {
+    app.get("/reconfirm/:date/:pageNo/:searchByOrderID", async function (req, res) {
+      if(req.params.searchByOrderID == "0"){
     if (req.params.date == "0") {
       var page = req.params.pageNo;
         var fromDate = new Date(+new Date().setHours(0, 0, 0, 0) + 86400000).toLocaleDateString("fr-CA")  + " 00:00";
@@ -123,7 +124,17 @@ module.exports = function () {
           },
         });
       }
-   
+    } else{
+      var page = req.params.pageNo;
+      var fromDate = new Date(+new Date().setHours(0, 0, 0, 0) + 86400000).toLocaleDateString("fr-CA")  + " 00:00";
+      var toDate = fromDate;
+      var reqBody = JSON.stringify({
+        filter: {
+          order_id: parseInt(req.params.searchByOrderID),
+          status: "FARMER_DATE_CONFIRM"
+        },
+      });
+    }
 
     const resp = await fetch(
       apiURL+"/getInstallationSchedule/?page="+parseInt(page)+"",

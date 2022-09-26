@@ -157,12 +157,12 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/reconfirm/0/1';">
+          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/reconfirm/0/1/0';">
             <div class="info-box-4 hover-zoom-effect bg-teal">
               <div class="content">
                 <div class="text"><b>RECONFIRM</b></div>
                 <div class="number">
-                  <%=reconfirmOrdersCount%> / <%=totalReconfirmOrdersCount%>
+                  <%=totalReconfirmOrdersCount%>
                 </div>
               </div>
             </div>
@@ -299,9 +299,34 @@
           <div class="card">
             <div class="header">
               <h2>
-                RECONFIRM ORDERS (<%=date%>)
+                RECONFIRM ORDERS (<%=date.substring(0,10)%>) - <%=reconfirmOrdersCount%> Orders
               </h2>
               <ul class="header-dropdown m-r--5">
+
+                <li class="dropdown">
+                  <div class="row clearfix col-lg-12 col-md-12">
+                    <div class="col-lg-10 col-md-10">
+                      <input type="text" class="form-control" id="orderID" placeholder="Order ID" oninput="searchByOrderID()">
+                    </div>
+                    <div class="col-lg-2 col-md-2">
+                      <a href="/reconfirm/0/1/0" id="searchByOrderID">
+                        <button type="button" class="btn bg-teal waves-effect">
+                          <i class="material-icons">search</i>
+                        </button>
+                      </a>
+                    </div>
+                    <script>
+                      function searchByOrderID() {
+                        var orderID = document.getElementById("orderID").value;
+
+                        var url = "/reconfirm/0/1/"+orderID;
+                        $("#searchByOrderID").attr("href", url);
+                      }
+                    </script>
+                  </div>
+                </li>
+
+
                 <li class="dropdown">
                   <div class="row clearfix col-lg-12 col-md-12">
                     <div class="col-lg-10 col-md-10">
@@ -309,7 +334,7 @@
                             onchange="handler(event)">
                     </div>
                     <div class="col-lg-2 col-md-2">
-                        <a href="reconfirm/0/1" id="dateFilter">
+                        <a href="reconfirm/0/1/0" id="dateFilter">
                             <button type="button" class="btn bg-teal waves-effect">
                                 <i class="material-icons">search</i>
                             </button>
@@ -318,7 +343,7 @@
                     <script>
                         function handler(e) {
                             var date = e.target.value;
-                            url = "/reconfirm/" + date +"/1";
+                            url = "/reconfirm/" + date +"/1/0";
                             $("#dateFilter").attr("href", url);
                             return true;
                         }
@@ -328,12 +353,12 @@
               </ul>
             </div>
             <div class="body table-responsive">
-              <table class="table table-bordered table-striped table-hover js-basic-example dataTable" id="reconfirmTable">
+              <table class="table table-bordered table-striped table-hover js-basic-example dataTable" id="reconfirmOrdersTable">
                 <thead>
                   <tr>
                     <th style="text-align: center;">ORDER ID</th>
                     <th style="text-align: center;">BDE NAME</th>
-                    <th style="text-align: center;">CONFIRMED DATE</th>
+                    <th style="text-align: center;">INSTALLATION DATE</th>
                     <th style="text-align: center;">FARMER NAME</th>
                     <th style="text-align: center;">FARM NAME</th>
                     <th style="text-align: center;">FARMER MOBILE</th>
@@ -347,7 +372,7 @@
                   <tr>
                     <th style="text-align: center;">ORDER ID</th>
                     <th style="text-align: center;">BDE NAME</th>
-                    <th style="text-align: center;">CREATED DATE</th>
+                    <th style="text-align: center;">ORDERED DATE</th>
                     <th style="text-align: center;">FARMER NAME</th>
                     <th style="text-align: center;">FARM NAME</th>
                     <th style="text-align: center;">FARMER MOBILE</th>
@@ -367,7 +392,11 @@
                         <%= singleData.data.order.farmer.relationship_BDE.first_name %>
                       </td>
                       <td>
-                        <%= singleData.data.confirmed_date.substring(0,10) %>
+                        <% if (!singleData.data.confirmed_date){%>
+                          --
+                          <%}else{%>
+                            <%= singleData.data.confirmed_date.substring(0,10) %>
+                              <%}%>
                       </td>
                       <td>
                         <%= singleData.data.order.farmer.firstname %>
@@ -546,6 +575,31 @@
                     <% }) %>
                 </tbody>
 
+
+                <script>
+                  var table, rows, switching, i, x, y, shouldSwitch;
+                  table = document.getElementById("reconfirmOrdersTable");
+                  switching = true;
+                  while (switching) {
+                    switching = false;
+                    rows = table.rows;
+                    for (i = 1; i < (rows.length - 1); i++) {
+                      shouldSwitch = false;
+                      x = rows[i].getElementsByTagName("TD")[0];
+                      y = rows[i + 1].getElementsByTagName("TD")[0];
+                      if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                      }
+                    }
+                    if (shouldSwitch) {
+                      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                      switching = true;
+                    }
+                  }
+                </script>
+
+
                 <nav>
                   <ul class="pagination">
                     <% if(dataPaginationPrevious==null){%>
@@ -556,7 +610,7 @@
                       </li>
                       <%}else{%>
                         <li>
-                          <a href="/reconfirm/0/<%=dataPaginationPageNo-1%>">
+                          <a href="/reconfirm/0/<%=dataPaginationPageNo-1%>/0">
                               <i class="material-icons">chevron_left</i>
                           </a>
                       </li>
@@ -571,7 +625,7 @@
                         </li>
                         <%}else{%>
                           <li>
-                            <a href="/reconfirm/0/<%=dataPaginationPageNo-1%>">
+                            <a href="/reconfirm/0/<%=dataPaginationPageNo-1%>/0">
                                 <i class="material-icons">chevron_right</i>
                             </a>
                         </li>
