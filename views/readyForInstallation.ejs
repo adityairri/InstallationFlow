@@ -511,7 +511,7 @@
                                                     <option value="">--SELECT EMPLOYEE--</option>
                                                     <% seList.forEach(function(SEdetails){ %>
                                                         <option value="<%=SEdetails.id%>">
-                                                            <%=SEdetails.first_name%> - <%=SEdetails.assignedCount%>
+                                                            <%=SEdetails.first_name%> <%=SEdetails.last_name%> - <%=SEdetails.assignedCount%>
                                                             <!-- <%=SEdetails.first_name%> -  -->
                                                         </option>
                                                         <%})%>
