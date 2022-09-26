@@ -225,7 +225,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/readyForInstallation/0/1';">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/readyForInstallation/0/1/0';">
                   <div class="info-box-4 hover-zoom-effect">
                       <div class="content">
                           <div class="text">READY FOR INSTALLATION</div>
@@ -261,19 +261,19 @@
                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="text">
                           <div style="<%=variables.navBarHighlight1%>" class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                            onclick="window.location='/seResponseStatus/0/pending/1';">
+                            onclick="window.location='/seResponseStatus/0/pending/1/0';">
                             Pending </br> <b>
                               <%=sePendingList%>
                             </b>
                           </div>
                           <div style="<%=variables.navBarHighlight2%>" class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                            onclick="window.location='/seResponseStatus/0/accepted/1';">
+                            onclick="window.location='/seResponseStatus/0/accepted/1/0';">
                             Accepted </br><b>
                               <%=seAcceptedList%>
                             </b>
                           </div>
                           <div style="<%=variables.navBarHighlight3%>" class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                            onclick="window.location='/seResponseStatus/0/declined/1';">
+                            onclick="window.location='/seResponseStatus/0/declined/1/0';">
                             Cancelled </br><b>
                               <%=seDeclinedList%>
                             </b>
@@ -292,19 +292,19 @@
                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="text">
                           <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                            onclick="window.location='/viewFarmerStatus/pending/1';">
+                            onclick="window.location='/viewFarmerStatus/pending/1/0';">
                             Pending </br><b>
                               <%=farmerPendingList%>
                             </b>
                           </div>
                           <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                            onclick="window.location='/viewFarmerStatus/accepted/1';">
+                            onclick="window.location='/viewFarmerStatus/accepted/1/0';">
                             Accepted </br><b>
                               <%=farmerAcceptedList%>
                             </b>
                           </div>
                           <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                            onclick="window.location='/viewFarmerStatus/cancelled/1';">
+                            onclick="window.location='/viewFarmerStatus/cancelled/1/0';">
                             Cancelled </br><b>
                               <%=farmerDeclinedList%>
                             </b>
@@ -359,6 +359,31 @@
                                 <!-- <small>Please assign date by confirming with the customer.</small> -->
                             </h2>
                             <ul class="header-dropdown m-r--5">
+
+                              <li class="dropdown">
+                                <div class="row clearfix col-lg-12 col-md-12">
+                                  <div class="col-lg-10 col-md-10">
+                                    <input type="text" class="form-control" id="orderID" placeholder="Order ID" oninput="searchByOrderIDPending()">
+                                  </div>
+                                  <div class="col-lg-2 col-md-2">
+                                    <a href="/seResponseStatus/0/pending/1/0" id="searchByOrderIDPending">
+                                      <button type="button" class="btn bg-teal waves-effect">
+                                        <i class="material-icons">search</i>
+                                      </button>
+                                    </a>
+                                  </div>
+                                  <script>
+                                    function searchByOrderIDPending() {
+                                      var orderID = document.getElementById("orderID").value;
+              
+                                      var url = "/seResponseStatus/0/pending/1/"+orderID;
+                                      $("#searchByOrderIDPending").attr("href", url);
+                                    }
+                                  </script>
+                                </div>
+                              </li>
+
+
                                 <li class="dropdown">
                                     <div class="row clearfix col-lg-12 col-md-12">
                                         <div class="col-lg-10 col-md-10">
@@ -561,6 +586,30 @@
                                     <!-- <small>Please assign date by confirming with the customer.</small> -->
                                 </h2>
                                 <ul class="header-dropdown m-r--5">
+
+                                  <li class="dropdown">
+                                    <div class="row clearfix col-lg-12 col-md-12">
+                                      <div class="col-lg-10 col-md-10">
+                                        <input type="text" class="form-control" id="orderID" placeholder="Order ID" oninput="searchByOrderIDAccepted()">
+                                      </div>
+                                      <div class="col-lg-2 col-md-2">
+                                        <a href="/seResponseStatus/0/accepted/1/0" id="searchByOrderIDAccepted">
+                                          <button type="button" class="btn bg-teal waves-effect">
+                                            <i class="material-icons">search</i>
+                                          </button>
+                                        </a>
+                                      </div>
+                                      <script>
+                                        function searchByOrderIDAccepted() {
+                                          var orderID = document.getElementById("orderID").value;
+                  
+                                          var url = "/seResponseStatus/0/accepted/1/"+orderID;
+                                          $("#searchByOrderIDAccepted").attr("href", url);
+                                        }
+                                      </script>
+                                    </div>
+                                  </li>
+
                                     <li class="dropdown">
                                         <div class="row clearfix col-lg-12 col-md-12">
                                             <div class="col-lg-10 col-md-10">
@@ -596,7 +645,7 @@
                                     <thead>
                                         <tr>
                                           <th style="text-align: center;">ORDER ID</th>
-                                          <th style="text-align: center;">BDE NAME</th>
+                                          <th style="text-align: center;">SE NAME</th>
                                           <th style="text-align: center;">INSTALLATION DATE</th>
                                           <th style="text-align: center;">FARMER NAME</th>
                                           <th style="text-align: center;">FARM NAME (ACRES)</th>
@@ -615,7 +664,7 @@
                                                 <%= singleData.data.order.woo_commerce_order_id %>
                                               </td>
                                             <td width="7%">
-                                                <%= singleData.data.order.farmer.relationship_BDE.first_name %>
+                                              <%= singleData.seName %>
                                               </td>
                                             <td>
                                                 <%= singleData.data.confirmed_date.substring(0,10) %>
@@ -764,6 +813,30 @@
                                         <!-- <small>Please assign date by confirming with the customer.</small> -->
                                     </h2>
                                     <ul class="header-dropdown m-r--5">
+
+                                      <li class="dropdown">
+                                        <div class="row clearfix col-lg-12 col-md-12">
+                                          <div class="col-lg-10 col-md-10">
+                                            <input type="text" class="form-control" id="orderID" placeholder="Order ID" oninput="searchByOrderIDDeclined()">
+                                          </div>
+                                          <div class="col-lg-2 col-md-2">
+                                            <a href="/seResponseStatus/0/declined/1/0" id="searchByOrderIDDeclined">
+                                              <button type="button" class="btn bg-teal waves-effect">
+                                                <i class="material-icons">search</i>
+                                              </button>
+                                            </a>
+                                          </div>
+                                          <script>
+                                            function searchByOrderIDDeclined() {
+                                              var orderID = document.getElementById("orderID").value;
+                      
+                                              var url = "/seResponseStatus/0/declined/1/"+orderID;
+                                              $("#searchByOrderIDDeclined").attr("href", url);
+                                            }
+                                          </script>
+                                        </div>
+                                      </li>
+
                                         <li class="dropdown">
                                             <div class="row clearfix col-lg-12 col-md-12">
                                                 <div class="col-lg-10 col-md-10">
@@ -799,7 +872,7 @@
                                         <thead>
                                             <tr>
                                               <th style="text-align: center;">ORDER ID</th>
-                                              <th style="text-align: center;">BDE NAME</th>
+                                              <th style="text-align: center;">SE NAME</th>
                                               <th style="text-align: center;">INSTALLATION DATE</th>
                                               <th style="text-align: center;">FARMER NAME</th>
                                               <th style="text-align: center;">FARM NAME (ACRES)</th>
@@ -819,7 +892,7 @@
                                                     <%= singleData.data.order.woo_commerce_order_id %>
                                                   </td>
                                                 <td width="7%">
-                                                    <%= singleData.data.order.farmer.relationship_BDE.first_name %>
+                                                  <%= singleData.seName %>
                                                   </td>
                                                 <td>
                                                     <%= singleData.data.confirmed_date.substring(0,10) %>

@@ -13,6 +13,7 @@ module.exports = function () {
       schedule:{
         id: parseInt(req.orderID),
         service_engineer: req.SEid,
+        remarks: "SE Assigned (Ready for Installation -> SE Pending)",
         schedulestatus: "ASSIGNED_SE",
       }
     });
@@ -30,7 +31,7 @@ module.exports = function () {
 
     await resp.json().then((data) => {
       // console.log(data);
-      res.redirect("/readyForInstallation/0/1");
+      res.redirect("/readyForInstallation/0/1/0");
     });
     // console.log(reqBody);
   });
@@ -40,6 +41,7 @@ module.exports = function () {
     var reqBody = JSON.stringify({
       schedule:{
         id: parseInt(req.orderID),
+        remarks: "SM Rescheduled (Ready for Installation -> SM Rescheduled)",
         schedulestatus: "SM_RESCHEDULE",
       }
     });
@@ -56,14 +58,15 @@ module.exports = function () {
 
     await resp.json().then((data) => {
       // console.log(data);
-      res.redirect("/readyForInstallation/0/1");
+      res.redirect("/readyForInstallation/0/1/0");
     });
     // console.log(reqBody);
   });
   var dateUnassignedCount1;
-  app.get("/readyForInstallation/:date/:pageNo", async function (req, res) {
+  app.get("/readyForInstallation/:date/:pageNo/:searchByOrderID", async function (req, res) {
     // console.log(req.params);
     var seDates;
+    if(req.params.searchByOrderID == "0"){
     if (req.params.date == "0") {
       var page = req.params.pageNo;
       var fromDate = new Date(+new Date().setHours(0, 0, 0, 0) + 86400000).toLocaleDateString("fr-CA");
@@ -87,6 +90,17 @@ module.exports = function () {
           status: "FARMER_RECONFIRM",
           from_date: fromDate,
           to_date: toDate,
+        },
+      });
+    }
+  }else{
+      var page = req.params.pageNo;
+      var fromDate = new Date(+new Date().setHours(0, 0, 0, 0) + 86400000).toLocaleDateString("fr-CA")  + " 00:00";
+      var toDate = fromDate;
+      var reqBody = JSON.stringify({
+        filter: {
+          order_id: parseInt(req.params.searchByOrderID),
+          status: "FARMER_RECONFIRM"
         },
       });
     }

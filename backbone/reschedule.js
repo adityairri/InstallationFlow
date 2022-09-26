@@ -17,6 +17,7 @@ module.exports = function () {
           id: parseInt(req.orderID),
           confirmed_date: date,
           confirmed_slot: req.time,
+          remarks: "Assigned Rescheduled Date (Rescheduled -> Reconfirm)",
           schedulestatus: "FARMER_DATE_CONFIRM",
         },
       });
@@ -45,7 +46,8 @@ module.exports = function () {
     // console.log(req);
     var orderID = req.orderID;
     var reqBody = JSON.stringify({
-        order_id: parseInt(orderID)
+        order_id: parseInt(orderID),
+        remarks: "(Rescheduled -> Cancel Order)"
       });
 
     // console.log(reqBody);

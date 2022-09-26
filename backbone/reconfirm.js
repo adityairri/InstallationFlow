@@ -13,6 +13,7 @@ module.exports = function () {
         var reqBody = JSON.stringify({
           schedule:{
             id: parseInt(req.orderId),
+            remarks: "(Reconfirmed -> Ready for Installation)",
             schedulestatus: "FARMER_RECONFIRM",
           }
         });
@@ -41,6 +42,7 @@ module.exports = function () {
           var reqBody = JSON.stringify({
             schedule: {
               id: parseInt(req.params.orderID),
+              remarks: "(Reconfirmed -> Farmer Rescheduled)",
               schedulestatus: "FARMER_FINAL_CANCEL",
             },
           });
@@ -73,6 +75,7 @@ module.exports = function () {
           id: parseInt(req.orderID),
           confirmed_date: date,
           confirmed_slot: req.time,
+          remarks: "(Reconfirmed -> Farmer Reconfirmed to another date)",
           schedulestatus: "FARMER_DATE_CONFIRM",
         },
       });

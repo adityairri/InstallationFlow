@@ -31,14 +31,14 @@ module.exports = function () {
 
     await resp.json().then((data) => {
       // console.log(data);
-      res.redirect("/seResponseStatus/0/declined/1");
+      res.redirect("/seResponseStatus/0/declined/1/0");
     });
     // console.log(reqBody);
   });
 
 
 
-  app.get("/seResponseStatus/:SEid/:status/:pageNo", async function (req, res) {
+  app.get("/seResponseStatus/:SEid/:status/:pageNo/:searchByOrderID", async function (req, res) {
     // console.log(req.params);
     await getSEList();
     if (req.params.status == "pending"){
@@ -48,6 +48,8 @@ module.exports = function () {
         "navBarHighlight2": "",
         "navBarHighlight3": ""
       };
+
+      if(req.params.searchByOrderID == "0"){
       if (req.params.SEid == "0") {
         var reqBody = JSON.stringify({
           filter: {
@@ -62,6 +64,15 @@ module.exports = function () {
           },
         });
       }
+    }else{
+      var reqBody = JSON.stringify({
+        filter: {
+          status: "ASSIGNED_SE",
+          order_id: parseInt(req.params.searchByOrderID)
+        },
+      });
+    }
+
     }
     if (req.params.status == "accepted"){
       var variables = {
@@ -70,6 +81,8 @@ module.exports = function () {
         "navBarHighlight2": "background-color: #E9E9E9; color: #555555;",
         "navBarHighlight3": ""
       };
+
+      if(req.params.searchByOrderID == "0"){
       if (req.params.SEid == "0") {
         var reqBody = JSON.stringify({
           filter: {
@@ -84,6 +97,15 @@ module.exports = function () {
           },
         });
       }
+  } else {
+        var reqBody = JSON.stringify({
+          filter: {
+            status: "SEND_FARMER_CONFIRM",
+            order_id: parseInt(req.params.searchByOrderID)
+          },
+        });
+      }
+
     }
     if (req.params.status == "declined"){
       var variables = {
@@ -92,6 +114,8 @@ module.exports = function () {
         "navBarHighlight2": "",
         "navBarHighlight3": "background-color: #E9E9E9; color: #555555;"
       };
+
+      if(req.params.searchByOrderID == "0"){
       if (req.params.SEid == "0") {
         var reqBody = JSON.stringify({
           filter: {
@@ -106,6 +130,15 @@ module.exports = function () {
           },
         });
       }
+} else {
+        var reqBody = JSON.stringify({
+          filter: {
+            status: "CANCELLED_SE",
+            order_id: parseInt(req.params.searchByOrderID)
+          },
+        });
+      }
+
     }
     
     const resp = await fetch(apiURL+"/getInstallationSchedule/?page="+parseInt(req.params.pageNo)+"",
@@ -472,7 +505,7 @@ module.exports = function () {
 
     // await resp.json().then((data) => {
     //   console.log(data);
-    //   res.redirect("/readyForInstallation/0/1");
+    //   res.redirect("/readyForInstallation/0/1/0");
     // });
     // console.log(reqBody);
   });

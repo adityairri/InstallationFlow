@@ -39,7 +39,7 @@ app.get('/assignFollowupDate/:id/:remarks/:followupDate', index);
 app.use('/markAsComplete/:orderID/:fromDate/:toDate/:pageNo',index);
 
 var readyForInstallation = require('./backbone/readyForInstallation');
-app.get('/readyForInstallation/:date/:pageNo', readyForInstallation);
+app.get('/readyForInstallation/:date/:pageNo/:searchByOrderID', readyForInstallation);
 app.get('/assignSE/:orderID/:SEid', readyForInstallation);
 app.get('/reschedule/:orderID', readyForInstallation);
 
@@ -58,11 +58,11 @@ app.use('/assignRescheduleDate/:orderID/:date/:time', reschedule);
 
 var seResponseStatus = require('./backbone/seResponseStatus');
 app.get('/cancelledSEreschedule/:orderID', seResponseStatus);
-app.get('/seResponseStatus/:SEid/:status/:pageNo', seResponseStatus);
+app.get('/seResponseStatus/:SEid/:status/:pageNo/:searchByOrderID', seResponseStatus);
 app.get('/doActions/:orderID/:actionID', seResponseStatus);
 
 var farmerResStatus = require('./backbone/farmerResponseStatus');
-app.get('/viewFarmerStatus/:status/:pageNo', farmerResStatus);
+app.get('/viewFarmerStatus/:status/:pageNo/:searchByOrderID', farmerResStatus);
 app.get('/changeFarmerStatus/:id/:status', farmerResStatus);
 
 var installationStatus = require('./backbone/installationStatus');

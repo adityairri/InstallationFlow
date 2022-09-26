@@ -8,7 +8,7 @@ const token = "Token e50f000f342fe8453e714454abac13be07f18ac3";
 
 
 module.exports = function () {
-  app.get("/viewFarmerStatus/:status/:pageNo", async function (req, res) {
+  app.get("/viewFarmerStatus/:status/:pageNo/:searchByOrderID", async function (req, res) {
     await getSEList();
     if (req.params.status == "pending") {
       var variables = {
@@ -17,11 +17,22 @@ module.exports = function () {
         "navBarHighlight2": "",
         "navBarHighlight3": ""
       };
-      var reqBody = JSON.stringify({
-        filter: {
-          status: "SEND_FARMER_CONFIRM",
-        },
-      });
+
+      if(req.params.searchByOrderID=="0"){
+        var reqBody = JSON.stringify({
+          filter: {
+            status: "SEND_FARMER_CONFIRM",
+          },
+        });
+      }else{
+        var reqBody = JSON.stringify({
+          filter: {
+            status: "SEND_FARMER_CONFIRM",
+            order_id: parseInt(req.params.searchByOrderID)
+          },
+        });
+      }
+      
     }
     if (req.params.status == "accepted") {
       var variables = {
@@ -30,11 +41,20 @@ module.exports = function () {
         "navBarHighlight2": "background-color: #E9E9E9; color: #555555;",
         "navBarHighlight3": ""
       };
-      var reqBody = JSON.stringify({
-        filter: {
-          status: "FARMER_FINAl_CONFIRM",
-        },
-      });
+      if(req.params.searchByOrderID=="0"){
+        var reqBody = JSON.stringify({
+          filter: {
+            status: "FARMER_FINAl_CONFIRM",
+          },
+        });
+      }else{
+        var reqBody = JSON.stringify({
+          filter: {
+            status: "FARMER_FINAl_CONFIRM",
+            order_id: parseInt(req.params.searchByOrderID)
+          },
+        });
+      }
     }
     if (req.params.status == "cancelled") {
       var variables = {
@@ -43,11 +63,20 @@ module.exports = function () {
         "navBarHighlight2": "",
         "navBarHighlight3": "background-color: #E9E9E9; color: #555555;"
       };
-      var reqBody = JSON.stringify({
-        filter: {
-          status: "FARMER_FINAL_CANCEL",
-        },
-      });
+      if(req.params.searchByOrderID=="0"){
+        var reqBody = JSON.stringify({
+          filter: {
+            status: "FARMER_FINAL_CANCEL",
+          },
+        });
+      }else{
+        var reqBody = JSON.stringify({
+          filter: {
+            status: "FARMER_FINAL_CANCEL",
+            order_id: parseInt(req.params.searchByOrderID)
+          },
+        });
+      }
     }
 
     const resp = await fetch(apiURL+"/getInstallationSchedule/?page="+parseInt(req.params.pageNo)+"",
@@ -203,7 +232,7 @@ module.exports = function () {
     );
     resp.json().then(async (data) => {
       // console.log(data);
-      res.redirect("/viewFarmerStatus/pending/1");
+      res.redirect("/viewFarmerStatus/pending/1/0");
     });
   });
 
