@@ -175,12 +175,14 @@ module.exports = function () {
           seListWithCount.push({
             "id": eachSE.id,
             "first_name": eachSE.first_name,
+            "last_name": eachSE.last_name,
             "assignedCount": SEassignedCount.find(o => o.service_engineer === eachSE.id).total
           })
         }else{
           seListWithCount.push({
             "id": eachSE.id,
             "first_name": eachSE.first_name,
+            "last_name": eachSE.last_name,
             "assignedCount": 0
           })
         }
