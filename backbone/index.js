@@ -338,7 +338,9 @@ module.exports = function () {
           count: 0,
         };
       }
-
+if(orderIDdetails==undefined){
+  orderIDdetails = 0;
+}
       await getAllStatusCount();
       await getAllStatusCount();
 
@@ -348,6 +350,8 @@ module.exports = function () {
         dataPaginationPrevious: data.links.previous,
         dataPaginationPageNo: data.page.page,
         dataPaginationTotalPages: data.page.pages,
+
+        orderIDdetails: orderIDdetails,
 
         newOrdersCount: newOrdersCount,
         reconfirmOrdersCount: FarmerDateConfirm,
@@ -608,4 +612,24 @@ module.exports = function () {
     });
   }
 
+var orderIDdetails;
+  app.get("/openSearchByOrderIdTotal/:searchByOrderID", async function (req, res) {
+    var reqBody = JSON.stringify({
+      filter:{
+      order_id: parseInt(req.params.searchByOrderID)
+    }
+    });
+    const resp = await fetch(apiURL + "/getInstallationSchedule/", {
+      method: "post",
+      body: reqBody,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+    await resp.json().then((data) => {
+      orderIDdetails = data;
+
+    });
+  });
 };

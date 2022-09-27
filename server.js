@@ -37,6 +37,7 @@ app.get('/assignDate/:orderID/:farmID/:date/:time/:remarks/:fromDate/:toDate/:pa
 app.get('/addRemarks/:id/:remarks', index);
 app.get('/assignFollowupDate/:id/:remarks/:followupDate', index);
 app.use('/markAsComplete/:orderID/:fromDate/:toDate/:pageNo',index);
+app.use('/openSearchByOrderIdTotal/:searchByOrderID',index);
 
 var readyForInstallation = require('./backbone/readyForInstallation');
 app.get('/readyForInstallation/:date/:pageNo/:searchByOrderID', readyForInstallation);

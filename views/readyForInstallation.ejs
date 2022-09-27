@@ -393,7 +393,7 @@
                                         <script>
                                             function handler(e) {
                                                 var date = e.target.value;
-                                                url = "/readyForInstallation/" + date +"/<%=dataPaginationPageNo%>";
+                                                url = "/readyForInstallation/" + date +"/<%=dataPaginationPageNo%>/0";
                                                 $("#dateFilter").attr("href", url);
                                                 return true;
                                             }
@@ -592,7 +592,7 @@
                                       </li>
                                       <%}else{%>
                                         <li>
-                                          <a href="/readyForInstallation/0/<%=dataPaginationPageNo-1%>">
+                                          <a href="/readyForInstallation/0/<%=dataPaginationPageNo-1%>/0">
                                               <i class="material-icons">chevron_left</i>
                                           </a>
                                       </li>
@@ -607,7 +607,7 @@
                                         </li>
                                         <%}else{%>
                                           <li>
-                                            <a href="/readyForInstallation/0/<%=dataPaginationPageNo-1%>">
+                                            <a href="/readyForInstallation/0/<%=dataPaginationPageNo-1%>/0">
                                                 <i class="material-icons">chevron_right</i>
                                             </a>
                                         </li>

@@ -78,6 +78,7 @@
 
           
           <!-- Call Search -->
+          <li><a href="javascript:void(0);" class="js-search" data-close="true"><i class="material-icons">search</i></a></li>
           <li><a href="javascript:location.reload();"><i class="material-icons">refresh</i></a>
           </li>
           <!-- #END# Call Search -->
@@ -149,6 +150,28 @@
   </aside>
   </section>
   <!-- #END# Right Sidebar -->
+
+  <!-- Search Bar -->
+  <div class="search-bar">
+    <div class="search-icon">
+        <i class="material-icons">search</i>
+    </div>
+    <input type="text" placeholder="Order ID" id="searchOrderID" oninput="searchByOrderIDTotal()">
+    <div class="close-search">
+      <a href="" id="openSearchButton"><i class="material-icons">search</i></a>&nbsp;&nbsp;
+        <i class="material-icons">close</i>
+    </div>
+</div>
+<!-- #END# Search Bar -->
+<script>
+  function searchByOrderIDTotal() {
+    var orderID = document.getElementById("searchOrderID").value;
+
+    var url = "/openSearchByOrderIdTotal/"+orderID;
+    $("#openSearchButton").attr("href", url);
+  }
+</script>
+
   <!-- #Top Bar -->
 
 
