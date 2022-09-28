@@ -8,7 +8,7 @@ const apiURL = "http://app.aquaexchange.com/api";
 const token = "Token e50f000f342fe8453e714454abac13be07f18ac3";
 
 module.exports = function () {
-  app.get("/viewInstallationStatus/:status/:pageNo/:orderID", async function (req, res) {
+  app.get("/viewInstallationStatus/:status/:pageNo/:orderID/:fromDate/:toDate", async function (req, res) {
     await getSEList();
     await getinstallationCompleteCount();
     if(req.params.orderID == 0){
@@ -45,11 +45,24 @@ module.exports = function () {
         "navBarHighlight2": "",
         "navBarHighlight3": "background-color: #E9E9E9; color: #555555;"
       };
+
+
+      if (req.params.fromDate == 0 || req.params.toDate == 0) {
       var reqBody = JSON.stringify({
         filter: {
           status: "COMPLETED",
         },
       });
+    }else if(req.params.fromDate != null && req.params.toDate != null){
+      var reqBody = JSON.stringify({
+        filter: {
+          from_date: req.params.fromDate + " 00:00",
+            to_date: req.params.toDate + " 23:59",
+          status: "COMPLETED",
+        },
+      });
+    }
+
     }
   }else if(req.params.orderID != 0){
     if (req.params.status == "pending") {

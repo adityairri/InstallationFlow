@@ -243,13 +243,13 @@ module.exports = function () {
 
   app.get("/page/:fromDate/:toDate/:pageNo/:searchByOrderID", async function (req, res) {
     if(req.params.searchByOrderID == 0){
-      if (req.params.fromDate == 0 || req.params.fromDate == 0) {
+      if (req.params.fromDate == 0 || req.params.toDate == 0) {
         var reqBody = JSON.stringify({
           filter: {
             status: "NEW_ORDER",
           },
         });
-      } else if (req.params.fromDate != null && req.params.fromDate != null) {
+      } else if (req.params.fromDate != null && req.params.toDate != null) {
         var reqBody = JSON.stringify({
           filter: {
             from_date: req.params.fromDate + " 00:00",
