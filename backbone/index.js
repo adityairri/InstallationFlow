@@ -613,10 +613,10 @@ if(orderIDdetails==undefined){
   }
 
 var orderIDdetails;
-  app.get("/openSearchByOrderIdTotal/:searchByOrderID", async function (req, res) {
+  app.get("/searchByOrderID/:orderID", async function (req, res) {
     var reqBody = JSON.stringify({
       filter:{
-      order_id: parseInt(req.params.searchByOrderID)
+      order_id: parseInt(req.params.orderID)
     }
     });
     const resp = await fetch(apiURL + "/getInstallationSchedule/", {
@@ -628,7 +628,9 @@ var orderIDdetails;
       },
     });
     await resp.json().then((data) => {
-      orderIDdetails = data;
+      res.render("searchByOrderID", {
+        data: data.results[0]
+      });
 
     });
   });

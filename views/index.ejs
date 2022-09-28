@@ -158,7 +158,7 @@
     </div>
     <input type="text" placeholder="Order ID" id="searchOrderID" oninput="searchByOrderIDTotal()">
     <div class="close-search">
-      <a href="" id="openSearchButton"><i class="material-icons">search</i></a>&nbsp;&nbsp;
+      <a href="" id="openSearchButton" target="_blank"><i class="material-icons">search</i></a>&nbsp;&nbsp;
         <i class="material-icons">close</i>
     </div>
 </div>
@@ -167,7 +167,7 @@
   function searchByOrderIDTotal() {
     var orderID = document.getElementById("searchOrderID").value;
 
-    var url = "/page/0/0/1/T"+orderID;
+    var url = "/searchByOrderID/"+orderID;
     $("#openSearchButton").attr("href", url);
   }
 </script>
