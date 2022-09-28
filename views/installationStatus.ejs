@@ -534,6 +534,7 @@
                 <thead>
                   <tr>
                     <th style="text-align: center;">ORDER ID</th>
+                    <th style="text-align: center;">INSTALLED DATE & TIME</th>
                     <th style="text-align: center;">SE NAME</th>
                     <th style="text-align: center;">INSTALLATION DATE</th>
                     <th style="text-align: center;">FARMER NAME</th>
@@ -551,6 +552,9 @@
                     <tr>
                       <td width="5%">
                         <%= singleData.data.order.woo_commerce_order_id %>
+                      </td>
+                      <td width="10%">
+                        <%= singleData.data.modified_date.substring(0,16) %>
                       </td>
                       <td width="7%">
                         <% if (!singleData.seName){%>
@@ -698,11 +702,13 @@
                   $(window).on("load", function () {
                     var installationState = localStorage.getItem("installationState");
                     var installationStatePage = localStorage.getItem("installationStatePage");
+                    var fromDate1 = localStorage.getItem("fromDate");
+                    var toDate1 = localStorage.getItem("toDate");
 
-                    url1 = "/viewInstallationStatus/" + installationState + "/<%=dataPaginationPageNo-1%>/0/0/0";
+                    url1 = "/viewInstallationStatus/" + installationState + "/<%=dataPaginationPageNo-1%>/0/"+fromDate1+"/"+toDate1;
                     $("#previosPageUrl").attr("href", url1);
 
-                    url2 = "/viewInstallationStatus/" + installationState + "/<%=dataPaginationPageNo+1%>/0/0/0";
+                    url2 = "/viewInstallationStatus/" + installationState + "/<%=dataPaginationPageNo+1%>/0/"+fromDate1+"/"+toDate1;
                     $("#nextPageUrl").attr("href", url2);
                     return true;
                   });
