@@ -926,8 +926,89 @@
                                                       <%}%>
                                             </td>
                                                 <td>
-                                                  <a href="/cancelledFarmerReschedule/<%=singleData.id%>"><button type="button" class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12">Reschedule</button></a>
+                                                  <a><button data-toggle="modal" data-target="#openFollowupModal<%=singleData.data.id%>" class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12">Reschedule</button>
+                                                  </a>
                                               </td>
+
+
+
+
+
+
+                                              <div class="modal fade" id="openFollowupModal<%=singleData.data.id%>" tabindex="-1"
+                                                role="dialog" data-keyboard="false" data-backdrop="static">
+                                                <div class="modal-dialog" role="document">
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <h4 class="modal-title" id="largeModalLabel">Add Confirmed Date</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                        <div><input type="date" class="form-control date" id="dateTime<%=singleData.data.id%>"  onchange="handler<%=singleData.data.id%>(event)"></div>
+                                                      </div>
+                                                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                        <select id="timeframe<%=singleData.data.id%>"
+                                                          onchange="selectedTimeFrameFunction<%=singleData.data.id%>()">
+                                                          <option value="">--Select Time--</option>
+                                                          <option value="7AM - 10AM">7:00 AM - 10:00 AM</option>
+                                                          <option value="10AM - 1PM">10:00 AM - 1:00 PM</option>
+                                                          <option value="2PM - 5PM">2:00 PM - 5:00 PM</option>
+                                                          <option value="7AM - 1PM">7:00 AM - 1:00 PM</option>
+                                                          <option value="7AM - 5PM">7:00 AM - 5:00 PM</option>
+                                                        </select>
+                                                      </div>
+                                                    </div>
+                              
+                                                    <script>
+                                                      function handler<%=singleData.data.id%> (e) {
+                                                        localStorage.removeItem("selectedDate<%= singleData.data.id%>");
+                                                        var x = document.getElementById("dateTime<%=singleData.data.id%>").value;
+                                                        localStorage.setItem("selectedDate<%= singleData.data.id%>", x);
+                                                        var selectedDate = localStorage.getItem("selectedDate<%= singleData.data.id%>");
+                                                        var selectedTimeframe = localStorage.getItem("selectedTimeFrame<%= singleData.data.id%>");
+                              
+                                                        url = "/assignRescheduleDateFromFarmerRespPage/<%=singleData.data.id%>/"+ selectedDate + "/" + selectedTimeframe;
+                                                        $("#addBtn<%=singleData.data.id%>").attr("href", url);
+                              
+                                                        return true;
+                                                      }
+                              
+                              
+                                                      function selectedTimeFrameFunction<%=singleData.data.id%> () {
+                                                          localStorage.removeItem("selectedTimeFrame<%= singleData.data.id%>");
+                                                          var x = document.getElementById("timeframe<%=singleData.data.id%>").value;
+                                                          localStorage.setItem("selectedTimeFrame<%= singleData.data.id%>", x);
+                                                          var selectedDate = localStorage.getItem("selectedDate<%= singleData.data.id%>");
+                                                          var selectedTimeframe = localStorage.getItem("selectedTimeFrame<%= singleData.data.id%>");
+                              
+                                                          url = "/assignRescheduleDateFromFarmerRespPage/<%=singleData.data.id%>/"+ selectedDate + "/" + selectedTimeframe;
+                                                          $("#addBtn<%=singleData.data.id%>").attr("href", url);
+                              
+                                                          return true;
+                                                        }
+                              
+                              
+                                                        function removeLocalSTorage() {
+                                                          localStorage.removeItem("selectedFarmId<%= singleData.data.id%>");
+                                                          localStorage.removeItem("selectedDate<%= singleData.data.id%>");
+                                                          localStorage.removeItem("selectedTimeframe<%= singleData.data.id%>");
+                                                          localStorage.removeItem("remarks<%= singleData.data.id%>");
+                                                        }
+                                                    </script>
+                              
+                              
+                                                    <div class="modal-footer">
+                                                      <a href="#" id="addBtn<%=singleData.data.id%>"><button onclick="removeLocalSTorage()" id="followupBtn" type="button" class="btn btn-link waves-effect bg-teal">ASSIGN DATE</button></a>
+                                                      <button onclick="removeLocalSTorage()" type="button" class="btn btn-link waves-effect bg-red" data-dismiss="modal">CLOSE</button>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+
+
+
+
+
                                             </tr>
                                             
                                             <% }) %>

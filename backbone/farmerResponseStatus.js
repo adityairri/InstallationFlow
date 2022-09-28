@@ -8,6 +8,43 @@ const token = "Token e50f000f342fe8453e714454abac13be07f18ac3";
 
 
 module.exports = function () {
+  app.get("/assignRescheduleDateFromFarmerRespPage/:orderID/:date/:time",
+  async function (req, res) {
+    var req = req.params;
+    // console.log(req);
+    var date = req.date + " 00:00";
+    var reqBody = JSON.stringify({
+      schedule: {
+        id: parseInt(req.orderID),
+        confirmed_date: date,
+        confirmed_slot: req.time,
+        remarks: "Assigned Rescheduled Date (Rescheduled -> Reconfirm)",
+        schedulestatus: "FARMER_DATE_CONFIRM",
+      },
+    });
+
+    // console.log(reqBody);
+    const resp = await fetch(apiURL + "/updateInstallationSchedule/", {
+      method: "post",
+      body: reqBody,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+
+    await resp.json().then((data) => {
+      // console.log(data);
+      res.redirect("/viewFarmerStatus/cancelled/1/0");
+    });
+    // console.log(reqBody);
+  }
+);
+  
+  
+  
+  
+  
   app.get("/viewFarmerStatus/:status/:pageNo/:searchByOrderID", async function (req, res) {
     await getSEList();
     if (req.params.status == "pending") {

@@ -63,6 +63,7 @@ app.get('/seResponseStatus/:SEid/:status/:pageNo/:searchByOrderID', seResponseSt
 app.get('/doActions/:orderID/:actionID', seResponseStatus);
 
 var farmerResStatus = require('./backbone/farmerResponseStatus');
+app.get('/assignRescheduleDateFromFarmerRespPage/:orderID/:date/:time', farmerResStatus);
 app.get('/viewFarmerStatus/:status/:pageNo/:searchByOrderID', farmerResStatus);
 app.get('/changeFarmerStatus/:id/:status', farmerResStatus);
 
