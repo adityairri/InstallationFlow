@@ -68,7 +68,39 @@
                           <%= data.order.woo_commerce_order_id %>
                         </td>
                         <td width="50%">
-                          <%= data.schedulestatus %>
+                          <% if(data.schedulestatus == "New Order"){ %>
+                          OPEN ORDERS
+                        <%}%>
+                        <% if(data.schedulestatus == "Farmer_Date_Confirm"){ %>
+                          RECONFIRM
+                        <%}%>
+                        <% if(data.schedulestatus == "Farmer_Reconfirm"){ %>
+                          READY FOR INSTALLATION
+                        <%}%>
+                        <% if(data.schedulestatus == "SM_Reschedule" || data.schedulestatus == "Cancelled_SE_ReSchedule" || data.schedulestatus == "Famer_Final_Cancelled"){ %>
+                          RESCHEDULED
+                        <%}%>
+                        <% if(data.schedulestatus == "Assigned_SE"){ %>
+                          SE RESPONSE STATUS -> PENDING
+                        <%}%>
+                        <% if(data.schedulestatus == "Send_Farmer_Confirmation"){ %>
+                          SE RESPONSE STATUS -> ACCEPTED </br> FARMER RESPONSE STATUS -> PENDING
+                        <%}%>
+                        <% if(data.schedulestatus == "Cancelled_SE"){ %>
+                          SE RESPONSE STATUS -> CANCELLED
+                        <%}%>
+                        <% if(data.schedulestatus == "Farmer_Final_Confirmation"){ %>
+                          FARMER RESPONSE STATUS -> ACCEPTED
+                        <%}%>
+                        <% if(data.schedulestatus == "SE_Attended"){ %>
+                          INSTALLATION STATUS -> IN PROGRESS
+                        <%}%>
+                        <% if(data.schedulestatus == "Partial Completed"){ %>
+                          INSTALLATION STATUS -> PARTIAL COMPLETE
+                        <%}%>
+                        <% if(data.schedulestatus == "Completed"){ %>
+                          INSTALLATION STATUS -> COMPLETED
+                        <%}%>
                         </td>
                       
                       </tr>
