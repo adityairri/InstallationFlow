@@ -38,6 +38,7 @@ app.get('/addRemarks/:id/:remarks', index);
 app.get('/assignFollowupDate/:id/:remarks/:followupDate', index);
 app.use('/markAsComplete/:orderID/:fromDate/:toDate/:pageNo',index);
 app.use('/openSearchByOrderIdTotal/:searchByOrderID',index);
+app.use('/markAsCompleteInSearch/:orderID/:wooComID', index);
 
 app.use('/searchByOrderID/:orderID',index);
 

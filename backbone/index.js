@@ -111,6 +111,36 @@ module.exports = function () {
 
 
 
+  app.get("/markAsCompleteInSearch/:orderID/:wooComID", async function (req, res) {
+    var req = req.params;
+    // console.log(req);
+    var orderID = req.orderID;
+    var reqBody = JSON.stringify({
+      schedule: {
+        id: parseInt(orderID),
+        remarks: "(Searched Orders -> Completed)",
+        schedulestatus: "COMPLETED",
+      },
+    });
+
+    // console.log(reqBody);
+    const resp = await fetch(apiURL + "/updateInstallationSchedule/", {
+      method: "post",
+      body: reqBody,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+
+    await resp.json().then((data) => {
+      // console.log(data);
+      res.redirect("/searchByOrderID/"+parseInt(req.wooComID));
+    });
+    // console.log(reqBody);
+  });
+
+
 
   app.get("/cancelOrder/:orderID/:fromDate/:toDate/:pageNo", async function (req, res) {
     var req = req.params;
@@ -134,6 +164,32 @@ module.exports = function () {
     await resp.json().then((data) => {
       // console.log(data);
       res.redirect("/page/"+req.fromDate+"/"+req.toDate+"/"+req.pageNo+"/0");
+    });
+    // console.log(reqBody);
+  });
+
+  app.get("/cancelOrderFromSearch/:orderID", async function (req, res) {
+    var req = req.params;
+    // console.log(req);
+    var orderID = req.orderID;
+    var reqBody = JSON.stringify({
+        order_id: parseInt(orderID),
+        remarks: "(Open Orders -> Cancel Order)"
+      });
+
+    // console.log(reqBody);
+    const resp = await fetch(apiURL + "/cancelorder/", {
+      method: "post",
+      body: reqBody,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+
+    await resp.json().then((data) => {
+      // console.log(data);
+      res.redirect("/searchByOrderID/"+parseInt(req.orderID));
     });
     // console.log(reqBody);
   });

@@ -52,6 +52,10 @@ module.exports = function () {
         filter: {
           status: "COMPLETED",
         },
+        sort: {
+           field: "order__ordercompleted",
+           order: "desc"
+       }
       });
     }else if(req.params.fromDate != null && req.params.toDate != null){
       var reqBody = JSON.stringify({
@@ -105,6 +109,10 @@ module.exports = function () {
           order_id: parseInt(req.params.orderID),
           status: "COMPLETED",
         },
+        sort: {
+           field: "order__ordercompleted",
+           order: "desc"
+       }
       });
     }
   }

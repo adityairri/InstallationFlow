@@ -52,6 +52,7 @@
                   <tr>
                     <th style="text-align: center;">ORDER ID</th>
                     <th style="text-align: center;">STATE</th>
+                    <th style="text-align: center;">ACTIONS</th>
                   </tr>
                 </thead>
                 <tbody style="text-align: center;">
@@ -64,10 +65,10 @@
                     </tr>
                     <%}else if(data){%>
                       <tr>
-                        <td width="50%">
+                        <td width="40%">
                           <%= data.order.woo_commerce_order_id %>
                         </td>
-                        <td width="50%">
+                        <td width="40%">
                           <% if(data.schedulestatus == "New Order"){ %>
                           OPEN ORDERS
                         <%}%>
@@ -103,6 +104,137 @@
                         <%}%>
                         </td>
                       
+                        <% if(data.schedulestatus != "Completed"){%>
+                        <td style="width: 20%;">
+                          <a><button data-toggle="modal" data-target="#openMarkAsCompleteModal<%=data.id%>"
+                              class="btn bg-orange waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                              id="addBtn<%=data.id%>1">Mark as Complete</button>
+                          </a></br>
+                          <a><button data-toggle="modal" data-target="#cancelOrderModal<%=data.id%>"
+                            class="btn bg-red waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                            id="addBtn<%=data.id%>1">Cancel Order</button>
+                        </a>
+  
+  
+  
+  
+  
+                          <div class="modal fade" id="openMarkAsCompleteModal<%=data.id%>" tabindex="-1"
+                            role="dialog" data-keyboard="false" data-backdrop="static">
+                            <div class="modal-dialog modal-sm" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h4 class="modal-title" id="largeModalLabel">Enter Order ID to mark as Complete</h4>
+                                </div>
+                                <div class="modal-body">
+                                  <div class="form-group">
+                                    <div class="form-line">
+                                      <input type="text" class="form-control"
+                                        placeholder="<%=data.order.woo_commerce_order_id%>"
+                                        id="confirmCompleteInput<%=data.id%>" />
+                                    </div>
+                                  </div>
+                                  <!-- onchange="enableButton<%=data.id%>(this.value)"  -->
+                                </div>
+                                <div class="modal-footer">
+                                  <a href="#" id="confirmButtonWithDates<%=data.id%>"><button id="confirmButton<%=data.id%>"
+                                      type="button" class="btn btn-link waves-effect bg-teal" disabled>Mark as
+                                      Completed</button></a>
+                                  <button type="button"
+                                    class="btn btn-link waves-effect bg-red" data-dismiss="modal">CLOSE</button>
+                                </div>
+                              </div>
+                            </div>
+                            <script>
+                              var orderID = <%=data.id%>;
+                              var wooComID = <%=data.order.woo_commerce_order_id%>;
+                              url = "/markAsCompleteInSearch/" + orderID+"/"+wooComID;
+                              console.log(url);
+                              $("#confirmButtonWithDates<%=data.id%>").attr("href", url);
+                            </script>
+                            <script>
+                              // function enableButton<%=data.id%>(inputValue){
+                              //   var inputValue = inputValue;
+                              //   var confirmValue = <%=data.order.woo_commerce_order_id%>;
+  
+                              //   console.log(inputValue, confirmValue);
+                              // }
+  
+                              var el = document.getElementById("confirmCompleteInput<%=data.id%>");
+                              el.addEventListener('keyup', function () {
+                                var inputValue = document.getElementById("confirmCompleteInput<%=data.id%>").value;
+                                var confirmValue = <%=data.order.woo_commerce_order_id%>;
+                                if (parseInt(inputValue) == parseInt(confirmValue)) {
+                                  $("#confirmButton<%=data.id%>").attr("disabled", false);
+                                } else {
+                                  $("#confirmButton<%=data.id%>").attr("disabled", true);
+                                }
+                                console.log(inputValue, confirmValue);
+                              });
+                            </script>
+                          </div>
+  
+  
+  
+  
+  
+                          <div class="modal fade" id="cancelOrderModal<%=data.id%>" tabindex="-1"
+                            role="dialog" data-keyboard="false" data-backdrop="static">
+                            <div class="modal-dialog modal-sm" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h4 class="modal-title" id="largeModalLabel">Enter Order ID to Cancel Order</h4>
+                                </div>
+                                <div class="modal-body">
+                                  <div class="form-group">
+                                    <div class="form-line">
+                                      <input type="text" class="form-control"
+                                        placeholder="<%=data.order.woo_commerce_order_id%>"
+                                        id="confirmCancelInput<%=data.id%>" />
+                                    </div>
+                                  </div>
+                                  <!-- onchange="enableButton<%=data.id%>(this.value)"  -->
+                                </div>
+                                <div class="modal-footer">
+                                  <a href="#" id="cancelButtonWithDates<%=data.id%>"><button
+                                      onclick="removeLocalSTorage()" id="calcelButton<%=data.id%>"
+                                      type="button" class="btn btn-link waves-effect bg-teal" disabled>Cancel Order</button></a>
+                                  <button onclick="removeLocalSTorage()" type="button"
+                                    class="btn btn-link waves-effect bg-red" data-dismiss="modal">CLOSE</button>
+                                </div>
+                              </div>
+                            </div>
+                            <script>
+                              var orderID1 = <%=data.order.woo_commerce_order_id%>;
+  
+                              url = "/cancelOrderFromSearch/" + orderID1;
+                              console.log(url);
+                              $("#cancelButtonWithDates<%=data.id%>").attr("href", url);
+                            </script>
+                            <script>
+  
+                              var el = document.getElementById("confirmCancelInput<%=data.id%>");
+                              el.addEventListener('keyup', function () {
+                                var inputValue = document.getElementById("confirmCancelInput<%=data.id%>").value;
+                                var confirmValue = <%=data.order.woo_commerce_order_id%>;
+                                if (parseInt(inputValue) == parseInt(confirmValue)) {
+                                  $("#calcelButton<%=data.id%>").attr("disabled", false);
+                                } else {
+                                  $("#calcelButton<%=data.id%>").attr("disabled", true);
+                                }
+                                console.log(inputValue, confirmValue);
+                              });
+                            </script>
+                          </div>
+  
+  
+  
+                        </td>
+                        <%}else{%>
+                          <td width="20%">
+                            No Actions Available
+                          </td>
+                          <%}%>
                       </tr>
                       <%}%>
                 </tbody>
@@ -116,7 +248,18 @@
     </div>
 
   </section>
+  <!-- Jquery Core Js -->
+  <script src="plugins/jquery/jquery.min.js"></script>
 
+  <!-- Bootstrap Core Js -->
+  <script src="plugins/bootstrap/js/bootstrap.js"></script>
+  <!-- Custom Js -->
+  <script src="js/admin.js"></script>
+  <script src="js/pages/index.js"></script>
+  <script src="js/pages/tables/jquery-datatable.js"></script>
+
+  <!-- Demo Js -->
+  <script src="js/demo.js"></script>
 </body>
 
 </html>
