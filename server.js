@@ -36,9 +36,9 @@ app.use('/page/:fromDate/:toDate/:pageNo/:searchByOrderID',index);
 app.get('/assignDate/:orderID/:farmID/:date/:time/:remarks/:fromDate/:toDate/:pageNo', index);
 app.get('/addRemarks/:id/:remarks', index);
 app.get('/assignFollowupDate/:id/:remarks/:followupDate', index);
-app.use('/markAsComplete/:orderID/:fromDate/:toDate/:pageNo',index);
+app.use('/markAsComplete/:orderID/:SEName/:dateOfCompletion/:fromDate/:toDate/:pageNo',index);
 app.use('/openSearchByOrderIdTotal/:searchByOrderID',index);
-app.use('/markAsCompleteInSearch/:orderID/:wooComID', index);
+app.use('/markAsCompleteInSearch/:orderID/:wooComID/:SEName/:dateOfCompletion', index);
 
 app.use('/searchByOrderID/:orderID',index);
 

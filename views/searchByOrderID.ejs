@@ -116,34 +116,55 @@
                         </a>
   
   
+                        <div class="modal fade" id="openMarkAsCompleteModal<%=data.id%>" tabindex="-1"
+                          role="dialog" data-keyboard="false" data-backdrop="static">
+                          <div class="modal-dialog modal-sm" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h4 class="modal-title" id="largeModalLabel">Mark As Complete</h4>
+                              </div>
+                              <div class="modal-body">
+                                <div class="form-group">
+                                  <label>SE Name:</label>
+                                  <select id="SElistSelect<%=data.id%>" onchange="handler1<%=data.id%>()">
+                                    <option value="">--SELECT EMPLOYEE--</option>
+                                    <% seList.forEach(function(SEdetails){ %>
+                                        <option value="<%=SEdetails.id%>">
+                                            <%=SEdetails.first_name%> <%=SEdetails.last_name%>
+                                        </option>
+                                        <%})%>
+                                </select></br></br>
+                                <label>Date of Completion</label>
+                                <div class="form-line"><input type="date" class="form-control date" id="dateTime1<%=data.id%>" onchange="handler1<%=data.id%>()"></div>
+                              </div>
+                              </div>
+                              <div class="modal-footer">
+                                <a href="#" id="confirmButtonWithDates<%=data.id%>"><button id="confirmButton<%=data.id%>"
+                                    type="button" class="btn btn-link waves-effect bg-teal">Mark as
+                                    Completed</button></a>
+                                <button type="button"
+                                  class="btn btn-link waves-effect bg-red" data-dismiss="modal">CLOSE</button>
+                              </div>
+                            </div>
+                          </div>
+                          <script>
+                            function handler1<%=data.id%> () {
+                              var orderID = <%=data.id%>;
+                            var wooComID = <%=data.order.woo_commerce_order_id%>;
+                            var SEName = document.getElementById("SElistSelect<%=data.id%>").value;
+                            var dateOfCompletion = document.getElementById("dateTime1<%=data.id%>").value;
+                            url = "/markAsCompleteInSearch/" + orderID +"/" + wooComID + "/" + SEName + "/" + dateOfCompletion;
+                            $("#confirmButtonWithDates<%=data.id%>").attr("href", url);
+                          // return true;
+                        }
+                        
+                          </script>
+                        </div>
   
   
-  
-                          <div class="modal fade" id="openMarkAsCompleteModal<%=data.id%>" tabindex="-1"
+                          <!-- <div class="modal fade" id="openMarkAsCompleteModal<%=data.id%>" tabindex="-1"
                             role="dialog" data-keyboard="false" data-backdrop="static">
                             <div class="modal-dialog modal-sm" role="document">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h4 class="modal-title" id="largeModalLabel">Enter Order ID to mark as Complete</h4>
-                                </div>
-                                <div class="modal-body">
-                                  <div class="form-group">
-                                    <div class="form-line">
-                                      <input type="text" class="form-control"
-                                        placeholder="<%=data.order.woo_commerce_order_id%>"
-                                        id="confirmCompleteInput<%=data.id%>" />
-                                    </div>
-                                  </div>
-                                  <!-- onchange="enableButton<%=data.id%>(this.value)"  -->
-                                </div>
-                                <div class="modal-footer">
-                                  <a href="#" id="confirmButtonWithDates<%=data.id%>"><button id="confirmButton<%=data.id%>"
-                                      type="button" class="btn btn-link waves-effect bg-teal" disabled>Mark as
-                                      Completed</button></a>
-                                  <button type="button"
-                                    class="btn btn-link waves-effect bg-red" data-dismiss="modal">CLOSE</button>
-                                </div>
-                              </div>
                             </div>
                             <script>
                               var orderID = <%=data.id%>;
@@ -172,7 +193,7 @@
                                 console.log(inputValue, confirmValue);
                               });
                             </script>
-                          </div>
+                          </div> -->
   
   
   

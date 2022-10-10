@@ -80,7 +80,7 @@ module.exports = function () {
     }
   );
 
-  app.get("/markAsComplete/:orderID/:fromDate/:toDate/:pageNo", async function (req, res) {
+  app.get("/markAsComplete/:orderID/:SEName/:dateOfCompletion/:fromDate/:toDate/:pageNo", async function (req, res) {
     var req = req.params;
     // console.log(req);
     var orderID = req.orderID;
@@ -88,8 +88,9 @@ module.exports = function () {
       schedule: {
         id: parseInt(orderID),
         remarks: "(Open Orders -> Completed)",
+        service_engineer: req.SEName,
         schedulestatus: "COMPLETED",
-      },
+      }
     });
 
     // console.log(reqBody);
@@ -111,7 +112,7 @@ module.exports = function () {
 
 
 
-  app.get("/markAsCompleteInSearch/:orderID/:wooComID", async function (req, res) {
+  app.get("/markAsCompleteInSearch/:orderID/:wooComID/:SEName/:dateOfCompletion", async function (req, res) {
     var req = req.params;
     // console.log(req);
     var orderID = req.orderID;
@@ -119,6 +120,7 @@ module.exports = function () {
       schedule: {
         id: parseInt(orderID),
         remarks: "(Searched Orders -> Completed)",
+        service_engineer: req.SEName,
         schedulestatus: "COMPLETED",
       },
     });
@@ -222,79 +224,7 @@ module.exports = function () {
 
   app.get("/", async function (req, res) {
     res.redirect("/page/0/0/1/0");
-//     var reqBody = JSON.stringify({
-//       filter: {
-//         status: "NEW_ORDER",
-//       },
-//     });
-//     const resp = await fetch(apiURL + "/getInstallationSchedule/?page=1", {
-//       method: "post",
-//       body: reqBody,
-//       headers: {
-//         "Content-Type": "application/json",
-//         Authorization: token,
-//       },
-//     });
-//     var daata = [];
-//     await resp.json().then(async (data) => {
-//       data.results.forEach(async (singleInData) => {
-//         var wooCommerseID = singleInData.order.woo_commerce_order_id;
-//         // if (dummyData.some((singleData) => singleData.woo_commerce_order_id === wooCommerseID)) {
-//         //   dummyData.forEach((element) => {
-//         //     if (element.woo_commerce_order_id === wooCommerseID) {
-//         //       newOrdersCount = element.total;
-//         //     }
-//         //   });
-//         // } else {
-//         //   newOrdersCount = 0;
-//         // }
-//         new Promise(function (resolve, reject) {
-//           fetch(apiURL + "/getremarksfororder/" + wooCommerseID + "", {
-//             method: "get",
-//             headers: {
-//               "Content-Type": "application/json",
-//               Authorization: token,
-//             },
-//           }).then((resp) => {
-//             resp.json().then((dataa) => {
-//               remarks = dataa;
-//               daata.push({
-//                 remarks: remarks,
-//                 data: singleInData,
-//               });
-//               resolve();
-//             });
-//           });
-//         });
-//       });
 
-//       // console.log(daata);
-//       await getAllStatusCount();
-//       await getAllStatusCount();
-// // console.log(dummyData);
-//       res.render("index", {
-//         data1: daata,
-//         dataPaginationNext: data.links.next,
-//         dataPaginationPrevious: data.links.previous,
-//         dataPaginationPageNo: data.page.page,
-//         dataPaginationTotalPages: data.page.pages,
-
-//         newOrdersCount: newOrdersCount,
-//         reconfirmOrdersCount: FarmerDateConfirm,
-//         readyToInstallCount: FarmerReconfirm,
-//         totalRescheduleCount:
-//           CancelledSEReSchedule + SMReschedule + FarmerCancelledReschedule,
-//         sePendingList: AssignedSE,
-//         seAcceptedList: ConfirmedSE,
-//         seDeclinedList: CancelledSE,
-//         farmerPendingList: SendFarmerConfirmation,
-//         farmerAcceptedList: FarmerFinalConfirmation,
-//         farmerDeclinedList: FamerFinalCancelled,
-//         installationPendingList: SEAttended,
-//         installationPartialCompleteList: PartialCompleted,
-//         installationCompletedList: Completed,
-//       });
-//     });
   });
 
   app.get("/page/:fromDate/:toDate/:pageNo/:searchByOrderID", async function (req, res) {
@@ -397,6 +327,7 @@ module.exports = function () {
 if(orderIDdetails==undefined){
   orderIDdetails = 0;
 }
+      await getSEList();
       await getAllStatusCount();
       await getAllStatusCount();
 
@@ -409,6 +340,7 @@ if(orderIDdetails==undefined){
 
         orderIDdetails: orderIDdetails,
 
+        seList:SElist,
         newOrdersCount: newOrdersCount,
         reconfirmOrdersCount: FarmerDateConfirm,
         readyToInstallCount: FarmerReconfirm,
@@ -683,11 +615,33 @@ var orderIDdetails;
         Authorization: token,
       },
     });
+    await getSEList();
     await resp.json().then((data) => {
       res.render("searchByOrderID", {
-        data: data.results[0]
+        data: data.results[0],
+        seList:SElist
+
       });
 
     });
   });
+
+
+  var SElist;
+  async function getSEList(req, res) {
+    const resp = await fetch(
+      apiURL+"/general/serviceengineers/",
+      {
+        method: "get",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token,
+        },
+      }
+    );
+    await resp.json().then((dataa) => {
+      // console.log(dataa);
+      SElist = dataa;
+    });
+  }
 };

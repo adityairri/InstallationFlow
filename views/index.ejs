@@ -728,21 +728,26 @@
                           <div class="modal-dialog modal-sm" role="document">
                             <div class="modal-content">
                               <div class="modal-header">
-                                <h4 class="modal-title" id="largeModalLabel">Enter Order ID to mark as Complete</h4>
+                                <h4 class="modal-title" id="largeModalLabel">Mark As Complete</h4>
                               </div>
                               <div class="modal-body">
                                 <div class="form-group">
-                                  <div class="form-line">
-                                    <input type="text" class="form-control"
-                                      placeholder="<%=singleData.data.order.woo_commerce_order_id%>"
-                                      id="confirmCompleteInput<%=singleData.data.id%>" />
-                                  </div>
-                                </div>
-                                <!-- onchange="enableButton<%=singleData.data.id%>(this.value)"  -->
+                                  <label>SE Name:</label>
+                                  <select id="SElistSelect<%=singleData.data.id%>" onchange="handler1<%=singleData.data.id%>()">
+                                    <option value="">--SELECT EMPLOYEE--</option>
+                                    <% seList.forEach(function(SEdetails){ %>
+                                        <option value="<%=SEdetails.id%>">
+                                            <%=SEdetails.first_name%> <%=SEdetails.last_name%>
+                                        </option>
+                                        <%})%>
+                                </select></br></br>
+                                <label>Date of Completion</label>
+                                <div class="form-line"><input type="date" class="form-control date" id="dateTime1<%=singleData.data.id%>" onchange="handler1<%=singleData.data.id%>()"></div>
+                              </div>
                               </div>
                               <div class="modal-footer">
                                 <a href="#" id="confirmButtonWithDates<%=singleData.data.id%>"><button id="confirmButton<%=singleData.data.id%>"
-                                    type="button" class="btn btn-link waves-effect bg-teal" disabled>Mark as
+                                    type="button" class="btn btn-link waves-effect bg-teal">Mark as
                                     Completed</button></a>
                                 <button type="button"
                                   class="btn btn-link waves-effect bg-red" data-dismiss="modal">CLOSE</button>
@@ -750,27 +755,19 @@
                             </div>
                           </div>
                           <script>
-                            var orderID = <%=singleData.data.id%>;
+                            function handler1<%=singleData.data.id%> () {
+                              var orderID = <%=singleData.data.id%>;
                             var fromDate2 = fromDate;
                             var toDate2 = toDate;
-                            var pageNo = pageNo;
+                            var pageNo1 = pageNo;
+                            var SEName = document.getElementById("SElistSelect<%=singleData.data.id%>").value;
+                            var dateOfCompletion = document.getElementById("dateTime1<%=singleData.data.id%>").value;
 
-                            url = "/markAsComplete/" + orderID + "/" + fromDate2 + "/" + toDate2 + "/" + pageNo;
-                            console.log(url);
+                            url = "/markAsComplete/" + orderID + "/" + SEName + "/" + dateOfCompletion + "/" + fromDate2 + "/" + toDate2 + "/" + pageNo1;
                             $("#confirmButtonWithDates<%=singleData.data.id%>").attr("href", url);
-                          </script>
-                          <script>
-                            var el = document.getElementById("confirmCompleteInput<%=singleData.data.id%>");
-                            el.addEventListener('keyup', function () {
-                              var inputValue = document.getElementById("confirmCompleteInput<%=singleData.data.id%>").value;
-                              var confirmValue = <%=singleData.data.order.woo_commerce_order_id%>;
-                              if (parseInt(inputValue) == parseInt(confirmValue)) {
-                                $("#confirmButton<%=singleData.data.id%>").attr("disabled", false);
-                              } else {
-                                $("#confirmButton<%=singleData.data.id%>").attr("disabled", true);
-                              }
-                              console.log(inputValue, confirmValue);
-                            });
+                          // return true;
+                        }
+                        
                           </script>
                         </div>
 
