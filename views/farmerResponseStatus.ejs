@@ -984,11 +984,8 @@
                               
                                                     <script>
                                                       function handler<%=singleData.data.id%> (e) {
-                                                        localStorage.removeItem("selectedDate<%= singleData.data.id%>");
-                                                        var x = document.getElementById("dateTime<%=singleData.data.id%>").value;
-                                                        localStorage.setItem("selectedDate<%= singleData.data.id%>", x);
-                                                        var selectedDate = localStorage.getItem("selectedDate<%= singleData.data.id%>");
-                                                        var selectedTimeframe = localStorage.getItem("selectedTimeFrame<%= singleData.data.id%>");
+                                                        var selectedDate = document.getElementById("dateTime<%=singleData.data.id%>").value;
+                                                        var selectedTimeframe = document.getElementById("timeframe<%=singleData.data.id%>").value;
                               
                                                         url = "/assignRescheduleDateFromFarmerRespPage/<%=singleData.data.id%>/"+ selectedDate + "/" + selectedTimeframe;
                                                         $("#addBtn<%=singleData.data.id%>").attr("href", url);
@@ -998,31 +995,20 @@
                               
                               
                                                       function selectedTimeFrameFunction<%=singleData.data.id%> () {
-                                                          localStorage.removeItem("selectedTimeFrame<%= singleData.data.id%>");
-                                                          var x = document.getElementById("timeframe<%=singleData.data.id%>").value;
-                                                          localStorage.setItem("selectedTimeFrame<%= singleData.data.id%>", x);
-                                                          var selectedDate = localStorage.getItem("selectedDate<%= singleData.data.id%>");
-                                                          var selectedTimeframe = localStorage.getItem("selectedTimeFrame<%= singleData.data.id%>");
+                                                        var selectedDate = document.getElementById("dateTime<%=singleData.data.id%>").value;
+                                                        var selectedTimeframe = document.getElementById("timeframe<%=singleData.data.id%>").value;
                               
                                                           url = "/assignRescheduleDateFromFarmerRespPage/<%=singleData.data.id%>/"+ selectedDate + "/" + selectedTimeframe;
                                                           $("#addBtn<%=singleData.data.id%>").attr("href", url);
                               
                                                           return true;
                                                         }
-                              
-                              
-                                                        function removeLocalSTorage() {
-                                                          localStorage.removeItem("selectedFarmId<%= singleData.data.id%>");
-                                                          localStorage.removeItem("selectedDate<%= singleData.data.id%>");
-                                                          localStorage.removeItem("selectedTimeframe<%= singleData.data.id%>");
-                                                          localStorage.removeItem("remarks<%= singleData.data.id%>");
-                                                        }
                                                     </script>
                               
                               
                                                     <div class="modal-footer">
-                                                      <a href="#" id="addBtn<%=singleData.data.id%>"><button onclick="removeLocalSTorage()" id="followupBtn" type="button" class="btn btn-link waves-effect bg-teal">ASSIGN DATE</button></a>
-                                                      <button onclick="removeLocalSTorage()" type="button" class="btn btn-link waves-effect bg-red" data-dismiss="modal">CLOSE</button>
+                                                      <a href="#" id="addBtn<%=singleData.data.id%>"><button id="followupBtn" type="button" class="btn btn-link waves-effect bg-teal">ASSIGN DATE</button></a>
+                                                      <button type="button" class="btn btn-link waves-effect bg-red" data-dismiss="modal">CLOSE</button>
                                                     </div>
                                                   </div>
                                                 </div>

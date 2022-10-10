@@ -10,7 +10,7 @@ const token = "Token e50f000f342fe8453e714454abac13be07f18ac3";
 module.exports = function () {
   app.get("/viewInstallationStatus/:status/:pageNo/:orderID/:fromDate/:toDate", async function (req, res) {
     await getSEList();
-    await getinstallationCompleteCount();
+    // await getinstallationCompleteCount();
     if(req.params.orderID == 0){
     if (req.params.status == "pending") {
       var variables = {

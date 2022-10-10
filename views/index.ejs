@@ -36,22 +36,21 @@
   <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
   <link href="css/themes/all-themes.css" rel="stylesheet" />
   <script>
-    localStorage.clear();
     var pathArray = window.location.pathname.split('/');
     if (pathArray[2] == undefined) {
-      localStorage.setItem("fromDate", 0);
+      var fromDate = 0;
     } else if (pathArray[2] != undefined) {
-      localStorage.setItem("fromDate", pathArray[2]);
+      var fromDate = pathArray[2];
     }
     if (pathArray[3] == undefined) {
-      localStorage.setItem("toDate", 0);
+      var toDate = 0;
     } else if (pathArray[3] != undefined) {
-      localStorage.setItem("toDate", pathArray[3]);
+      var toDate = pathArray[3];
     }
     if (pathArray[4] == undefined) {
-      localStorage.setItem("pageNo", 1);
+      var pageNo = 1;
     } else if (pathArray[4] != undefined) {
-      localStorage.setItem("pageNo", pathArray[4]);
+      var pageNo = pathArray[4];
     }
 
   </script>
@@ -338,8 +337,8 @@
               </h2>
               <script>
 
-                var fromDate1 = localStorage.getItem("fromDate");
-                var toDate1 = localStorage.getItem("toDate");
+                var fromDate1 = fromDate;
+                var toDate1 = toDate;
                 if (parseInt(fromDate1) == 0 && parseInt(toDate1) == 0) {
                   document.getElementById("titleText").innerHTML = "OPEN ORDERS";
                 } else {
@@ -391,17 +390,15 @@
                       function handler() {
                         var fromDate = document.getElementById("FromDate").value;
                         var toDate = document.getElementById("ToDate").value;
-                        localStorage.setItem("fromDate", fromDate);
-                        localStorage.setItem("toDate", toDate);
-                        var fromDateLocalStorage = localStorage.getItem("fromDate");
-                        var toDateLocalStorage = localStorage.getItem("toDate");
+                        var fromDateLocalStorage = fromDate;
+                        var toDateLocalStorage = toDate;
 
                         var url = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/1/0";
                         $("#dateRangeFilter").attr("href", url);
 
 
-                        var fromDateLocalStorage = localStorage.getItem("fromDate");
-                        var toDateLocalStorage = localStorage.getItem("toDate");
+                        var fromDateLocalStorage = fromDate;
+                        var toDateLocalStorage = toDate;
 
                         url1 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo-1%>/0";
                         $("#previosPageUrl").attr("href", url1);
@@ -413,8 +410,8 @@
 
 
                       $(window).on("load", function () {
-                        var fromDateLocalStorage = localStorage.getItem("fromDate");
-                        var toDateLocalStorage = localStorage.getItem("toDate");
+                        var fromDateLocalStorage = fromDate;
+                        var toDateLocalStorage = toDate;
 
                         url1 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo-1%>/0";
                         $("#previosPageUrl").attr("href", url1);
@@ -493,7 +490,7 @@
                       </td>
                       <td>
                         <!-- onchange="selectedFarm<%=singleData.id%>()" -->
-                        <select id="farmNamesId<%=singleData.data.id%>" multiple>
+                        <select multiple="multiple" id="farmNamesId<%=singleData.data.id%>" multiple>
                           <% singleData.data.order.farmer.farms.forEach(function(farmNames){ %>
                             <option value="<%=farmNames.id%>">
                               <%=farmNames.farm_name%>
@@ -501,21 +498,18 @@
                             <%});%>
                         </select>
 
-                        <script>
+                        <!-- <script>
                           $(function () {
                             $('#farmNamesId<%=singleData.data.id%>').change(function (e) {
 
-                              localStorage.removeItem("selectedFarmId<%= singleData.data.id%>");
                               var selected = $(e.target).val();
-                              localStorage.setItem("selectedFarmId<%= singleData.data.id%>", selected);
-                              var selectedFarmId = localStorage.getItem("selectedFarmId<%= singleData.data.id%>");
-                              var selectedDate = localStorage.getItem("selectedDate<%= singleData.data.id%>");
-                              var selectedTimeframe = localStorage.getItem("selectedTimeframe<%= singleData.data.id%>");
-                              var remarks = localStorage.getItem("remarks<%= singleData.data.id%>");
-                              var remarks = localStorage.getItem("remarks<%= singleData.data.id%>");
-                              var fromDate1 = localStorage.getItem("fromDate");
-                              var toDate1 = localStorage.getItem("toDate");
-                              var pageNo1 = localStorage.getItem("pageNo");
+                              var selectedFarmId = selected;
+                              var selectedDate = document.getElementById("selectedDate<%= singleData.data.id%>").value;
+                              var selectedTimeframe = document.getElementById("selectedTimeframe<%= singleData.data.id%>").value;
+                              var remarks = document.getElementById("remarks<%= singleData.data.id%>").value;
+                              var fromDate1 = fromDate;
+                              var toDate1 = toDate;
+                              var pageNo1 = pageNo;
 
                               url = "/assignDate/<%=singleData.data.id%>/" + selectedFarmId + "/" + selectedDate + "/" + selectedTimeframe + "/" + remarks + "/" + fromDate1 + "/" + toDate1 + "/" + pageNo1;
                               $("#addBtn<%=singleData.data.id%>").attr("href", url);
@@ -523,7 +517,7 @@
                               return true;
                             });
                           });
-                        </script>
+                        </script> -->
                       </td>
                       <td>
                         <% if(singleData.data.order.farmer.mobile_number == "9000278567"){%>
@@ -653,8 +647,7 @@
                                     </div>
                                   </div>
                                   <div class="modal-footer">
-                                    <a href="#" id="followupBtn<%=singleData.data.id%>"><button
-                                        onclick="removeLocalSTorage()" id="followupBtn<%=singleData.data.id%>1"
+                                    <a href="#" id="followupBtn<%=singleData.data.id%>"><button id="followupBtn<%=singleData.data.id%>1"
                                         type="button" class="btn btn-link waves-effect bg-teal">CREATE
                                         FOLLOWUP</button></a>
                                     <button type="button" class="btn btn-link waves-effect bg-red"
@@ -671,14 +664,7 @@
                               }
 
                               function addFollowupDate<%=singleData.data.id%> (e) {
-                                localStorage.removeItem("followupDate<%= singleData.data.id%>");
-                                var x = document.getElementById("followupDate<%=singleData.data.id%>").value;
-                                localStorage.setItem("followupDate<%= singleData.data.id%>", x);
-                                localStorage.removeItem("selectedFarmId<%= singleData.data.id%>");
-                                localStorage.removeItem("selectedDate<%= singleData.data.id%>");
-                                localStorage.removeItem("selectedTimeframe<%= singleData.data.id%>");
-                                localStorage.removeItem("remarks<%= singleData.data.id%>");
-                                var followupDate = localStorage.getItem("followupDate<%= singleData.data.id%>");
+                                var followupDate = document.getElementById("followupDate<%=singleData.data.id%>").value;
 
                                 url = "/assignFollowupDate/<%=singleData.data.id%>/Call me later/" + followupDate;
                                 $("#followupBtn<%=singleData.data.id%>").attr("href", url);
@@ -702,7 +688,7 @@
                               localStorage.setItem("remarks<%= singleData.data.id%>", x);
                             } else if (a == 0) {
                               $("#addBtn<%=singleData.data.id%>1").attr("disabled", true);
-                              localStorage.removeItem("remarks<%= singleData.data.id%>");
+                              // localStorage.removeItem("remarks<%= singleData.data.id%>");
                             }
 
 
@@ -755,33 +741,25 @@
                                 <!-- onchange="enableButton<%=singleData.data.id%>(this.value)"  -->
                               </div>
                               <div class="modal-footer">
-                                <a href="#" id="confirmButtonWithDates<%=singleData.data.id%>"><button
-                                    onclick="removeLocalSTorage()" id="confirmButton<%=singleData.data.id%>"
+                                <a href="#" id="confirmButtonWithDates<%=singleData.data.id%>"><button id="confirmButton<%=singleData.data.id%>"
                                     type="button" class="btn btn-link waves-effect bg-teal" disabled>Mark as
                                     Completed</button></a>
-                                <button onclick="removeLocalSTorage()" type="button"
+                                <button type="button"
                                   class="btn btn-link waves-effect bg-red" data-dismiss="modal">CLOSE</button>
                               </div>
                             </div>
                           </div>
                           <script>
                             var orderID = <%=singleData.data.id%>;
-                            var fromDate2 = localStorage.getItem("fromDate");
-                            var toDate2 = localStorage.getItem("toDate");
-                            var pageNo = localStorage.getItem("pageNo");
+                            var fromDate2 = fromDate;
+                            var toDate2 = toDate;
+                            var pageNo = pageNo;
 
                             url = "/markAsComplete/" + orderID + "/" + fromDate2 + "/" + toDate2 + "/" + pageNo;
                             console.log(url);
                             $("#confirmButtonWithDates<%=singleData.data.id%>").attr("href", url);
                           </script>
                           <script>
-                            // function enableButton<%=singleData.data.id%>(inputValue){
-                            //   var inputValue = inputValue;
-                            //   var confirmValue = <%=singleData.data.order.woo_commerce_order_id%>;
-
-                            //   console.log(inputValue, confirmValue);
-                            // }
-
                             var el = document.getElementById("confirmCompleteInput<%=singleData.data.id%>");
                             el.addEventListener('keyup', function () {
                               var inputValue = document.getElementById("confirmCompleteInput<%=singleData.data.id%>").value;
@@ -818,19 +796,18 @@
                                 <!-- onchange="enableButton<%=singleData.data.id%>(this.value)"  -->
                               </div>
                               <div class="modal-footer">
-                                <a href="#" id="cancelButtonWithDates<%=singleData.data.id%>"><button
-                                    onclick="removeLocalSTorage()" id="calcelButton<%=singleData.data.id%>"
+                                <a href="#" id="cancelButtonWithDates<%=singleData.data.id%>"><button id="calcelButton<%=singleData.data.id%>"
                                     type="button" class="btn btn-link waves-effect bg-teal" disabled>Cancel Order</button></a>
-                                <button onclick="removeLocalSTorage()" type="button"
+                                <button type="button"
                                   class="btn btn-link waves-effect bg-red" data-dismiss="modal">CLOSE</button>
                               </div>
                             </div>
                           </div>
                           <script>
                             var orderID1 = <%=singleData.data.order.woo_commerce_order_id%>;
-                            var fromDate3 = localStorage.getItem("fromDate");
-                            var toDate3 = localStorage.getItem("toDate");
-                            var pageNo1 = localStorage.getItem("pageNo");
+                            var fromDate3 = fromDate;
+                            var toDate3 = toDate;
+                            var pageNo1 = pageNo;
 
                             url = "/cancelOrder/" + orderID1 + "/" + fromDate3 + "/" + toDate3 + "/" + pageNo1;
                             console.log(url);
@@ -881,16 +858,14 @@
 
                             <script>
                               function handler<%=singleData.data.id%> (e) {
-                                localStorage.removeItem("selectedDate<%= singleData.data.id%>");
-                                var x = document.getElementById("dateTime<%=singleData.data.id%>").value;
-                                localStorage.setItem("selectedDate<%= singleData.data.id%>", x);
-                                var selectedFarmId = localStorage.getItem("selectedFarmId<%= singleData.data.id%>");
-                                var selectedDate = localStorage.getItem("selectedDate<%= singleData.data.id%>");
-                                var selectedTimeframe = localStorage.getItem("selectedTimeFrame<%= singleData.data.id%>");
+                                var selectedFarmId = $('#farmNamesId<%=singleData.data.id%>').val() || [];
+                                var selectedDate = document.getElementById("dateTime<%=singleData.data.id%>").value;
+                                var selectedTimeframe = document.getElementById("timeframe<%=singleData.data.id%>").value;
+                                // var remarks = document.getElementById("remarks<%= singleData.data.id%>").value;
                                 var remarks = localStorage.getItem("remarks<%= singleData.data.id%>");
-                                var fromDate1 = localStorage.getItem("fromDate");
-                              var toDate1 = localStorage.getItem("toDate");
-                              var pageNo1 = localStorage.getItem("pageNo");
+                                var fromDate1 = fromDate;
+                                var toDate1 = toDate;
+                                var pageNo1 = pageNo;
 
                                 url = "/assignDate/<%=singleData.data.id%>/" + selectedFarmId + "/" + selectedDate + "/" + selectedTimeframe + "/" + remarks + "/" + fromDate1 + "/" + toDate1 + "/" + pageNo1;
                                 $("#addBtn<%=singleData.data.id%>").attr("href", url);
@@ -900,16 +875,16 @@
 
 
                               function selectedTimeFrameFunction<%=singleData.data.id%> () {
-                                localStorage.removeItem("selectedTimeFrame<%= singleData.data.id%>");
-                                var x = document.getElementById("timeframe<%=singleData.data.id%>").value;
-                                localStorage.setItem("selectedTimeFrame<%= singleData.data.id%>", x);
-                                var selectedFarmId = localStorage.getItem("selectedFarmId<%= singleData.data.id%>");
-                                var selectedDate = localStorage.getItem("selectedDate<%= singleData.data.id%>");
-                                var selectedTimeframe = localStorage.getItem("selectedTimeFrame<%= singleData.data.id%>");
+                                // var x = document.getElementById("timeframe<%=singleData.data.id%>").value;
+                                var selectedFarmId = $('#farmNamesId<%=singleData.data.id%>').val() || [];
+                                // var selectedFarmId = document.getElementById("farmNamesId<%=singleData.data.id%>").value;
+                                var selectedDate = document.getElementById("dateTime<%=singleData.data.id%>").value;
+                                var selectedTimeframe = document.getElementById("timeframe<%=singleData.data.id%>").value;
+                                // var remarks = document.getElementById("remarks<%= singleData.data.id%>").value;
                                 var remarks = localStorage.getItem("remarks<%= singleData.data.id%>");
-                                var fromDate1 = localStorage.getItem("fromDate");
-                              var toDate1 = localStorage.getItem("toDate");
-                              var pageNo1 = localStorage.getItem("pageNo");
+                                var fromDate1 = fromDate;
+                                var toDate1 = toDate;
+                                var pageNo1 = pageNo;
 
 
                                 url = "/assignDate/<%=singleData.data.id%>/" + selectedFarmId + "/" + selectedDate + "/" + selectedTimeframe + "/" + remarks + "/" + fromDate1 + "/" + toDate1 + "/" + pageNo1;
@@ -919,95 +894,19 @@
                               }
 
 
-                              function removeLocalSTorage() {
-                                localStorage.removeItem("selectedFarmId<%= singleData.data.id%>");
-                                localStorage.removeItem("selectedDate<%= singleData.data.id%>");
-                                localStorage.removeItem("selectedTimeFrame<%= singleData.data.id%>");
-                                localStorage.removeItem("remarks<%= singleData.data.id%>");
-                              }
+                             
                             </script>
 
 
                             <div class="modal-footer">
-                              <a href="#" id="addBtn<%=singleData.data.id%>"><button onclick="removeLocalSTorage()"
-                                  id="followupBtn" type="button" class="btn btn-link waves-effect bg-teal">ASSIGN
+                              <a href="#" id="addBtn<%=singleData.data.id%>"><button id="followupBtn" type="button" class="btn btn-link waves-effect bg-teal">ASSIGN
                                   DATE</button></a>
-                              <button onclick="removeLocalSTorage()" type="button"
+                              <button type="button"
                                 class="btn btn-link waves-effect bg-red" data-dismiss="modal">CLOSE</button>
                             </div>
                           </div>
                         </div>
                       </div>
-
-
-
-
-                      <!-- <td width="18%">
-                        <div class="row clearfix">
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><input type="date" class="form-control date"
-                              id="dateTime<%=singleData.data.id%>" onchange="handler<%=singleData.data.id%>(event)"
-                              required disabled></div>
-                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                            <select id="timeframe<%=singleData.data.id%>"
-                              onchange="selectedTimeFrameFunction<%=singleData.data.id%>()" disabled>
-                              <option value="">--Select Time--</option>
-                              <option value="7AM - 10AM">7:00 AM - 10:00 AM</option>
-                              <option value="10AM - 1PM">10:00 AM - 1:00 PM</option>
-                              <option value="2PM - 5PM">2:00 PM - 5:00 PM</option>
-                              <option value="7AM - 1PM">7:00 AM - 1:00 PM</option>
-                              <option value="7AM - 5PM">7:00 AM - 5:00 PM</option>
-                            </select>
-                          </div>
-                        </div>
-                        </br>
-
-                        <a href="#" id="addBtn<%=singleData.data.id%>"><button onclick="removeLocalSTorage()"
-                            type="button date" id="addBtn<%=singleData.data.id%>1"
-                            class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12" disabled>Schedule
-                            Date</button>
-                        </a>
-                        <script>
-                          function handler<%=singleData.data.id%> (e) {
-                            localStorage.removeItem("selectedDate<%= singleData.data.id%>");
-                            var x = document.getElementById("dateTime<%=singleData.data.id%>").value;
-                            localStorage.setItem("selectedDate<%= singleData.data.id%>", x);
-                            var selectedFarmId = localStorage.getItem("selectedFarmId<%= singleData.data.id%>");
-                            var selectedDate = localStorage.getItem("selectedDate<%= singleData.data.id%>");
-                            var selectedTimeframe = localStorage.getItem("selectedTimeFrame<%= singleData.data.id%>");
-                            var remarks = localStorage.getItem("remarks<%= singleData.data.id%>");
-
-                            url = "/assignDate/<%=singleData.data.id%>/" + selectedFarmId + "/" + selectedDate + "/" + selectedTimeframe + "/" + remarks;
-                            $("#addBtn<%=singleData.data.id%>").attr("href", url);
-
-                            return true;
-                          }
-                          function removeLocalSTorage() {
-                            localStorage.removeItem("selectedFarmId<%= singleData.data.id%>");
-                            localStorage.removeItem("selectedDate<%= singleData.data.id%>");
-                            localStorage.removeItem("selectedTimeFrame<%= singleData.data.id%>");
-                            localStorage.removeItem("remarks<%= singleData.data.id%>");
-                          }
-                        </script>
-                        <script>
-                          function selectedTimeFrameFunction<%=singleData.data.id%> () {
-                            localStorage.removeItem("selectedTimeFrame<%= singleData.data.id%>");
-                            var x = document.getElementById("timeframe<%=singleData.data.id%>").value;
-                            localStorage.setItem("selectedTimeFrame<%= singleData.data.id%>", x);
-                            var selectedFarmId = localStorage.getItem("selectedFarmId<%= singleData.data.id%>");
-                            var selectedDate = localStorage.getItem("selectedDate<%= singleData.data.id%>");
-                            var selectedTimeframe = localStorage.getItem("selectedTimeFrame<%= singleData.data.id%>");
-                            var remarks = localStorage.getItem("remarks<%= singleData.data.id%>");
-
-                            url = "/assignDate/<%=singleData.data.id%>/" + selectedFarmId + "/" + selectedDate + "/" + selectedTimeframe + "/" + remarks;
-                            $("#addBtn<%=singleData.data.id%>").attr("href", url);
-
-                            return true;
-                          }
-                        </script>
-                      </td> -->
-
-
-
 
                     </tr>
                     <% }) %>
@@ -1016,8 +915,8 @@
                 <script>
 
                   function setURLs() {
-                    var fromDateLocalStorage = localStorage.getItem("fromDate");
-                    var toDateLocalStorage = localStorage.getItem("toDate");
+                    var fromDateLocalStorage = fromDate;
+                    var toDateLocalStorage = toDate;
 
                     url1 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo-1%>/0";
                     $("#previosPageUrl").attr("href", url1);
