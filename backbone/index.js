@@ -10,14 +10,16 @@ module.exports = function () {
   app.get("/assignDate/:orderID/:farmID/:date/:time/:remarks/:fromDate/:toDate/:pageNo",
     async function (req, res) {
       var req = req.params;
-      var farmID = req.farmID.split(",");
-      var farmsApendObject = [];
-      farmID.forEach((element) => {
-        farmsApendObject.push({
-          farm: parseInt(element),
+
+      if(req.farmID != 0){
+        var farmID = req.farmID.split(",");
+        var farmsApendObject = [];
+        farmID.forEach((element) => {
+          farmsApendObject.push({
+            farm: parseInt(element),
+          });
         });
-      });
-      // console.log(req);
+        // console.log(req);
       var date = req.date + " 00:00";
       var reqBody = JSON.stringify({
         schedule: {
@@ -29,6 +31,21 @@ module.exports = function () {
         },
         farms: farmsApendObject,
       });
+      }else if(req.farmID==0){
+      var date = req.date + " 00:00";
+      var reqBody = JSON.stringify({
+        schedule: {
+          id: parseInt(req.orderID),
+          confirmed_date: date,
+          confirmed_slot: req.time,
+          remarks: req.remarks + "(Open Orders -> Reconfirmed)",
+          schedulestatus: "FARMER_DATE_CONFIRM",
+        }
+      });
+      }
+     
+
+      
 
       // console.log(reqBody);
       const resp = await fetch(apiURL + "/updateInstallationSchedule/", {

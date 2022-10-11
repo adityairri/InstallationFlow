@@ -807,7 +807,7 @@
                             var pageNo1 = pageNo;
 
                             url = "/cancelOrder/" + orderID1 + "/" + fromDate3 + "/" + toDate3 + "/" + pageNo1;
-                            console.log(url);
+                           
                             $("#cancelButtonWithDates<%=singleData.data.id%>").attr("href", url);
                           </script>
                           <script>
@@ -842,7 +842,7 @@
                                   onchange="handler<%=singleData.data.id%>(event)" required></div>
                               <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                 <select id="timeframe<%=singleData.data.id%>"
-                                  onchange="selectedTimeFrameFunction<%=singleData.data.id%>()">
+                                  onchange="handler<%=singleData.data.id%>(event)">
                                   <option value="">--Select Time--</option>
                                   <option value="7AM - 10AM">7:00 AM - 10:00 AM</option>
                                   <option value="10AM - 1PM">10:00 AM - 1:00 PM</option>
@@ -856,6 +856,9 @@
                             <script>
                               function handler<%=singleData.data.id%> (e) {
                                 var selectedFarmId = $('#farmNamesId<%=singleData.data.id%>').val() || [];
+                                if(!selectedFarmId || selectedFarmId == null || selectedFarmId == undefined || selectedFarmId == ''){
+                                  selectedFarmId = 0;
+                                }
                                 var selectedDate = document.getElementById("dateTime<%=singleData.data.id%>").value;
                                 var selectedTimeframe = document.getElementById("timeframe<%=singleData.data.id%>").value;
                                 // var remarks = document.getElementById("remarks<%= singleData.data.id%>").value;
@@ -871,24 +874,24 @@
                               }
 
 
-                              function selectedTimeFrameFunction<%=singleData.data.id%> () {
-                                // var x = document.getElementById("timeframe<%=singleData.data.id%>").value;
-                                var selectedFarmId = $('#farmNamesId<%=singleData.data.id%>').val() || [];
-                                // var selectedFarmId = document.getElementById("farmNamesId<%=singleData.data.id%>").value;
-                                var selectedDate = document.getElementById("dateTime<%=singleData.data.id%>").value;
-                                var selectedTimeframe = document.getElementById("timeframe<%=singleData.data.id%>").value;
-                                // var remarks = document.getElementById("remarks<%= singleData.data.id%>").value;
-                                var remarks = localStorage.getItem("remarks<%= singleData.data.id%>");
-                                var fromDate1 = fromDate;
-                                var toDate1 = toDate;
-                                var pageNo1 = pageNo;
+                              // function selectedTimeFrameFunction<%=singleData.data.id%> () {
+                              //   // var x = document.getElementById("timeframe<%=singleData.data.id%>").value;
+                              //   var selectedFarmId = $('#farmNamesId<%=singleData.data.id%>').val() || [];
+                              //   // var selectedFarmId = document.getElementById("farmNamesId<%=singleData.data.id%>").value;
+                              //   var selectedDate = document.getElementById("dateTime<%=singleData.data.id%>").value;
+                              //   var selectedTimeframe = document.getElementById("timeframe<%=singleData.data.id%>").value;
+                              //   // var remarks = document.getElementById("remarks<%= singleData.data.id%>").value;
+                              //   var remarks = localStorage.getItem("remarks<%= singleData.data.id%>");
+                              //   var fromDate1 = fromDate;
+                              //   var toDate1 = toDate;
+                              //   var pageNo1 = pageNo;
 
 
-                                url = "/assignDate/<%=singleData.data.id%>/" + selectedFarmId + "/" + selectedDate + "/" + selectedTimeframe + "/" + remarks + "/" + fromDate1 + "/" + toDate1 + "/" + pageNo1;
-                                $("#addBtn<%=singleData.data.id%>").attr("href", url);
+                              //   url = "/assignDate/<%=singleData.data.id%>/" + selectedFarmId + "/" + selectedDate + "/" + selectedTimeframe + "/" + remarks + "/" + fromDate1 + "/" + toDate1 + "/" + pageNo1;
+                              //   $("#addBtn<%=singleData.data.id%>").attr("href", url);
 
-                                return true;
-                              }
+                              //   return true;
+                              // }
 
 
                              
