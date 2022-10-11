@@ -869,37 +869,19 @@
 
                                 url = "/assignDate/<%=singleData.data.id%>/" + selectedFarmId + "/" + selectedDate + "/" + selectedTimeframe + "/" + remarks + "/" + fromDate1 + "/" + toDate1 + "/" + pageNo1;
                                 $("#addBtn<%=singleData.data.id%>").attr("href", url);
-
+                                if(selectedDate != null && selectedDate != '' && selectedDate != undefined){
+                                  if(selectedTimeframe != null && selectedTimeframe != '' && selectedTimeframe != undefined){
+                                    $("#addBtn11<%=singleData.data.id%>").attr("disabled", false);
+                                }
+                                }
                                 return true;
                               }
 
-
-                              // function selectedTimeFrameFunction<%=singleData.data.id%> () {
-                              //   // var x = document.getElementById("timeframe<%=singleData.data.id%>").value;
-                              //   var selectedFarmId = $('#farmNamesId<%=singleData.data.id%>').val() || [];
-                              //   // var selectedFarmId = document.getElementById("farmNamesId<%=singleData.data.id%>").value;
-                              //   var selectedDate = document.getElementById("dateTime<%=singleData.data.id%>").value;
-                              //   var selectedTimeframe = document.getElementById("timeframe<%=singleData.data.id%>").value;
-                              //   // var remarks = document.getElementById("remarks<%= singleData.data.id%>").value;
-                              //   var remarks = localStorage.getItem("remarks<%= singleData.data.id%>");
-                              //   var fromDate1 = fromDate;
-                              //   var toDate1 = toDate;
-                              //   var pageNo1 = pageNo;
-
-
-                              //   url = "/assignDate/<%=singleData.data.id%>/" + selectedFarmId + "/" + selectedDate + "/" + selectedTimeframe + "/" + remarks + "/" + fromDate1 + "/" + toDate1 + "/" + pageNo1;
-                              //   $("#addBtn<%=singleData.data.id%>").attr("href", url);
-
-                              //   return true;
-                              // }
-
-
-                             
                             </script>
 
 
                             <div class="modal-footer">
-                              <a href="#" id="addBtn<%=singleData.data.id%>"><button id="followupBtn" type="button" class="btn btn-link waves-effect bg-teal">ASSIGN
+                              <a href="#" id="addBtn<%=singleData.data.id%>"><button id="addBtn11<%=singleData.data.id%>" type="button" class="btn btn-link waves-effect bg-teal" disabled>ASSIGN
                                   DATE</button></a>
                               <button type="button"
                                 class="btn btn-link waves-effect bg-red" data-dismiss="modal">CLOSE</button>
