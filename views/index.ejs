@@ -747,7 +747,7 @@
                               </div>
                               <div class="modal-footer">
                                 <a href="#" id="confirmButtonWithDates<%=singleData.data.id%>"><button id="confirmButton<%=singleData.data.id%>"
-                                    type="button" class="btn btn-link waves-effect bg-teal">Mark as
+                                    type="button" class="btn btn-link waves-effect bg-teal" disabled>Mark as
                                     Completed</button></a>
                                 <button type="button"
                                   class="btn btn-link waves-effect bg-red" data-dismiss="modal">CLOSE</button>
@@ -765,6 +765,12 @@
 
                             url = "/markAsComplete/" + orderID + "/" + SEName + "/" + dateOfCompletion + "/" + fromDate2 + "/" + toDate2 + "/" + pageNo1;
                             $("#confirmButtonWithDates<%=singleData.data.id%>").attr("href", url);
+
+                            if(SEName != null && SEName != '' && SEName != undefined){
+                                  if(dateOfCompletion != null && dateOfCompletion != '' && dateOfCompletion != undefined){
+                                    $("#confirmButton<%=singleData.data.id%>").attr("disabled", false);
+                                }
+                                }
                           // return true;
                         }
                         
