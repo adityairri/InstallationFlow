@@ -549,6 +549,281 @@
 
               </ul>
             </div>
+
+
+            <% if(variables.tableTitle == "PARTIAL"){ %>
+            <div class="body table-responsive">
+              <table class="table table-bordered table-striped table-hover js-basic-example dataTable"
+                id="installationTable">
+                <thead>
+                  <tr>
+                    <th style="text-align: center;">ORDER ID</th>
+                    <th style="text-align: center;">INSTALLED DATE & TIME</th>
+                    <th style="text-align: center;">SE NAME</th>
+                    <th style="text-align: center;">INSTALLATION DATE</th>
+                    <th style="text-align: center;">FARMER NAME</th>
+                    <th style="text-align: center;">FARM NAME (ACRES)</th>
+                    <th style="text-align: center;">FARMER MOBILE</th>
+                    <th style="text-align: center;">REGION</th>
+                    <th style="text-align: center;">REMARKS</th>
+                    <th style="text-align: center;">ITEMS &nbsp;-&nbsp; ORDERED &nbsp;-&nbsp;
+                      INSTALLED</th>
+                    <th style="text-align: center;">ACTION</th>
+                  </tr>
+                </thead>
+                <tbody style="text-align: center;">
+                  <% data1.forEach(function(singleData){ %>
+                    <tr>
+                      <td width="5%">
+                        <%= singleData.data.order.woo_commerce_order_id %>
+                      </td>
+                      <td width="10%">
+                        <%= singleData.data.modified_date.substring(0,16) %>
+                      </td>
+                      <td width="7%">
+                        <% if (!singleData.seName){%>
+                          --
+                          <%}else{%>
+                            <%= singleData.seName %>
+                              <%}%>
+                      </td>
+                      <td>
+                        <% if (!singleData.data.confirmed_date){%>
+                          --
+                          <%}else{%>
+                            <%= singleData.data.confirmed_date.substring(0,10) %>
+                              <%}%>
+                      </td>
+                      <td>
+                        <%= singleData.data.order.farmer.firstname %>
+                      </td>
+                      <td>
+                        <% if (singleData.data.farms.length == 0){%>
+                          --
+                          <%}else{%>
+                            <% singleData.data.farms.forEach(function(farmDataSingle){ %>
+                              <%= farmDataSingle.farm.farm_name%> </br>
+                                <%})%>
+                              <%}%>
+                        
+                      </td>
+                      <td>
+                        <%= singleData.data.order.farmer.mobile_number %>
+                      </td>
+                      <td> <button data-trigger="focus" data-container="body" data-toggle="popover" data-placement="top"
+                          title="Shipping Address" data-content="<%= singleData.data.order.shipping %>">
+                          <%= singleData.data.region %>
+                        </button>
+                      </td>
+                      <td>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                          <% singleData.remarks.slice(0, 3).forEach(singleRemark=> {%>
+                            <% if(singleRemark.remarks.length !=0 ){%>
+                              <%= singleRemark.remarks%></br>
+                                <%}else if(singleRemark.remarks.length==0){%>
+                                  No Remarks
+                                  <%}%>
+                                    <% }) %>
+
+                                      <div class="modal fade" id="modal<%=singleData.data.id%>" tabindex="-1"
+                                        role="dialog">
+                                        <div class="modal-dialog" role="document">
+                                          <div class="modal-content">
+                                            <div class="modal-header">
+                                              <h4 class="modal-title" id="defaultModalLabel">REMARKS</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                              <table>
+                                                <% singleData.remarks.forEach(singleRemark=> {%>
+                                                  <% if(singleRemark.remarks.length !=0 ){%>
+                                                    <tr>
+                                                      <td>
+                                                        <%= singleRemark.modified_date%>
+                                                      </td>
+                                                      <td>
+                                                        <%= singleRemark.remarks%>
+                                                      </td>
+                                                    </tr>
+                                                    <%}else if(singleRemark.remarks.length==0){%>
+                                                      No Remarks
+                                                      <%}%>
+                                                        <% }) %>
+                                              </table>
+                                            </div>
+                                            <div class="modal-footer">
+                                              <button type="button" class="btn btn-link waves-effect"
+                                                data-dismiss="modal">CLOSE</button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+
+
+                                      <i class="material-icons" data-toggle="modal"
+                                        data-target="#modal<%=singleData.data.id%>">more_horiz</i>
+
+                        </div>
+                        <style>
+                          li {
+                            list-style-type: none;
+                          }
+                        </style>
+
+                      </td>
+                      <td style="width: 15%;">
+                        <% if(singleData.powermonItems != "Powermon - 0 - 0" && singleData.apfcItems != "APFC - 0 - 0"){%>
+                          <%= singleData.powermonItems %></br>
+                          <%= singleData.apfcItems %>
+                          <%}else if(singleData.powermonItems == "Powermon - 0 - 0" && singleData.apfcItems != "APFC - 0 - 0"){%>
+                            <%= singleData.apfcItems %>
+                            <%}else if(singleData.powermonItems != "Powermon - 0 - 0" && singleData.apfcItems == "APFC - 0 - 0"){%>
+                              <%= singleData.powermonItems %>
+                              <%}else{%>
+                                --
+                                <%}%>
+                      </td>
+                      <td>
+                        <a><button data-toggle="modal" data-target="#openRescheduleModal<%=singleData.data.id%>" class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12"> Reschedule</button>
+                        </a>
+                    </td>
+                    </tr>
+
+
+
+                    <div class="modal fade" id="openRescheduleModal<%=singleData.data.id%>" tabindex="-1"
+                      role="dialog" data-keyboard="false" data-backdrop="static">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h4 class="modal-title" id="largeModalLabel">Add Rescheduled Date</h4>
+                          </div>
+                          <div class="modal-body">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                              <div><input type="date" class="form-control date" id="dateTime<%=singleData.data.id%>"  onchange="handler<%=singleData.data.id%>(event)"></div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                              <select id="timeframe<%=singleData.data.id%>"
+                                onchange="selectedTimeFrameFunction<%=singleData.data.id%>()">
+                                <option value="">--Select Time--</option>
+                                <option value="7AM - 10AM">7:00 AM - 10:00 AM</option>
+                                <option value="10AM - 1PM">10:00 AM - 1:00 PM</option>
+                                <option value="2PM - 5PM">2:00 PM - 5:00 PM</option>
+                                <option value="7AM - 1PM">7:00 AM - 1:00 PM</option>
+                                <option value="7AM - 5PM">7:00 AM - 5:00 PM</option>
+                              </select>
+                            </div>
+                          </div>
+    
+                          <script>
+                            function handler<%=singleData.data.id%> (e) {
+                              var selectedDate = document.getElementById("dateTime<%=singleData.data.id%>").value;
+                              var selectedTimeframe = document.getElementById("timeframe<%=singleData.data.id%>").value;
+    
+                              url = "/partialOrderReschedule/<%=singleData.data.id%>/"+ selectedDate + "/" + selectedTimeframe;
+                              $("#addBtn<%=singleData.data.id%>").attr("href", url);
+    
+                              if(selectedDate != null && selectedDate != '' && selectedDate != undefined){
+                                  if(selectedTimeframe != null && selectedTimeframe != '' && selectedTimeframe != undefined){
+                                    $("#followupBtn<%=singleData.data.id%>").attr("disabled", false);
+                                }else{
+                                  $("#followupBtn<%=singleData.data.id%>").attr("disabled", true);
+                                }
+                                }else{
+                                  $("#followupBtn<%=singleData.data.id%>").attr("disabled", true);
+                                }
+                              return true;
+                            }
+    
+    
+                            function selectedTimeFrameFunction<%=singleData.data.id%> () {
+                                var selectedDate = document.getElementById("dateTime<%=singleData.data.id%>").value;
+                                var selectedTimeframe = document.getElementById("timeframe<%=singleData.data.id%>").value;
+    
+                                url = "/partialOrderReschedule/<%=singleData.data.id%>/"+ selectedDate + "/" + selectedTimeframe;
+                                $("#addBtn<%=singleData.data.id%>").attr("href", url);
+    
+                                if(selectedDate != null && selectedDate != '' && selectedDate != undefined){
+                                  if(selectedTimeframe != null && selectedTimeframe != '' && selectedTimeframe != undefined){
+                                    $("#followupBtn<%=singleData.data.id%>").attr("disabled", false);
+                                }else{
+                                  $("#followupBtn<%=singleData.data.id%>").attr("disabled", true);
+                                }
+                                }else{
+                                  $("#followupBtn<%=singleData.data.id%>").attr("disabled", true);
+                                }
+                                return true;
+                              }
+                          </script>
+    
+    
+                          <div class="modal-footer">
+                            <a href="#" id="addBtn<%=singleData.data.id%>"><button id="followupBtn<%=singleData.data.id%>" type="button" class="btn btn-link waves-effect bg-teal" disabled>ASSIGN DATE</button></a>
+                            <button type="button" class="btn btn-link waves-effect bg-red" data-dismiss="modal">CLOSE</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <% }) %>
+
+                </tbody>
+                <nav>
+                  <ul class="pagination">
+                    <% if(dataPaginationPrevious==null){%>
+                      <li class="disabled">
+                        <a href="javascript:void(0);">
+                          <i class="material-icons">chevron_left</i>
+                        </a>
+                      </li>
+                      <%}else{%>
+                        <li>
+                          <a id="previosPageUrl" href="#">
+                            <i class="material-icons">chevron_left</i>
+                          </a>
+                        </li>
+                        <%}%>
+                          <li class="active"><a href="javascript:void(0);">Page <%=dataPaginationPageNo%> of
+                                <%=dataPaginationTotalPages%></a></li>
+
+                          <% if(dataPaginationNext==null){%>
+                            <li class="disabled">
+                              <a href="javascript:void(0);">
+                                <i class="material-icons">chevron_right</i>
+                              </a>
+                            </li>
+                            <%}else{%>
+                              <li>
+                                <a id="nextPageUrl" href="#">
+                                  <i class="material-icons">chevron_right</i>
+                                </a>
+                              </li>
+                              <%}%>
+                  </ul>
+                </nav>
+                <script>
+
+                  $(window).on("load", function () {
+                    var installationState = installationState;
+                    var installationStatePage = installationStatePage;
+                    var fromDate1 = fromDate;
+                    var toDate1 = toDate;
+
+                    url1 = "/viewInstallationStatus/" + installationState + "/<%=dataPaginationPageNo-1%>/0/"+fromDate1+"/"+toDate1;
+                    $("#previosPageUrl").attr("href", url1);
+
+                    url2 = "/viewInstallationStatus/" + installationState + "/<%=dataPaginationPageNo+1%>/0/"+fromDate1+"/"+toDate1;
+                    $("#nextPageUrl").attr("href", url2);
+                    return true;
+                  });
+
+                </script>
+
+              </table>
+            </div>
+            <% }else{ %>
+
+
+
             <div class="body table-responsive">
               <table class="table table-bordered table-striped table-hover js-basic-example dataTable"
                 id="installationTable">
@@ -738,6 +1013,9 @@
 
               </table>
             </div>
+            <% } %>
+
+
           </div>
         </div>
       </div>

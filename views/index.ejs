@@ -769,7 +769,11 @@
                             if(SEName != null && SEName != '' && SEName != undefined){
                                   if(dateOfCompletion != null && dateOfCompletion != '' && dateOfCompletion != undefined){
                                     $("#confirmButton<%=singleData.data.id%>").attr("disabled", false);
+                                }else{
+                                  $("#confirmButton<%=singleData.data.id%>").attr("disabled", true);
                                 }
+                                }else{
+                                  $("#confirmButton<%=singleData.data.id%>").attr("disabled", true);
                                 }
                           // return true;
                         }

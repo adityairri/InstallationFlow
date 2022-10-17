@@ -71,6 +71,7 @@ app.get('/viewFarmerStatus/:status/:pageNo/:searchByOrderID', farmerResStatus);
 app.get('/changeFarmerStatus/:id/:status', farmerResStatus);
 
 var installationStatus = require('./backbone/installationStatus');
+app.get('/partialOrderReschedule/:orderID/:date/:time', installationStatus);
 app.get('/viewInstallationStatus/:status/:pageNo/:orderID/:fromDate/:toDate', installationStatus);
 /****************** Run Server ***************************************/
 app.listen(process.env.PORT || 8081);

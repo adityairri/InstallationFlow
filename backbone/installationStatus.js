@@ -8,6 +8,38 @@ const apiURL = "http://app.aquaexchange.com/api";
 const token = "Token e50f000f342fe8453e714454abac13be07f18ac3";
 
 module.exports = function () {
+
+  app.get("/partialOrderReschedule/:orderID/:date/:time", async function (req, res) {
+    var req = req.params;
+    var reqBody = JSON.stringify({
+      schedule: {
+        id: parseInt(req.orderID),
+        confirmed_date: req.date+" 00:00",
+        confirmed_slot: req.time,
+        remarks: "(Installation Status Partial -> Rescheduled to another date)",
+        schedulestatus: "FARMER_DATE_CONFIRM",
+      },
+    });
+
+  const resp = await fetch(
+    apiURL+"/updateInstallationSchedule/",
+    {
+      method: "post",
+      body: reqBody,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": token,
+      },
+    }
+  );
+  resp.json().then(async (data) => {
+    // console.log(data);
+    res.redirect("/viewInstallationStatus/partial/1/0/0/0");
+  });
+});
+
+
+
   app.get("/viewInstallationStatus/:status/:pageNo/:orderID/:fromDate/:toDate", async function (req, res) {
     await getSEList();
     // await getinstallationCompleteCount();
