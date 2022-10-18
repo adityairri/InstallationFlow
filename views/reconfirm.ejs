@@ -44,6 +44,14 @@
       stepping: 30 //will change increments to 15m, default is 1m
     });
   </script>
+  <script>
+    var pathArray = window.location.pathname.split('/');
+    console.log(pathArray);
+    var URLdate = pathArray[2];
+    var URLpage = pathArray[3];
+    var URLorderID = pathArray[4];
+    var URLallPage = pathArray[5];
+  </script>
 </head>
 
 <body class="theme-teal">
@@ -341,7 +349,7 @@
                       function searchByOrderID() {
                         var orderID = document.getElementById("orderID").value;
 
-                        var url = "/reconfirm/0/1/" + orderID;
+                        var url = "/reconfirm/" + URLdate + "/" + URLpage + "/" + orderID + "/" + URLallPage;
                         $("#searchByOrderID").attr("href", url);
                       }
                     </script>
