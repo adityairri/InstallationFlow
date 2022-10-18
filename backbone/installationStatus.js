@@ -8,265 +8,283 @@ const apiURL = "http://app.aquaexchange.com/api";
 const token = "Token e50f000f342fe8453e714454abac13be07f18ac3";
 
 module.exports = function () {
-
-  app.get("/partialOrderReschedule/:orderID/:date/:time", async function (req, res) {
-    var req = req.params;
-    var reqBody = JSON.stringify({
-      schedule: {
-        id: parseInt(req.orderID),
-        confirmed_date: req.date+" 00:00",
-        confirmed_slot: req.time,
-        remarks: "(Installation Status Partial -> Rescheduled to another date)",
-        schedulestatus: "FARMER_DATE_CONFIRM",
-      },
-    });
-
-  const resp = await fetch(
-    apiURL+"/updateInstallationSchedule/",
-    {
-      method: "post",
-      body: reqBody,
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": token,
-      },
-    }
-  );
-  resp.json().then(async (data) => {
-    // console.log(data);
-    res.redirect("/viewInstallationStatus/partial/1/0/0/0");
-  });
-});
-
-
-
-  app.get("/viewInstallationStatus/:status/:pageNo/:orderID/:fromDate/:toDate", async function (req, res) {
-    await getSEList();
-    // await getinstallationCompleteCount();
-    if(req.params.orderID == 0){
-    if (req.params.status == "pending") {
-      var variables = {
-        "tableTitle": "PROGRESS",
-        "navBarHighlight1": "background-color: #E9E9E9; color: #555555;",
-        "navBarHighlight2": "",
-        "navBarHighlight3": ""
-      };
+  app.get(
+    "/partialOrderReschedule/:orderID/:date/:time",
+    async function (req, res) {
+      var req = req.params;
       var reqBody = JSON.stringify({
-        filter: {
-          status: "SE_ATTENDED",
+        schedule: {
+          id: parseInt(req.orderID),
+          confirmed_date: req.date + " 00:00",
+          confirmed_slot: req.time,
+          remarks:
+            "(Installation Status Partial -> Rescheduled to another date)",
+          schedulestatus: "FARMER_DATE_CONFIRM",
         },
       });
-    }
-    if (req.params.status == "partial") {
-      var variables = {
-        "tableTitle": "PARTIAL",
-        "navBarHighlight1": "",
-        "navBarHighlight2": "background-color: #E9E9E9; color: #555555;",
-        "navBarHighlight3": ""
-      };
-      var reqBody = JSON.stringify({
-        filter: {
-          status: "PARTIAL_COMPLETED",
-        },
-      });
-    }
-    if (req.params.status == "completed") {
-      var variables = {
-        "tableTitle": "COMPLETED",
-        "navBarHighlight1": "",
-        "navBarHighlight2": "",
-        "navBarHighlight3": "background-color: #E9E9E9; color: #555555;"
-      };
 
-
-      if (req.params.fromDate == 0 || req.params.toDate == 0) {
-      var reqBody = JSON.stringify({
-        filter: {
-          status: "COMPLETED",
-        },
-        sort: {
-           field: "order__ordercompleted",
-           order: "desc"
-       }
-      });
-    }else if(req.params.fromDate != null && req.params.toDate != null){
-      var reqBody = JSON.stringify({
-        filter: {
-          from_date: req.params.fromDate + " 00:00",
-            to_date: req.params.toDate + " 23:59",
-          status: "COMPLETED",
-        },
-      });
-    }
-
-    }
-  }else if(req.params.orderID != 0){
-    if (req.params.status == "pending") {
-      var variables = {
-        "tableTitle": "PROGRESS",
-        "navBarHighlight1": "background-color: #E9E9E9; color: #555555;",
-        "navBarHighlight2": "",
-        "navBarHighlight3": ""
-      };
-      var reqBody = JSON.stringify({
-        filter: {
-          order_id: parseInt(req.params.orderID),
-          status: "SE_ATTENDED",
-        },
-      });
-    }
-    if (req.params.status == "partial") {
-      var variables = {
-        "tableTitle": "PARTIAL",
-        "navBarHighlight1": "",
-        "navBarHighlight2": "background-color: #E9E9E9; color: #555555;",
-        "navBarHighlight3": ""
-      };
-      var reqBody = JSON.stringify({
-        filter: {
-          order_id: parseInt(req.params.orderID),
-          status: "PARTIAL_COMPLETED",
-        },
-      });
-    }
-    if (req.params.status == "completed") {
-      var variables = {
-        "tableTitle": "COMPLETED",
-        "navBarHighlight1": "",
-        "navBarHighlight2": "",
-        "navBarHighlight3": "background-color: #E9E9E9; color: #555555;"
-      };
-      var reqBody = JSON.stringify({
-        filter: {
-          order_id: parseInt(req.params.orderID),
-          status: "COMPLETED",
-        },
-        sort: {
-           field: "order__ordercompleted",
-           order: "desc"
-       }
-      });
-    }
-  }
-    const resp = await fetch(apiURL+"/getInstallationSchedule/?page=" + req.params.pageNo + "",
-      {
+      const resp = await fetch(apiURL + "/updateInstallationSchedule/", {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          "Authorization": token,
+          Authorization: token,
         },
       });
-    var daata = [];
-    resp.json().then(async (data) => {
-      if (data.msg != "Invalid page.") {
-      data.results.forEach(async (singleInData) => {
-        var wooCommerseID = singleInData.order.woo_commerce_order_id;
-        
-        new Promise(function(resolve, reject){
-          fetch(apiURL+"/getremarksfororder/" + wooCommerseID + "",
-            {
-              method: "get",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: token,
-              },
-            }
-          ).then(resp=>{
-            resp.json().then((dataa) => {
-              remarks = dataa;
+      resp.json().then(async (data) => {
+        // console.log(data);
+        res.redirect("/viewInstallationStatus/partial/1/0/0/0");
+      });
+    }
+  );
 
-              var SEname;
-              new Promise(function(resolve, reject){
-                SElist.forEach(element => {
-                  if(singleInData.service_engineer == element.id){
-                    SEname = element.first_name;
-                  }
+  app.get(
+    "/viewInstallationStatus/:status/:pageNo/:orderID/:fromDate/:toDate",
+    async function (req, res) {
+      await getSEList();
+      // await getinstallationCompleteCount();
+      if (req.params.orderID == 0) {
+        if (req.params.status == "pending") {
+          var variables = {
+            tableTitle: "PROGRESS",
+            navBarHighlight1: "background-color: #E9E9E9; color: #555555;",
+            navBarHighlight2: "",
+            navBarHighlight3: "",
+          };
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "SE_ATTENDED",
+            },
+          });
+        }
+        if (req.params.status == "partial") {
+          var variables = {
+            tableTitle: "PARTIAL",
+            navBarHighlight1: "",
+            navBarHighlight2: "background-color: #E9E9E9; color: #555555;",
+            navBarHighlight3: "",
+          };
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "PARTIAL_COMPLETED",
+            },
+          });
+        }
+        if (req.params.status == "completed") {
+          var variables = {
+            tableTitle: "COMPLETED",
+            navBarHighlight1: "",
+            navBarHighlight2: "",
+            navBarHighlight3: "background-color: #E9E9E9; color: #555555;",
+          };
+
+          if (req.params.fromDate == 0 || req.params.toDate == 0) {
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "COMPLETED",
+              },
+              sort: {
+                field: "order__ordercompleted",
+                order: "desc",
+              },
+            });
+          } else if (req.params.fromDate != null && req.params.toDate != null) {
+            var reqBody = JSON.stringify({
+              filter: {
+                from_date: req.params.fromDate + " 00:00",
+                to_date: req.params.toDate + " 23:59",
+                status: "COMPLETED",
+              },
+            });
+          }
+        }
+      } else if (req.params.orderID != 0) {
+        if (req.params.status == "pending") {
+          var variables = {
+            tableTitle: "PROGRESS",
+            navBarHighlight1: "background-color: #E9E9E9; color: #555555;",
+            navBarHighlight2: "",
+            navBarHighlight3: "",
+          };
+          var reqBody = JSON.stringify({
+            filter: {
+              order_id: parseInt(req.params.orderID),
+              status: "SE_ATTENDED",
+            },
+          });
+        }
+        if (req.params.status == "partial") {
+          var variables = {
+            tableTitle: "PARTIAL",
+            navBarHighlight1: "",
+            navBarHighlight2: "background-color: #E9E9E9; color: #555555;",
+            navBarHighlight3: "",
+          };
+          var reqBody = JSON.stringify({
+            filter: {
+              order_id: parseInt(req.params.orderID),
+              status: "PARTIAL_COMPLETED",
+            },
+          });
+        }
+        if (req.params.status == "completed") {
+          var variables = {
+            tableTitle: "COMPLETED",
+            navBarHighlight1: "",
+            navBarHighlight2: "",
+            navBarHighlight3: "background-color: #E9E9E9; color: #555555;",
+          };
+          var reqBody = JSON.stringify({
+            filter: {
+              order_id: parseInt(req.params.orderID),
+              status: "COMPLETED",
+            },
+            sort: {
+              field: "order__ordercompleted",
+              order: "desc",
+            },
+          });
+        }
+      }
+      const resp = await fetch(
+        apiURL + "/getInstallationSchedule/?page=" + req.params.pageNo + "",
+        {
+          method: "post",
+          body: reqBody,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        }
+      );
+      var daata = [];
+      resp.json().then(async (data) => {
+        if (data.msg != "Invalid page.") {
+          data.results.forEach(async (singleInData) => {
+            var wooCommerseID = singleInData.order.woo_commerce_order_id;
+
+            new Promise(function (resolve, reject) {
+              fetch(apiURL + "/getremarksfororder/" + wooCommerseID + "", {
+                method: "get",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: token,
+                },
+              }).then((resp) => {
+                resp.json().then((dataa) => {
+                  remarks = dataa;
+
+                  var SEname;
+                  new Promise(function (resolve, reject) {
+                    SElist.forEach((element) => {
+                      if (singleInData.service_engineer == element.id) {
+                        SEname = element.first_name;
+                      }
+                    });
+                  });
+
+                  var powermonInstalled = 0;
+                  var powermonNotInstalled = 0;
+                  var apfcInstalled = 0;
+                  var apfcNotInstalled = 0;
+                  var PowermonApfcInstalled = 0;
+                  var PowermonApfcNotInstalled = 0;
+                  singleInData.order.items.forEach((element) => {
+                    if (element.name == "Powermon 2.0") {
+                      if (element.isInstalled == true) {
+                        powermonInstalled = powermonInstalled + 1;
+                      }
+                      if (element.isInstalled == false) {
+                        powermonNotInstalled = powermonNotInstalled + 1;
+                      }
+                    } else if (
+                      element.name == "APFC - Automatic power factor Controller"
+                    ) {
+                      if (element.isInstalled == true) {
+                        apfcInstalled = apfcInstalled + 1;
+                      }
+                      if (element.isInstalled == false) {
+                        apfcNotInstalled = apfcNotInstalled + 1;
+                      }
+                    } else if (element.name == "Powermon 2.0 with APFC") {
+                      if (element.isInstalled == true) {
+                        PowermonApfcInstalled = PowermonApfcInstalled + 1;
+                      }
+                      if (element.isInstalled == false) {
+                        PowermonApfcNotInstalled = PowermonApfcNotInstalled + 1;
+                      }
+                    }
+                  });
+
+                  daata.push({
+                    remarks: remarks,
+                    data: singleInData,
+                    seName: SEname,
+                    powermonItems:
+                      "Powermon - " +
+                      (powermonInstalled + powermonNotInstalled) +
+                      " - " +
+                      powermonInstalled,
+                    apfcItems:
+                      "APFC - " +
+                      (apfcInstalled + apfcNotInstalled) +
+                      " - " +
+                      apfcInstalled,
+                    powermonApfcItems:
+                      "Powermon(APFC) - " +
+                      (PowermonApfcInstalled + PowermonApfcNotInstalled) +
+                      " - " +
+                      PowermonApfcInstalled,
+                  });
+                  resolve();
                 });
               });
-
-
-              var powermonInstalled = 0;
-              var powermonNotInstalled = 0;
-              var apfcInstalled = 0;
-              var apfcNotInstalled = 0;
-              singleInData.order.items.forEach(element => {
-                if(element.name == "Powermon 2.0"){
-                    if(element.isInstalled == true){
-                      powermonInstalled = powermonInstalled+1;
-                    }if(element.isInstalled == false){
-                      powermonNotInstalled = powermonNotInstalled+1;
-                    }
-                }else if(element.name == "APFC - Automatic power factor Controller"){
-                    if(element.isInstalled == true){
-                      apfcInstalled = apfcInstalled+1;
-                    }if(element.isInstalled == false){
-                      apfcNotInstalled = apfcNotInstalled+1;
-                    }
-                }
-              });
-
-
-
-              daata.push({
-                remarks: remarks,
-                data: singleInData,
-                seName: SEname,
-                powermonItems: "Powermon - "+(powermonInstalled + powermonNotInstalled)+" - "+powermonInstalled,
-                apfcItems: "APFC - "+(apfcInstalled + apfcNotInstalled)+" - "+apfcInstalled
-              });
-              resolve();
             });
-          })
+          });
+        } else if (data.msg == "Invalid page.") {
+          data.links = {
+            next: null,
+            previous: null,
+          };
+          data.page = {
+            page: 1,
+            pages: 1,
+            count: 0,
+          };
+        }
+        // console.log(data);
+        await getAllStatusCount();
+        await getAllStatusCount();
+        res.render("installationStatus", {
+          dataPaginationNext: data.links.next,
+          dataPaginationPrevious: data.links.previous,
+          dataPaginationPageNo: data.page.page,
+          dataPaginationTotalPages: data.page.pages,
+
+          data1: daata,
+          variables: variables,
+          OpenOrdersCount: newOrdersCount,
+          reconfirmOrdersCount: FarmerDateConfirm,
+          totalRescheduleCount:
+            CancelledSEReSchedule + SMReschedule + FarmerCancelledReschedule,
+
+          ReadyForInstallationCount: FarmerReconfirm,
+          sePendingList: AssignedSE,
+          seAcceptedList: ConfirmedSE,
+          seDeclinedList: CancelledSE,
+          farmerPendingList: SendFarmerConfirmation,
+          farmerAcceptedList: FarmerFinalConfirmation,
+          farmerDeclinedList: FamerFinalCancelled,
+          installationPendingList: SEAttended,
+          installationPartialCompleteList: PartialCompleted,
+          installationCompletedList: Completed,
+
+          totalPowermonCount: totalPowermonCount,
+          totalAPFCcount: totalAPFCcount,
         });
       });
-    }else if(data.msg == "Invalid page."){
-      data.links={
-        "next": null,
-        "previous": null
-    };
-    data.page={
-      "page": 1,
-      "pages": 1,
-      "count": 0
-  }
     }
-      // console.log(data);
-      await getAllStatusCount();
-      await getAllStatusCount();
-      res.render("installationStatus", {
-        dataPaginationNext: data.links.next,
-        dataPaginationPrevious: data.links.previous,
-        dataPaginationPageNo: data.page.page,
-        dataPaginationTotalPages: data.page.pages,
-
-        data1: daata,
-        variables: variables,
-        OpenOrdersCount: newOrdersCount,
-        reconfirmOrdersCount: FarmerDateConfirm,
-        totalRescheduleCount: CancelledSEReSchedule + SMReschedule + FarmerCancelledReschedule,
-
-        ReadyForInstallationCount: FarmerReconfirm,
-        sePendingList: AssignedSE,
-        seAcceptedList: ConfirmedSE,
-        seDeclinedList: CancelledSE,
-        farmerPendingList: SendFarmerConfirmation,
-        farmerAcceptedList: FarmerFinalConfirmation,
-        farmerDeclinedList: FamerFinalCancelled,
-        installationPendingList: SEAttended,
-        installationPartialCompleteList: PartialCompleted,
-        installationCompletedList: Completed,
-
-        totalPowermonCount: totalPowermonCount,
-        totalAPFCcount: totalAPFCcount
-      });
-    });
-  });
-
-
-
-
-
+  );
 
   app.get("/changeFarmerStatus/:id/:status", async function (req, res) {
     // console.log(req.params);
@@ -295,17 +313,14 @@ module.exports = function () {
       });
     }
 
-    const resp = await fetch(
-      apiURL+"/updateInstallationSchedule/",
-      {
-        method: "post",
-        body: reqBody,
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": token,
-        },
-      }
-    );
+    const resp = await fetch(apiURL + "/updateInstallationSchedule/", {
+      method: "post",
+      body: reqBody,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
     resp.json().then(async (data) => {
       // console.log(data);
       res.redirect("/viewFarmerStatus/pending/1");
@@ -313,7 +328,6 @@ module.exports = function () {
   });
 
   // -------------------------------------------- Counts Functions----------------------------------
- 
 
   var newOrdersCount;
   var FarmerDateConfirm;
@@ -332,212 +346,248 @@ module.exports = function () {
   var Completed;
   async function getAllStatusCount(req, res) {
     var reqBody = JSON.stringify({});
-    const resp = await fetch(
-      apiURL+"/getinstallStatuscount/",
-      {
-        method: "post",
-        body: reqBody,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token,
-        },
-      }
-    );
+    const resp = await fetch(apiURL + "/getinstallStatuscount/", {
+      method: "post",
+      body: reqBody,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
     await resp.json().then((data) => {
+      if (
+        data.some((singleData) => singleData.schedulestatus === "New Order")
+      ) {
+        data.forEach((element) => {
+          if (element.schedulestatus === "New Order") {
+            newOrdersCount = element.total;
+          }
+        });
+      } else {
+        newOrdersCount = 0;
+      }
 
-        if(data.some(singleData => singleData.schedulestatus === "New Order")){
-          data.forEach(element => {
-            if(element.schedulestatus==="New Order"){
-              newOrdersCount = element.total;
-            }
-          });
-        }else{
-          newOrdersCount = 0;
-        }
+      if (
+        data.some(
+          (singleData) => singleData.schedulestatus === "Farmer_Date_Confirm"
+        )
+      ) {
+        data.forEach((element) => {
+          if (element.schedulestatus === "Farmer_Date_Confirm") {
+            FarmerDateConfirm = element.total;
+          }
+        });
+      } else {
+        FarmerDateConfirm = 0;
+      }
 
-        if(data.some(singleData => singleData.schedulestatus === "Farmer_Date_Confirm")){
-          data.forEach(element => {
-            if(element.schedulestatus==="Farmer_Date_Confirm"){
-              FarmerDateConfirm = element.total;
-            }
-          });
-        }else{
-          FarmerDateConfirm = 0;
-        }
+      if (
+        data.some(
+          (singleData) => singleData.schedulestatus === "Farmer_Reconfirm"
+        )
+      ) {
+        data.forEach((element) => {
+          if (element.schedulestatus === "Farmer_Reconfirm") {
+            FarmerReconfirm = element.total;
+          }
+        });
+      } else {
+        FarmerReconfirm = 0;
+      }
 
-        if(data.some(singleData => singleData.schedulestatus === "Farmer_Reconfirm")){
-          data.forEach(element => {
-            if(element.schedulestatus==="Farmer_Reconfirm"){
-              FarmerReconfirm = element.total;
-            }
-          });
-        }else{
-          FarmerReconfirm = 0;
-        }
+      if (
+        data.some(
+          (singleData) =>
+            singleData.schedulestatus === "Cancelled_SE_ReSchedule"
+        )
+      ) {
+        data.forEach((element) => {
+          if (element.schedulestatus === "Cancelled_SE_ReSchedule") {
+            CancelledSEReSchedule = element.total;
+          }
+        });
+      } else {
+        CancelledSEReSchedule = 0;
+      }
 
-        if(data.some(singleData => singleData.schedulestatus === "Cancelled_SE_ReSchedule")){
-          data.forEach(element => {
-            if(element.schedulestatus==="Cancelled_SE_ReSchedule"){
-              CancelledSEReSchedule = element.total;
-            }
-          });
-        }else{
-          CancelledSEReSchedule = 0;
-        }
+      if (
+        data.some((singleData) => singleData.schedulestatus === "SM_Reschedule")
+      ) {
+        data.forEach((element) => {
+          if (element.schedulestatus === "SM_Reschedule") {
+            SMReschedule = element.total;
+          }
+        });
+      } else {
+        SMReschedule = 0;
+      }
 
-        if(data.some(singleData => singleData.schedulestatus === "SM_Reschedule")){
-          data.forEach(element => {
-            if(element.schedulestatus==="SM_Reschedule"){
-              SMReschedule = element.total;
-            }
-          });
-        }else{
-          SMReschedule = 0;
-        }
+      if (
+        data.some(
+          (singleData) => singleData.schedulestatus === "Famer_Final_Cancelled"
+        )
+      ) {
+        data.forEach((element) => {
+          if (element.schedulestatus === "Famer_Final_Cancelled") {
+            FarmerCancelledReschedule = element.total;
+          }
+        });
+      } else {
+        FarmerCancelledReschedule = 0;
+      }
 
-        if(data.some(singleData => singleData.schedulestatus === "Famer_Final_Cancelled")){
-          data.forEach(element => {
-            if(element.schedulestatus==="Famer_Final_Cancelled"){
-              FarmerCancelledReschedule = element.total;
-            }
-          });
-        }else{
-          FarmerCancelledReschedule = 0;
-        }
+      if (
+        data.some((singleData) => singleData.schedulestatus === "Assigned_SE")
+      ) {
+        data.forEach((element) => {
+          if (element.schedulestatus === "Assigned_SE") {
+            AssignedSE = element.total;
+          }
+        });
+      } else {
+        AssignedSE = 0;
+      }
 
-        if(data.some(singleData => singleData.schedulestatus === "Assigned_SE")){
-          data.forEach(element => {
-            if(element.schedulestatus==="Assigned_SE"){
-              AssignedSE = element.total;
-            }
-          });
-        }else{
-          AssignedSE = 0;
-        }
+      if (
+        data.some(
+          (singleData) =>
+            singleData.schedulestatus === "Send_Farmer_Confirmation"
+        )
+      ) {
+        data.forEach((element) => {
+          if (element.schedulestatus === "Send_Farmer_Confirmation") {
+            ConfirmedSE = element.total;
+          }
+        });
+      } else {
+        ConfirmedSE = 0;
+      }
 
-        if(data.some(singleData => singleData.schedulestatus === "Send_Farmer_Confirmation")){
-          data.forEach(element => {
-            if(element.schedulestatus==="Send_Farmer_Confirmation"){
-              ConfirmedSE = element.total;
-            }
-          });
-        }else{
-          ConfirmedSE = 0;
-        }
+      if (
+        data.some((singleData) => singleData.schedulestatus === "Cancelled_SE")
+      ) {
+        data.forEach((element) => {
+          if (element.schedulestatus === "Cancelled_SE") {
+            CancelledSE = element.total;
+          }
+        });
+      } else {
+        CancelledSE = 0;
+      }
 
-        if(data.some(singleData => singleData.schedulestatus === "Cancelled_SE")){
-          data.forEach(element => {
-            if(element.schedulestatus==="Cancelled_SE"){
-              CancelledSE = element.total;
-            }
-          });
-        }else{
-          CancelledSE = 0;
-        }
+      if (
+        data.some(
+          (singleData) =>
+            singleData.schedulestatus === "Send_Farmer_Confirmation"
+        )
+      ) {
+        data.forEach((element) => {
+          if (element.schedulestatus === "Send_Farmer_Confirmation") {
+            SendFarmerConfirmation = element.total;
+          }
+        });
+      } else {
+        SendFarmerConfirmation = 0;
+      }
 
-        if(data.some(singleData => singleData.schedulestatus === "Send_Farmer_Confirmation")){
-          data.forEach(element => {
-            if(element.schedulestatus==="Send_Farmer_Confirmation"){
-              SendFarmerConfirmation = element.total;
-            }
-          });
-        }else{
-          SendFarmerConfirmation = 0;
-        }
+      if (
+        data.some(
+          (singleData) =>
+            singleData.schedulestatus === "Farmer_Final_Confirmation"
+        )
+      ) {
+        data.forEach((element) => {
+          if (element.schedulestatus === "Farmer_Final_Confirmation") {
+            FarmerFinalConfirmation = element.total;
+          }
+        });
+      } else {
+        FarmerFinalConfirmation = 0;
+      }
 
-        if(data.some(singleData => singleData.schedulestatus === "Farmer_Final_Confirmation")){
-          data.forEach(element => {
-            if(element.schedulestatus==="Farmer_Final_Confirmation"){
-              FarmerFinalConfirmation = element.total;
-            }
-          });
-        }else{
-          FarmerFinalConfirmation = 0;
-        }
+      if (
+        data.some(
+          (singleData) => singleData.schedulestatus === "Famer_Final_Cancelled"
+        )
+      ) {
+        data.forEach((element) => {
+          if (element.schedulestatus === "Famer_Final_Cancelled") {
+            FamerFinalCancelled = element.total;
+          }
+        });
+      } else {
+        FamerFinalCancelled = 0;
+      }
 
-        if(data.some(singleData => singleData.schedulestatus === "Famer_Final_Cancelled")){
-          data.forEach(element => {
-            if(element.schedulestatus==="Famer_Final_Cancelled"){
-              FamerFinalCancelled = element.total;
-            }
-          });
-        }else{
-          FamerFinalCancelled = 0;
-        }
+      if (
+        data.some((singleData) => singleData.schedulestatus === "SE_Attended")
+      ) {
+        data.forEach((element) => {
+          if (element.schedulestatus === "SE_Attended") {
+            SEAttended = element.total;
+          }
+        });
+      } else {
+        SEAttended = 0;
+      }
 
-        if(data.some(singleData => singleData.schedulestatus === "SE_Attended")){
-          data.forEach(element => {
-            if(element.schedulestatus==="SE_Attended"){
-              SEAttended = element.total;
-            }
-          });
-        }else{
-          SEAttended = 0;
-        }
+      if (
+        data.some(
+          (singleData) => singleData.schedulestatus === "Partial Completed"
+        )
+      ) {
+        data.forEach((element) => {
+          if (element.schedulestatus === "Partial Completed") {
+            PartialCompleted = element.total;
+          }
+        });
+      } else {
+        PartialCompleted = 0;
+      }
 
-        if(data.some(singleData => singleData.schedulestatus === "Partial Completed")){
-          data.forEach(element => {
-            if(element.schedulestatus==="Partial Completed"){
-              PartialCompleted = element.total;
-            }
-          });
-        }else{
-          PartialCompleted = 0;
-        }
-
-        if(data.some(singleData => singleData.schedulestatus === "Completed")){
-          data.forEach(element => {
-            if(element.schedulestatus==="Completed"){
-              Completed = element.total;
-            }
-          });
-        }else{
-          Completed = 0;
-        }
+      if (
+        data.some((singleData) => singleData.schedulestatus === "Completed")
+      ) {
+        data.forEach((element) => {
+          if (element.schedulestatus === "Completed") {
+            Completed = element.total;
+          }
+        });
+      } else {
+        Completed = 0;
+      }
     });
   }
 
-
   var SElist;
   async function getSEList(req, res) {
-    const resp = await fetch(apiURL+"/general/serviceengineers/",
-      {
-        method: "get",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": token,
-        },
-      }
-    );
+    const resp = await fetch(apiURL + "/general/serviceengineers/", {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
     await resp.json().then((dataa) => {
       // console.log(dataa);
       SElist = dataa;
     });
   }
 
-
   var remarks = [];
   async function getRemarksList(req, res) {
     var req = req;
-    const resp = await fetch(
-      apiURL+"/getremarksfororder/"+req+"",
-      {
-        method: "get",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": token,
-        },
-      }
-    );
+    const resp = await fetch(apiURL + "/getremarksfororder/" + req + "", {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
     await resp.json().then((dataa) => {
-    
       remarks = dataa;
     });
   }
-
-
-
-
 
   var totalPowermonCount = 0;
   var totalAPFCcount = 0;
@@ -548,33 +598,35 @@ module.exports = function () {
         schedulestatus: "COMPLETED",
       },
     });
-    const resp = await fetch(apiURL+"/getInstallationSchedule/?page="+pageNo,
+    const resp = await fetch(
+      apiURL + "/getInstallationSchedule/?page=" + pageNo,
       {
         method: "post",
         body: reqBody,
         headers: {
           "Content-Type": "application/json",
-          "Authorization": token,
+          Authorization: token,
         },
       }
     );
-    
+
     await resp.json().then((data) => {
-        pageNo = pageNo+1
-    data.results.forEach(element => {
-      element.order.items.forEach(element1=>{
-        if(element1.name == "Powermon 2.0"){
-          if(element1.isInstalled == true){
-            totalPowermonCount = totalPowermonCount+1
+      pageNo = pageNo + 1;
+      data.results.forEach((element) => {
+        element.order.items.forEach((element1) => {
+          if (element1.name == "Powermon 2.0") {
+            if (element1.isInstalled == true) {
+              totalPowermonCount = totalPowermonCount + 1;
+            }
+          } else if (
+            element1.name == "APFC - Automatic power factor Controller"
+          ) {
+            if (element1.isInstalled == true) {
+              totalAPFCcount = totalAPFCcount + 1;
+            }
           }
-        }else if(element1.name == "APFC - Automatic power factor Controller"){
-          if(element1.isInstalled == true){
-            totalAPFCcount = totalAPFCcount+1
-          }
-        }
-      })
-    });
+        });
+      });
     });
   }
-
 };

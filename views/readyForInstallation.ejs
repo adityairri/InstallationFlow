@@ -439,8 +439,8 @@
                     <th style="text-align: center;">FARMER MOBILE</th>
                     <th style="text-align: center;">REGION</th>
                     <th style="text-align: center;">REMARKS</th>
-                    <th style="text-align: center;">ITEMS &nbsp;-&nbsp; ORDERED &nbsp;-&nbsp;
-                      INSTALLED</th>
+                    <th style="text-align: center;">ITEMS &nbsp;-&nbsp; ORD &nbsp;-&nbsp;
+                      INST</th>
                     <th style="text-align: center;">ACTION</th>
                   </tr>
                 </thead>
@@ -454,8 +454,8 @@
                                       <th style="text-align: center;">FARMER MOBILE</th>
                                       <th style="text-align: center;">REGION</th>
                                       <th style="text-align: center;">SHIPPING ADDRESS</th>
-                                      <th style="text-align: center;">ITEMS &nbsp;-&nbsp; ORDERED &nbsp;-&nbsp;
-                                          INSTALLED</th>
+                                      <th style="text-align: center;">ITEMS &nbsp;-&nbsp; ORD &nbsp;-&nbsp;
+                                          INST</th>
                                       <th style="text-align: center;">ACTION</th>
                                   </tr>
                               </tfoot> -->
@@ -544,18 +544,14 @@
 
                       </td>
                       <td style="width: 15%;">
-                        <% if(singleData.powermonItems !="Powermon - 0 - 0" && singleData.apfcItems !="APFC - 0 - 0"
-                          ){%>
+                        <% if(singleData.powermonItems !="Powermon - 0 - 0" ){ %>
                           <%= singleData.powermonItems %></br>
-                            <%= singleData.apfcItems %>
-                              <%}else if(singleData.powermonItems=="Powermon - 0 - 0" && singleData.apfcItems
-                                !="APFC - 0 - 0" ){%>
-                                <%= singleData.apfcItems %>
-                                  <%}else if(singleData.powermonItems !="Powermon - 0 - 0" &&
-                                    singleData.apfcItems=="APFC - 0 - 0" ){%>
-                                    <%= singleData.powermonItems %>
-                                      <%}else{%>
-                                        --
+                            <%}%>
+                              <% if(singleData.apfcItems !="APFC - 0 - 0" ){ %>
+                                <%= singleData.apfcItems %></br>
+                                  <%}%>
+                                    <% if(singleData.powermonApfcItems !="Powermon(APFC) - 0 - 0" ){ %>
+                                      <%= singleData.powermonApfcItems %></br>
                                         <%}%>
                       </td>
                       <td>

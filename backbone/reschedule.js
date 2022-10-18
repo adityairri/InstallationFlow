@@ -7,7 +7,8 @@ const apiURL = "http://app.aquaexchange.com/api";
 const token = "Token e50f000f342fe8453e714454abac13be07f18ac3";
 
 module.exports = function () {
-  app.get("/assignRescheduleDate/:orderID/:date/:time",
+  app.get(
+    "/assignRescheduleDate/:orderID/:date/:time",
     async function (req, res) {
       var req = req.params;
       // console.log(req);
@@ -40,15 +41,14 @@ module.exports = function () {
     }
   );
 
-
   app.get("/cancelOrder/:orderID/:pageNo", async function (req, res) {
     var req = req.params;
     // console.log(req);
     var orderID = req.orderID;
     var reqBody = JSON.stringify({
-        order_id: parseInt(orderID),
-        remarks: "(Rescheduled -> Cancel Order)"
-      });
+      order_id: parseInt(orderID),
+      remarks: "(Rescheduled -> Cancel Order)",
+    });
 
     // console.log(reqBody);
     const resp = await fetch(apiURL + "/cancelorder/", {
@@ -62,11 +62,10 @@ module.exports = function () {
 
     await resp.json().then((data) => {
       // console.log(data);
-      res.redirect("/rescheduled/"+req.pageNo);
+      res.redirect("/rescheduled/" + req.pageNo);
     });
     // console.log(reqBody);
   });
-  
 
   app.get("/rescheduled/:pageNo", async function (req, res) {
     var page = req.params.pageNo;
@@ -90,14 +89,17 @@ module.exports = function () {
       var dataPaginationPrevious = SErescheduledOrdersPaginationLinks.previous;
       var dataPaginationPageNo = SErescheduledOrdersPagination.page;
       var dataPaginationTotalPages = SErescheduledOrdersPagination.pages;
-    }if (key == "SMpageCount") {
+    }
+    if (key == "SMpageCount") {
       var dataPaginationNext = SMrescheduledOrdersPaginationLinks.next;
       var dataPaginationPrevious = SMrescheduledOrdersPaginationLinks.previous;
       var dataPaginationPageNo = SMrescheduledOrdersPagination.page;
       var dataPaginationTotalPages = SMrescheduledOrdersPagination.pages;
-    }if (key == "FARpageCount") {
+    }
+    if (key == "FARpageCount") {
       var dataPaginationNext = farmerRescheduledOrdersPaginationLinks.next;
-      var dataPaginationPrevious = farmerRescheduledOrdersPaginationLinks.previous;
+      var dataPaginationPrevious =
+        farmerRescheduledOrdersPaginationLinks.previous;
       var dataPaginationPageNo = farmerRescheduledOrdersPagination.page;
       var dataPaginationTotalPages = farmerRescheduledOrdersPagination.pages;
     }
@@ -106,10 +108,9 @@ module.exports = function () {
       reconfirmOrdersCount: FarmerDateConfirm,
 
       dataPaginationNext: dataPaginationNext,
-        dataPaginationPrevious: dataPaginationPrevious,
-        dataPaginationPageNo: dataPaginationPageNo,
-        dataPaginationTotalPages: dataPaginationTotalPages,
-
+      dataPaginationPrevious: dataPaginationPrevious,
+      dataPaginationPageNo: dataPaginationPageNo,
+      dataPaginationTotalPages: dataPaginationTotalPages,
 
       SErescheduledOrders: SErescheduledOrders,
       SMrescheduledOrders: SMrescheduledOrders,
@@ -168,9 +169,58 @@ module.exports = function () {
             }).then((resp) => {
               resp.json().then((dataa) => {
                 remarks = dataa;
+
+                var powermonInstalled = 0;
+                var powermonNotInstalled = 0;
+                var apfcInstalled = 0;
+                var apfcNotInstalled = 0;
+                var PowermonApfcInstalled = 0;
+                var PowermonApfcNotInstalled = 0;
+                singleInData.order.items.forEach((element) => {
+                  if (element.name == "Powermon 2.0") {
+                    if (element.isInstalled == true) {
+                      powermonInstalled = powermonInstalled + 1;
+                    }
+                    if (element.isInstalled == false) {
+                      powermonNotInstalled = powermonNotInstalled + 1;
+                    }
+                  } else if (
+                    element.name == "APFC - Automatic power factor Controller"
+                  ) {
+                    if (element.isInstalled == true) {
+                      apfcInstalled = apfcInstalled + 1;
+                    }
+                    if (element.isInstalled == false) {
+                      apfcNotInstalled = apfcNotInstalled + 1;
+                    }
+                  } else if (element.name == "Powermon 2.0 with APFC") {
+                    if (element.isInstalled == true) {
+                      PowermonApfcInstalled = PowermonApfcInstalled + 1;
+                    }
+                    if (element.isInstalled == false) {
+                      PowermonApfcNotInstalled = PowermonApfcNotInstalled + 1;
+                    }
+                  }
+                });
+
                 daata1.push({
                   remarks: remarks,
                   data: singleInData,
+                  powermonItems:
+                    "Powermon - " +
+                    (powermonInstalled + powermonNotInstalled) +
+                    " - " +
+                    powermonInstalled,
+                  apfcItems:
+                    "APFC - " +
+                    (apfcInstalled + apfcNotInstalled) +
+                    " - " +
+                    apfcInstalled,
+                  powermonApfcItems:
+                    "Powermon(APFC) - " +
+                    (PowermonApfcInstalled + PowermonApfcNotInstalled) +
+                    " - " +
+                    PowermonApfcInstalled,
                 });
                 resolve();
               });
@@ -226,10 +276,60 @@ module.exports = function () {
             }).then((resp) => {
               resp.json().then((dataa) => {
                 remarks = dataa;
+
+                var powermonInstalled = 0;
+                var powermonNotInstalled = 0;
+                var apfcInstalled = 0;
+                var apfcNotInstalled = 0;
+                var PowermonApfcInstalled = 0;
+                var PowermonApfcNotInstalled = 0;
+                singleInData.order.items.forEach((element) => {
+                  if (element.name == "Powermon 2.0") {
+                    if (element.isInstalled == true) {
+                      powermonInstalled = powermonInstalled + 1;
+                    }
+                    if (element.isInstalled == false) {
+                      powermonNotInstalled = powermonNotInstalled + 1;
+                    }
+                  } else if (
+                    element.name == "APFC - Automatic power factor Controller"
+                  ) {
+                    if (element.isInstalled == true) {
+                      apfcInstalled = apfcInstalled + 1;
+                    }
+                    if (element.isInstalled == false) {
+                      apfcNotInstalled = apfcNotInstalled + 1;
+                    }
+                  } else if (element.name == "Powermon 2.0 with APFC") {
+                    if (element.isInstalled == true) {
+                      PowermonApfcInstalled = PowermonApfcInstalled + 1;
+                    }
+                    if (element.isInstalled == false) {
+                      PowermonApfcNotInstalled = PowermonApfcNotInstalled + 1;
+                    }
+                  }
+                });
+
                 daata2.push({
                   remarks: remarks,
                   data: singleInData,
+                  powermonItems:
+                    "Powermon - " +
+                    (powermonInstalled + powermonNotInstalled) +
+                    " - " +
+                    powermonInstalled,
+                  apfcItems:
+                    "APFC - " +
+                    (apfcInstalled + apfcNotInstalled) +
+                    " - " +
+                    apfcInstalled,
+                  powermonApfcItems:
+                    "Powermon(APFC) - " +
+                    (PowermonApfcInstalled + PowermonApfcNotInstalled) +
+                    " - " +
+                    PowermonApfcInstalled,
                 });
+
                 resolve();
               });
             });
@@ -285,32 +385,57 @@ module.exports = function () {
               resp.json().then((dataa) => {
                 remarks = dataa;
 
-
                 var powermonInstalled = 0;
                 var powermonNotInstalled = 0;
                 var apfcInstalled = 0;
                 var apfcNotInstalled = 0;
-                singleInData.order.items.forEach(element => {
-                  if(element.name == "Powermon 2.0"){
-                      if(element.isInstalled == true){
-                        powermonInstalled = powermonInstalled+1;
-                      }if(element.isInstalled == false){
-                        powermonNotInstalled = powermonNotInstalled+1;
-                      }
-                  }else if(element.name == "APFC - Automatic power factor Controller"){
-                      if(element.isInstalled == true){
-                        apfcInstalled = apfcInstalled+1;
-                      }if(element.isInstalled == false){
-                        apfcNotInstalled = apfcNotInstalled+1;
-                      }
+                var PowermonApfcInstalled = 0;
+                var PowermonApfcNotInstalled = 0;
+                singleInData.order.items.forEach((element) => {
+                  if (element.name == "Powermon 2.0") {
+                    if (element.isInstalled == true) {
+                      powermonInstalled = powermonInstalled + 1;
+                    }
+                    if (element.isInstalled == false) {
+                      powermonNotInstalled = powermonNotInstalled + 1;
+                    }
+                  } else if (
+                    element.name == "APFC - Automatic power factor Controller"
+                  ) {
+                    if (element.isInstalled == true) {
+                      apfcInstalled = apfcInstalled + 1;
+                    }
+                    if (element.isInstalled == false) {
+                      apfcNotInstalled = apfcNotInstalled + 1;
+                    }
+                  } else if (element.name == "Powermon 2.0 with APFC") {
+                    if (element.isInstalled == true) {
+                      PowermonApfcInstalled = PowermonApfcInstalled + 1;
+                    }
+                    if (element.isInstalled == false) {
+                      PowermonApfcNotInstalled = PowermonApfcNotInstalled + 1;
+                    }
                   }
                 });
 
                 daata3.push({
                   remarks: remarks,
                   data: singleInData,
-                  powermonItems: "Powermon - "+(powermonInstalled + powermonNotInstalled)+" - "+powermonInstalled,
-                  apfcItems: "APFC - "+(apfcInstalled + apfcNotInstalled)+" - "+apfcInstalled
+                  powermonItems:
+                    "Powermon - " +
+                    (powermonInstalled + powermonNotInstalled) +
+                    " - " +
+                    powermonInstalled,
+                  apfcItems:
+                    "APFC - " +
+                    (apfcInstalled + apfcNotInstalled) +
+                    " - " +
+                    apfcInstalled,
+                  powermonApfcItems:
+                    "Powermon(APFC) - " +
+                    (PowermonApfcInstalled + PowermonApfcNotInstalled) +
+                    " - " +
+                    PowermonApfcInstalled,
                 });
                 resolve();
               });

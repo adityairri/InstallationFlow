@@ -7,11 +7,12 @@ const apiURL = "http://app.aquaexchange.com/api";
 const token = "Token e50f000f342fe8453e714454abac13be07f18ac3";
 
 module.exports = function () {
-  app.get("/assignDate/:orderID/:farmID/:date/:time/:remarks/:fromDate/:toDate/:pageNo",
+  app.get(
+    "/assignDate/:orderID/:farmID/:date/:time/:remarks/:fromDate/:toDate/:pageNo",
     async function (req, res) {
       var req = req.params;
 
-      if(req.farmID != 0){
+      if (req.farmID != 0) {
         var farmID = req.farmID.split(",");
         var farmsApendObject = [];
         farmID.forEach((element) => {
@@ -20,32 +21,29 @@ module.exports = function () {
           });
         });
         // console.log(req);
-      var date = req.date + " 00:00";
-      var reqBody = JSON.stringify({
-        schedule: {
-          id: parseInt(req.orderID),
-          confirmed_date: date,
-          confirmed_slot: req.time,
-          remarks: req.remarks + "(Open Orders -> Reconfirmed)",
-          schedulestatus: "FARMER_DATE_CONFIRM",
-        },
-        farms: farmsApendObject,
-      });
-      }else if(req.farmID==0){
-      var date = req.date + " 00:00";
-      var reqBody = JSON.stringify({
-        schedule: {
-          id: parseInt(req.orderID),
-          confirmed_date: date,
-          confirmed_slot: req.time,
-          remarks: req.remarks + "(Open Orders -> Reconfirmed)",
-          schedulestatus: "FARMER_DATE_CONFIRM",
-        }
-      });
+        var date = req.date + " 00:00";
+        var reqBody = JSON.stringify({
+          schedule: {
+            id: parseInt(req.orderID),
+            confirmed_date: date,
+            confirmed_slot: req.time,
+            remarks: req.remarks + "(Open Orders -> Reconfirmed)",
+            schedulestatus: "FARMER_DATE_CONFIRM",
+          },
+          farms: farmsApendObject,
+        });
+      } else if (req.farmID == 0) {
+        var date = req.date + " 00:00";
+        var reqBody = JSON.stringify({
+          schedule: {
+            id: parseInt(req.orderID),
+            confirmed_date: date,
+            confirmed_slot: req.time,
+            remarks: req.remarks + "(Open Orders -> Reconfirmed)",
+            schedulestatus: "FARMER_DATE_CONFIRM",
+          },
+        });
       }
-     
-
-      
 
       // console.log(reqBody);
       const resp = await fetch(apiURL + "/updateInstallationSchedule/", {
@@ -59,13 +57,16 @@ module.exports = function () {
 
       await resp.json().then((data) => {
         // console.log(data);
-        res.redirect("/page/"+req.fromDate+"/"+req.toDate+"/"+req.pageNo+"/0");
+        res.redirect(
+          "/page/" + req.fromDate + "/" + req.toDate + "/" + req.pageNo + "/0"
+        );
       });
       // console.log(reqBody);
     }
   );
 
-  app.get("/assignFollowupDate/:id/:remarks/:followupDate",
+  app.get(
+    "/assignFollowupDate/:id/:remarks/:followupDate",
     async function (req, res) {
       var req = req.params;
       // console.log(req);
@@ -97,104 +98,113 @@ module.exports = function () {
     }
   );
 
-  app.get("/markAsComplete/:orderID/:SEName/:dateOfCompletion/:fromDate/:toDate/:pageNo", async function (req, res) {
-    var req = req.params;
-    // console.log(req);
-    var orderID = req.orderID;
-    var reqBody = JSON.stringify({
-      schedule: {
-        id: parseInt(orderID),
-        remarks: "(Open Orders -> Completed)",
-        service_engineer: req.SEName,
-        schedulestatus: "COMPLETED",
-      }
-    });
-
-    // console.log(reqBody);
-    const resp = await fetch(apiURL + "/updateInstallationSchedule/", {
-      method: "post",
-      body: reqBody,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-    });
-
-    await resp.json().then((data) => {
-      // console.log(data);
-      res.redirect("/page/"+req.fromDate+"/"+req.toDate+"/"+req.pageNo+"/0");
-    });
-    // console.log(reqBody);
-  });
-
-
-
-  app.get("/markAsCompleteInSearch/:orderID/:wooComID/:SEName/:dateOfCompletion", async function (req, res) {
-    var req = req.params;
-    // console.log(req);
-    var orderID = req.orderID;
-    var reqBody = JSON.stringify({
-      schedule: {
-        id: parseInt(orderID),
-        remarks: "(Searched Orders -> Completed)",
-        service_engineer: req.SEName,
-        schedulestatus: "COMPLETED",
-      },
-    });
-
-    // console.log(reqBody);
-    const resp = await fetch(apiURL + "/updateInstallationSchedule/", {
-      method: "post",
-      body: reqBody,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-    });
-
-    await resp.json().then((data) => {
-      // console.log(data);
-      res.redirect("/searchByOrderID/"+parseInt(req.wooComID));
-    });
-    // console.log(reqBody);
-  });
-
-
-
-  app.get("/cancelOrder/:orderID/:fromDate/:toDate/:pageNo", async function (req, res) {
-    var req = req.params;
-    // console.log(req);
-    var orderID = req.orderID;
-    var reqBody = JSON.stringify({
-        order_id: parseInt(orderID),
-        remarks: "(Open Orders -> Cancel Order)"
+  app.get(
+    "/markAsComplete/:orderID/:SEName/:dateOfCompletion/:fromDate/:toDate/:pageNo",
+    async function (req, res) {
+      var req = req.params;
+      // console.log(req);
+      var orderID = req.orderID;
+      var reqBody = JSON.stringify({
+        schedule: {
+          id: parseInt(orderID),
+          remarks: "(Open Orders -> Completed)",
+          service_engineer: req.SEName,
+          schedulestatus: "COMPLETED",
+        },
       });
 
-    // console.log(reqBody);
-    const resp = await fetch(apiURL + "/cancelorder/", {
-      method: "post",
-      body: reqBody,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-    });
+      // console.log(reqBody);
+      const resp = await fetch(apiURL + "/updateInstallationSchedule/", {
+        method: "post",
+        body: reqBody,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      });
 
-    await resp.json().then((data) => {
-      // console.log(data);
-      res.redirect("/page/"+req.fromDate+"/"+req.toDate+"/"+req.pageNo+"/0");
-    });
-    // console.log(reqBody);
-  });
+      await resp.json().then((data) => {
+        // console.log(data);
+        res.redirect(
+          "/page/" + req.fromDate + "/" + req.toDate + "/" + req.pageNo + "/0"
+        );
+      });
+      // console.log(reqBody);
+    }
+  );
+
+  app.get(
+    "/markAsCompleteInSearch/:orderID/:wooComID/:SEName/:dateOfCompletion",
+    async function (req, res) {
+      var req = req.params;
+      // console.log(req);
+      var orderID = req.orderID;
+      var reqBody = JSON.stringify({
+        schedule: {
+          id: parseInt(orderID),
+          remarks: "(Searched Orders -> Completed)",
+          service_engineer: req.SEName,
+          schedulestatus: "COMPLETED",
+        },
+      });
+
+      // console.log(reqBody);
+      const resp = await fetch(apiURL + "/updateInstallationSchedule/", {
+        method: "post",
+        body: reqBody,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      });
+
+      await resp.json().then((data) => {
+        // console.log(data);
+        res.redirect("/searchByOrderID/" + parseInt(req.wooComID));
+      });
+      // console.log(reqBody);
+    }
+  );
+
+  app.get(
+    "/cancelOrder/:orderID/:fromDate/:toDate/:pageNo",
+    async function (req, res) {
+      var req = req.params;
+      // console.log(req);
+      var orderID = req.orderID;
+      var reqBody = JSON.stringify({
+        order_id: parseInt(orderID),
+        remarks: "(Open Orders -> Cancel Order)",
+      });
+
+      // console.log(reqBody);
+      const resp = await fetch(apiURL + "/cancelorder/", {
+        method: "post",
+        body: reqBody,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      });
+
+      await resp.json().then((data) => {
+        // console.log(data);
+        res.redirect(
+          "/page/" + req.fromDate + "/" + req.toDate + "/" + req.pageNo + "/0"
+        );
+      });
+      // console.log(reqBody);
+    }
+  );
 
   app.get("/cancelOrderFromSearch/:orderID", async function (req, res) {
     var req = req.params;
     // console.log(req);
     var orderID = req.orderID;
     var reqBody = JSON.stringify({
-        order_id: parseInt(orderID),
-        remarks: "(Open Orders -> Cancel Order)"
-      });
+      order_id: parseInt(orderID),
+      remarks: "(Open Orders -> Cancel Order)",
+    });
 
     // console.log(reqBody);
     const resp = await fetch(apiURL + "/cancelorder/", {
@@ -208,7 +218,7 @@ module.exports = function () {
 
     await resp.json().then((data) => {
       // console.log(data);
-      res.redirect("/searchByOrderID/"+parseInt(req.orderID));
+      res.redirect("/searchByOrderID/" + parseInt(req.orderID));
     });
     // console.log(reqBody);
   });
@@ -241,140 +251,167 @@ module.exports = function () {
 
   app.get("/", async function (req, res) {
     res.redirect("/page/0/0/1/0");
-
   });
 
-  app.get("/page/:fromDate/:toDate/:pageNo/:searchByOrderID", async function (req, res) {
-    if(req.params.searchByOrderID == 0){
-      if (req.params.fromDate == 0 || req.params.toDate == 0) {
+  app.get(
+    "/page/:fromDate/:toDate/:pageNo/:searchByOrderID",
+    async function (req, res) {
+      if (req.params.searchByOrderID == 0) {
+        if (req.params.fromDate == 0 || req.params.toDate == 0) {
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "NEW_ORDER",
+            },
+          });
+        } else if (req.params.fromDate != null && req.params.toDate != null) {
+          var reqBody = JSON.stringify({
+            filter: {
+              from_date: req.params.fromDate + " 00:00",
+              to_date: req.params.toDate + " 23:59",
+              status: "NEW_ORDER",
+            },
+          });
+        }
+      } else if (req.params.searchByOrderID != 0) {
         var reqBody = JSON.stringify({
           filter: {
-            status: "NEW_ORDER",
-          },
-        });
-      } else if (req.params.fromDate != null && req.params.toDate != null) {
-        var reqBody = JSON.stringify({
-          filter: {
-            from_date: req.params.fromDate + " 00:00",
-            to_date: req.params.toDate + " 23:59",
+            order_id: parseInt(req.params.searchByOrderID),
             status: "NEW_ORDER",
           },
         });
       }
-    }else if(req.params.searchByOrderID != 0){
-      var reqBody = JSON.stringify({
-        filter: {
-          order_id: parseInt(req.params.searchByOrderID),
-          status: "NEW_ORDER",
-        },
-      });
-    }
-    
 
-    const resp = await fetch(
-      apiURL + "/getInstallationSchedule/?page=" + req.params.pageNo + "",
-      {
-        method: "post",
-        body: reqBody,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token,
-        },
-      }
-    );
-    var daata = [];
-    await resp.json().then(async (data) => {
-      if (data.msg != "Invalid page.") {
-        data.results.forEach(async (singleInData) => {
-          var wooCommerseID = singleInData.order.woo_commerce_order_id;
+      const resp = await fetch(
+        apiURL + "/getInstallationSchedule/?page=" + req.params.pageNo + "",
+        {
+          method: "post",
+          body: reqBody,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        }
+      );
+      var daata = [];
+      await resp.json().then(async (data) => {
+        if (data.msg != "Invalid page.") {
+          data.results.forEach(async (singleInData) => {
+            var wooCommerseID = singleInData.order.woo_commerce_order_id;
 
-          new Promise(function (resolve, reject) {
-            fetch(apiURL + "/getremarksfororder/" + wooCommerseID + "", {
-              method: "get",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: token,
-              },
-            }).then((resp) => {
-              resp.json().then((dataa) => {
-                remarks = dataa;
+            new Promise(function (resolve, reject) {
+              fetch(apiURL + "/getremarksfororder/" + wooCommerseID + "", {
+                method: "get",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: token,
+                },
+              }).then((resp) => {
+                resp.json().then((dataa) => {
+                  remarks = dataa;
 
-                var powermonInstalled = 0;
-                var powermonNotInstalled = 0;
-                var apfcInstalled = 0;
-                var apfcNotInstalled = 0;
-                singleInData.order.items.forEach(element => {
-                  if(element.name == "Powermon 2.0"){
-                      if(element.isInstalled == true){
-                        powermonInstalled = powermonInstalled+1;
-                      }if(element.isInstalled == false){
-                        powermonNotInstalled = powermonNotInstalled+1;
+                  var powermonInstalled = 0;
+                  var powermonNotInstalled = 0;
+                  var apfcInstalled = 0;
+                  var apfcNotInstalled = 0;
+                  var PowermonApfcInstalled = 0;
+                  var PowermonApfcNotInstalled = 0;
+                  singleInData.order.items.forEach((element) => {
+                    if (element.name == "Powermon 2.0") {
+                      if (element.isInstalled == true) {
+                        powermonInstalled = powermonInstalled + 1;
                       }
-                  }else if(element.name == "APFC - Automatic power factor Controller"){
-                      if(element.isInstalled == true){
-                        apfcInstalled = apfcInstalled+1;
-                      }if(element.isInstalled == false){
-                        apfcNotInstalled = apfcNotInstalled+1;
+                      if (element.isInstalled == false) {
+                        powermonNotInstalled = powermonNotInstalled + 1;
                       }
-                  }
-                });
+                    } else if (
+                      element.name == "APFC - Automatic power factor Controller"
+                    ) {
+                      if (element.isInstalled == true) {
+                        apfcInstalled = apfcInstalled + 1;
+                      }
+                      if (element.isInstalled == false) {
+                        apfcNotInstalled = apfcNotInstalled + 1;
+                      }
+                    } else if (element.name == "Powermon 2.0 with APFC") {
+                      if (element.isInstalled == true) {
+                        PowermonApfcInstalled = PowermonApfcInstalled + 1;
+                      }
+                      if (element.isInstalled == false) {
+                        PowermonApfcNotInstalled = PowermonApfcNotInstalled + 1;
+                      }
+                    }
+                  });
 
-                daata.push({
-                  remarks: remarks,
-                  data: singleInData,
-                  powermonItems: "Powermon - "+(powermonInstalled + powermonNotInstalled)+" - "+powermonInstalled,
-                  apfcItems: "APFC - "+(apfcInstalled + apfcNotInstalled)+" - "+apfcInstalled
+                  daata.push({
+                    remarks: remarks,
+                    data: singleInData,
+                    powermonItems:
+                      "Powermon - " +
+                      (powermonInstalled + powermonNotInstalled) +
+                      " - " +
+                      powermonInstalled,
+                    apfcItems:
+                      "APFC - " +
+                      (apfcInstalled + apfcNotInstalled) +
+                      " - " +
+                      apfcInstalled,
+                    powermonApfcItems:
+                      "Powermon(APFC) - " +
+                      (PowermonApfcInstalled + PowermonApfcNotInstalled) +
+                      " - " +
+                      PowermonApfcInstalled,
+                  });
+                  resolve();
                 });
-                resolve();
               });
             });
           });
+        } else if (data.msg == "Invalid page.") {
+          data.links = {
+            next: null,
+            previous: null,
+          };
+          data.page = {
+            page: 1,
+            pages: 1,
+            count: 0,
+          };
+        }
+        if (orderIDdetails == undefined) {
+          orderIDdetails = 0;
+        }
+        await getSEList();
+        await getAllStatusCount();
+        await getAllStatusCount();
+
+        res.render("index", {
+          data1: daata,
+          dataPaginationNext: data.links.next,
+          dataPaginationPrevious: data.links.previous,
+          dataPaginationPageNo: data.page.page,
+          dataPaginationTotalPages: data.page.pages,
+
+          orderIDdetails: orderIDdetails,
+
+          seList: SElist,
+          newOrdersCount: newOrdersCount,
+          reconfirmOrdersCount: FarmerDateConfirm,
+          readyToInstallCount: FarmerReconfirm,
+          totalRescheduleCount:
+            CancelledSEReSchedule + SMReschedule + FarmerCancelledReschedule,
+          sePendingList: AssignedSE,
+          seAcceptedList: ConfirmedSE,
+          seDeclinedList: CancelledSE,
+          farmerPendingList: SendFarmerConfirmation,
+          farmerAcceptedList: FarmerFinalConfirmation,
+          farmerDeclinedList: FamerFinalCancelled,
+          installationPendingList: SEAttended,
+          installationPartialCompleteList: PartialCompleted,
+          installationCompletedList: Completed,
         });
-      } else if (data.msg == "Invalid page.") {
-        data.links = {
-          next: null,
-          previous: null,
-        };
-        data.page = {
-          page: 1,
-          pages: 1,
-          count: 0,
-        };
-      }
-if(orderIDdetails==undefined){
-  orderIDdetails = 0;
-}
-      await getSEList();
-      await getAllStatusCount();
-      await getAllStatusCount();
-
-      res.render("index", {
-        data1: daata,
-        dataPaginationNext: data.links.next,
-        dataPaginationPrevious: data.links.previous,
-        dataPaginationPageNo: data.page.page,
-        dataPaginationTotalPages: data.page.pages,
-
-        orderIDdetails: orderIDdetails,
-
-        seList:SElist,
-        newOrdersCount: newOrdersCount,
-        reconfirmOrdersCount: FarmerDateConfirm,
-        readyToInstallCount: FarmerReconfirm,
-        totalRescheduleCount:
-          CancelledSEReSchedule + SMReschedule + FarmerCancelledReschedule,
-        sePendingList: AssignedSE,
-        seAcceptedList: ConfirmedSE,
-        seDeclinedList: CancelledSE,
-        farmerPendingList: SendFarmerConfirmation,
-        farmerAcceptedList: FarmerFinalConfirmation,
-        farmerDeclinedList: FamerFinalCancelled,
-        installationPendingList: SEAttended,
-        installationPartialCompleteList: PartialCompleted,
-        installationCompletedList: Completed,
       });
-    });
-  });
+    }
+  );
 
   var newOrdersCount;
   var FarmerDateConfirm;
@@ -402,7 +439,9 @@ if(orderIDdetails==undefined){
       },
     });
     await resp.json().then((data) => {
-      if (data.some((singleData) => singleData.schedulestatus === "New Order")) {
+      if (
+        data.some((singleData) => singleData.schedulestatus === "New Order")
+      ) {
         data.forEach((element) => {
           if (element.schedulestatus === "New Order") {
             newOrdersCount = element.total;
@@ -412,7 +451,9 @@ if(orderIDdetails==undefined){
         newOrdersCount = 0;
       }
 
-      if (data.some((singleData) => singleData.schedulestatus === "Farmer_Date_Confirm"
+      if (
+        data.some(
+          (singleData) => singleData.schedulestatus === "Farmer_Date_Confirm"
         )
       ) {
         data.forEach((element) => {
@@ -617,12 +658,12 @@ if(orderIDdetails==undefined){
     });
   }
 
-var orderIDdetails;
+  var orderIDdetails;
   app.get("/searchByOrderID/:orderID", async function (req, res) {
     var reqBody = JSON.stringify({
-      filter:{
-      order_id: parseInt(req.params.orderID)
-    }
+      filter: {
+        order_id: parseInt(req.params.orderID),
+      },
     });
     const resp = await fetch(apiURL + "/getInstallationSchedule/", {
       method: "post",
@@ -636,26 +677,20 @@ var orderIDdetails;
     await resp.json().then((data) => {
       res.render("searchByOrderID", {
         data: data.results[0],
-        seList:SElist
-
+        seList: SElist,
       });
-
     });
   });
 
-
   var SElist;
   async function getSEList(req, res) {
-    const resp = await fetch(
-      apiURL+"/general/serviceengineers/",
-      {
-        method: "get",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": token,
-        },
-      }
-    );
+    const resp = await fetch(apiURL + "/general/serviceengineers/", {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
     await resp.json().then((dataa) => {
       // console.log(dataa);
       SElist = dataa;

@@ -133,6 +133,8 @@ module.exports = function () {
                 var powermonNotInstalled = 0;
                 var apfcInstalled = 0;
                 var apfcNotInstalled = 0;
+                var PowermonApfcInstalled = 0;
+                var PowermonApfcNotInstalled = 0;
                 singleInData.order.items.forEach((element) => {
                   if (element.name == "Powermon 2.0") {
                     if (element.isInstalled == true) {
@@ -150,6 +152,13 @@ module.exports = function () {
                     if (element.isInstalled == false) {
                       apfcNotInstalled = apfcNotInstalled + 1;
                     }
+                  } else if (element.name == "Powermon 2.0 with APFC") {
+                    if (element.isInstalled == true) {
+                      PowermonApfcInstalled = PowermonApfcInstalled + 1;
+                    }
+                    if (element.isInstalled == false) {
+                      PowermonApfcNotInstalled = PowermonApfcNotInstalled + 1;
+                    }
                   }
                 });
 
@@ -166,6 +175,11 @@ module.exports = function () {
                     (apfcInstalled + apfcNotInstalled) +
                     " - " +
                     apfcInstalled,
+                  powermonApfcItems:
+                    "Powermon(APFC) - " +
+                    (PowermonApfcInstalled + PowermonApfcNotInstalled) +
+                    " - " +
+                    PowermonApfcInstalled,
                 });
                 resolve();
               });
