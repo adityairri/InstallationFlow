@@ -181,7 +181,7 @@ module.exports = function () {
                       (apfcInstalled + apfcNotInstalled) +
                       " - " +
                       apfcInstalled,
-                      powermonApfcItems:
+                    powermonApfcItems:
                       "Powermon(APFC) - " +
                       (PowermonApfcInstalled + PowermonApfcNotInstalled) +
                       " - " +

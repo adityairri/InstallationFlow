@@ -99,19 +99,38 @@ module.exports = function () {
   );
 
   app.get(
-    "/markAsComplete/:orderID/:SEName/:dateOfCompletion/:fromDate/:toDate/:pageNo",
+    "/markAsComplete/:orderID/:SEName/:dateOfCompletion/:fromDate/:toDate/:pageNo/:farmID",
     async function (req, res) {
       var req = req.params;
       // console.log(req);
       var orderID = req.orderID;
-      var reqBody = JSON.stringify({
-        schedule: {
-          id: parseInt(orderID),
-          remarks: "(Open Orders -> Completed)",
-          service_engineer: req.SEName,
-          schedulestatus: "COMPLETED",
-        },
-      });
+      if (req.farmID != 0) {
+        var farmID = req.farmID.split(",");
+        var farmsApendObject = [];
+        farmID.forEach((element) => {
+          farmsApendObject.push({
+            farm: parseInt(element),
+          });
+        });
+        var reqBody = JSON.stringify({
+          schedule: {
+            id: parseInt(orderID),
+            remarks: "(Open Orders -> Completed)",
+            service_engineer: req.SEName,
+            schedulestatus: "COMPLETED",
+          },
+          farms: farmsApendObject,
+        });
+      } else {
+        var reqBody = JSON.stringify({
+          schedule: {
+            id: parseInt(orderID),
+            remarks: "(Open Orders -> Completed)",
+            service_engineer: req.SEName,
+            schedulestatus: "COMPLETED",
+          },
+        });
+      }
 
       // console.log(reqBody);
       const resp = await fetch(apiURL + "/updateInstallationSchedule/", {

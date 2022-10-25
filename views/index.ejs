@@ -426,11 +426,48 @@
                 </li>
               </ul>
             </div>
+            <style>
+              #boxThis.box {
+                margin-top: 70px;
+                position: fixed;
+                top: 0;
+                z-index: 9999;
+                background-color: white;
+                width: auto;
+              }
+            </style>
+            <script>
+              function boxtothetop() {
+                var windowTop = $(window)
+                  .scrollTop();
+                var top = $('#boxHere')
+                  .offset()
+                  .top;
+                if (windowTop > top) {
+                  $('#boxThis')
+                    .addClass('box');
+                  $('#boxHere')
+                    .height($('#boxThis')
+                      .outerHeight());
+                } else {
+                  $('#boxThis')
+                    .removeClass('box');
+                  $('#boxHere')
+                    .height(0);
+                }
+              }
+              $(function () {
+                $(window)
+                  .scroll(boxtothetop);
+                boxtothetop();
+              });
+            </script>
             <div class="body table-responsive">
               <table class="table table-bordered table-striped table-hover js-basic-example dataTable"
-                id="openOrdersTable">
+                id="openOrdersTable" style="width: 100%;">
                 <thead>
-                  <tr>
+                  <div id="boxHere"></div>
+                  <tr id="boxThis" width: auto;>
                     <th style="text-align: center;">ORDER ID</th>
                     <th style="text-align: center;">BDE NAME</th>
                     <th style="text-align: center;">ORDERED DATE</th>
@@ -439,26 +476,12 @@
                     <th style="text-align: center;">FARM NAME</th>
                     <th style="text-align: center;">FARMER MOBILE</th>
                     <th style="text-align: center;">REGION</th>
-                    <th style="text-align: center;">ITEMS &nbsp;-&nbsp; ORD &nbsp;-&nbsp; INST</th>
+                    <th style="text-align: center;" style="width: 15%;">ITEMS &nbsp;-&nbsp; ORD &nbsp;-&nbsp; INST
+                    </th>
                     <th style="text-align: center;">REMARKS</th>
                     <th style="text-align: center;">ACTION</th>
                   </tr>
                 </thead>
-                <!-- <tfoot>
-                  <tr>
-                    <th style="text-align: center;">ORDER ID</th>
-                    <th style="text-align: center;">BDE NAME</th>
-                    <th style="text-align: center;">ORDERED DATE</th>
-                    <th style="text-align: center;">FOLLOWUP DATE</th>
-                    <th style="text-align: center;">FARMER NAME</th>
-                    <th style="text-align: center;">FARM NAME</th>
-                    <th style="text-align: center;">FARMER MOBILE</th>
-                    <th style="text-align: center;">REGION</th>
-                    <th style="text-align: center;">ITEMS &nbsp;-&nbsp; ORD &nbsp;-&nbsp; INST</th>
-                    <th style="text-align: center;">REMARKS</th>
-                    <th style="text-align: center;">ACTION</th>
-                  </tr>
-                </tfoot> -->
                 <tbody style="text-align: center;">
                   <% data1.forEach(function(singleData){ %>
                     <tr>
@@ -746,6 +769,14 @@
                                       </option>
                                       <%})%>
                                   </select></br></br>
+                                  <label>Farm Name:</label></br>
+                                  <select multiple="multiple" id="farmNamesSelect<%=singleData.data.id%>" multiple>
+                                    <% singleData.data.order.farmer.farms.forEach(function(farmNames){ %>
+                                      <option value="<%=farmNames.id%>">
+                                        <%=farmNames.farm_name%>
+                                      </option>
+                                      <%});%>
+                                  </select></br></br>
                                   <label>Date of Completion</label>
                                   <div class="form-line"><input type="date" class="form-control date"
                                       id="dateTime1<%=singleData.data.id%>"
@@ -771,7 +802,12 @@
                               var SEName = document.getElementById("SElistSelect<%=singleData.data.id%>").value;
                               var dateOfCompletion = document.getElementById("dateTime1<%=singleData.data.id%>").value;
 
-                              url = "/markAsComplete/" + orderID + "/" + SEName + "/" + dateOfCompletion + "/" + fromDate2 + "/" + toDate2 + "/" + pageNo1;
+                              var selectedFarmId = $('#farmNamesSelect<%=singleData.data.id%>').val() || [];
+                              if (!selectedFarmId || selectedFarmId == null || selectedFarmId == undefined || selectedFarmId == '') {
+                                selectedFarmId = 0;
+                              }
+
+                              url = "/markAsComplete/" + orderID + "/" + SEName + "/" + dateOfCompletion + "/" + fromDate2 + "/" + toDate2 + "/" + pageNo1 + "/" + selectedFarmId;
                               $("#confirmButtonWithDates<%=singleData.data.id%>").attr("href", url);
 
                               if (SEName != null && SEName != '' && SEName != undefined) {
