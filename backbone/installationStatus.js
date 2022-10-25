@@ -95,6 +95,10 @@ module.exports = function () {
                 to_date: req.params.toDate + " 23:59",
                 status: "COMPLETED",
               },
+              sort: {
+                field: "order__ordercompleted",
+                order: "desc",
+              },
             });
           }
         }
