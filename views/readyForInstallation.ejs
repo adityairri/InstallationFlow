@@ -896,7 +896,7 @@
                 </tbody>
                 <nav>
                   <ul class="pagination">
-                    <% if(dataPaginationPrevious==null){%>
+                    <% if(totalDataPaginationPrevious==null){%>
                       <li class="disabled">
                         <a href="javascript:void(0);">
                           <i class="material-icons">chevron_left</i>
@@ -913,7 +913,7 @@
                           <li class="active"><a href="javascript:void(0);">Page <%=totalDataPaginationPageNo%> of
                                 <%=totalDataPaginationTotalPages%></a></li>
 
-                          <% if(dataPaginationNext==null){%>
+                          <% if(totalDataPaginationNext==null){%>
                             <li class="disabled">
                               <a href="javascript:void(0);">
                                 <i class="material-icons">chevron_right</i>
