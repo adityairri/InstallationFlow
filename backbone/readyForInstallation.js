@@ -59,10 +59,11 @@ module.exports = function () {
   });
   var dateUnassignedCount1;
   app.get(
-    "/readyForInstallation/:date/:pageNo/:searchByOrderID",
+    "/readyForInstallation/:date/:pageNo/:searchByOrderID/:AllPageNo",
     async function (req, res) {
       // console.log(req.params);
       var seDates;
+      var AllPageNo = req.params.AllPageNo;
       if (req.params.searchByOrderID == "0") {
         if (req.params.date == "0") {
           var page = req.params.pageNo;
@@ -227,6 +228,7 @@ module.exports = function () {
         });
         await getAllStatusCount();
         await getAllStatusCount();
+        await getAllReadyForInstallationOrders(AllPageNo);
 
         res.render("readyForInstallation", {
           data1: daata,
@@ -236,6 +238,13 @@ module.exports = function () {
           dataPaginationPrevious: data.links.previous,
           dataPaginationPageNo: data.page.page,
           dataPaginationTotalPages: data.page.pages,
+
+          totalReadyForInstallationOrdersList:
+            allReadyForInstallationOrdersData,
+          totalDataPaginationNext: totalLinks.next,
+          totalDataPaginationPrevious: totalLinks.previous,
+          totalDataPaginationPageNo: totalPage.page,
+          totalDataPaginationTotalPages: totalPage.pages,
 
           newOrdersCount: newOrdersCount,
           reconfirmOrdersCount: FarmerDateConfirm,
@@ -254,6 +263,9 @@ module.exports = function () {
           installationPartialCompleteList: PartialCompleted,
           installationCompletedList: Completed,
         });
+        allReadyForInstallationOrdersData = [];
+        totalLinks = "";
+        totalPage = "";
       });
     }
   );
@@ -484,6 +496,126 @@ module.exports = function () {
         });
       } else {
         Completed = 0;
+      }
+    });
+  }
+
+  var allReadyForInstallationOrdersData = [];
+  var totalLinks;
+  var totalPage;
+  async function getAllReadyForInstallationOrders(req, res) {
+    var AllPageNo = req;
+    var reqBody = JSON.stringify({
+      filter: {
+        status: "FARMER_RECONFIRM",
+      },
+    });
+
+    // console.log(reqBody);
+    const resp = await fetch(
+      apiURL + "/getInstallationSchedule/?page=" + parseInt(AllPageNo) + "",
+      {
+        method: "post",
+        body: reqBody,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      }
+    );
+
+    await resp.json().then((data) => {
+      if (data.msg != "Invalid page.") {
+        data.results.forEach(async (singleInData) => {
+          var wooCommerseID = singleInData.order.woo_commerce_order_id;
+
+          new Promise(function (resolve, reject) {
+            fetch(apiURL + "/getremarksfororder/" + wooCommerseID + "", {
+              method: "get",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: token,
+              },
+            }).then((resp) => {
+              resp.json().then((dataa) => {
+                remarks = dataa;
+
+                var powermonInstalled = 0;
+                var powermonNotInstalled = 0;
+                var apfcInstalled = 0;
+                var apfcNotInstalled = 0;
+                var PowermonApfcInstalled = 0;
+                var PowermonApfcNotInstalled = 0;
+                singleInData.order.items.forEach((element) => {
+                  if (element.name == "Powermon 2.0") {
+                    if (element.isInstalled == true) {
+                      powermonInstalled = powermonInstalled + 1;
+                    }
+                    if (element.isInstalled == false) {
+                      powermonNotInstalled = powermonNotInstalled + 1;
+                    }
+                  } else if (
+                    element.name == "APFC - Automatic power factor Controller"
+                  ) {
+                    if (element.isInstalled == true) {
+                      apfcInstalled = apfcInstalled + 1;
+                    }
+                    if (element.isInstalled == false) {
+                      apfcNotInstalled = apfcNotInstalled + 1;
+                    }
+                  } else if (element.name == "Powermon 2.0 with APFC") {
+                    if (element.isInstalled == true) {
+                      PowermonApfcInstalled = PowermonApfcInstalled + 1;
+                    }
+                    if (element.isInstalled == false) {
+                      PowermonApfcNotInstalled = PowermonApfcNotInstalled + 1;
+                    }
+                  }
+                });
+
+                allReadyForInstallationOrdersData.push({
+                  remarks: remarks,
+                  data: singleInData,
+                  powermonItems:
+                    "Powermon - " +
+                    (powermonInstalled + powermonNotInstalled) +
+                    " - " +
+                    powermonInstalled,
+                  apfcItems:
+                    "APFC - " +
+                    (apfcInstalled + apfcNotInstalled) +
+                    " - " +
+                    apfcInstalled,
+                  powermonApfcItems:
+                    "Powermon(APFC) - " +
+                    (PowermonApfcInstalled + PowermonApfcNotInstalled) +
+                    " - " +
+                    PowermonApfcInstalled,
+                });
+                resolve();
+              });
+            });
+          });
+        });
+        totalLinks = {
+          next: data.links.next,
+          previous: data.links.previous,
+        };
+        totalPage = {
+          page: data.page.page,
+          pages: data.page.pages,
+          count: data.page.count,
+        };
+      } else if (data.msg == "Invalid page.") {
+        totalLinks = {
+          next: null,
+          previous: null,
+        };
+        totalPage = {
+          page: 1,
+          pages: 1,
+          count: 0,
+        };
       }
     });
   }

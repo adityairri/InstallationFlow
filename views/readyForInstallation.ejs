@@ -35,6 +35,15 @@
 
   <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
   <link href="css/themes/all-themes.css" rel="stylesheet" />
+
+  <script>
+    var pathArray = window.location.pathname.split('/');
+    console.log(pathArray);
+    var URLdate = pathArray[2];
+    var URLpage = pathArray[3];
+    var URLorderID = pathArray[4];
+    var URLallPage = pathArray[5];
+  </script>
 </head>
 
 <body class="theme-teal">
@@ -242,7 +251,7 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/readyForInstallation/0/1/0';">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/readyForInstallation/0/1/0/1';">
           <div class="info-box-4 hover-zoom-effect bg-teal">
             <div class="content">
               <div class="text"><b>Ready For Installation</b></div>
@@ -385,7 +394,7 @@
                         oninput="searchByOrderID()">
                     </div>
                     <div class="col-lg-2 col-md-2">
-                      <a href="/readyForInstallation/0/1/0" id="searchByOrderID">
+                      <a href="/readyForInstallation/0/1/0/1" id="searchByOrderID">
                         <button type="button" class="btn bg-teal waves-effect">
                           <i class="material-icons">search</i>
                         </button>
@@ -395,7 +404,7 @@
                       function searchByOrderID() {
                         var orderID = document.getElementById("orderID").value;
 
-                        var url = "/readyForInstallation/0/1/" + orderID;
+                        var url = "/readyForInstallation/0/1/" + orderID + "/" + URLallPage;
                         $("#searchByOrderID").attr("href", url);
                       }
                     </script>
@@ -408,7 +417,7 @@
                       <input type="date" class="form-control date" id="date" onchange="handler(event)">
                     </div>
                     <div class="col-lg-2 col-md-2">
-                      <a href="/readyForInstallation/0/1/0" id="dateFilter">
+                      <a href="/readyForInstallation/0/1/0/1" id="dateFilter">
                         <button type="button" class="btn bg-teal waves-effect">
                           <i class="material-icons">search</i>
                         </button>
@@ -417,7 +426,7 @@
                     <script>
                       function handler(e) {
                         var date = e.target.value;
-                        url = "/readyForInstallation/" + date + "/<%=dataPaginationPageNo%>/0";
+                        url = "/readyForInstallation/" + date + "/<%=dataPaginationPageNo%>/0/" + URLallPage;
                         $("#dateFilter").attr("href", url);
                         return true;
                       }
@@ -620,7 +629,8 @@
                       </li>
                       <%}else{%>
                         <li>
-                          <a href="/readyForInstallation/0/<%=dataPaginationPageNo-1%>/0">
+                          <a
+                            href="/readyForInstallation/0/<%=dataPaginationPageNo-1%>/0/<%=totalDataPaginationPageNo%>">
                             <i class="material-icons">chevron_left</i>
                           </a>
                         </li>
@@ -636,7 +646,8 @@
                             </li>
                             <%}else{%>
                               <li>
-                                <a href="/readyForInstallation/0/<%=dataPaginationPageNo-1%>/0">
+                                <a
+                                  href="/readyForInstallation/0/<%=dataPaginationPageNo-1%>/0/<%=totalDataPaginationPageNo%>">
                                   <i class="material-icons">chevron_right</i>
                                 </a>
                               </li>
@@ -669,7 +680,7 @@
 
 
       <!-- Hover Rows -->
-      <!-- <div class="row clearfix">
+      <div class="row clearfix">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
           <div class="card">
             <div class="header">
@@ -678,7 +689,7 @@
               </h2>
               <ul class="header-dropdown m-r--5">
 
-                <li class="dropdown">
+                <!-- <li class="dropdown">
                   <div class="row clearfix col-lg-12 col-md-12">
                     <div class="col-lg-10 col-md-10">
                       <input type="text" class="form-control" id="orderID" placeholder="Order ID"
@@ -700,9 +711,9 @@
                       }
                     </script>
                   </div>
-                </li>
+                </li> -->
 
-                <li class="dropdown">
+                <!-- <li class="dropdown">
                   <div class="row clearfix col-lg-12 col-md-12">
                     <div class="col-lg-10 col-md-10">
                       <input type="date" class="form-control date" id="date" onchange="handler(event)">
@@ -723,7 +734,7 @@
                       }
                     </script>
                   </div>
-                </li>
+                </li> -->
               </ul>
             </div>
             <div class="body table-responsive">
@@ -741,11 +752,11 @@
                     <th style="text-align: center;">REMARKS</th>
                     <th style="text-align: center;">ITEMS &nbsp;-&nbsp; ORD &nbsp;-&nbsp;
                       INST</th>
-                    <th style="text-align: center;">ACTION</th>
+                    <!-- <th style="text-align: center;">ACTION</th> -->
                   </tr>
                 </thead>
                 <tbody style="text-align: center;">
-                  <% data1.forEach(function(singleData){ %>
+                  <% totalReadyForInstallationOrdersList.forEach(function(singleData){ %>
                     <tr>
                       <td width="5%">
                         <%= singleData.data.order.woo_commerce_order_id %>
@@ -839,7 +850,7 @@
                                       <%= singleData.powermonApfcItems %></br>
                                         <%}%>
                       </td>
-                      <td>
+                      <!-- <td>
                         <select id="SElistSelect<%=singleData.data.id%>" onchange="selectedSE<%=singleData.data.id%>()">
                           <option value="">--SELECT EMPLOYEE--</option>
                           <% seList.forEach(function(SEdetails){ %>
@@ -878,7 +889,7 @@
                           </ul>
                         </div>
 
-                      </td>
+                      </td> -->
                     </tr>
                     <% }) %>
 
@@ -893,13 +904,14 @@
                       </li>
                       <%}else{%>
                         <li>
-                          <a href="/readyForInstallation/0/<%=dataPaginationPageNo-1%>/0">
+                          <a
+                            href="/readyForInstallation/0/<%=dataPaginationPageNo%>/0/<%=totalDataPaginationPageNo - 1%>">
                             <i class="material-icons">chevron_left</i>
                           </a>
                         </li>
                         <%}%>
-                          <li class="active"><a href="javascript:void(0);">Page <%=dataPaginationPageNo%> of
-                                <%=dataPaginationTotalPages%></a></li>
+                          <li class="active"><a href="javascript:void(0);">Page <%=totalDataPaginationPageNo%> of
+                                <%=totalDataPaginationTotalPages%></a></li>
 
                           <% if(dataPaginationNext==null){%>
                             <li class="disabled">
@@ -909,7 +921,8 @@
                             </li>
                             <%}else{%>
                               <li>
-                                <a href="/readyForInstallation/0/<%=dataPaginationPageNo-1%>/0">
+                                <a
+                                  href="/readyForInstallation/0/<%=dataPaginationPageNo%>/0/<%=totalDataPaginationPageNo + 1%>">
                                   <i class="material-icons">chevron_right</i>
                                 </a>
                               </li>
@@ -920,7 +933,7 @@
             </div>
           </div>
         </div>
-      </div> -->
+      </div>
       <!-- #END# Hover Rows -->
     </div>
   </section>
