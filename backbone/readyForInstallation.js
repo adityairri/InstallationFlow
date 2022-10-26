@@ -7,7 +7,7 @@ const apiURL = "http://app.aquaexchange.com/api";
 const token = "Token e50f000f342fe8453e714454abac13be07f18ac3";
 
 module.exports = function () {
-  app.get("/assignSE/:orderID/:SEid", async function (req, res) {
+  app.get("/assignSE/:orderID/:SEid/:date", async function (req, res) {
     var req = req.params;
     var reqBody = JSON.stringify({
       schedule: {
@@ -28,7 +28,7 @@ module.exports = function () {
 
     await resp.json().then((data) => {
       // console.log(data);
-      res.redirect("/readyForInstallation/0/1/0");
+      res.redirect("/readyForInstallation/" + req.date + "/1/0/1");
     });
     // console.log(reqBody);
   });
@@ -53,7 +53,7 @@ module.exports = function () {
 
     await resp.json().then((data) => {
       // console.log(data);
-      res.redirect("/readyForInstallation/0/1/0");
+      res.redirect("/readyForInstallation/0/1/0/1");
     });
     // console.log(reqBody);
   });

@@ -577,14 +577,14 @@
                         <script>
                           function selectedSE<%=singleData.data.id%> () {
                             var x = document.getElementById("SElistSelect<%=singleData.data.id%>").value;
-                            url = "/assignSE/<%=singleData.data.id%>/" + x;
+                            url = "/assignSE/<%=singleData.data.id%>/" + x + "/" + URLdate;
                             $("#assignSE<%=singleData.data.id%>").attr("href", url);
                             return true;
                           }
 
                           function selectedSE<%=singleData.data.id%> () {
                             var x = document.getElementById("SElistSelect<%=singleData.data.id%>").value;
-                            url = "/assignSE/<%=singleData.data.id%>/" + x;
+                            url = "/assignSE/<%=singleData.data.id%>/" + x + "/" + URLdate;
                             $("#assignSE<%=singleData.data.id%>").attr("href", url);
                             return true;
                           }
