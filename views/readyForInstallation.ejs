@@ -619,6 +619,31 @@
                     <% }) %>
 
                 </tbody>
+
+                <script>
+                  var table, rows, switching, i, x, y, shouldSwitch;
+                  table = document.getElementById("readyForInstallationTable");
+                  switching = true;
+                  while (switching) {
+                    switching = false;
+                    rows = table.rows;
+                    for (i = 1; i < (rows.length - 1); i++) {
+                      shouldSwitch = false;
+                      x = rows[i].getElementsByTagName("TD")[0];
+                      y = rows[i + 1].getElementsByTagName("TD")[0];
+                      if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                      }
+                    }
+                    if (shouldSwitch) {
+                      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                      switching = true;
+                    }
+                  }
+                </script>
+
+
                 <nav>
                   <ul class="pagination">
                     <% if(dataPaginationPrevious==null){%>
@@ -739,7 +764,7 @@
             </div>
             <div class="body table-responsive">
               <table class="table table-bordered table-striped table-hover js-basic-example dataTable"
-                id="readyForInstallationTable">
+                id="readyForInstallationTableAll">
                 <thead>
                   <tr>
                     <th style="text-align: center;">ORDER ID</th>
@@ -894,6 +919,30 @@
                     <% }) %>
 
                 </tbody>
+
+                <script>
+                  var table, rows, switching, i, x, y, shouldSwitch;
+                  table = document.getElementById("readyForInstallationTableAll");
+                  switching = true;
+                  while (switching) {
+                    switching = false;
+                    rows = table.rows;
+                    for (i = 1; i < (rows.length - 1); i++) {
+                      shouldSwitch = false;
+                      x = rows[i].getElementsByTagName("TD")[0];
+                      y = rows[i + 1].getElementsByTagName("TD")[0];
+                      if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                      }
+                    }
+                    if (shouldSwitch) {
+                      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                      switching = true;
+                    }
+                  }
+                </script>
+
                 <nav>
                   <ul class="pagination">
                     <% if(totalDataPaginationPrevious==null){%>
