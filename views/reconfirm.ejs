@@ -51,6 +51,9 @@
     var URLpage = pathArray[3];
     var URLorderID = pathArray[4];
     var URLallPage = pathArray[5];
+    var URLBDEName = pathArray[6];
+    var URLRegionName = pathArray[7];
+    var URLSEName = pathArray[8];
   </script>
 </head>
 
@@ -89,56 +92,170 @@
   <!-- Right Sidebar -->
   <aside id="rightsidebar" class="right-sidebar">
     <ul class="nav nav-tabs tab-nav-right" role="tablist">
-      <li role="presentation" class="active"><a href="#settings" data-toggle="tab">SETTINGS</a></li>
+      <li role="presentation" class="active"><a href="#settings" data-toggle="tab">FILTERS</a></li>
     </ul>
     <div class="tab-content">
       <div role="tabpanel" class="tab-pane fade in active in active" id="settings">
         <div class="demo-settings">
-          <p>ORDER SETTINGS</p>
+          <p>By Order ID</p>
           <ul class="setting-list">
             <li>
-              <span>Accepting Orders</span>
-              <div class="switch">
-                <label><input type="checkbox" checked><span class="lever"></span></label>
+              <div class="row clearfix col-lg-12 col-md-12">
+                <div class="col-lg-10 col-md-10">
+                  <input type="text" class="form-control" id="orderID" placeholder="Order ID"
+                    oninput="searchByOrderID()">
+                </div>
+                <div class="col-lg-2 col-md-2">
+                  <a href="/reconfirm/0/1/0/1/0/0/0" id="searchByOrderID">
+                    <button type="button" class="btn bg-teal waves-effect">
+                      <i class="material-icons">search</i>
+                    </button>
+                  </a>
+                </div>
+                <script>
+                  function searchByOrderID() {
+                    var orderID = document.getElementById("orderID").value;
+
+                    var url = "/reconfirm/0/1/" + orderID + "/1/0/0/0";
+                    $("#searchByOrderID").attr("href", url);
+                  }
+                </script>
               </div>
             </li>
-            <li>
-              <span>Auto Accept Orders</span>
-              <div class="switch">
-                <label><input type="checkbox"><span class="lever"></span></label>
-              </div>
-            </li>
-          </ul>
-          <!-- <p>SYSTEM SETTINGS</p>
+          </ul></br>
+
+
+          <p>Date Filter</p>
           <ul class="setting-list">
             <li>
-              <span>Notifications</span>
-              <div class="switch">
-                <label><input type="checkbox" checked><span class="lever"></span></label>
+              <div class="col-lg-12 col-md-12">
+                <input type="date" class="form-control date" id="date" onchange="handler(event)">
+              </div></br></br>
+              <div class="col-lg-12 col-md-12">
+                <a href="/reconfirm/0/1/0/1/0/0/0" id="dateFilter">
+                  <button type="button" class="btn btn-lg bg-teal waves-effect">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Filter by Date
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  </button>
+                </a>
               </div>
+              <script>
+                function handler(e) {
+                  var date = e.target.value;
+                  url = "/reconfirm/" + date + "/1/0/1/0/0/0";
+                  $("#dateFilter").attr("href", url);
+                  return true;
+                }
+              </script>
             </li>
-            <li>
-              <span>Auto Updates</span>
-              <div class="switch">
-                <label><input type="checkbox" checked><span class="lever"></span></label>
-              </div>
-            </li>
-          </ul> -->
-          <p>ACCOUNT SETTINGS</p>
+          </ul></br>
+
+
+          <p>By BDE</p>
           <ul class="setting-list">
             <li>
-              <span>Offline</span>
-              <div class="switch">
-                <label><input type="checkbox"><span class="lever"></span></label>
+              <div class="row clearfix col-lg-12 col-md-12">
+                <div class="col-sm-10">
+                  <select class="form-control show-tick" id="selectedBDE" onchange="selectedBDE()">
+                    <option value="">-- Select BDE--</option>
+                    <% BDElist.forEach(function(BDEdetails){ %>
+                      <option value="<%=BDEdetails.first_name%>">
+                        <%=BDEdetails.first_name%>
+                      </option>
+                      <%})%>
+                  </select>
+                </div>
+                <div class="col-sm-2">
+                  <a href="/reconfirm/0/1/0/1/0/0/0" id="BDEnameFilter">
+                    <button type="button" class="btn bg-teal waves-effect">
+                      <i class="material-icons">search</i>
+                    </button>
+                  </a>
+                </div>
               </div>
+              <script>
+                function selectedBDE() {
+                  var bdeName = document.getElementById("selectedBDE").value;
+
+                  var url = "/reconfirm/0/1/0/1/" + bdeName + "/0/0";
+                  $("#BDEnameFilter").attr("href", url);
+                }
+              </script>
             </li>
-            <!-- <li>
-              <span>Location Permission</span>
-              <div class="switch">
-                <label><input type="checkbox" checked><span class="lever"></span></label>
+          </ul></br>
+
+
+
+          <p>By Region</p>
+          <ul class="setting-list">
+            <li>
+              <div class="row clearfix col-lg-12 col-md-12">
+                <div class="col-sm-10">
+                  <select class="form-control show-tick" id="selectedRegion" onchange="selectedRegion()">
+                    <option value="">-- Select Region--</option>
+                    <% regionsList.forEach(function(regionDetails){ %>
+                      <option value="<%=regionDetails.name%>">
+                        <%=regionDetails.name%>
+                      </option>
+                      <%})%>
+                  </select>
+                </div>
+                <div class="col-sm-2">
+                  <a href="/reconfirm/0/1/0/1/0/0/0" id="RegionNameFilter">
+                    <button type="button" class="btn bg-teal waves-effect">
+                      <i class="material-icons">search</i>
+                    </button>
+                  </a>
+                </div>
               </div>
-            </li> -->
-          </ul>
+
+              <script>
+                function selectedRegion() {
+                  var regionName = document.getElementById("selectedRegion").value;
+
+                  var url = "/reconfirm/0/1/0/1/0/" + regionName + "/0";
+                  $("#RegionNameFilter").attr("href", url);
+                }
+              </script>
+            </li>
+          </ul></br>
+
+          <p>By Service Engineer</p>
+          <ul class="setting-list">
+            <li>
+              <div class="row clearfix col-lg-12 col-md-12">
+                <div class="col-sm-10">
+                  <select class="form-control show-tick" id="selectedSE" onchange="selectedSE()">
+                    <option value="">-- Select SE--</option>
+                    <% seList.forEach(function(SEdetails){ %>
+                      <option value="<%=SEdetails.id%>">
+                        <%=SEdetails.first_name%>
+                          <%=SEdetails.last_name%>
+                      </option>
+                      <%})%>
+                  </select>
+                </div>
+                <div class="col-sm-2">
+                  <a href="/reconfirm/0/1/0/1/0/0/0" id="SEnameFilter">
+                    <button type="button" class="btn bg-teal waves-effect">
+                      <i class="material-icons">search</i>
+                    </button>
+                  </a>
+                </div>
+              </div>
+              <script>
+                function selectedSE() {
+                  var seName = document.getElementById("selectedSE").value;
+
+                  var url = "/reconfirm/0/1/0/1/0/0/" + seName;
+                  $("#SEnameFilter").attr("href", url);
+                }
+              </script>
+            </li>
+          </ul></br>
+
+
+
         </div>
       </div>
     </div>
@@ -185,7 +302,7 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/reconfirm/0/1/0/1';">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/reconfirm/0/1/0/1/0/0/0';">
           <div class="info-box-4 hover-zoom-effect bg-teal">
             <div class="content">
               <div class="text"><b>Reconfirm</b></div>
@@ -328,57 +445,19 @@
           <div class="card">
             <div class="header">
               <h2>
-                Reconfirm Orders (<%=date.substring(0,10)%>) - <%=reconfirmOrdersCount%> Orders
+                <% if(date){%>
+                  Reconfirm Orders (<%=date.substring(0,10)%>) - <%=reconfirmOrdersCount%> Orders
+                      <%}else{%>
+                        Reconfirm Orders (All Orders) - <%=reconfirmOrdersCount%> Orders
+                          <%}%>
               </h2>
               <ul class="header-dropdown m-r--5">
+                <li><a href="/reconfirm/0/1/0/1/0/0/0"><i class="material-icons">refresh</i></a>
+                </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-                <li class="dropdown">
-                  <div class="row clearfix col-lg-12 col-md-12">
-                    <div class="col-lg-10 col-md-10">
-                      <input type="text" class="form-control" id="orderID" placeholder="Order ID"
-                        oninput="searchByOrderID()">
-                    </div>
-                    <div class="col-lg-2 col-md-2">
-                      <a href="/reconfirm/0/1/0/1" id="searchByOrderID">
-                        <button type="button" class="btn bg-teal waves-effect">
-                          <i class="material-icons">search</i>
-                        </button>
-                      </a>
-                    </div>
-                    <script>
-                      function searchByOrderID() {
-                        var orderID = document.getElementById("orderID").value;
+                <li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i
+                      class="material-icons">filter_list</i></a></li>
 
-                        var url = "/reconfirm/" + URLdate + "/" + URLpage + "/" + orderID + "/" + URLallPage;
-                        $("#searchByOrderID").attr("href", url);
-                      }
-                    </script>
-                  </div>
-                </li>
-
-
-                <li class="dropdown">
-                  <div class="row clearfix col-lg-12 col-md-12">
-                    <div class="col-lg-10 col-md-10">
-                      <input type="date" class="form-control date" id="date" onchange="handler(event)">
-                    </div>
-                    <div class="col-lg-2 col-md-2">
-                      <a href="reconfirm/0/1/0" id="dateFilter">
-                        <button type="button" class="btn bg-teal waves-effect">
-                          <i class="material-icons">search</i>
-                        </button>
-                      </a>
-                    </div>
-                    <script>
-                      function handler(e) {
-                        var date = e.target.value;
-                        url = "/reconfirm/" + date + "/1/0";
-                        $("#dateFilter").attr("href", url);
-                        return true;
-                      }
-                    </script>
-                  </div>
-                </li>
               </ul>
             </div>
             <div class="body table-responsive">
@@ -517,22 +596,27 @@
 
                       </td>
                       <td style="width: 10%;">
-                        <a href="/confirmFarmerReconfirmDate/<%=singleData.data.id%>"><button
+                        <a href="#" id="confirmFarmerReconfirmDate<%=singleData.data.id%>"><button
                             class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12">Confirm</button>
                         </a></br>
                         <a><button data-toggle="modal" data-target="#openFollowupModal<%=singleData.data.id%>"
                             class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12"> Confirm
                             Date</button>
                         </a>
-                        <a href="/farmerReschedule/<%=singleData.data.id%>"><button
+                        <a href="#" id="farmerReschedule<%=singleData.data.id%>"><button
                             class="btn bg-orange waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12">Reschedule</button>
                         </a>
                       </td>
                     </tr>
+                    <script>
+                      $(window).on("load", function () {
+                        url1 = "/confirmFarmerReconfirmDate/<%=singleData.data.id%>/" + URLdate + "/" + URLpage + "/" + URLorderID + "/" + URLallPage + "/" + URLBDEName + "/" + URLRegionName + "/" + URLSEName;
+                        $("#confirmFarmerReconfirmDate<%=singleData.data.id%>").attr("href", url1);
 
-
-
-
+                        var farmerRescheduleURL = "/farmerReschedule/<%=singleData.data.id%>/" + URLdate + "/" + URLpage + "/" + URLorderID + "/" + URLallPage + "/" + URLBDEName + "/" + URLRegionName + "/" + URLSEName;
+                        $("#farmerReschedule<%=singleData.data.id%>").attr("href", farmerRescheduleURL);
+                      });
+                    </script>
                     <div class="modal fade" id="openFollowupModal<%=singleData.data.id%>" tabindex="-1" role="dialog"
                       data-keyboard="false" data-backdrop="static">
                       <div class="modal-dialog" role="document">
@@ -558,12 +642,21 @@
                             </div>
                           </div>
 
+
+
+                          <div class="modal-footer">
+                            <a href="#" id="addBtn<%=singleData.data.id%>"><button id="followupBtn" type="button"
+                                class="btn btn-link waves-effect bg-teal">ASSIGN DATE</button></a>
+                            <button type="button" class="btn btn-link waves-effect bg-red"
+                              data-dismiss="modal">CLOSE</button>
+                          </div>
+
                           <script>
                             function handler<%=singleData.data.id%> (e) {
                               var selectedDate = document.getElementById("dateTime<%=singleData.data.id%>").value;
                               var selectedTimeframe = document.getElementById("timeframe<%=singleData.data.id%>").value;
 
-                              url = "/assignDateFromReconfirm/<%=singleData.data.id%>/" + selectedDate + "/" + selectedTimeframe;
+                              url = "/assignDateFromReconfirm/<%=singleData.data.id%>/" + selectedDate + "/" + selectedTimeframe + "/" + URLdate + "/" + URLpage + "/" + URLorderID + "/" + URLallPage + "/" + URLBDEName + "/" + URLRegionName + "/" + URLSEName;
                               $("#addBtn<%=singleData.data.id%>").attr("href", url);
 
                               return true;
@@ -574,20 +667,12 @@
                               var selectedDate = document.getElementById("dateTime<%=singleData.data.id%>").value;
                               var selectedTimeframe = document.getElementById("timeframe<%=singleData.data.id%>").value;
 
-                              url = "/assignDateFromReconfirm/<%=singleData.data.id%>/" + selectedDate + "/" + selectedTimeframe;
+                              url = "/assignDateFromReconfirm/<%=singleData.data.id%>/" + selectedDate + "/" + selectedTimeframe + "/" + URLdate + "/" + URLpage + "/" + URLorderID + "/" + URLallPage + "/" + URLBDEName + "/" + URLRegionName + "/" + URLSEName;
                               $("#addBtn<%=singleData.data.id%>").attr("href", url);
 
                               return true;
                             }
                           </script>
-
-
-                          <div class="modal-footer">
-                            <a href="#" id="addBtn<%=singleData.data.id%>"><button id="followupBtn" type="button"
-                                class="btn btn-link waves-effect bg-teal">ASSIGN DATE</button></a>
-                            <button type="button" class="btn btn-link waves-effect bg-red"
-                              data-dismiss="modal">CLOSE</button>
-                          </div>
                         </div>
                       </div>
                     </div>
@@ -633,7 +718,7 @@
                       </li>
                       <%}else{%>
                         <li>
-                          <a href="/reconfirm/0/<%=dataPaginationPageNo-1%>/0/<%=totalDataPaginationPageNo%>">
+                          <a href="/reconfirm/0/<%=dataPaginationPageNo-1%>/0/<%=totalDataPaginationPageNo%>/0/0/0">
                             <i class="material-icons">chevron_left</i>
                           </a>
                         </li>
@@ -649,7 +734,8 @@
                             </li>
                             <%}else{%>
                               <li>
-                                <a href="/reconfirm/0/<%=dataPaginationPageNo-1%>/0/<%=totalDataPaginationPageNo%>">
+                                <a
+                                  href="/reconfirm/0/<%=dataPaginationPageNo-1%>/0/<%=totalDataPaginationPageNo%>/0/0/0">
                                   <i class="material-icons">chevron_right</i>
                                 </a>
                               </li>
@@ -922,7 +1008,7 @@
                             </div>
                           </div>
 
-                          <script>
+                          <!-- <script>
                             function handler<%=singleData.data.id%> (e) {
                               var selectedDate = document.getElementById("dateTime<%=singleData.data.id%>").value;
                               var selectedTimeframe = document.getElementById("timeframe<%=singleData.data.id%>").value;
@@ -943,7 +1029,7 @@
 
                               return true;
                             }
-                          </script>
+                          </script> -->
 
 
                           <div class="modal-footer">
@@ -997,7 +1083,7 @@
                       </li>
                       <%}else{%>
                         <li>
-                          <a href="/reconfirm/0/<%=dataPaginationPageNo%>/0/<%=totalDataPaginationPageNo - 1%>">
+                          <a href="/reconfirm/0/<%=dataPaginationPageNo%>/0/<%=totalDataPaginationPageNo - 1%>/0/0/0">
                             <i class="material-icons">chevron_left</i>
                           </a>
                         </li>
@@ -1013,7 +1099,8 @@
                             </li>
                             <%}else{%>
                               <li>
-                                <a href="/reconfirm/0/<%=dataPaginationPageNo%>/0/<%=totalDataPaginationPageNo + 1%>">
+                                <a
+                                  href="/reconfirm/0/<%=dataPaginationPageNo%>/0/<%=totalDataPaginationPageNo + 1%>/0/0/0">
                                   <i class="material-icons">chevron_right</i>
                                 </a>
                               </li>

@@ -8,7 +8,7 @@ const token = "Token e50f000f342fe8453e714454abac13be07f18ac3";
 
 module.exports = function () {
   app.get(
-    "/assignDate/:orderID/:farmID/:date/:time/:remarks/:fromDate/:toDate/:pageNo",
+    "/assignDate/:orderID/:farmID/:date/:time/:remarks/:fromDate/:toDate/:pageNo/:urlBdeName/:searchByOrderID/:urlRegionName/:urlSEname",
     async function (req, res) {
       var req = req.params;
 
@@ -58,7 +58,20 @@ module.exports = function () {
       await resp.json().then((data) => {
         // console.log(data);
         res.redirect(
-          "/page/" + req.fromDate + "/" + req.toDate + "/" + req.pageNo + "/0"
+          "/page/" +
+            req.fromDate +
+            "/" +
+            req.toDate +
+            "/" +
+            req.pageNo +
+            "/" +
+            req.searchByOrderID +
+            "/" +
+            req.urlBdeName +
+            "/" +
+            req.urlRegionName +
+            "/" +
+            req.urlSEname
         );
       });
       // console.log(reqBody);
@@ -99,7 +112,7 @@ module.exports = function () {
   );
 
   app.get(
-    "/markAsComplete/:orderID/:SEName/:dateOfCompletion/:fromDate/:toDate/:pageNo/:farmID",
+    "/markAsComplete/:orderID/:SEName/:dateOfCompletion/:fromDate/:toDate/:pageNo/:farmID/:urlBdeName/:searchByOrderID/:urlRegionName/:urlSEname",
     async function (req, res) {
       var req = req.params;
       // console.log(req);
@@ -145,7 +158,20 @@ module.exports = function () {
       await resp.json().then((data) => {
         // console.log(data);
         res.redirect(
-          "/page/" + req.fromDate + "/" + req.toDate + "/" + req.pageNo + "/0"
+          "/page/" +
+            req.fromDate +
+            "/" +
+            req.toDate +
+            "/" +
+            req.pageNo +
+            "/" +
+            req.searchByOrderID +
+            "/" +
+            req.urlBdeName +
+            "/" +
+            req.urlRegionName +
+            "/" +
+            req.urlSEname
         );
       });
       // console.log(reqBody);
@@ -186,7 +212,7 @@ module.exports = function () {
   );
 
   app.get(
-    "/cancelOrder/:orderID/:fromDate/:toDate/:pageNo",
+    "/cancelOrder/:orderID/:fromDate/:toDate/:pageNo/:urlBdeName/:searchByOrderID/:urlRegionName/:urlSEname",
     async function (req, res) {
       var req = req.params;
       // console.log(req);
@@ -209,7 +235,20 @@ module.exports = function () {
       await resp.json().then((data) => {
         // console.log(data);
         res.redirect(
-          "/page/" + req.fromDate + "/" + req.toDate + "/" + req.pageNo + "/0"
+          "/page/" +
+            req.fromDate +
+            "/" +
+            req.toDate +
+            "/" +
+            req.pageNo +
+            "/" +
+            req.searchByOrderID +
+            "/" +
+            req.urlBdeName +
+            "/" +
+            req.urlRegionName +
+            "/" +
+            req.urlSEname
         );
       });
       // console.log(reqBody);
@@ -269,20 +308,35 @@ module.exports = function () {
   });
 
   app.get("/", async function (req, res) {
-    res.redirect("/page/0/0/1/0");
+    res.redirect("/page/0/0/1/0/0/0/0");
   });
 
   app.get(
-    "/page/:fromDate/:toDate/:pageNo/:searchByOrderID",
+    "/page/:fromDate/:toDate/:pageNo/:searchByOrderID/:bdeName/:regionName/:urlSEname",
     async function (req, res) {
-      if (req.params.searchByOrderID == 0) {
-        if (req.params.fromDate == 0 || req.params.toDate == 0) {
+      if (
+        req.params.searchByOrderID == 0 &&
+        req.params.fromDate == 0 &&
+        req.params.toDate == 0 &&
+        req.params.bdeName == 0 &&
+        req.params.regionName == 0 &&
+        req.params.urlSEname == 0
+      ) {
+        var reqBody = JSON.stringify({
+          filter: {
+            status: "NEW_ORDER",
+          },
+        });
+      } else {
+        if (req.params.searchByOrderID != 0) {
           var reqBody = JSON.stringify({
             filter: {
+              order_id: parseInt(req.params.searchByOrderID),
               status: "NEW_ORDER",
             },
           });
-        } else if (req.params.fromDate != null && req.params.toDate != null) {
+        }
+        if (req.params.fromDate != 0 && req.params.toDate != 0) {
           var reqBody = JSON.stringify({
             filter: {
               from_date: req.params.fromDate + " 00:00",
@@ -291,14 +345,75 @@ module.exports = function () {
             },
           });
         }
-      } else if (req.params.searchByOrderID != 0) {
-        var reqBody = JSON.stringify({
-          filter: {
-            order_id: parseInt(req.params.searchByOrderID),
-            status: "NEW_ORDER",
-          },
-        });
+        if (req.params.bdeName != 0) {
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "NEW_ORDER",
+              bde: req.params.bdeName,
+            },
+          });
+        }
+        if (req.params.regionName != 0) {
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "NEW_ORDER",
+              region: req.params.regionName,
+            },
+          });
+        }
+        if (req.params.urlSEname != 0) {
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "NEW_ORDER",
+              service_engineer: req.params.urlSEname,
+            },
+          });
+        }
       }
+
+      // if (req.params.searchByOrderID == 0) {
+      //   if (req.params.fromDate == 0 || req.params.toDate == 0) {
+      //     var reqBody = JSON.stringify({
+      //       filter: {
+      //         status: "NEW_ORDER",
+      //       },
+      //     });
+      //   } else if (req.params.fromDate != null && req.params.toDate != null) {
+      //     var reqBody = JSON.stringify({
+      //       filter: {
+      //         from_date: req.params.fromDate + " 00:00",
+      //         to_date: req.params.toDate + " 23:59",
+      //         status: "NEW_ORDER",
+      //       },
+      //     });
+      //   }
+      // } else if (req.params.searchByOrderID != 0) {
+      //   var reqBody = JSON.stringify({
+      //     filter: {
+      //       order_id: parseInt(req.params.searchByOrderID),
+      //       status: "NEW_ORDER",
+      //     },
+      //   });
+      // }
+      // if (req.params.bdeName != 0) {
+      //   if (req.params.fromDate == 0 || req.params.toDate == 0) {
+      //     var reqBody = JSON.stringify({
+      //       filter: {
+      //         status: "NEW_ORDER",
+      //         bde: req.params.bdeName,
+      //       },
+      //     });
+      //   } else if (req.params.fromDate != null && req.params.toDate != null) {
+      //     var reqBody = JSON.stringify({
+      //       filter: {
+      //         from_date: req.params.fromDate + " 00:00",
+      //         to_date: req.params.toDate + " 23:59",
+      //         status: "NEW_ORDER",
+      //         bde: req.params.bdeName,
+      //       },
+      //     });
+      //   }
+      // }
 
       const resp = await fetch(
         apiURL + "/getInstallationSchedule/?page=" + req.params.pageNo + "",
@@ -400,6 +515,8 @@ module.exports = function () {
           orderIDdetails = 0;
         }
         await getSEList();
+        await getBDEList();
+        await getRegionsList();
         await getAllStatusCount();
         await getAllStatusCount();
 
@@ -427,6 +544,9 @@ module.exports = function () {
           installationPendingList: SEAttended,
           installationPartialCompleteList: PartialCompleted,
           installationCompletedList: Completed,
+
+          BDElist: BDElist,
+          regionsList: regionsList,
         });
       });
     }
@@ -713,6 +833,40 @@ module.exports = function () {
     await resp.json().then((dataa) => {
       // console.log(dataa);
       SElist = dataa;
+    });
+  }
+
+  var BDElist;
+  async function getBDEList(req, res) {
+    const resp = await fetch(apiURL + "/general/bdes/", {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+    await resp.json().then((dataa) => {
+      // console.log(dataa);
+      BDElist = dataa;
+
+      console.log(BDElist);
+    });
+  }
+
+  var regionsList;
+  async function getRegionsList(req, res) {
+    const resp = await fetch(apiURL + "/general/regions/", {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+    await resp.json().then((dataa) => {
+      // console.log(dataa);
+      regionsList = dataa;
+
+      console.log(regionsList);
     });
   }
 };

@@ -7,13 +7,16 @@ const apiURL = "http://app.aquaexchange.com/api";
 const token = "Token e50f000f342fe8453e714454abac13be07f18ac3";
 
 module.exports = function () {
-  app.get("/assignSE/:orderID/:SEid/:date", async function (req, res) {
+  app.get("/assignSE/:orderID/:SEid/:date/:SEname", async function (req, res) {
+    // app.get("/assignSE/:orderID/:SEid/:date", async function (req, res) {
     var req = req.params;
+    var SEnameArray = req.SEname.split("-");
+    var SEname = SEnameArray[0];
     var reqBody = JSON.stringify({
       schedule: {
         id: parseInt(req.orderID),
         service_engineer: req.SEid,
-        remarks: "SE Assigned (Ready for Installation -> SE Pending)",
+        remarks: "SE Assigned (Ready for Installation -> SE Pending)" + SEname,
         schedulestatus: "ASSIGNED_SE",
       },
     });

@@ -7,56 +7,93 @@ const apiURL = "http://app.aquaexchange.com/api";
 const token = "Token e50f000f342fe8453e714454abac13be07f18ac3";
 
 module.exports = function () {
-  app.get("/confirmFarmerReconfirmDate/:orderId", async function (req, res) {
-    var req = req.params;
-    var reqBody = JSON.stringify({
-      schedule: {
-        id: parseInt(req.orderId),
-        remarks: "(Reconfirmed -> Ready for Installation)",
-        schedulestatus: "FARMER_RECONFIRM",
-      },
-    });
-    const resp = await fetch(apiURL + "/updateInstallationSchedule/", {
-      method: "post",
-      body: reqBody,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-    });
+  app.get(
+    "/confirmFarmerReconfirmDate/:orderId/:date/:pageNo/:searchByOrderID/:AllPageNo/:bdeName/:regionName/:urlSEname",
+    async function (req, res) {
+      var req = req.params;
+      var reqBody = JSON.stringify({
+        schedule: {
+          id: parseInt(req.orderId),
+          remarks: "(Reconfirmed -> Ready for Installation)",
+          schedulestatus: "FARMER_RECONFIRM",
+        },
+      });
+      const resp = await fetch(apiURL + "/updateInstallationSchedule/", {
+        method: "post",
+        body: reqBody,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      });
 
-    await resp.json().then((data) => {
-      // console.log(data);
-      res.redirect("/reconfirm/0/1/0/1");
-    });
-    // console.log(reqBody);
-  });
-
-  app.get("/farmerReschedule/:orderID", async function (req, res) {
-    var reqBody = JSON.stringify({
-      schedule: {
-        id: parseInt(req.params.orderID),
-        remarks: "(Reconfirmed -> Farmer Rescheduled)",
-        schedulestatus: "FARMER_FINAL_CANCEL",
-      },
-    });
-
-    const resp = await fetch(apiURL + "/updateInstallationSchedule/", {
-      method: "post",
-      body: reqBody,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-    });
-    resp.json().then(async (data) => {
-      // console.log(data);
-      res.redirect("/reconfirm/0/1/0/1");
-    });
-  });
+      await resp.json().then((data) => {
+        // console.log(data);
+        res.redirect(
+          "/reconfirm/" +
+            req.date +
+            "/" +
+            req.pageNo +
+            "/" +
+            req.searchByOrderID +
+            "/" +
+            req.AllPageNo +
+            "/" +
+            req.bdeName +
+            "/" +
+            req.regionName +
+            "/" +
+            req.urlSEname
+        );
+      });
+      // console.log(reqBody);
+    }
+  );
 
   app.get(
-    "/assignDateFromReconfirm/:orderID/:date/:time",
+    "/farmerReschedule/:orderID/:searchByDate/:pageNo/:searchByOrderID/:AllPageNo/:bdeName/:regionName/:urlSEname",
+    async function (req, res) {
+      var req = req.params;
+      var reqBody = JSON.stringify({
+        schedule: {
+          id: parseInt(req.orderID),
+          remarks: "(Reconfirmed -> Farmer Rescheduled)",
+          schedulestatus: "FARMER_FINAL_CANCEL",
+        },
+      });
+
+      const resp = await fetch(apiURL + "/updateInstallationSchedule/", {
+        method: "post",
+        body: reqBody,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      });
+      resp.json().then(async (data) => {
+        // console.log(data);
+        res.redirect(
+          "/reconfirm/" +
+            req.searchByDate +
+            "/" +
+            req.pageNo +
+            "/" +
+            req.searchByOrderID +
+            "/" +
+            req.AllPageNo +
+            "/" +
+            req.bdeName +
+            "/" +
+            req.regionName +
+            "/" +
+            req.urlSEname
+        );
+      });
+    }
+  );
+
+  app.get(
+    "/assignDateFromReconfirm/:orderID/:date/:time/:searchByDate/:pageNo/:searchByOrderID/:AllPageNo/:bdeName/:regionName/:urlSEname",
     async function (req, res) {
       var req = req.params;
       // console.log(req);
@@ -83,7 +120,22 @@ module.exports = function () {
 
       await resp.json().then((data) => {
         // console.log(data);
-        res.redirect("/reconfirm/0/1/0/1");
+        res.redirect(
+          "/reconfirm/" +
+            req.searchByDate +
+            "/" +
+            req.pageNo +
+            "/" +
+            req.searchByOrderID +
+            "/" +
+            req.AllPageNo +
+            "/" +
+            req.bdeName +
+            "/" +
+            req.regionName +
+            "/" +
+            req.urlSEname
+        );
       });
       // console.log(reqBody);
     }
@@ -210,10 +262,30 @@ module.exports = function () {
   }
 
   app.get(
-    "/reconfirm/:date/:pageNo/:searchByOrderID/:AllPageNo",
+    "/reconfirm/:date/:pageNo/:searchByOrderID/:AllPageNo/:bdeName/:regionName/:urlSEname",
     async function (req, res) {
-      if (req.params.searchByOrderID == "0") {
-        if (req.params.date == "0") {
+      if (
+        req.params.searchByOrderID == 0 &&
+        req.params.date == 0 &&
+        req.params.bdeName == 0 &&
+        req.params.regionName == 0 &&
+        req.params.urlSEname == 0
+      ) {
+        var page = req.params.pageNo;
+        var fromDate =
+          new Date(
+            +new Date().setHours(0, 0, 0, 0) + 86400000
+          ).toLocaleDateString("fr-CA") + " 00:00";
+        var toDate = fromDate;
+        var reqBody = JSON.stringify({
+          filter: {
+            status: "FARMER_DATE_CONFIRM",
+            from_date: fromDate,
+            to_date: toDate,
+          },
+        });
+      } else {
+        if (req.params.searchByOrderID != 0) {
           var page = req.params.pageNo;
           var fromDate =
             new Date(
@@ -222,15 +294,14 @@ module.exports = function () {
           var toDate = fromDate;
           var reqBody = JSON.stringify({
             filter: {
+              order_id: parseInt(req.params.searchByOrderID),
               status: "FARMER_DATE_CONFIRM",
-              from_date: fromDate,
-              to_date: toDate,
             },
           });
-        } else {
-          var req = req.params;
-          var page = req.pageNo;
-          var fromDate = req.date + " 00:00";
+        }
+        if (req.params.date != 0) {
+          var page = req.params.pageNo;
+          var fromDate = req.params.date + " 00:00";
           var toDate = fromDate;
           var reqBody = JSON.stringify({
             filter: {
@@ -240,20 +311,77 @@ module.exports = function () {
             },
           });
         }
-      } else {
-        var page = req.params.pageNo;
-        var fromDate =
-          new Date(
-            +new Date().setHours(0, 0, 0, 0) + 86400000
-          ).toLocaleDateString("fr-CA") + " 00:00";
-        var toDate = fromDate;
-        var reqBody = JSON.stringify({
-          filter: {
-            order_id: parseInt(req.params.searchByOrderID),
-            status: "FARMER_DATE_CONFIRM",
-          },
-        });
+        if (req.params.bdeName != 0) {
+          var page = req.params.pageNo;
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "FARMER_DATE_CONFIRM",
+              bde: req.params.bdeName,
+            },
+          });
+        }
+        if (req.params.regionName != 0) {
+          var page = req.params.pageNo;
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "FARMER_DATE_CONFIRM",
+              region: req.params.regionName,
+            },
+          });
+        }
+        if (req.params.urlSEname != 0) {
+          var page = req.params.pageNo;
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "FARMER_DATE_CONFIRM",
+              service_engineer: req.params.urlSEname,
+            },
+          });
+        }
       }
+
+      // if (req.params.searchByOrderID == "0") {
+      //   if (req.params.date == "0") {
+      //     var page = req.params.pageNo;
+      //     var fromDate =
+      //       new Date(
+      //         +new Date().setHours(0, 0, 0, 0) + 86400000
+      //       ).toLocaleDateString("fr-CA") + " 00:00";
+      //     var toDate = fromDate;
+      //     var reqBody = JSON.stringify({
+      //       filter: {
+      //         status: "FARMER_DATE_CONFIRM",
+      //         from_date: fromDate,
+      //         to_date: toDate,
+      //       },
+      //     });
+      //   } else {
+      //     var req = req.params;
+      //     var page = req.pageNo;
+      //     var fromDate = req.date + " 00:00";
+      //     var toDate = fromDate;
+      //     var reqBody = JSON.stringify({
+      //       filter: {
+      //         status: "FARMER_DATE_CONFIRM",
+      //         from_date: fromDate,
+      //         to_date: toDate,
+      //       },
+      //     });
+      //   }
+      // } else {
+      //   var page = req.params.pageNo;
+      //   var fromDate =
+      //     new Date(
+      //       +new Date().setHours(0, 0, 0, 0) + 86400000
+      //     ).toLocaleDateString("fr-CA") + " 00:00";
+      //   var toDate = fromDate;
+      //   var reqBody = JSON.stringify({
+      //     filter: {
+      //       order_id: parseInt(req.params.searchByOrderID),
+      //       status: "FARMER_DATE_CONFIRM",
+      //     },
+      //   });
+      // }
 
       const resp = await fetch(
         apiURL + "/getInstallationSchedule/?page=" + parseInt(page) + "",
@@ -352,6 +480,9 @@ module.exports = function () {
           };
         }
         await getAllStatusCount();
+        await getSEList();
+        await getBDEList();
+        await getRegionsList();
         await getAllStatusCount();
         await getAllReconfirmOrders(req.params.AllPageNo);
         res.render("reconfirm", {
@@ -384,6 +515,10 @@ module.exports = function () {
           installationPendingList: SEAttended,
           installationPartialCompleteList: PartialCompleted,
           installationCompletedList: Completed,
+
+          BDElist: BDElist,
+          regionsList: regionsList,
+          seList: SElist,
         });
         allReconfirmOrdersData = [];
         totalLinks = "";
@@ -640,4 +775,53 @@ module.exports = function () {
   //     remarks = dataa;
   //   });
   // }
+
+  var BDElist;
+  async function getBDEList(req, res) {
+    const resp = await fetch(apiURL + "/general/bdes/", {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+    await resp.json().then((dataa) => {
+      // console.log(dataa);
+      BDElist = dataa;
+
+      console.log(BDElist);
+    });
+  }
+
+  var regionsList;
+  async function getRegionsList(req, res) {
+    const resp = await fetch(apiURL + "/general/regions/", {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+    await resp.json().then((dataa) => {
+      // console.log(dataa);
+      regionsList = dataa;
+
+      console.log(regionsList);
+    });
+  }
+
+  var SElist;
+  async function getSEList(req, res) {
+    const resp = await fetch(apiURL + "/general/serviceengineers/", {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+    await resp.json().then((dataa) => {
+      // console.log(dataa);
+      SElist = dataa;
+    });
+  }
 };

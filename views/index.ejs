@@ -37,6 +37,7 @@
   <link href="css/themes/all-themes.css" rel="stylesheet" />
   <script>
     var pathArray = window.location.pathname.split('/');
+    console.log(pathArray);
     if (pathArray[2] == undefined) {
       var fromDate = 0;
     } else if (pathArray[2] != undefined) {
@@ -51,6 +52,26 @@
       var pageNo = 1;
     } else if (pathArray[4] != undefined) {
       var pageNo = pathArray[4];
+    }
+    if (pathArray[5] == undefined) {
+      var orderID = 0;
+    } else if (pathArray[5] != undefined) {
+      var orderID = pathArray[5];
+    }
+    if (pathArray[6] == undefined) {
+      var urlBdeName = 0;
+    } else if (pathArray[6] != undefined) {
+      var urlBdeName = pathArray[6];
+    }
+    if (pathArray[7] == undefined) {
+      var urlRegionName = 0;
+    } else if (pathArray[7] != undefined) {
+      var urlRegionName = pathArray[7];
+    }
+    if (pathArray[8] == undefined) {
+      var urlSEname = 0;
+    } else if (pathArray[8] != undefined) {
+      var urlSEname = pathArray[8];
     }
 
   </script>
@@ -81,6 +102,8 @@
           </li>
           <li><a href="javascript:location.reload();"><i class="material-icons">refresh</i></a>
           </li>
+          <!-- <li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i
+                class="material-icons">filter_list</i></a></li> -->
           <!-- #END# Call Search -->
 
 
@@ -94,56 +117,201 @@
   <!-- Right Sidebar -->
   <aside id="rightsidebar" class="right-sidebar">
     <ul class="nav nav-tabs tab-nav-right" role="tablist">
-      <li role="presentation" class="active"><a href="#settings" data-toggle="tab">SETTINGS</a></li>
+      <li role="presentation" class="active"><a href="#settings" data-toggle="tab">FILTERS</a></li>
     </ul>
     <div class="tab-content">
       <div role="tabpanel" class="tab-pane fade in active in active" id="settings">
         <div class="demo-settings">
-          <p>ORDER SETTINGS</p>
+          <p>By Order ID</p>
           <ul class="setting-list">
             <li>
-              <span>Accepting Orders</span>
-              <div class="switch">
-                <label><input type="checkbox" checked><span class="lever"></span></label>
+              <div class="row clearfix col-lg-12 col-md-12">
+                <div class="col-lg-10 col-md-10">
+                  <input type="text" class="form-control" id="orderID" placeholder="Order ID"
+                    oninput="searchByOrderID()">
+                </div>
+                <div class="col-lg-2 col-md-2">
+                  <a href="/page/0/0/1/0/0/0/0" id="searchByOrderID">
+                    <button type="button" class="btn bg-teal waves-effect">
+                      <i class="material-icons">search</i>
+                    </button>
+                  </a>
+                </div>
+                <script>
+                  function searchByOrderID() {
+                    var orderID = document.getElementById("orderID").value;
+
+                    var url = "/page/0/0/1/" + orderID + "/0/0/0";
+                    $("#searchByOrderID").attr("href", url);
+                  }
+                </script>
               </div>
             </li>
-            <li>
-              <span>Auto Accept Orders</span>
-              <div class="switch">
-                <label><input type="checkbox"><span class="lever"></span></label>
-              </div>
-            </li>
-          </ul>
-          <!-- <p>SYSTEM SETTINGS</p>
+          </ul></br>
+
+
+          <p>Date Range</p>
           <ul class="setting-list">
             <li>
-              <span>Notifications</span>
-              <div class="switch">
-                <label><input type="checkbox" checked><span class="lever"></span></label>
+              <!-- <div class="row clearfix col-lg-12 col-md-12"> -->
+              <div class="col-lg-12 col-md-12">
+                <input type="date" class="form-control date" id="FromDate" onchange="handler()">
+              </div></br></br>
+              <div class="col-lg-12 col-md-12">
+                <input type="date" class="form-control date" id="ToDate" onchange="handler()">
+              </div></br></br>
+              <div class="col-lg-12 col-md-12">
+                <a href="/page/0/0/1/0/0/0/0" id="dateRangeFilter">
+                  <button type="button" class="btn btn-lg bg-teal waves-effect">
+                    <!-- <i class="material-icons">search</i> --> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Filter by Date
+                    Range&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  </button>
+                </a>
               </div>
+              <script>
+                function handler() {
+                  var fromDate = document.getElementById("FromDate").value;
+                  var toDate = document.getElementById("ToDate").value;
+                  var fromDateLocalStorage = fromDate;
+                  var toDateLocalStorage = toDate;
+
+                  var url = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/1/0/0/0/0";
+                  $("#dateRangeFilter").attr("href", url);
+
+
+                  var fromDateLocalStorage = fromDate;
+                  var toDateLocalStorage = toDate;
+
+                  url1 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo-1%>/" + orderID + "/" + urlBdeName + "/" + urlRegionName + "/" + urlSEname;
+                  $("#previosPageUrl").attr("href", url1);
+
+                  url2 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo+1%>/" + orderID + "/" + urlBdeName + "/" + urlRegionName + "/" + urlSEname;
+                  $("#nextPageUrl").attr("href", url2);
+
+                }
+
+
+                $(window).on("load", function () {
+                  var fromDateLocalStorage = fromDate;
+                  var toDateLocalStorage = toDate;
+
+                  url1 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo-1%>/" + orderID + "/" + urlBdeName + "/" + urlRegionName + "/" + urlSEname;
+                  $("#previosPageUrl").attr("href", url1);
+
+                  url2 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo+1%>/" + orderID + "/" + urlBdeName + "/" + urlRegionName + "/" + urlSEname;
+                  $("#nextPageUrl").attr("href", url2);
+                });
+              </script>
+              <!-- </div> -->
             </li>
-            <li>
-              <span>Auto Updates</span>
-              <div class="switch">
-                <label><input type="checkbox" checked><span class="lever"></span></label>
-              </div>
-            </li>
-          </ul> -->
-          <p>ACCOUNT SETTINGS</p>
+          </ul></br>
+
+
+          <p>By BDE</p>
           <ul class="setting-list">
             <li>
-              <span>Offline</span>
-              <div class="switch">
-                <label><input type="checkbox"><span class="lever"></span></label>
+              <div class="row clearfix col-lg-12 col-md-12">
+                <div class="col-sm-10">
+                  <select class="form-control show-tick" id="selectedBDE" onchange="selectedBDE()">
+                    <option value="">-- Select BDE--</option>
+                    <% BDElist.forEach(function(BDEdetails){ %>
+                      <option value="<%=BDEdetails.first_name%>">
+                        <%=BDEdetails.first_name%>
+                      </option>
+                      <%})%>
+                  </select>
+                </div>
+                <div class="col-sm-2">
+                  <a href="/page/0/0/1/0/0/0/0" id="BDEnameFilter">
+                    <button type="button" class="btn bg-teal waves-effect">
+                      <i class="material-icons">search</i>
+                    </button>
+                  </a>
+                </div>
               </div>
+              <script>
+                function selectedBDE() {
+                  var bdeName = document.getElementById("selectedBDE").value;
+
+                  var url = "/page/0/0/1/0/" + bdeName + "/0/0";
+                  $("#BDEnameFilter").attr("href", url);
+                }
+              </script>
             </li>
-            <!-- <li>
-              <span>Location Permission</span>
-              <div class="switch">
-                <label><input type="checkbox" checked><span class="lever"></span></label>
+          </ul></br>
+
+
+
+          <p>By Region</p>
+          <ul class="setting-list">
+            <li>
+              <div class="row clearfix col-lg-12 col-md-12">
+                <div class="col-sm-10">
+                  <select class="form-control show-tick" id="selectedRegion" onchange="selectedRegion()">
+                    <option value="">-- Select Region--</option>
+                    <% regionsList.forEach(function(regionDetails){ %>
+                      <option value="<%=regionDetails.name%>">
+                        <%=regionDetails.name%>
+                      </option>
+                      <%})%>
+                  </select>
+                </div>
+                <div class="col-sm-2">
+                  <a href="/page/0/0/1/0/0/0/0" id="RegionNnameFilter">
+                    <button type="button" class="btn bg-teal waves-effect">
+                      <i class="material-icons">search</i>
+                    </button>
+                  </a>
+                </div>
               </div>
-            </li> -->
-          </ul>
+
+              <script>
+                function selectedRegion() {
+                  var regionName = document.getElementById("selectedRegion").value;
+
+                  var url = "/page/0/0/1/0/0/" + regionName + "/0";
+                  $("#RegionNnameFilter").attr("href", url);
+                }
+              </script>
+            </li>
+          </ul></br>
+
+
+
+          <p>By Service Engineer</p>
+          <ul class="setting-list">
+            <li>
+              <div class="row clearfix col-lg-12 col-md-12">
+                <div class="col-sm-10">
+                  <select class="form-control show-tick" id="selectedSE" onchange="selectedSE()">
+                    <option value="">-- Select SE--</option>
+                    <% seList.forEach(function(SEdetails){ %>
+                      <option value="<%=SEdetails.id%>">
+                        <%=SEdetails.first_name%>
+                          <%=SEdetails.last_name%>
+                      </option>
+                      <%})%>
+                  </select>
+                </div>
+                <div class="col-sm-2">
+                  <a href="/page/0/0/1/0/0/0/0" id="SEnameFilter">
+                    <button type="button" class="btn bg-teal waves-effect">
+                      <i class="material-icons">search</i>
+                    </button>
+                  </a>
+                </div>
+              </div>
+              <script>
+                function selectedSE() {
+                  var seName = document.getElementById("selectedSE").value;
+
+                  var url = "/page/0/0/1/0/0/0/" + seName;
+                  $("#SEnameFilter").attr("href", url);
+                }
+              </script>
+            </li>
+          </ul></br>
+
         </div>
       </div>
     </div>
@@ -191,7 +359,7 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/reconfirm/0/1/0/1';">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/reconfirm/0/1/0/1/0/0/0';">
           <div class="info-box-4 hover-zoom-effect">
             <div class="content">
               <div class="text"><b>Reconfirm</b></div>
@@ -347,83 +515,11 @@
                 }           
               </script>
               <ul class="header-dropdown m-r--5">
+                <li><a href="/page/0/0/1/0/0/0/0"><i class="material-icons">refresh</i></a>
+                </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-                <li class="dropdown">
-                  <div class="row clearfix col-lg-12 col-md-12">
-                    <div class="col-lg-10 col-md-10">
-                      <input type="text" class="form-control" id="orderID" placeholder="Order ID"
-                        oninput="searchByOrderID()">
-                    </div>
-                    <div class="col-lg-2 col-md-2">
-                      <a href="/page/0/0/1/0" id="searchByOrderID">
-                        <button type="button" class="btn bg-teal waves-effect">
-                          <i class="material-icons">search</i>
-                        </button>
-                      </a>
-                    </div>
-                    <script>
-                      function searchByOrderID() {
-                        var orderID = document.getElementById("orderID").value;
-
-                        var url = "/page/0/0/1/" + orderID;
-                        $("#searchByOrderID").attr("href", url);
-                      }
-                    </script>
-                  </div>
-                </li>
-
-
-                <li class="dropdown">
-                  <div class="row clearfix col-lg-12 col-md-12">
-                    <div class="col-lg-5 col-md-5">
-                      <input type="date" class="form-control date" id="FromDate" onchange="handler()">
-                    </div>
-                    <div class="col-lg-5 col-md-5">
-                      <input type="date" class="form-control date" id="ToDate" onchange="handler()">
-                    </div>
-                    <div class="col-lg-2 col-md-2">
-                      <a href="/page/0/0/1/0" id="dateRangeFilter">
-                        <button type="button" class="btn bg-teal waves-effect">
-                          <i class="material-icons">search</i>
-                        </button>
-                      </a>
-                    </div>
-                    <script>
-                      function handler() {
-                        var fromDate = document.getElementById("FromDate").value;
-                        var toDate = document.getElementById("ToDate").value;
-                        var fromDateLocalStorage = fromDate;
-                        var toDateLocalStorage = toDate;
-
-                        var url = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/1/0";
-                        $("#dateRangeFilter").attr("href", url);
-
-
-                        var fromDateLocalStorage = fromDate;
-                        var toDateLocalStorage = toDate;
-
-                        url1 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo-1%>/0";
-                        $("#previosPageUrl").attr("href", url1);
-
-                        url2 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo+1%>/0";
-                        $("#nextPageUrl").attr("href", url2);
-
-                      }
-
-
-                      $(window).on("load", function () {
-                        var fromDateLocalStorage = fromDate;
-                        var toDateLocalStorage = toDate;
-
-                        url1 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo-1%>/0";
-                        $("#previosPageUrl").attr("href", url1);
-
-                        url2 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo+1%>/0";
-                        $("#nextPageUrl").attr("href", url2);
-                      });
-                    </script>
-                  </div>
-                </li>
+                <li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i
+                      class="material-icons">filter_list</i></a></li>
               </ul>
             </div>
             <style>
@@ -736,10 +832,10 @@
                             class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12"
                             id="addBtn<%=singleData.data.id%>1" disabled>Schedule Date</button>
                         </a></br>
-                        <a><button data-toggle="modal" data-target="#openMarkAsCompleteModal<%=singleData.data.id%>"
+                        <!-- <a><button data-toggle="modal" data-target="#openMarkAsCompleteModal<%=singleData.data.id%>"
                             class="btn bg-orange waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12"
                             id="addBtn<%=singleData.data.id%>1">Mark as Complete</button>
-                        </a></br>
+                        </a></br> -->
                         <a><button data-toggle="modal" data-target="#cancelOrderModal<%=singleData.data.id%>"
                             class="btn bg-red waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12"
                             id="addBtn<%=singleData.data.id%>1">Cancel Order</button>
@@ -807,7 +903,7 @@
                                 selectedFarmId = 0;
                               }
 
-                              url = "/markAsComplete/" + orderID + "/" + SEName + "/" + dateOfCompletion + "/" + fromDate2 + "/" + toDate2 + "/" + pageNo1 + "/" + selectedFarmId;
+                              url = "/markAsComplete/" + orderID + "/" + SEName + "/" + dateOfCompletion + "/" + fromDate2 + "/" + toDate2 + "/" + pageNo1 + "/" + selectedFarmId + "/" + urlBdeName + "/" + orderID + "/" + urlRegionName;
                               $("#confirmButtonWithDates<%=singleData.data.id%>").attr("href", url);
 
                               if (SEName != null && SEName != '' && SEName != undefined) {
@@ -861,7 +957,7 @@
                             var toDate3 = toDate;
                             var pageNo1 = pageNo;
 
-                            url = "/cancelOrder/" + orderID1 + "/" + fromDate3 + "/" + toDate3 + "/" + pageNo1;
+                            url = "/cancelOrder/" + orderID1 + "/" + fromDate3 + "/" + toDate3 + "/" + pageNo1 + "/" + urlBdeName + "/" + orderID + "/" + urlRegionName;
 
                             $("#cancelButtonWithDates<%=singleData.data.id%>").attr("href", url);
                           </script>
@@ -922,7 +1018,7 @@
                                 var toDate1 = toDate;
                                 var pageNo1 = pageNo;
 
-                                url = "/assignDate/<%=singleData.data.id%>/" + selectedFarmId + "/" + selectedDate + "/" + selectedTimeframe + "/" + remarks + "/" + fromDate1 + "/" + toDate1 + "/" + pageNo1;
+                                url = "/assignDate/<%=singleData.data.id%>/" + selectedFarmId + "/" + selectedDate + "/" + selectedTimeframe + "/" + remarks + "/" + fromDate1 + "/" + toDate1 + "/" + pageNo1 + "/" + urlBdeName + "/" + orderID + "/" + urlRegionName + "/" + urlSEname;
                                 $("#addBtn<%=singleData.data.id%>").attr("href", url);
                                 if (selectedDate != null && selectedDate != '' && selectedDate != undefined) {
                                   if (selectedTimeframe != null && selectedTimeframe != '' && selectedTimeframe != undefined) {
@@ -957,10 +1053,10 @@
                     var fromDateLocalStorage = fromDate;
                     var toDateLocalStorage = toDate;
 
-                    url1 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo-1%>/0";
+                    url1 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo-1%>/" + orderID + "/" + urlBdeName + "/" + urlRegionName + "/" + urlSEname;
                     $("#previosPageUrl").attr("href", url1);
 
-                    url2 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo+1%>/0";
+                    url2 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo+1%>/" + orderID + "/" + urlBdeName + "/" + urlRegionName + "/" + urlSEname;
                     $("#nextPageUrl").attr("href", url2);
                     return true;
                   }
