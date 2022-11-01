@@ -90,176 +90,177 @@
   </nav>
 
   <!-- Right Sidebar -->
-  <aside id="rightsidebar" class="right-sidebar">
-    <ul class="nav nav-tabs tab-nav-right" role="tablist">
-      <li role="presentation" class="active"><a href="#settings" data-toggle="tab">FILTERS</a></li>
-    </ul>
-    <div class="tab-content">
-      <div role="tabpanel" class="tab-pane fade in active in active" id="settings">
-        <div class="demo-settings">
-          <p>By Order ID</p>
-          <ul class="setting-list">
-            <li>
-              <div class="row clearfix col-lg-12 col-md-12">
-                <div class="col-lg-10 col-md-10">
-                  <input type="text" class="form-control" id="orderID" placeholder="Order ID"
-                    oninput="searchByOrderID()">
+  <section>
+    <aside id="rightsidebar" class="right-sidebar">
+      <ul class="nav nav-tabs tab-nav-right" role="tablist">
+        <li role="presentation" class="active"><a href="#settings" data-toggle="tab">FILTERS</a></li>
+      </ul>
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active in active" id="settings">
+          <div class="demo-settings">
+            <p>By Order ID</p>
+            <ul class="setting-list">
+              <li>
+                <div class="row clearfix col-lg-12 col-md-12">
+                  <div class="col-lg-10 col-md-10">
+                    <input type="text" class="form-control" id="orderID" placeholder="Order ID"
+                      oninput="searchByOrderID()">
+                  </div>
+                  <div class="col-lg-2 col-md-2">
+                    <a href="/reconfirm/0/1/0/1/0/0/0" id="searchByOrderID">
+                      <button type="button" class="btn bg-teal waves-effect">
+                        <i class="material-icons">search</i>
+                      </button>
+                    </a>
+                  </div>
+                  <script>
+                    function searchByOrderID() {
+                      var orderID = document.getElementById("orderID").value;
+
+                      var url = "/reconfirm/0/1/" + orderID + "/1/0/0/0";
+                      $("#searchByOrderID").attr("href", url);
+                    }
+                  </script>
                 </div>
-                <div class="col-lg-2 col-md-2">
-                  <a href="/reconfirm/0/1/0/1/0/0/0" id="searchByOrderID">
-                    <button type="button" class="btn bg-teal waves-effect">
-                      <i class="material-icons">search</i>
+              </li>
+            </ul></br>
+
+
+            <p>Date Filter</p>
+            <ul class="setting-list">
+              <li>
+                <div class="col-lg-12 col-md-12">
+                  <input type="date" class="form-control date" id="date" onchange="handler(event)">
+                </div></br></br>
+                <div class="col-lg-12 col-md-12">
+                  <a href="/reconfirm/0/1/0/1/0/0/0" id="dateFilter">
+                    <button type="button" class="btn btn-lg bg-teal waves-effect">
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Filter by Date
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     </button>
                   </a>
                 </div>
                 <script>
-                  function searchByOrderID() {
-                    var orderID = document.getElementById("orderID").value;
-
-                    var url = "/reconfirm/0/1/" + orderID + "/1/0/0/0";
-                    $("#searchByOrderID").attr("href", url);
+                  function handler(e) {
+                    var date = e.target.value;
+                    url = "/reconfirm/" + date + "/1/0/1/0/0/0";
+                    $("#dateFilter").attr("href", url);
+                    return true;
                   }
                 </script>
-              </div>
-            </li>
-          </ul></br>
+              </li>
+            </ul></br>
 
 
-          <p>Date Filter</p>
-          <ul class="setting-list">
-            <li>
-              <div class="col-lg-12 col-md-12">
-                <input type="date" class="form-control date" id="date" onchange="handler(event)">
-              </div></br></br>
-              <div class="col-lg-12 col-md-12">
-                <a href="/reconfirm/0/1/0/1/0/0/0" id="dateFilter">
-                  <button type="button" class="btn btn-lg bg-teal waves-effect">
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Filter by Date
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  </button>
-                </a>
-              </div>
-              <script>
-                function handler(e) {
-                  var date = e.target.value;
-                  url = "/reconfirm/" + date + "/1/0/1/0/0/0";
-                  $("#dateFilter").attr("href", url);
-                  return true;
-                }
-              </script>
-            </li>
-          </ul></br>
-
-
-          <p>By BDE</p>
-          <ul class="setting-list">
-            <li>
-              <div class="row clearfix col-lg-12 col-md-12">
-                <div class="col-sm-10">
-                  <select class="form-control show-tick" id="selectedBDE" onchange="selectedBDE()">
-                    <option value="">-- Select BDE--</option>
-                    <% BDElist.forEach(function(BDEdetails){ %>
-                      <option value="<%=BDEdetails.first_name%>">
-                        <%=BDEdetails.first_name%>
-                      </option>
-                      <%})%>
-                  </select>
+            <p>By BDE</p>
+            <ul class="setting-list">
+              <li>
+                <div class="row clearfix col-lg-12 col-md-12">
+                  <div class="col-sm-10">
+                    <select class="form-control show-tick" id="selectedBDE" onchange="selectedBDE()">
+                      <option value="">-- Select BDE--</option>
+                      <% BDElist.forEach(function(BDEdetails){ %>
+                        <option value="<%=BDEdetails.first_name%>">
+                          <%=BDEdetails.first_name%>
+                        </option>
+                        <%})%>
+                    </select>
+                  </div>
+                  <div class="col-sm-2">
+                    <a href="/reconfirm/0/1/0/1/0/0/0" id="BDEnameFilter">
+                      <button type="button" class="btn bg-teal waves-effect">
+                        <i class="material-icons">search</i>
+                      </button>
+                    </a>
+                  </div>
                 </div>
-                <div class="col-sm-2">
-                  <a href="/reconfirm/0/1/0/1/0/0/0" id="BDEnameFilter">
-                    <button type="button" class="btn bg-teal waves-effect">
-                      <i class="material-icons">search</i>
-                    </button>
-                  </a>
+                <script>
+                  function selectedBDE() {
+                    var bdeName = document.getElementById("selectedBDE").value;
+
+                    var url = "/reconfirm/0/1/0/1/" + bdeName + "/0/0";
+                    $("#BDEnameFilter").attr("href", url);
+                  }
+                </script>
+              </li>
+            </ul></br>
+
+
+
+            <p>By Region</p>
+            <ul class="setting-list">
+              <li>
+                <div class="row clearfix col-lg-12 col-md-12">
+                  <div class="col-sm-10">
+                    <select class="form-control show-tick" id="selectedRegion" onchange="selectedRegion()">
+                      <option value="">-- Select Region--</option>
+                      <% regionsList.forEach(function(regionDetails){ %>
+                        <option value="<%=regionDetails.name%>">
+                          <%=regionDetails.name%>
+                        </option>
+                        <%})%>
+                    </select>
+                  </div>
+                  <div class="col-sm-2">
+                    <a href="/reconfirm/0/1/0/1/0/0/0" id="RegionNameFilter">
+                      <button type="button" class="btn bg-teal waves-effect">
+                        <i class="material-icons">search</i>
+                      </button>
+                    </a>
+                  </div>
                 </div>
-              </div>
-              <script>
-                function selectedBDE() {
-                  var bdeName = document.getElementById("selectedBDE").value;
 
-                  var url = "/reconfirm/0/1/0/1/" + bdeName + "/0/0";
-                  $("#BDEnameFilter").attr("href", url);
-                }
-              </script>
-            </li>
-          </ul></br>
+                <script>
+                  function selectedRegion() {
+                    var regionName = document.getElementById("selectedRegion").value;
 
+                    var url = "/reconfirm/0/1/0/1/0/" + regionName + "/0";
+                    $("#RegionNameFilter").attr("href", url);
+                  }
+                </script>
+              </li>
+            </ul></br>
 
-
-          <p>By Region</p>
-          <ul class="setting-list">
-            <li>
-              <div class="row clearfix col-lg-12 col-md-12">
-                <div class="col-sm-10">
-                  <select class="form-control show-tick" id="selectedRegion" onchange="selectedRegion()">
-                    <option value="">-- Select Region--</option>
-                    <% regionsList.forEach(function(regionDetails){ %>
-                      <option value="<%=regionDetails.name%>">
-                        <%=regionDetails.name%>
-                      </option>
-                      <%})%>
-                  </select>
+            <p>By Service Engineer</p>
+            <ul class="setting-list">
+              <li>
+                <div class="row clearfix col-lg-12 col-md-12">
+                  <div class="col-sm-10">
+                    <select class="form-control show-tick" id="selectedSE" onchange="selectedSE()">
+                      <option value="">-- Select SE--</option>
+                      <% seList.forEach(function(SEdetails){ %>
+                        <option value="<%=SEdetails.id%>">
+                          <%=SEdetails.first_name%>
+                            <%=SEdetails.last_name%>
+                        </option>
+                        <%})%>
+                    </select>
+                  </div>
+                  <div class="col-sm-2">
+                    <a href="/reconfirm/0/1/0/1/0/0/0" id="SEnameFilter">
+                      <button type="button" class="btn bg-teal waves-effect">
+                        <i class="material-icons">search</i>
+                      </button>
+                    </a>
+                  </div>
                 </div>
-                <div class="col-sm-2">
-                  <a href="/reconfirm/0/1/0/1/0/0/0" id="RegionNameFilter">
-                    <button type="button" class="btn bg-teal waves-effect">
-                      <i class="material-icons">search</i>
-                    </button>
-                  </a>
-                </div>
-              </div>
+                <script>
+                  function selectedSE() {
+                    var seName = document.getElementById("selectedSE").value;
 
-              <script>
-                function selectedRegion() {
-                  var regionName = document.getElementById("selectedRegion").value;
-
-                  var url = "/reconfirm/0/1/0/1/0/" + regionName + "/0";
-                  $("#RegionNameFilter").attr("href", url);
-                }
-              </script>
-            </li>
-          </ul></br>
-
-          <p>By Service Engineer</p>
-          <ul class="setting-list">
-            <li>
-              <div class="row clearfix col-lg-12 col-md-12">
-                <div class="col-sm-10">
-                  <select class="form-control show-tick" id="selectedSE" onchange="selectedSE()">
-                    <option value="">-- Select SE--</option>
-                    <% seList.forEach(function(SEdetails){ %>
-                      <option value="<%=SEdetails.id%>">
-                        <%=SEdetails.first_name%>
-                          <%=SEdetails.last_name%>
-                      </option>
-                      <%})%>
-                  </select>
-                </div>
-                <div class="col-sm-2">
-                  <a href="/reconfirm/0/1/0/1/0/0/0" id="SEnameFilter">
-                    <button type="button" class="btn bg-teal waves-effect">
-                      <i class="material-icons">search</i>
-                    </button>
-                  </a>
-                </div>
-              </div>
-              <script>
-                function selectedSE() {
-                  var seName = document.getElementById("selectedSE").value;
-
-                  var url = "/reconfirm/0/1/0/1/0/0/" + seName;
-                  $("#SEnameFilter").attr("href", url);
-                }
-              </script>
-            </li>
-          </ul></br>
+                    var url = "/reconfirm/0/1/0/1/0/0/" + seName;
+                    $("#SEnameFilter").attr("href", url);
+                  }
+                </script>
+              </li>
+            </ul></br>
 
 
 
+          </div>
         </div>
       </div>
-    </div>
-  </aside>
+    </aside>
   </section>
   <!-- #END# Right Sidebar -->
 
@@ -312,7 +313,7 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/readyForInstallation/0/1/0/1';">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/readyForInstallation/0/1/0/1/0/0/0';">
           <div class="info-box-4 hover-zoom-effect">
             <div class="content">
               <div class="text"><b>Ready For Installation</b></div>

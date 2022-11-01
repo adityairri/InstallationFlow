@@ -7,96 +7,111 @@ const apiURL = "http://app.aquaexchange.com/api";
 const token = "Token e50f000f342fe8453e714454abac13be07f18ac3";
 
 module.exports = function () {
-  app.get("/assignSE/:orderID/:SEid/:date/:SEname", async function (req, res) {
-    // app.get("/assignSE/:orderID/:SEid/:date", async function (req, res) {
-    var req = req.params;
-    var SEnameArray = req.SEname.split("-");
-    var SEname = SEnameArray[0];
-    var reqBody = JSON.stringify({
-      schedule: {
-        id: parseInt(req.orderID),
-        service_engineer: req.SEid,
-        remarks: "SE Assigned (Ready for Installation -> SE Pending)" + SEname,
-        schedulestatus: "ASSIGNED_SE",
-      },
-    });
-    const resp = await fetch(apiURL + "/updateInstallationSchedule/", {
-      method: "post",
-      body: reqBody,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-    });
+  app.get(
+    "/assignSE/:orderID/:SEid/:date/:SEname/:searchByDate/:pageNo/:searchByOrderID/:AllPageNo/:bdeName/:regionName/:urlSEname",
+    async function (req, res) {
+      // app.get("/assignSE/:orderID/:SEid/:date", async function (req, res) {
+      var req = req.params;
+      var SEnameArray = req.SEname.split("-");
+      var SEname = SEnameArray[0];
+      var reqBody = JSON.stringify({
+        schedule: {
+          id: parseInt(req.orderID),
+          service_engineer: req.SEid,
+          remarks:
+            "SE Assigned (Ready for Installation -> SE Pending)" + SEname,
+          schedulestatus: "ASSIGNED_SE",
+        },
+      });
+      const resp = await fetch(apiURL + "/updateInstallationSchedule/", {
+        method: "post",
+        body: reqBody,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      });
 
-    await resp.json().then((data) => {
-      // console.log(data);
-      res.redirect("/readyForInstallation/" + req.date + "/1/0/1");
-    });
-    // console.log(reqBody);
-  });
+      await resp.json().then((data) => {
+        // console.log(data);
+        res.redirect(
+          "/readyForInstallation/" +
+            req.searchByDate +
+            "/" +
+            req.pageNo +
+            "/" +
+            req.searchByOrderID +
+            "/" +
+            req.AllPageNo +
+            "/" +
+            req.bdeName +
+            "/" +
+            req.regionName +
+            "/" +
+            req.urlSEname
+        );
+      });
+      // console.log(reqBody);
+    }
+  );
 
-  app.get("/reschedule/:orderID", async function (req, res) {
-    var req = req.params;
-    var reqBody = JSON.stringify({
-      schedule: {
-        id: parseInt(req.orderID),
-        remarks: "SM Rescheduled (Ready for Installation -> SM Rescheduled)",
-        schedulestatus: "SM_RESCHEDULE",
-      },
-    });
-    const resp = await fetch(apiURL + "/updateInstallationSchedule/", {
-      method: "post",
-      body: reqBody,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-    });
+  app.get(
+    "/reschedule/:orderID/:searchByDate/:pageNo/:searchByOrderID/:AllPageNo/:bdeName/:regionName/:urlSEname",
+    async function (req, res) {
+      var req = req.params;
+      var reqBody = JSON.stringify({
+        schedule: {
+          id: parseInt(req.orderID),
+          remarks: "SM Rescheduled (Ready for Installation -> SM Rescheduled)",
+          schedulestatus: "SM_RESCHEDULE",
+        },
+      });
+      const resp = await fetch(apiURL + "/updateInstallationSchedule/", {
+        method: "post",
+        body: reqBody,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      });
 
-    await resp.json().then((data) => {
-      // console.log(data);
-      res.redirect("/readyForInstallation/0/1/0/1");
-    });
-    // console.log(reqBody);
-  });
+      await resp.json().then((data) => {
+        // console.log(data);
+        res.redirect(
+          "/readyForInstallation/" +
+            req.searchByDate +
+            "/" +
+            req.pageNo +
+            "/" +
+            req.searchByOrderID +
+            "/" +
+            req.AllPageNo +
+            "/" +
+            req.bdeName +
+            "/" +
+            req.regionName +
+            "/" +
+            req.urlSEname
+        );
+      });
+      // console.log(reqBody);
+    }
+  );
   var dateUnassignedCount1;
   app.get(
-    "/readyForInstallation/:date/:pageNo/:searchByOrderID/:AllPageNo",
+    "/readyForInstallation/:date/:pageNo/:searchByOrderID/:AllPageNo/:bdeName/:regionName/:urlSEname",
     async function (req, res) {
       // console.log(req.params);
       var seDates;
       var AllPageNo = req.params.AllPageNo;
-      if (req.params.searchByOrderID == "0") {
-        if (req.params.date == "0") {
-          var page = req.params.pageNo;
-          var fromDate = new Date(
-            +new Date().setHours(0, 0, 0, 0) + 86400000
-          ).toLocaleDateString("fr-CA");
-          var toDate = fromDate;
-          seDates = fromDate;
-          var reqBody = JSON.stringify({
-            filter: {
-              status: "FARMER_RECONFIRM",
-              from_date: fromDate,
-              to_date: toDate,
-            },
-          });
-        } else {
-          var req = req.params;
-          var page = req.pageNo;
-          var fromDate = req.date + " 00:00";
-          var toDate = fromDate;
-          seDates = req.date;
-          var reqBody = JSON.stringify({
-            filter: {
-              status: "FARMER_RECONFIRM",
-              from_date: fromDate,
-              to_date: toDate,
-            },
-          });
-        }
-      } else {
+
+      if (
+        req.params.searchByOrderID == 0 &&
+        req.params.date == 0 &&
+        req.params.bdeName == 0 &&
+        req.params.regionName == 0 &&
+        req.params.urlSEname == 0
+      ) {
         var page = req.params.pageNo;
         var fromDate =
           new Date(
@@ -105,11 +120,110 @@ module.exports = function () {
         var toDate = fromDate;
         var reqBody = JSON.stringify({
           filter: {
-            order_id: parseInt(req.params.searchByOrderID),
             status: "FARMER_RECONFIRM",
+            from_date: fromDate,
+            to_date: toDate,
           },
         });
+      } else {
+        if (req.params.searchByOrderID != 0) {
+          var page = req.params.pageNo;
+          var fromDate =
+            new Date(
+              +new Date().setHours(0, 0, 0, 0) + 86400000
+            ).toLocaleDateString("fr-CA") + " 00:00";
+          var toDate = fromDate;
+          var reqBody = JSON.stringify({
+            filter: {
+              order_id: parseInt(req.params.searchByOrderID),
+              status: "FARMER_RECONFIRM",
+            },
+          });
+        }
+        if (req.params.date != 0) {
+          var page = req.params.pageNo;
+          var fromDate = req.params.date + " 00:00";
+          var toDate = fromDate;
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "FARMER_RECONFIRM",
+              from_date: fromDate,
+              to_date: toDate,
+            },
+          });
+        }
+        if (req.params.bdeName != 0) {
+          var page = req.params.pageNo;
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "FARMER_RECONFIRM",
+              bde: req.params.bdeName,
+            },
+          });
+        }
+        if (req.params.regionName != 0) {
+          var page = req.params.pageNo;
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "FARMER_RECONFIRM",
+              region: req.params.regionName,
+            },
+          });
+        }
+        if (req.params.urlSEname != 0) {
+          var page = req.params.pageNo;
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "FARMER_RECONFIRM",
+              service_engineer: req.params.urlSEname,
+            },
+          });
+        }
       }
+
+      // if (req.params.searchByOrderID == "0") {
+      //   if (req.params.date == "0") {
+      //     var page = req.params.pageNo;
+      //     var fromDate = new Date(
+      //       +new Date().setHours(0, 0, 0, 0) + 86400000
+      //     ).toLocaleDateString("fr-CA");
+      //     var toDate = fromDate;
+      //     seDates = fromDate;
+      //     var reqBody = JSON.stringify({
+      //       filter: {
+      //         status: "FARMER_RECONFIRM",
+      //         from_date: fromDate,
+      //         to_date: toDate,
+      //       },
+      //     });
+      //   } else {
+      //     var req = req.params;
+      //     var page = req.pageNo;
+      //     var fromDate = req.date + " 00:00";
+      //     var toDate = fromDate;
+      //     seDates = req.date;
+      //     var reqBody = JSON.stringify({
+      //       filter: {
+      //         status: "FARMER_RECONFIRM",
+      //         from_date: fromDate,
+      //         to_date: toDate,
+      //       },
+      //     });
+      //   }
+      // } else {
+      //   var page = req.params.pageNo;
+      //   var fromDate =
+      //     new Date(
+      //       +new Date().setHours(0, 0, 0, 0) + 86400000
+      //     ).toLocaleDateString("fr-CA") + " 00:00";
+      //   var toDate = fromDate;
+      //   var reqBody = JSON.stringify({
+      //     filter: {
+      //       order_id: parseInt(req.params.searchByOrderID),
+      //       status: "FARMER_RECONFIRM",
+      //     },
+      //   });
+      // }
       const resp = await fetch(
         apiURL + "/getInstallationSchedule/?page=" + parseInt(page) + "",
         {
@@ -231,6 +345,9 @@ module.exports = function () {
         });
         await getAllStatusCount();
         await getAllStatusCount();
+        await getSEList();
+        await getBDEList();
+        await getRegionsList();
         await getAllReadyForInstallationOrders(AllPageNo);
 
         res.render("readyForInstallation", {
@@ -265,6 +382,10 @@ module.exports = function () {
           installationPendingList: SEAttended,
           installationPartialCompleteList: PartialCompleted,
           installationCompletedList: Completed,
+
+          BDElist: BDElist,
+          regionsList: regionsList,
+          SEList: SElist,
         });
         allReadyForInstallationOrdersData = [];
         totalLinks = "";
@@ -666,29 +787,40 @@ module.exports = function () {
         SEassignedCount = [];
       });
   }
-  // var assignedToSECount1;
-  // async function getAssignedToSECount(req, res) {
-  //   var reqBody = JSON.stringify({
-  //     filter: {
-  //       status: "ASSIGNED_SE",
-  //     },
-  //   });
-  //   const resp = await fetch(
-  //     apiURL+"/getInstallationSchedule/",
-  //     {
-  //       method: "post",
-  //       body: reqBody,
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         "Authorization": token,
-  //       },
-  //     }
-  //   );
-  //   await resp.json().then((dataa) => {
-  //     console.log(dataa);
-  //     assignedToSECount1 = dataa;
-  //   });
-  // }
+
+  var BDElist;
+  async function getBDEList(req, res) {
+    const resp = await fetch(apiURL + "/general/bdes/", {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+    await resp.json().then((dataa) => {
+      // console.log(dataa);
+      BDElist = dataa;
+
+      console.log(BDElist);
+    });
+  }
+
+  var regionsList;
+  async function getRegionsList(req, res) {
+    const resp = await fetch(apiURL + "/general/regions/", {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+    await resp.json().then((dataa) => {
+      // console.log(dataa);
+      regionsList = dataa;
+
+      console.log(regionsList);
+    });
+  }
 
   var remarks = [];
   // async function getRemarksList(req, res) {
