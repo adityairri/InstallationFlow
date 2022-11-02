@@ -3,6 +3,7 @@ var ejs = require("ejs");
 var http = require("http");
 var axios = require("axios");
 var fetch = require("cross-fetch");
+var Parser = require("json2csv");
 const apiURL = "http://app.aquaexchange.com/api";
 const token = "Token e50f000f342fe8453e714454abac13be07f18ac3";
 
@@ -869,4 +870,104 @@ module.exports = function () {
       console.log(regionsList);
     });
   }
+
+  app.get(
+    "/openOrdersExport/:fromDate/:toDate/:pageNo/:searchByOrderID/:bdeName/:regionName/:urlSEname",
+    async function (req, res) {
+      if (
+        req.params.searchByOrderID == 0 &&
+        req.params.fromDate == 0 &&
+        req.params.toDate == 0 &&
+        req.params.bdeName == 0 &&
+        req.params.regionName == 0 &&
+        req.params.urlSEname == 0
+      ) {
+        var reqBody = JSON.stringify({
+          filter: {
+            status: "NEW_ORDER",
+          },
+        });
+      } else {
+        if (req.params.searchByOrderID != 0) {
+          var reqBody = JSON.stringify({
+            filter: {
+              order_id: parseInt(req.params.searchByOrderID),
+              status: "NEW_ORDER",
+            },
+          });
+        }
+        if (req.params.fromDate != 0 && req.params.toDate != 0) {
+          var reqBody = JSON.stringify({
+            filter: {
+              from_date: req.params.fromDate + " 00:00",
+              to_date: req.params.toDate + " 23:59",
+              status: "NEW_ORDER",
+            },
+          });
+        }
+        if (req.params.bdeName != 0) {
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "NEW_ORDER",
+              bde: req.params.bdeName,
+            },
+          });
+        }
+        if (req.params.regionName != 0) {
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "NEW_ORDER",
+              region: req.params.regionName,
+            },
+          });
+        }
+        if (req.params.urlSEname != 0) {
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "NEW_ORDER",
+              service_engineer: req.params.urlSEname,
+            },
+          });
+        }
+      }
+
+      const resp = await fetch(
+        apiURL + "/getInstallationSchedule/?export=csv",
+        {
+          method: "post",
+          body: reqBody,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        }
+      );
+      resp
+        .text()
+        .then((data) => {
+          res.header("Content-Type", "text/csv");
+          res.attachment("OpenOrders.csv");
+          res.send(data);
+          res.redirect(
+            "/page/" +
+              req.params.fromDate +
+              "/" +
+              req.params.toDate +
+              "/" +
+              req.params.pageNo +
+              "/" +
+              req.params.searchByOrderID +
+              "/" +
+              req.params.bdeName +
+              "/" +
+              req.params.regionName +
+              "/" +
+              req.params.urlSEname
+          );
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  );
 };
