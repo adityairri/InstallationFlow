@@ -313,7 +313,8 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" onclick="window.location='/readyForInstallation/0/1/0/1/0/0/0';">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"
+          onclick="window.location='/readyForInstallation/0/1/0/1/0/0/0';">
           <div class="info-box-4 hover-zoom-effect">
             <div class="content">
               <div class="text"><b>Ready For Installation</b></div>
@@ -453,6 +454,15 @@
                           <%}%>
               </h2>
               <ul class="header-dropdown m-r--5">
+                <li><a href="/reconfirmOrdersExport/0/1/0/1/0/0/0" id="exportReconfirmOrders"><i
+                      class="material-icons">file_download</i></a>
+                </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <script>
+                  $(window).on("load", function () {
+                    exportURL = "/reconfirmOrdersExport/" + URLdate + "/" + URLpage + "/" + URLorderID + "/" + URLallPage + "/" + URLBDEName + "/" + URLRegionName + "/" + URLSEName;
+                    $("#exportReconfirmOrders").attr("href", exportURL);
+                  });
+                </script>
                 <li><a href="/reconfirm/0/1/0/1/0/0/0"><i class="material-icons">refresh</i></a>
                 </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 

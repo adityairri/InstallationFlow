@@ -824,4 +824,113 @@ module.exports = function () {
       SElist = dataa;
     });
   }
+
+  app.get(
+    "/reconfirmOrdersExport/:date/:pageNo/:searchByOrderID/:AllPageNo/:bdeName/:regionName/:urlSEname",
+    async function (req, res) {
+      if (
+        req.params.searchByOrderID == 0 &&
+        req.params.date == 0 &&
+        req.params.bdeName == 0 &&
+        req.params.regionName == 0 &&
+        req.params.urlSEname == 0
+      ) {
+        var fileName = "";
+        var page = req.params.pageNo;
+        var fromDate =
+          new Date(
+            +new Date().setHours(0, 0, 0, 0) + 86400000
+          ).toLocaleDateString("fr-CA") + " 00:00";
+        var toDate = fromDate;
+        var reqBody = JSON.stringify({
+          filter: {
+            status: "FARMER_DATE_CONFIRM",
+            from_date: fromDate,
+            to_date: toDate,
+          },
+        });
+      } else {
+        if (req.params.searchByOrderID != 0) {
+          var fileName = "(Order ID - " + req.params.searchByOrderID + ")";
+          var page = req.params.pageNo;
+          var fromDate =
+            new Date(
+              +new Date().setHours(0, 0, 0, 0) + 86400000
+            ).toLocaleDateString("fr-CA") + " 00:00";
+          var toDate = fromDate;
+          var reqBody = JSON.stringify({
+            filter: {
+              order_id: parseInt(req.params.searchByOrderID),
+              status: "FARMER_DATE_CONFIRM",
+            },
+          });
+        }
+        if (req.params.date != 0) {
+          var fileName = "(Date - " + req.params.date + ")";
+          var page = req.params.pageNo;
+          var fromDate = req.params.date + " 00:00";
+          var toDate = fromDate;
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "FARMER_DATE_CONFIRM",
+              from_date: fromDate,
+              to_date: toDate,
+            },
+          });
+        }
+        if (req.params.bdeName != 0) {
+          var fileName = "(BDE - " + req.params.bdeName + ")";
+          var page = req.params.pageNo;
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "FARMER_DATE_CONFIRM",
+              bde: req.params.bdeName,
+            },
+          });
+        }
+        if (req.params.regionName != 0) {
+          var fileName = "(Region - " + req.params.regionName + ")";
+          var page = req.params.pageNo;
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "FARMER_DATE_CONFIRM",
+              region: req.params.regionName,
+            },
+          });
+        }
+        if (req.params.urlSEname != 0) {
+          var fileName = "(SE - " + req.params.urlSEname + ")";
+          var page = req.params.pageNo;
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "FARMER_DATE_CONFIRM",
+              service_engineer: req.params.urlSEname,
+            },
+          });
+        }
+      }
+
+      const resp = await fetch(
+        apiURL + "/getInstallationSchedule/?export=csv",
+        {
+          method: "post",
+          body: reqBody,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        }
+      );
+      resp
+        .text()
+        .then((data) => {
+          res.header("Content-Type", "text/csv");
+          res.attachment("ReconfirmOrders " + fileName + ".csv");
+          res.send(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  );
 };

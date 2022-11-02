@@ -948,22 +948,6 @@ module.exports = function () {
           res.header("Content-Type", "text/csv");
           res.attachment("OpenOrders.csv");
           res.send(data);
-          res.redirect(
-            "/page/" +
-              req.params.fromDate +
-              "/" +
-              req.params.toDate +
-              "/" +
-              req.params.pageNo +
-              "/" +
-              req.params.searchByOrderID +
-              "/" +
-              req.params.bdeName +
-              "/" +
-              req.params.regionName +
-              "/" +
-              req.params.urlSEname
-          );
         })
         .catch((err) => {
           console.log(err);
