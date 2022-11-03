@@ -8,8 +8,7 @@ const apiURL = "http://app.aquaexchange.com/api";
 const token = "Token e50f000f342fe8453e714454abac13be07f18ac3";
 
 module.exports = function () {
-  app.get(
-    "/assignDate/:orderID/:farmID/:date/:time/:remarks/:fromDate/:toDate/:pageNo/:urlBdeName/:searchByOrderID/:urlRegionName/:urlSEname",
+  app.get("/assignDate/:orderID/:farmID/:date/:time/:remarks/:fromDate/:toDate/:pageNo/:urlBdeName/:searchByOrderID/:urlRegionName/:urlSEname",
     async function (req, res) {
       var req = req.params;
 
@@ -57,7 +56,7 @@ module.exports = function () {
       });
 
       await resp.json().then((data) => {
-        // console.log(data);
+        console.log("SUCCESS [Open Orders] - Date Assigned");
         res.redirect(
           "/page/" +
             req.fromDate +
@@ -74,13 +73,13 @@ module.exports = function () {
             "/" +
             req.urlSEname
         );
+      }).catch((err) => {
+        console.log("ERROR [Open Orders] - "+err);
       });
-      // console.log(reqBody);
     }
   );
 
-  app.get(
-    "/assignFollowupDate/:id/:remarks/:followupDate",
+  app.get("/assignFollowupDate/:id/:remarks/:followupDate",
     async function (req, res) {
       var req = req.params;
       // console.log(req);
@@ -105,15 +104,15 @@ module.exports = function () {
       });
 
       await resp.json().then((data) => {
-        // console.log(data);
+        console.log("SUCCESS [Open Orders] - Assigned Followup Date");
         res.redirect("/");
+      }).catch((err) => {
+        console.log("ERROR [Open Orders] - "+err);
       });
-      // console.log(reqBody);
     }
   );
 
-  app.get(
-    "/markAsComplete/:orderID/:SEName/:dateOfCompletion/:fromDate/:toDate/:pageNo/:farmID/:urlBdeName/:searchByOrderID/:urlRegionName/:urlSEname",
+  app.get("/markAsComplete/:orderID/:SEName/:dateOfCompletion/:fromDate/:toDate/:pageNo/:farmID/:urlBdeName/:searchByOrderID/:urlRegionName/:urlSEname",
     async function (req, res) {
       var req = req.params;
       // console.log(req);
@@ -157,7 +156,7 @@ module.exports = function () {
       });
 
       await resp.json().then((data) => {
-        // console.log(data);
+        console.log("SUCCESS [Open Orders] - Marked as Complete");
         res.redirect(
           "/page/" +
             req.fromDate +
@@ -174,8 +173,9 @@ module.exports = function () {
             "/" +
             req.urlSEname
         );
+      }).catch((err) => {
+        console.log("ERROR [Open Orders] - "+err);
       });
-      // console.log(reqBody);
     }
   );
 
@@ -549,6 +549,7 @@ module.exports = function () {
           BDElist: BDElist,
           regionsList: regionsList,
         });
+        console.log("SUCCESS [Open Orders] - Page Loaded");
       });
     }
   );
