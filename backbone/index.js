@@ -833,8 +833,10 @@ module.exports = function () {
       },
     });
     await resp.json().then((dataa) => {
-      // console.log(dataa);
+      console.log("SUCCESS [Open Orders] - Got SE List");
       SElist = dataa;
+    }).catch(err => {
+      console.log("ERROR [Open Orders] - SE List:"+err);
     });
   }
 
@@ -848,10 +850,10 @@ module.exports = function () {
       },
     });
     await resp.json().then((dataa) => {
-      // console.log(dataa);
+      console.log("SUCCESS [Open Orders] - Got BDE List");
       BDElist = dataa;
-
-      //console.log(BDElist);
+    }).catch(err => {
+      console.log("ERROR [Open Orders] - BDE List:"+err);
     });
   }
 
@@ -865,10 +867,10 @@ module.exports = function () {
       },
     });
     await resp.json().then((dataa) => {
-      // console.log(dataa);
+      console.log("SUCCESS [Open Orders] - Got Regions List");
       regionsList = dataa;
-
-      //console.log(regionsList);
+    }).catch(err => {
+      console.log("ERROR [Open Orders] - Region List:"+err);
     });
   }
 
