@@ -445,7 +445,15 @@
                 Ready For Installation - (<%=date%>)
               </h2>
               <ul class="header-dropdown m-r--5">
-
+                <li><a href="/readyForInstallationOrdersExport/0/1/0/1/0/0/0" id="exportReadyForInstallationOrders"><i
+                      class="material-icons">file_download</i></a>
+                </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <script>
+                  $(window).on("load", function () {
+                    exportURL = "/readyForInstallationOrdersExport/" + URLdate + "/" + URLpage + "/" + URLorderID + "/" + URLallPage + "/" + URLBDEName + "/" + URLRegionName + "/" + URLSEName;
+                    $("#exportReadyForInstallationOrders").attr("href", exportURL);
+                  });
+                </script>
                 <li><a href="/readyForInstallation/0/1/0/1/0/0/0"><i class="material-icons">refresh</i></a>
                 </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 

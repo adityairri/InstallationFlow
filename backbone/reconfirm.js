@@ -825,8 +825,7 @@ module.exports = function () {
     });
   }
 
-  app.get(
-    "/reconfirmOrdersExport/:date/:pageNo/:searchByOrderID/:AllPageNo/:bdeName/:regionName/:urlSEname",
+  app.get("/reconfirmOrdersExport/:date/:pageNo/:searchByOrderID/:AllPageNo/:bdeName/:regionName/:urlSEname",
     async function (req, res) {
       if (
         req.params.searchByOrderID == 0 &&
@@ -836,17 +835,9 @@ module.exports = function () {
         req.params.urlSEname == 0
       ) {
         var fileName = "";
-        var page = req.params.pageNo;
-        var fromDate =
-          new Date(
-            +new Date().setHours(0, 0, 0, 0) + 86400000
-          ).toLocaleDateString("fr-CA") + " 00:00";
-        var toDate = fromDate;
         var reqBody = JSON.stringify({
           filter: {
             status: "FARMER_DATE_CONFIRM",
-            from_date: fromDate,
-            to_date: toDate,
           },
         });
       } else {
