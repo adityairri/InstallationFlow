@@ -850,7 +850,7 @@ module.exports = function () {
       // console.log(dataa);
       BDElist = dataa;
 
-      console.log(BDElist);
+      //console.log(BDElist);
     });
   }
 
@@ -867,7 +867,7 @@ module.exports = function () {
       // console.log(dataa);
       regionsList = dataa;
 
-      console.log(regionsList);
+      //console.log(regionsList);
     });
   }
 

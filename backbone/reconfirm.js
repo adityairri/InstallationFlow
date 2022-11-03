@@ -789,7 +789,7 @@ module.exports = function () {
       // console.log(dataa);
       BDElist = dataa;
 
-      console.log(BDElist);
+      //console.log(BDElist);
     });
   }
 
@@ -806,7 +806,7 @@ module.exports = function () {
       // console.log(dataa);
       regionsList = dataa;
 
-      console.log(regionsList);
+      //console.log(regionsList);
     });
   }
 
@@ -825,7 +825,8 @@ module.exports = function () {
     });
   }
 
-  app.get("/reconfirmOrdersExport/:date/:pageNo/:searchByOrderID/:AllPageNo/:bdeName/:regionName/:urlSEname",
+  app.get(
+    "/reconfirmOrdersExport/:date/:pageNo/:searchByOrderID/:AllPageNo/:bdeName/:regionName/:urlSEname",
     async function (req, res) {
       if (
         req.params.searchByOrderID == 0 &&
