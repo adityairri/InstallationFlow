@@ -963,12 +963,7 @@
                             </div>
                           </div>
                           <script>
-                            var orderID1 = <%=singleData.data.order.woo_commerce_order_id%>;
-                            var fromDate3 = fromDate;
-                            var toDate3 = toDate;
-                            var pageNo1 = pageNo;
-
-                            url = "/cancelOrder/" + orderID1 + "/" + fromDate3 + "/" + toDate3 + "/" + pageNo1 + "/" + urlBdeName + "/" + orderID + "/" + urlRegionName;
+                            url = "/cancelOrder/<%=singleData.data.order.woo_commerce_order_id%>/" + fromDate + "/" + fromDate + "/" + pageNo + "/" + urlBdeName + "/" + orderID + "/" + urlRegionName + "/" + urlSEname;
 
                             $("#cancelButtonWithDates<%=singleData.data.id%>").attr("href", url);
                           </script>

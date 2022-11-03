@@ -8,7 +8,8 @@ const apiURL = "http://app.aquaexchange.com/api";
 const token = "Token e50f000f342fe8453e714454abac13be07f18ac3";
 
 module.exports = function () {
-  app.get("/assignDate/:orderID/:farmID/:date/:time/:remarks/:fromDate/:toDate/:pageNo/:urlBdeName/:searchByOrderID/:urlRegionName/:urlSEname",
+  app.get(
+    "/assignDate/:orderID/:farmID/:date/:time/:remarks/:fromDate/:toDate/:pageNo/:urlBdeName/:searchByOrderID/:urlRegionName/:urlSEname",
     async function (req, res) {
       var req = req.params;
 
@@ -55,31 +56,35 @@ module.exports = function () {
         },
       });
 
-      await resp.json().then((data) => {
-        console.log("SUCCESS [Open Orders] - Date Assigned");
-        res.redirect(
-          "/page/" +
-            req.fromDate +
-            "/" +
-            req.toDate +
-            "/" +
-            req.pageNo +
-            "/" +
-            req.searchByOrderID +
-            "/" +
-            req.urlBdeName +
-            "/" +
-            req.urlRegionName +
-            "/" +
-            req.urlSEname
-        );
-      }).catch((err) => {
-        console.log("ERROR [Open Orders] - "+err);
-      });
+      await resp
+        .json()
+        .then((data) => {
+          console.log("SUCCESS [Open Orders] - Date Assigned");
+          res.redirect(
+            "/page/" +
+              req.fromDate +
+              "/" +
+              req.toDate +
+              "/" +
+              req.pageNo +
+              "/" +
+              req.searchByOrderID +
+              "/" +
+              req.urlBdeName +
+              "/" +
+              req.urlRegionName +
+              "/" +
+              req.urlSEname
+          );
+        })
+        .catch((err) => {
+          console.log("ERROR [Open Orders] - " + err);
+        });
     }
   );
 
-  app.get("/assignFollowupDate/:id/:remarks/:followupDate",
+  app.get(
+    "/assignFollowupDate/:id/:remarks/:followupDate",
     async function (req, res) {
       var req = req.params;
       // console.log(req);
@@ -103,16 +108,20 @@ module.exports = function () {
         },
       });
 
-      await resp.json().then((data) => {
-        console.log("SUCCESS [Open Orders] - Assigned Followup Date");
-        res.redirect("/");
-      }).catch((err) => {
-        console.log("ERROR [Open Orders] - "+err);
-      });
+      await resp
+        .json()
+        .then((data) => {
+          console.log("SUCCESS [Open Orders] - Assigned Followup Date");
+          res.redirect("/");
+        })
+        .catch((err) => {
+          console.log("ERROR [Open Orders] - " + err);
+        });
     }
   );
 
-  app.get("/markAsComplete/:orderID/:SEName/:dateOfCompletion/:fromDate/:toDate/:pageNo/:farmID/:urlBdeName/:searchByOrderID/:urlRegionName/:urlSEname",
+  app.get(
+    "/markAsComplete/:orderID/:SEName/:dateOfCompletion/:fromDate/:toDate/:pageNo/:farmID/:urlBdeName/:searchByOrderID/:urlRegionName/:urlSEname",
     async function (req, res) {
       var req = req.params;
       // console.log(req);
@@ -155,27 +164,30 @@ module.exports = function () {
         },
       });
 
-      await resp.json().then((data) => {
-        console.log("SUCCESS [Open Orders] - Marked as Complete");
-        res.redirect(
-          "/page/" +
-            req.fromDate +
-            "/" +
-            req.toDate +
-            "/" +
-            req.pageNo +
-            "/" +
-            req.searchByOrderID +
-            "/" +
-            req.urlBdeName +
-            "/" +
-            req.urlRegionName +
-            "/" +
-            req.urlSEname
-        );
-      }).catch((err) => {
-        console.log("ERROR [Open Orders] - "+err);
-      });
+      await resp
+        .json()
+        .then((data) => {
+          console.log("SUCCESS [Open Orders] - Marked as Complete");
+          res.redirect(
+            "/page/" +
+              req.fromDate +
+              "/" +
+              req.toDate +
+              "/" +
+              req.pageNo +
+              "/" +
+              req.searchByOrderID +
+              "/" +
+              req.urlBdeName +
+              "/" +
+              req.urlRegionName +
+              "/" +
+              req.urlSEname
+          );
+        })
+        .catch((err) => {
+          console.log("ERROR [Open Orders] - " + err);
+        });
     }
   );
 
@@ -233,26 +245,32 @@ module.exports = function () {
         },
       });
 
-      await resp.json().then((data) => {
-        // console.log(data);
-        res.redirect(
-          "/page/" +
-            req.fromDate +
-            "/" +
-            req.toDate +
-            "/" +
-            req.pageNo +
-            "/" +
-            req.searchByOrderID +
-            "/" +
-            req.urlBdeName +
-            "/" +
-            req.urlRegionName +
-            "/" +
-            req.urlSEname
-        );
-      });
-      // console.log(reqBody);
+      await resp
+        .json()
+        .then((data) => {
+          console.log(
+            "SUCCESS [Open Orders] - Order " + orderID + " has been cancelled!"
+          );
+          res.redirect(
+            "/page/" +
+              req.fromDate +
+              "/" +
+              req.toDate +
+              "/" +
+              req.pageNo +
+              "/" +
+              req.searchByOrderID +
+              "/" +
+              req.urlBdeName +
+              "/" +
+              req.urlRegionName +
+              "/" +
+              req.urlSEname
+          );
+        })
+        .catch((err) => {
+          console.log("ERROR [Open Orders] - Cancel Order:" + err);
+        });
     }
   );
 
@@ -832,12 +850,15 @@ module.exports = function () {
         Authorization: token,
       },
     });
-    await resp.json().then((dataa) => {
-      console.log("SUCCESS [Open Orders] - Got SE List");
-      SElist = dataa;
-    }).catch(err => {
-      console.log("ERROR [Open Orders] - SE List:"+err);
-    });
+    await resp
+      .json()
+      .then((dataa) => {
+        console.log("SUCCESS [Open Orders] - Got SE List");
+        SElist = dataa;
+      })
+      .catch((err) => {
+        console.log("ERROR [Open Orders] - SE List:" + err);
+      });
   }
 
   var BDElist;
@@ -849,12 +870,15 @@ module.exports = function () {
         Authorization: token,
       },
     });
-    await resp.json().then((dataa) => {
-      console.log("SUCCESS [Open Orders] - Got BDE List");
-      BDElist = dataa;
-    }).catch(err => {
-      console.log("ERROR [Open Orders] - BDE List:"+err);
-    });
+    await resp
+      .json()
+      .then((dataa) => {
+        console.log("SUCCESS [Open Orders] - Got BDE List");
+        BDElist = dataa;
+      })
+      .catch((err) => {
+        console.log("ERROR [Open Orders] - BDE List:" + err);
+      });
   }
 
   var regionsList;
@@ -866,12 +890,15 @@ module.exports = function () {
         Authorization: token,
       },
     });
-    await resp.json().then((dataa) => {
-      console.log("SUCCESS [Open Orders] - Got Regions List");
-      regionsList = dataa;
-    }).catch(err => {
-      console.log("ERROR [Open Orders] - Region List:"+err);
-    });
+    await resp
+      .json()
+      .then((dataa) => {
+        console.log("SUCCESS [Open Orders] - Got Regions List");
+        regionsList = dataa;
+      })
+      .catch((err) => {
+        console.log("ERROR [Open Orders] - Region List:" + err);
+      });
   }
 
   app.get(
