@@ -118,6 +118,9 @@ module.exports = function () {
             +new Date().setHours(0, 0, 0, 0) + 86400000
           ).toLocaleDateString("fr-CA") + " 00:00";
         var toDate = fromDate;
+        seDates = new Date(
+          +new Date().setHours(0, 0, 0, 0) + 86400000
+        ).toLocaleDateString("fr-CA");
         var reqBody = JSON.stringify({
           filter: {
             status: "FARMER_RECONFIRM",
@@ -133,6 +136,9 @@ module.exports = function () {
               +new Date().setHours(0, 0, 0, 0) + 86400000
             ).toLocaleDateString("fr-CA") + " 00:00";
           var toDate = fromDate;
+          seDates = new Date(
+            +new Date().setHours(0, 0, 0, 0) + 86400000
+          ).toLocaleDateString("fr-CA");
           var reqBody = JSON.stringify({
             filter: {
               order_id: parseInt(req.params.searchByOrderID),
@@ -144,6 +150,7 @@ module.exports = function () {
           var page = req.params.pageNo;
           var fromDate = req.params.date + " 00:00";
           var toDate = fromDate;
+          seDates = req.params.date;
           var reqBody = JSON.stringify({
             filter: {
               status: "FARMER_RECONFIRM",
@@ -154,6 +161,9 @@ module.exports = function () {
         }
         if (req.params.bdeName != 0) {
           var page = req.params.pageNo;
+          seDates = new Date(
+            +new Date().setHours(0, 0, 0, 0) + 86400000
+          ).toLocaleDateString("fr-CA");
           var reqBody = JSON.stringify({
             filter: {
               status: "FARMER_RECONFIRM",
@@ -163,6 +173,9 @@ module.exports = function () {
         }
         if (req.params.regionName != 0) {
           var page = req.params.pageNo;
+          seDates = new Date(
+            +new Date().setHours(0, 0, 0, 0) + 86400000
+          ).toLocaleDateString("fr-CA");
           var reqBody = JSON.stringify({
             filter: {
               status: "FARMER_RECONFIRM",
@@ -172,6 +185,9 @@ module.exports = function () {
         }
         if (req.params.urlSEname != 0) {
           var page = req.params.pageNo;
+          seDates = new Date(
+            +new Date().setHours(0, 0, 0, 0) + 86400000
+          ).toLocaleDateString("fr-CA");
           var reqBody = JSON.stringify({
             filter: {
               status: "FARMER_RECONFIRM",

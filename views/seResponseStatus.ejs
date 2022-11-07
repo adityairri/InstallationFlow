@@ -385,7 +385,24 @@
                 </h2>
                 <ul class="header-dropdown m-r--5">
 
-                  <li class="dropdown">
+                  <li><a href="/seResponseStatusExport/0/1/0/1/0/0/0" id="exportReconfirmOrders"><i
+                        class="material-icons">file_download</i></a>
+                  </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <script>
+                    $(window).on("load", function () {
+                      exportURL = "/seResponseStatusExport/" + URLdate + "/" + URLpage + "/" + URLorderID + "/" + URLallPage + "/" + URLBDEName + "/" + URLRegionName + "/" + URLSEName;
+                      $("#exportReconfirmOrders").attr("href", exportURL);
+                    });
+                  </script>
+                  <li><a href="/seResponseStatus/0/1/0/1/0/0/0"><i class="material-icons">refresh</i></a>
+                  </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                  <li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i
+                        class="material-icons">filter_list</i></a></li>
+
+
+
+                  <!-- <li class="dropdown">
                     <div class="row clearfix col-lg-12 col-md-12">
                       <div class="col-lg-10 col-md-10">
                         <input type="text" class="form-control" id="orderID" placeholder="Order ID"
@@ -407,10 +424,10 @@
                         }
                       </script>
                     </div>
-                  </li>
+                  </li> -->
 
 
-                  <li class="dropdown">
+                  <!-- <li class="dropdown">
                     <div class="row clearfix col-lg-12 col-md-12">
                       <div class="col-lg-10 col-md-10">
                         <select id="SElistSelect" onchange="selectedSE()">
@@ -439,7 +456,7 @@
                         </a>
                       </div>
                     </div>
-                  </li>
+                  </li> -->
                 </ul>
               </div>
               <div class="body table-responsive">
