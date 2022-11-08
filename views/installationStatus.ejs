@@ -577,6 +577,7 @@
                     <tr>
                       <th style="text-align: center;">ORDER ID</th>
                       <th style="text-align: center;">INSTALLED DATE & TIME</th>
+                      <th style="text-align: center;">CUSTOMER NAME</th>
                       <th style="text-align: center;">SE NAME</th>
                       <th style="text-align: center;">INSTALLATION DATE</th>
                       <th style="text-align: center;">FARMER NAME</th>
@@ -597,6 +598,9 @@
                         </td>
                         <td width="10%">
                           <%= singleData.data.modified_date.substring(0,16) %>
+                        </td>
+                        <td width="5%">
+                          <%= singleData.data.order.customer %>
                         </td>
                         <td width="7%">
                           <% if (!singleData.seName){%>
@@ -855,6 +859,7 @@
                       <tr>
                         <th style="text-align: center;">ORDER ID</th>
                         <th style="text-align: center;">INSTALLED DATE & TIME</th>
+                        <th style="text-align: center;">CUSTOMER NAME</th>
                         <th style="text-align: center;">SE NAME</th>
                         <th style="text-align: center;">INSTALLATION DATE</th>
                         <th style="text-align: center;">FARMER NAME</th>
@@ -875,6 +880,9 @@
                           </td>
                           <td width="10%">
                             <%= singleData.data.modified_date.substring(0,16) %>
+                          </td>
+                          <td width="5%">
+                            <%= singleData.data.order.customer %>
                           </td>
                           <td width="7%">
                             <% if (!singleData.seName){%>

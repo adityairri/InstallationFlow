@@ -537,6 +537,7 @@
                 <thead>
                   <tr>
                     <th style="text-align: center;">ORDER ID</th>
+                    <th style="text-align: center;">CUSTOMER NAME</th>
                     <th style="text-align: center;">BDE NAME</th>
                     <th style="text-align: center;">INSTALLATION DATE</th>
                     <th style="text-align: center;">FARMER NAME</th>
@@ -567,6 +568,9 @@
                     <tr>
                       <td>
                         <%= singleData.data.order.woo_commerce_order_id %>
+                      </td>
+                      <td width="5%">
+                        <%= singleData.data.order.customer %>
                       </td>
                       <td>
                         <%= singleData.data.order.farmer.relationship_BDE.first_name %>
@@ -926,6 +930,7 @@
                 <thead>
                   <tr>
                     <th style="text-align: center;">ORDER ID</th>
+                    <th style="text-align: center;">CUSTOMER NAME</th>
                     <th style="text-align: center;">BDE NAME</th>
                     <th style="text-align: center;">INSTALLATION DATE</th>
                     <th style="text-align: center;">FARMER NAME</th>
@@ -942,6 +947,9 @@
                     <tr>
                       <td>
                         <%= singleData.data.order.woo_commerce_order_id %>
+                      </td>
+                      <td width="5%">
+                        <%= singleData.data.order.customer %>
                       </td>
                       <td>
                         <%= singleData.data.order.farmer.relationship_BDE.first_name %>

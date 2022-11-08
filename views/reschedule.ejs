@@ -406,6 +406,7 @@
                   <tr>
                     <th style="text-align: center;">ORDER ID</th>
                     <th style="text-align: center;">REASON</th>
+                    <th style="text-align: center;">REASON</th>
                     <th style="text-align: center;">BDE NAME</th>
                     <th style="text-align: center;">INSTALLATION DATE</th>
                     <th style="text-align: center;">FARMER NAME</th>
@@ -425,6 +426,9 @@
                       </td>
                       <td>
                         <b>SE Rescheduled</b>
+                      </td>
+                      <td width="5%">
+                        <%= singleData.data.order.customer %>
                       </td>
                       <td>
                         <%= singleData.data.order.farmer.relationship_BDE.first_name %>
@@ -602,6 +606,9 @@
                           </td>
                           <td>
                             <b>SM Rescheduled</b>
+                          </td>
+                          <td width="5%">
+                            <%= singleData.data.order.customer %>
                           </td>
                           <td>
                             <%= singleData.data.order.farmer.relationship_BDE.first_name %>
@@ -781,6 +788,9 @@
                               </td>
                               <td>
                                 <b>Farmer Rescheduled</b>
+                              </td>
+                              <td width="5%">
+                                <%= singleData.data.order.customer %>
                               </td>
                               <td>
                                 <%= singleData.data.order.farmer.relationship_BDE.first_name %>

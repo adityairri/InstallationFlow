@@ -634,6 +634,7 @@
                   <div id="boxHere"></div>
                   <tr id="boxThis" width: auto;>
                     <th style="text-align: center;">ORDER ID</th>
+                    <th style="text-align: center;">CUSTOMER NAME</th>
                     <th style="text-align: center;">BDE NAME</th>
                     <th style="text-align: center;">ORDERED DATE</th>
                     <th style="text-align: center;">FOLLOWUP DATE</th>
@@ -652,6 +653,9 @@
                     <tr>
                       <td width="5%">
                         <%= singleData.data.order.woo_commerce_order_id %>
+                      </td>
+                      <td width="5%">
+                        <%= singleData.data.order.customer %>
                       </td>
                       <td width="7%">
                         <% if(singleData.data.order.farmer.relationship_BDE.first_name=="Archived" ){%>
