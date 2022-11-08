@@ -538,6 +538,7 @@ module.exports = function () {
         await getRegionsList();
         await getAllStatusCount();
         await getAllStatusCount();
+        await getDevicesList();
 
         res.render("index", {
           data1: daata,
@@ -566,6 +567,13 @@ module.exports = function () {
 
           BDElist: BDElist,
           regionsList: regionsList,
+
+          totalAPFC: totalAPFC,
+          totalPowermon: totalPowermon,
+          totalPowermonAPFC: totalPowermonAPFC,
+          installedAPFC: installedAPFC,
+          installedPowermon: installedPowermon,
+          installedPowermonAPFC: installedPowermonAPFC,
         });
         console.log("SUCCESS [Open Orders] - Page Loaded");
       });
@@ -984,4 +992,52 @@ module.exports = function () {
         });
     }
   );
+
+  var totalAPFC;
+  var totalPowermon;
+  var totalPowermonAPFC;
+  var installedAPFC;
+  var installedPowermon;
+  var installedPowermonAPFC;
+  async function getDevicesList(req, res) {
+    totalAPFC = 0;
+    totalPowermon = 0;
+    totalPowermonAPFC = 0;
+    installedAPFC = 0;
+    installedPowermon = 0;
+    installedPowermonAPFC = 0;
+    const resp = await fetch(apiURL + "/devicequantity/", {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+    await resp
+      .json()
+      .then((dataa) => {
+        dataa.total.forEach(async (eachData) => {
+          if (eachData.name == "APFC - Automatic power factor Controller") {
+            totalAPFC = eachData.total;
+          } else if (eachData.name == "Powermon 2.0") {
+            totalPowermon = eachData.total;
+          } else if (eachData.name == "Powermon 2.0 with APFC") {
+            totalPowermonAPFC = eachData.total;
+          }
+        });
+
+        dataa.installed.forEach(async (eachData) => {
+          if (eachData.name == "APFC - Automatic power factor Controller") {
+            installedAPFC = eachData.total;
+          } else if (eachData.name == "Powermon 2.0") {
+            installedPowermon = eachData.total;
+          } else if (eachData.name == "Powermon 2.0 with APFC") {
+            installedPowermonAPFC = eachData.total;
+          }
+        });
+      })
+      .catch((err) => {
+        console.log("ERROR [Open Orders] - Region List:" + err);
+      });
+  }
 };
