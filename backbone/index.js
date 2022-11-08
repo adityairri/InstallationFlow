@@ -909,8 +909,7 @@ module.exports = function () {
       });
   }
 
-  app.get(
-    "/openOrdersExport/:fromDate/:toDate/:pageNo/:searchByOrderID/:bdeName/:regionName/:urlSEname",
+  app.get("/openOrdersExport/:fromDate/:toDate/:pageNo/:searchByOrderID/:bdeName/:regionName/:urlSEname",
     async function (req, res) {
       if (
         req.params.searchByOrderID == 0 &&

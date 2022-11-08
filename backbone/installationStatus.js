@@ -259,6 +259,7 @@ module.exports = function () {
         // console.log(data);
         await getAllStatusCount();
         await getAllStatusCount();
+        await getDevicesList();
         res.render("installationStatus", {
           dataPaginationNext: data.links.next,
           dataPaginationPrevious: data.links.previous,
@@ -283,8 +284,12 @@ module.exports = function () {
           installationPartialCompleteList: PartialCompleted,
           installationCompletedList: Completed,
 
-          totalPowermonCount: totalPowermonCount,
-          totalAPFCcount: totalAPFCcount,
+          totalAPFC: totalAPFC,
+          totalPowermon: totalPowermon,
+          totalPowermonAPFC: totalPowermonAPFC,
+          installedAPFC: installedAPFC,
+          installedPowermon: installedPowermon,
+          installedPowermonAPFC: installedPowermonAPFC,
         });
       });
     }
@@ -593,44 +598,51 @@ module.exports = function () {
     });
   }
 
-  var totalPowermonCount = 0;
-  var totalAPFCcount = 0;
-  var pageNo = 1;
-  async function getinstallationCompleteCount(req, res) {
-    var reqBody = JSON.stringify({
-      filter: {
-        schedulestatus: "COMPLETED",
+  var totalAPFC;
+  var totalPowermon;
+  var totalPowermonAPFC;
+  var installedAPFC;
+  var installedPowermon;
+  var installedPowermonAPFC;
+  async function getDevicesList(req, res) {
+    totalAPFC = 0;
+    totalPowermon = 0;
+    totalPowermonAPFC = 0;
+    installedAPFC = 0;
+    installedPowermon = 0;
+    installedPowermonAPFC = 0;
+    const resp = await fetch(apiURL + "/devicequantity/", {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
       },
     });
-    const resp = await fetch(
-      apiURL + "/getInstallationSchedule/?page=" + pageNo,
-      {
-        method: "post",
-        body: reqBody,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token,
-        },
-      }
-    );
-
-    await resp.json().then((data) => {
-      pageNo = pageNo + 1;
-      data.results.forEach((element) => {
-        element.order.items.forEach((element1) => {
-          if (element1.name == "Powermon 2.0") {
-            if (element1.isInstalled == true) {
-              totalPowermonCount = totalPowermonCount + 1;
-            }
-          } else if (
-            element1.name == "APFC - Automatic power factor Controller"
-          ) {
-            if (element1.isInstalled == true) {
-              totalAPFCcount = totalAPFCcount + 1;
-            }
+    await resp
+      .json()
+      .then((dataa) => {
+        dataa.total.forEach(async (eachData) => {
+          if (eachData.name == "APFC - Automatic power factor Controller") {
+            totalAPFC = eachData.total;
+          } else if (eachData.name == "Powermon 2.0") {
+            totalPowermon = eachData.total;
+          } else if (eachData.name == "Powermon 2.0 with APFC") {
+            totalPowermonAPFC = eachData.total;
           }
         });
+
+        dataa.installed.forEach(async (eachData) => {
+          if (eachData.name == "APFC - Automatic power factor Controller") {
+            installedAPFC = eachData.total;
+          } else if (eachData.name == "Powermon 2.0") {
+            installedPowermon = eachData.total;
+          } else if (eachData.name == "Powermon 2.0 with APFC") {
+            installedPowermonAPFC = eachData.total;
+          }
+        });
+      })
+      .catch((err) => {
+        console.log("ERROR [Open Orders] - Region List:" + err);
       });
-    });
   }
 };
