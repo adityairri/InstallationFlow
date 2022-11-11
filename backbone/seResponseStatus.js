@@ -814,8 +814,7 @@ module.exports = function () {
     });
   }
 
-  app.get(
-    "/seResponseStatusExport/:status/:pageNo/:date/:searchByOrderID/:bdeName/:regionName/:urlSEname",
+  app.get("/seResponseStatusExport/:status/:pageNo/:date/:searchByOrderID/:bdeName/:regionName/:urlSEname",
     async function (req, res) {
       if (req.params.status == "pending") {
         var variables = {

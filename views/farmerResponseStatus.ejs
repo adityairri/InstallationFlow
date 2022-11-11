@@ -9,6 +9,7 @@
   <title>Installation Flow - NextAqua</title>
   <!-- Favicon-->
   <link rel="icon" href="https://www.nextaqua.in/assets/images/Circlelogo.png" type="image/x-icon">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet"
@@ -32,73 +33,256 @@
 
   <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
   <link href="css/themes/all-themes.css" rel="stylesheet" />
+
+
+
+  <script>
+    var pathArray = window.location.pathname.split('/');
+
+    console.log(pathArray);
+
+    var URLfarmerResponseState = pathArray[2];
+    if (pathArray[3] == undefined) {
+      var URLpageNo = 1;
+    } else if (pathArray[3] != undefined) {
+      var URLpageNo = pathArray[3];
+    }
+
+    if (pathArray[4] == undefined) {
+      var URLdate = 0;
+    } else if (pathArray[4] != undefined) {
+      var URLdate = pathArray[4];
+    }
+
+
+    if (pathArray[5] == undefined) {
+      var URLorderID = 0;
+    } else if (pathArray[5] != undefined) {
+      var URLorderID = pathArray[5];
+    }
+
+    if (pathArray[6] == undefined) {
+      var URLBdeName = 0;
+    } else if (pathArray[6] != undefined) {
+      var URLBdeName = pathArray[6];
+    }
+
+    if (pathArray[7] == undefined) {
+      var URLRegionName = 0;
+    } else if (pathArray[7] != undefined) {
+      var URLRegionName = pathArray[7];
+    }
+
+    if (pathArray[8] == undefined) {
+      var URLSEname = 0;
+    } else if (pathArray[8] != undefined) {
+      var URLSEname = pathArray[8];
+    }
+  </script>
 </head>
 
 <body class="theme-teal">
 
   <!-- #END# Page Loader -->
   <!-- Overlay For Sidebars -->
-  <!-- <div class="overlay"></div> -->
+  <div class="overlay"></div>
   <!-- #END# Overlay For Sidebars -->
 
 
   <!-- Right Sidebar -->
-  <aside id="rightsidebar" class="right-sidebar">
-    <ul class="nav nav-tabs tab-nav-right" role="tablist">
-      <li role="presentation" class="active"><a href="#settings" data-toggle="tab">SETTINGS</a></li>
-    </ul>
-    <div class="tab-content">
-      <div role="tabpanel" class="tab-pane fade in active in active" id="settings">
-        <div class="demo-settings">
-          <p>ORDER SETTINGS</p>
-          <ul class="setting-list">
-            <li>
-              <span>Accepting Orders</span>
-              <div class="switch">
-                <label><input type="checkbox" checked><span class="lever"></span></label>
-              </div>
-            </li>
-            <li>
-              <span>Auto Accept Orders</span>
-              <div class="switch">
-                <label><input type="checkbox"><span class="lever"></span></label>
-              </div>
-            </li>
-          </ul>
-          <!-- <p>SYSTEM SETTINGS</p>
-          <ul class="setting-list">
-            <li>
-              <span>Notifications</span>
-              <div class="switch">
-                <label><input type="checkbox" checked><span class="lever"></span></label>
-              </div>
-            </li>
-            <li>
-              <span>Auto Updates</span>
-              <div class="switch">
-                <label><input type="checkbox" checked><span class="lever"></span></label>
-              </div>
-            </li>
-          </ul> -->
-          <p>ACCOUNT SETTINGS</p>
-          <ul class="setting-list">
-            <li>
-              <span>Offline</span>
-              <div class="switch">
-                <label><input type="checkbox"><span class="lever"></span></label>
-              </div>
-            </li>
-            <!-- <li>
-              <span>Location Permission</span>
-              <div class="switch">
-                <label><input type="checkbox" checked><span class="lever"></span></label>
-              </div>
-            </li> -->
-          </ul>
+  <section>
+    <aside id="rightsidebar" class="right-sidebar">
+      <ul class="nav nav-tabs tab-nav-right" role="tablist">
+        <li role="presentation" class="active"><a href="#settings" data-toggle="tab">FILTERS</a></li>
+      </ul>
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active in active" id="settings">
+          <div class="demo-settings">
+            <p>By Order ID</p>
+            <ul class="setting-list">
+              <li>
+                <div class="row clearfix col-lg-12 col-md-12">
+                  <div class="col-lg-10 col-md-10">
+                    <input type="text" class="form-control" id="orderID" placeholder="Order ID"
+                      oninput="searchByOrderID()">
+                  </div>
+                  <div class="col-lg-2 col-md-2">
+                    <a href="" id="searchByOrderID">
+                      <button type="button" class="btn bg-teal waves-effect">
+                        <i class="material-icons">search</i>
+                      </button>
+                    </a>
+                  </div>
+                  <script>
+
+                    $(window).on("load", function () {
+                      orderIdRefreshURL = "/viewFarmerStatus/" + URLfarmerResponseState + "/1/0/0/0/0/0";
+                      $("#searchByOrderID").attr("href", orderIdRefreshURL);
+                    });
+                    function searchByOrderID() {
+                      var orderID = document.getElementById("orderID").value;
+
+                      var url = "/viewFarmerStatus/" + URLfarmerResponseState + "/1/0/" + orderID + "/0/0/0";
+                      $("#searchByOrderID").attr("href", url);
+                    }
+                  </script>
+                </div>
+              </li>
+            </ul></br>
+
+
+            <p>Date Filter</p>
+            <ul class="setting-list">
+              <li>
+                <div class="col-lg-12 col-md-12">
+                  <input type="date" class="form-control date" id="date" onchange="handler(event)">
+                </div></br></br>
+                <div class="col-lg-12 col-md-12">
+                  <a href="" id="dateFilter">
+                    <button type="button" class="btn btn-lg bg-teal waves-effect">
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Filter by Date
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </button>
+                  </a>
+                </div>
+                <script>
+                  $(window).on("load", function () {
+                    dateRefreshURL = "/viewFarmerStatus/" + URLfarmerResponseState + "/1/0/0/0/0/0";
+                    $("#dateFilter").attr("href", dateRefreshURL);
+                  });
+                  function handler(e) {
+                    var date = e.target.value;
+                    url = "/viewFarmerStatus/" + URLfarmerResponseState + "/1/" + date + "/0/0/0/0";
+                    $("#dateFilter").attr("href", url);
+                    return true;
+                  }
+                </script>
+              </li>
+            </ul></br>
+
+
+            <p>By BDE</p>
+            <ul class="setting-list">
+              <li>
+                <div class="row clearfix col-lg-12 col-md-12">
+                  <div class="col-sm-10">
+                    <select class="form-control show-tick" id="selectedBDE" onchange="selectedBDE()">
+                      <option value="">-- Select BDE--</option>
+                      <% BDElist.forEach(function(BDEdetails){ %>
+                        <option value="<%=BDEdetails.first_name%>">
+                          <%=BDEdetails.first_name%>
+                        </option>
+                        <%})%>
+                    </select>
+                  </div>
+                  <div class="col-sm-2">
+                    <a href="" id="BDEnameFilter">
+                      <button type="button" class="btn bg-teal waves-effect">
+                        <i class="material-icons">search</i>
+                      </button>
+                    </a>
+                  </div>
+                </div>
+                <script>
+                  $(window).on("load", function () {
+                    bdeRefreshURL = "/viewFarmerStatus/" + URLfarmerResponseState + "/1/0/0/0/0/0";
+                    $("#BDEnameFilter").attr("href", bdeRefreshURL);
+                  });
+                  function selectedBDE() {
+                    var bdeName = document.getElementById("selectedBDE").value;
+
+                    var url = "/viewFarmerStatus/" + URLfarmerResponseState + "/1/0/0/" + bdeName + "/0/0";
+                    $("#BDEnameFilter").attr("href", url);
+                  }
+                </script>
+              </li>
+            </ul></br>
+
+
+
+            <p>By Region</p>
+            <ul class="setting-list">
+              <li>
+                <div class="row clearfix col-lg-12 col-md-12">
+                  <div class="col-sm-10">
+                    <select class="form-control show-tick" id="selectedRegion" onchange="selectedRegion()">
+                      <option value="">-- Select Region--</option>
+                      <% regionsList.forEach(function(regionDetails){ %>
+                        <option value="<%=regionDetails.name%>">
+                          <%=regionDetails.name%>
+                        </option>
+                        <%})%>
+                    </select>
+                  </div>
+                  <div class="col-sm-2">
+                    <a href="" id="RegionNameFilter">
+                      <button type="button" class="btn bg-teal waves-effect">
+                        <i class="material-icons">search</i>
+                      </button>
+                    </a>
+                  </div>
+                </div>
+
+                <script>
+                  $(window).on("load", function () {
+                    regionRefreshURL = "/viewFarmerStatus/" + URLfarmerResponseState + "/1/0/0/0/0/0";
+                    $("#RegionNameFilter").attr("href", regionRefreshURL);
+                  });
+                  function selectedRegion() {
+                    var regionName = document.getElementById("selectedRegion").value;
+
+                    var url = "/viewFarmerStatus/" + URLfarmerResponseState + "/1/0/0/0/" + regionName + "/0";
+                    $("#RegionNameFilter").attr("href", url);
+                  }
+                </script>
+              </li>
+            </ul></br>
+
+            <p>By Service Engineer</p>
+            <ul class="setting-list">
+              <li>
+                <div class="row clearfix col-lg-12 col-md-12">
+                  <div class="col-sm-10">
+                    <select class="form-control show-tick" id="selectedSE" onchange="selectedSE()">
+                      <option value="">-- Select SE--</option>
+                      <% seList.forEach(function(SEdetails){ %>
+                        <option value="<%=SEdetails.id%>">
+                          <%=SEdetails.first_name%>
+                            <%=SEdetails.last_name%>
+                        </option>
+                        <%})%>
+                    </select>
+                  </div>
+                  <div class="col-sm-2">
+                    <a href="" id="SEnameFilter">
+                      <button type="button" class="btn bg-teal waves-effect">
+                        <i class="material-icons">search</i>
+                      </button>
+                    </a>
+                  </div>
+                </div>
+                <script>
+                  $(window).on("load", function () {
+                    seRefreshURL = "/viewFarmerStatus/" + URLfarmerResponseState + "/1/0/0/0/0/0";
+                    $("#SEnameFilter").attr("href", seRefreshURL);
+                  });
+                  function selectedSE() {
+                    var seName = document.getElementById("selectedSE").value;
+
+                    var url = "/viewFarmerStatus/" + URLfarmerResponseState + "/1/0/0/0/0/" + seName;
+                    $("#SEnameFilter").attr("href", url);
+                  }
+                </script>
+              </li>
+            </ul></br>
+
+
+
+          </div>
         </div>
       </div>
-    </div>
-  </aside>
+    </aside>
+  </section>
   <!-- #END# Right Sidebar -->
 
   <!-- Search Bar -->
@@ -339,19 +523,19 @@
               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="text">
                   <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                    onclick="window.location='/seResponseStatus/pending/1/0/0/0/0/0';">
+                    onclick="window.location='/viewFarmerStatus/pending/1/0/0/0/0/0/0/0/0/0';">
                     Pending</br> <b>
                       <%=sePendingList%>
                     </b>
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                    onclick="window.location='/seResponseStatus/accepted/1/0/0/0/0/0';">
+                    onclick="window.location='/viewFarmerStatus/accepted/1/0/0/0/0/0/0/0/0/0';">
                     Accepted </br><b>
                       <%=seAcceptedList%>
                     </b>
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                    onclick="window.location='/seResponseStatus/declined/1/0/0/0/0/0';">
+                    onclick="window.location='/viewFarmerStatus/declined/1/0/0/0/0/0';">
                     Cancelled </br><b>
                       <%=seDeclinedList%>
                     </b>
@@ -370,19 +554,19 @@
               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="text">
                   <div style="<%=variables.navBarHighlight1%>" class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                    onclick="window.location='/viewFarmerStatus/pending/1/0';">
+                    onclick="window.location='/viewFarmerStatus/pending/1/0/0/0/0/0';">
                     Pending </br><b>
                       <%=farmerPendingList%>
                     </b>
                   </div>
                   <div style="<%=variables.navBarHighlight2%>" class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                    onclick="window.location='/viewFarmerStatus/accepted/1/0';">
+                    onclick="window.location='/viewFarmerStatus/accepted/1/0/0/0/0/0';">
                     Accepted </br><b>
                       <%=farmerAcceptedList%>
                     </b>
                   </div>
                   <div style="<%=variables.navBarHighlight3%>" class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                    onclick="window.location='/viewFarmerStatus/cancelled/1/0';">
+                    onclick="window.location='/viewFarmerStatus/cancelled/1/0/0/0/0/0';">
                     Cancelled </br><b>
                       <%=farmerDeclinedList%>
                     </b>
@@ -441,30 +625,25 @@
                 </h2>
                 <ul class="header-dropdown m-r--5">
 
-                  <li class="dropdown">
-                    <div class="row clearfix col-lg-12 col-md-12">
-                      <div class="col-lg-10 col-md-10">
-                        <input type="text" class="form-control" id="orderID" placeholder="Order ID"
-                          oninput="searchByOrderIDPending()">
-                      </div>
-                      <div class="col-lg-2 col-md-2">
-                        <a href="/viewFarmerStatus/pending/1/0" id="searchByOrderIDPending">
-                          <button type="button" class="btn bg-teal waves-effect">
-                            <i class="material-icons">search</i>
-                          </button>
-                        </a>
-                      </div>
-                      <script>
-                        function searchByOrderIDPending() {
-                          var orderID = document.getElementById("orderID").value;
+                  <li><a href="" id="exportSEResponseOrders"><i class="material-icons">file_download</i></a>
+                  </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <script>
+                    $(window).on("load", function () {
+                      exportURL = "/viewFarmerStatusExport/" + URLfarmerResponseState + "/" + URLpageNo + "/" + URLdate + "/" + URLorderID + "/" + URLBdeName + "/" + URLRegionName + "/" + URLSEname;
+                      $("#exportSEResponseOrders").attr("href", exportURL);
+                    });
+                  </script>
+                  <li><a href="#" id="SEResponseOrdersRefresh"><i class="material-icons">refresh</i></a>
+                    <script>
+                      $(window).on("load", function () {
+                        refreshURL = "/viewFarmerStatus/" + URLfarmerResponseState + "/1/0/0/0/0/0";
+                        $("#SEResponseOrdersRefresh").attr("href", refreshURL);
+                      });
+                    </script>
+                  </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-                          var url = "/viewFarmerStatus/pending/1/" + orderID;
-                          $("#searchByOrderIDPending").attr("href", url);
-                        }
-                      </script>
-                    </div>
-                  </li>
-
+                  <li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i
+                        class="material-icons">filter_list</i></a></li>
                 </ul>
               </div>
               <div class="body table-responsive">
@@ -689,30 +868,25 @@
                     </h2>
                     <ul class="header-dropdown m-r--5">
 
-                      <li class="dropdown">
-                        <div class="row clearfix col-lg-12 col-md-12">
-                          <div class="col-lg-10 col-md-10">
-                            <input type="text" class="form-control" id="orderID" placeholder="Order ID"
-                              oninput="searchByOrderIDAccepted()">
-                          </div>
-                          <div class="col-lg-2 col-md-2">
-                            <a href="/viewFarmerStatus/accepted/1/0" id="searchByOrderIDAccepted">
-                              <button type="button" class="btn bg-teal waves-effect">
-                                <i class="material-icons">search</i>
-                              </button>
-                            </a>
-                          </div>
-                          <script>
-                            function searchByOrderIDAccepted() {
-                              var orderID = document.getElementById("orderID").value;
+                      <li><a href="" id="exportSEResponseOrders"><i class="material-icons">file_download</i></a>
+                      </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <script>
+                        $(window).on("load", function () {
+                          exportURL = "/viewFarmerStatusExport/" + URLfarmerResponseState + "/" + URLpageNo + "/" + URLdate + "/" + URLorderID + "/" + URLBdeName + "/" + URLRegionName + "/" + URLSEname;
+                          $("#exportSEResponseOrders").attr("href", exportURL);
+                        });
+                      </script>
+                      <li><a href="#" id="SEResponseOrdersRefresh"><i class="material-icons">refresh</i></a>
+                        <script>
+                          $(window).on("load", function () {
+                            refreshURL = "/viewFarmerStatus/" + URLfarmerResponseState + "/1/0/0/0/0/0";
+                            $("#SEResponseOrdersRefresh").attr("href", refreshURL);
+                          });
+                        </script>
+                      </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-                              var url = "/viewFarmerStatus/accepted/1/" + orderID;
-                              $("#searchByOrderIDAccepted").attr("href", url);
-                            }
-                          </script>
-                        </div>
-                      </li>
-
+                      <li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i
+                            class="material-icons">filter_list</i></a></li>
                     </ul>
                   </div>
                   <div class="body table-responsive">
@@ -919,30 +1093,25 @@
                         </h2>
                         <ul class="header-dropdown m-r--5">
 
-                          <li class="dropdown">
-                            <div class="row clearfix col-lg-12 col-md-12">
-                              <div class="col-lg-10 col-md-10">
-                                <input type="text" class="form-control" id="orderID" placeholder="Order ID"
-                                  oninput="searchByOrderIDDeclined()">
-                              </div>
-                              <div class="col-lg-2 col-md-2">
-                                <a href="/viewFarmerStatus/cancelled/1/0" id="searchByOrderIDDeclined">
-                                  <button type="button" class="btn bg-teal waves-effect">
-                                    <i class="material-icons">search</i>
-                                  </button>
-                                </a>
-                              </div>
-                              <script>
-                                function searchByOrderIDDeclined() {
-                                  var orderID = document.getElementById("orderID").value;
+                          <li><a href="" id="exportSEResponseOrders"><i class="material-icons">file_download</i></a>
+                          </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          <script>
+                            $(window).on("load", function () {
+                              exportURL = "/viewFarmerStatusExport/" + URLfarmerResponseState + "/" + URLpageNo + "/" + URLdate + "/" + URLorderID + "/" + URLBdeName + "/" + URLRegionName + "/" + URLSEname;
+                              $("#exportSEResponseOrders").attr("href", exportURL);
+                            });
+                          </script>
+                          <li><a href="#" id="SEResponseOrdersRefresh"><i class="material-icons">refresh</i></a>
+                            <script>
+                              $(window).on("load", function () {
+                                refreshURL = "/viewFarmerStatus/" + URLfarmerResponseState + "/1/0/0/0/0/0";
+                                $("#SEResponseOrdersRefresh").attr("href", refreshURL);
+                              });
+                            </script>
+                          </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-                                  var url = "/viewFarmerStatus/cancelled/1/" + orderID;
-                                  $("#searchByOrderIDDeclined").attr("href", url);
-                                }
-                              </script>
-                            </div>
-                          </li>
-
+                          <li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar"
+                              data-close="true"><i class="material-icons">filter_list</i></a></li>
                         </ul>
                       </div>
                       <div class="body table-responsive">
