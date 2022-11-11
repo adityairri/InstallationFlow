@@ -531,25 +531,61 @@
 
               </ul>
             </div>
-            <div class="body table-responsive">
-              <table class="table table-bordered table-striped table-hover js-basic-example dataTable"
-                id="reconfirmOrdersTable">
-                <thead>
-                  <tr>
-                    <th style="text-align: center;">ORDER ID</th>
-                    <th style="text-align: center;">ORDERED BY</th>
-                    <th style="text-align: center;">BDE NAME</th>
-                    <th style="text-align: center;">INSTALLATION DATE</th>
-                    <th style="text-align: center;">FARMER NAME</th>
-                    <th style="text-align: center;">FARM NAME</th>
-                    <th style="text-align: center;">FARMER MOBILE</th>
-                    <th style="text-align: center;">REGION</th>
-                    <th style="text-align: center;">ITEMS &nbsp;-&nbsp; ORD &nbsp;-&nbsp; INST</th>
-                    <th style="text-align: center;">REMARKS</th>
-                    <th style="text-align: center;">ACTION</th>
-                  </tr>
-                </thead>
-                <!-- <tfoot>
+            <style>
+              .wrapper {
+                width: 100%;
+                height: 800px;
+                overflow: auto;
+                position: relative;
+              }
+
+              table {
+                table-layout: fixed;
+              }
+
+              thead,
+              tr>th {
+                position: sticky;
+                background: #fff;
+              }
+
+              thead {
+                top: 0;
+                z-index: 2;
+              }
+
+              tr>th {
+                left: 0;
+                z-index: 1;
+              }
+
+              thead tr>th:first-child {
+                z-index: 3;
+              }
+            </style>
+            <% if(reconfirmOrdersCount>2){ %>
+              <div class="body table-responsive wrapper">
+                <% }else{%>
+                  <div class="body table-responsive">
+                    <%}%>
+                      <table class="table table-bordered table-striped table-hover js-basic-example dataTable"
+                        id="reconfirmOrdersTable">
+                        <thead>
+                          <tr>
+                            <th style="text-align: center;">ORDER ID</th>
+                            <th style="text-align: center;">ORDERED BY</th>
+                            <th style="text-align: center;">BDE NAME</th>
+                            <th style="text-align: center;">INSTALLATION DATE</th>
+                            <th style="text-align: center;">FARMER NAME</th>
+                            <th style="text-align: center;">FARM NAME</th>
+                            <th style="text-align: center;">FARMER MOBILE</th>
+                            <th style="text-align: center;">REGION</th>
+                            <th style="text-align: center;">ITEMS &nbsp;-&nbsp; ORD &nbsp;-&nbsp; INST</th>
+                            <th style="text-align: center;">REMARKS</th>
+                            <th style="text-align: center;">ACTION</th>
+                          </tr>
+                        </thead>
+                        <!-- <tfoot>
                   <tr>
                     <th style="text-align: center;">ORDER ID</th>
                     <th style="text-align: center;">BDE NAME</th>
@@ -563,290 +599,295 @@
                     <th style="text-align: center;">ACTION</th>
                   </tr>
                 </tfoot> -->
-                <tbody style="text-align: center;">
-                  <% data1.forEach(function(singleData){ %>
-                    <tr>
-                      <td>
-                        <%= singleData.data.order.woo_commerce_order_id %>
-                      </td>
-                      <td width="5%">
-                        <%= singleData.data.order.customer %>
-                      </td>
-                      <td>
-                        <%= singleData.data.order.farmer.relationship_BDE.first_name %>
-                      </td>
-                      <td>
-                        <% if (!singleData.data.confirmed_date){%>
-                          --
-                          <%}else{%>
-                            <%= singleData.data.confirmed_date.substring(0,10) %>
-                              <%}%>
-                      </td>
-                      <td>
-                        <%= singleData.data.order.farmer.firstname %>
-                      </td>
-                      <td>
-                        <% singleData.data.farms.forEach(singleFarmName=>{%>
-                          <%= singleFarmName.farm.farm_name %> </br>
-                            <%}) %>
+                        <tbody style="text-align: center;">
+                          <% data1.forEach(function(singleData){ %>
+                            <tr>
+                              <td>
+                                <%= singleData.data.order.woo_commerce_order_id %>
+                              </td>
+                              <td width="5%">
+                                <%= singleData.data.order.customer %>
+                              </td>
+                              <td>
+                                <%= singleData.data.order.farmer.relationship_BDE.first_name %>
+                              </td>
+                              <td>
+                                <% if (!singleData.data.confirmed_date){%>
+                                  --
+                                  <%}else{%>
+                                    <%= singleData.data.confirmed_date.substring(0,10) %>
+                                      <%}%>
+                              </td>
+                              <td>
+                                <%= singleData.data.order.farmer.firstname %>
+                              </td>
+                              <td>
+                                <% singleData.data.farms.forEach(singleFarmName=>{%>
+                                  <%= singleFarmName.farm.farm_name %> </br>
+                                    <%}) %>
 
-                      </td>
-                      <td>
-                        <%= singleData.data.order.farmer.mobile_number %></br><a
-                            href="tel:<%= singleData.data.order.farmer.mobile_number %>"><button type="button"
-                              class="btn bg-teal btn-circle waves-effect waves-circle waves-float">
-                              <i class="material-icons">call</i>
-                            </button></a>
-                      </td>
-                      <td> <button data-trigger="focus" data-container="body" data-toggle="popover" data-placement="top"
-                          title="Shipping Address" data-content="<%= singleData.data.order.shipping %>">
-                          <%= singleData.data.region %>
-                        </button>
-                      </td>
-                      <td style="width: 15%;">
-                        <% if(singleData.powermonItems !="Powermon - 0 - 0" ){ %>
-                          <%= singleData.powermonItems %></br>
-                            <%}%>
-                              <% if(singleData.apfcItems !="APFC - 0 - 0" ){ %>
-                                <%= singleData.apfcItems %></br>
-                                  <%}%>
-                                    <% if(singleData.powermonApfcItems !="Powermon(APFC) - 0 - 0" ){ %>
-                                      <%= singleData.powermonApfcItems %></br>
-                                        <%}%>
-                      </td>
-                      <td>
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              </td>
+                              <td>
+                                <%= singleData.data.order.farmer.mobile_number %></br><a
+                                    href="tel:<%= singleData.data.order.farmer.mobile_number %>"><button type="button"
+                                      class="btn bg-teal btn-circle waves-effect waves-circle waves-float">
+                                      <i class="material-icons">call</i>
+                                    </button></a>
+                              </td>
+                              <td> <button data-trigger="focus" data-container="body" data-toggle="popover"
+                                  data-placement="top" title="Shipping Address"
+                                  data-content="<%= singleData.data.order.shipping %>">
+                                  <%= singleData.data.region %>
+                                </button>
+                              </td>
+                              <td style="width: 15%;">
+                                <% if(singleData.powermonItems !="Powermon - 0 - 0" ){ %>
+                                  <%= singleData.powermonItems %></br>
+                                    <%}%>
+                                      <% if(singleData.apfcItems !="APFC - 0 - 0" ){ %>
+                                        <%= singleData.apfcItems %></br>
+                                          <%}%>
+                                            <% if(singleData.powermonApfcItems !="Powermon(APFC) - 0 - 0" ){ %>
+                                              <%= singleData.powermonApfcItems %></br>
+                                                <%}%>
+                              </td>
+                              <td>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
-                          <% singleData.remarks.slice(0, 3).forEach(singleRemark=> {%>
-                            <% if(singleRemark.remarks.length !=0 ){%>
-                              <%= singleRemark.remarks%></br>
-                                <%}else if(singleRemark.remarks.length==0){%>
-                                  No Remarks
-                                  <%}%>
-                                    <% }) %>
+                                  <% singleData.remarks.slice(0, 3).forEach(singleRemark=> {%>
+                                    <% if(singleRemark.remarks.length !=0 ){%>
+                                      <%= singleRemark.remarks%></br>
+                                        <%}else if(singleRemark.remarks.length==0){%>
+                                          No Remarks
+                                          <%}%>
+                                            <% }) %>
 
-                                      <div class="modal fade" id="modal<%=singleData.data.id%>" tabindex="-1"
-                                        role="dialog">
-                                        <div class="modal-dialog" role="document">
-                                          <div class="modal-content">
-                                            <div class="modal-header">
-                                              <h4 class="modal-title" id="defaultModalLabel">REMARKS</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                              <table>
-                                                <% singleData.remarks.forEach(singleRemark=> {%>
-                                                  <% if(singleRemark.remarks.length !=0 ){%>
-                                                    <tr>
-                                                      <td>
-                                                        <%= singleRemark.modified_date%>
-                                                      </td>
-                                                      <td>
-                                                        <%= singleRemark.remarks%>
-                                                      </td>
-                                                    </tr>
-                                                    <%}else if(singleRemark.remarks.length==0){%>
-                                                      No Remarks
-                                                      <%}%>
-                                                        <% }) %>
-                                              </table>
-                                            </div>
-                                            <div class="modal-footer">
-                                              <button type="button" class="btn btn-link waves-effect"
-                                                data-dismiss="modal">CLOSE</button>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
+                                              <div class="modal fade" id="modal<%=singleData.data.id%>" tabindex="-1"
+                                                role="dialog">
+                                                <div class="modal-dialog" role="document">
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <h4 class="modal-title" id="defaultModalLabel">REMARKS</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                      <table>
+                                                        <% singleData.remarks.forEach(singleRemark=> {%>
+                                                          <% if(singleRemark.remarks.length !=0 ){%>
+                                                            <tr>
+                                                              <td>
+                                                                <%= singleRemark.modified_date%>
+                                                              </td>
+                                                              <td>
+                                                                <%= singleRemark.remarks%>
+                                                              </td>
+                                                            </tr>
+                                                            <%}else if(singleRemark.remarks.length==0){%>
+                                                              No Remarks
+                                                              <%}%>
+                                                                <% }) %>
+                                                      </table>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                      <button type="button" class="btn btn-link waves-effect"
+                                                        data-dismiss="modal">CLOSE</button>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
 
 
-                                      <i class="material-icons" data-toggle="modal"
-                                        data-target="#modal<%=singleData.data.id%>">more_horiz</i>
+                                              <i class="material-icons" data-toggle="modal"
+                                                data-target="#modal<%=singleData.data.id%>">more_horiz</i>
 
-                        </div>
-                        <style>
-                          li {
-                            list-style-type: none;
+                                </div>
+                                <style>
+                                  li {
+                                    list-style-type: none;
+                                  }
+                                </style>
+
+                              </td>
+                              <td style="width: 10%;">
+                                <a href="#" id="confirmFarmerReconfirmDate<%=singleData.data.id%>"><button
+                                    class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12">Confirm</button>
+                                </a></br>
+                                <a><button data-toggle="modal" data-target="#openFollowupModal<%=singleData.data.id%>"
+                                    class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12"> Confirm
+                                    Date</button>
+                                </a>
+                                <a href="#" id="farmerReschedule<%=singleData.data.id%>"><button
+                                    class="btn bg-orange waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12">Reschedule</button>
+                                </a>
+                              </td>
+                            </tr>
+                            <script>
+                              $(window).on("load", function () {
+                                url1 = "/confirmFarmerReconfirmDate/<%=singleData.data.id%>/" + URLdate + "/" + URLpage + "/" + URLorderID + "/" + URLallPage + "/" + URLBDEName + "/" + URLRegionName + "/" + URLSEName;
+                                $("#confirmFarmerReconfirmDate<%=singleData.data.id%>").attr("href", url1);
+
+                                var farmerRescheduleURL = "/farmerReschedule/<%=singleData.data.id%>/" + URLdate + "/" + URLpage + "/" + URLorderID + "/" + URLallPage + "/" + URLBDEName + "/" + URLRegionName + "/" + URLSEName;
+                                $("#farmerReschedule<%=singleData.data.id%>").attr("href", farmerRescheduleURL);
+                              });
+                            </script>
+                            <div class="modal fade" id="openFollowupModal<%=singleData.data.id%>" tabindex="-1"
+                              role="dialog" data-keyboard="false" data-backdrop="static">
+                              <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h4 class="modal-title" id="largeModalLabel">Add Confirmed Date</h4>
+                                  </div>
+                                  <div class="modal-body">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                      <div><input type="date" class="form-control date"
+                                          id="dateTime<%=singleData.data.id%>"
+                                          onchange="handler<%=singleData.data.id%>(event)"></div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                      <select id="timeframe<%=singleData.data.id%>"
+                                        onchange="selectedTimeFrameFunction<%=singleData.data.id%>()">
+                                        <option value="">--Select Time--</option>
+                                        <option value="7AM - 10AM">7:00 AM - 10:00 AM</option>
+                                        <option value="10AM - 1PM">10:00 AM - 1:00 PM</option>
+                                        <option value="2PM - 5PM">2:00 PM - 5:00 PM</option>
+                                        <option value="7AM - 1PM">7:00 AM - 1:00 PM</option>
+                                        <option value="7AM - 5PM">7:00 AM - 5:00 PM</option>
+                                      </select>
+                                    </div>
+                                  </div>
+
+
+
+                                  <div class="modal-footer">
+                                    <a href="#" id="addBtn<%=singleData.data.id%>"><button id="followupBtn"
+                                        type="button" class="btn btn-link waves-effect bg-teal">ASSIGN DATE</button></a>
+                                    <button type="button" class="btn btn-link waves-effect bg-red"
+                                      data-dismiss="modal">CLOSE</button>
+                                  </div>
+
+                                  <script>
+                                    function handler<%=singleData.data.id%> (e) {
+                                      var selectedDate = document.getElementById("dateTime<%=singleData.data.id%>").value;
+                                      var selectedTimeframe = document.getElementById("timeframe<%=singleData.data.id%>").value;
+
+                                      url = "/assignDateFromReconfirm/<%=singleData.data.id%>/" + selectedDate + "/" + selectedTimeframe + "/" + URLdate + "/" + URLpage + "/" + URLorderID + "/" + URLallPage + "/" + URLBDEName + "/" + URLRegionName + "/" + URLSEName;
+                                      $("#addBtn<%=singleData.data.id%>").attr("href", url);
+
+                                      return true;
+                                    }
+
+
+                                    function selectedTimeFrameFunction<%=singleData.data.id%> () {
+                                      var selectedDate = document.getElementById("dateTime<%=singleData.data.id%>").value;
+                                      var selectedTimeframe = document.getElementById("timeframe<%=singleData.data.id%>").value;
+
+                                      url = "/assignDateFromReconfirm/<%=singleData.data.id%>/" + selectedDate + "/" + selectedTimeframe + "/" + URLdate + "/" + URLpage + "/" + URLorderID + "/" + URLallPage + "/" + URLBDEName + "/" + URLRegionName + "/" + URLSEName;
+                                      $("#addBtn<%=singleData.data.id%>").attr("href", url);
+
+                                      return true;
+                                    }
+                                  </script>
+                                </div>
+                              </div>
+                            </div>
+
+
+
+
+                            <% }) %>
+                        </tbody>
+
+
+                        <script>
+                          var table, rows, switching, i, x, y, shouldSwitch;
+                          table = document.getElementById("reconfirmOrdersTable");
+                          switching = true;
+                          while (switching) {
+                            switching = false;
+                            rows = table.rows;
+                            for (i = 1; i < (rows.length - 1); i++) {
+                              shouldSwitch = false;
+                              x = rows[i].getElementsByTagName("TD")[0];
+                              y = rows[i + 1].getElementsByTagName("TD")[0];
+                              if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                                shouldSwitch = true;
+                                break;
+                              }
+                            }
+                            if (shouldSwitch) {
+                              rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                              switching = true;
+                            }
                           }
-                        </style>
-
-                      </td>
-                      <td style="width: 10%;">
-                        <a href="#" id="confirmFarmerReconfirmDate<%=singleData.data.id%>"><button
-                            class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12">Confirm</button>
-                        </a></br>
-                        <a><button data-toggle="modal" data-target="#openFollowupModal<%=singleData.data.id%>"
-                            class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12"> Confirm
-                            Date</button>
-                        </a>
-                        <a href="#" id="farmerReschedule<%=singleData.data.id%>"><button
-                            class="btn bg-orange waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12">Reschedule</button>
-                        </a>
-                      </td>
-                    </tr>
-                    <script>
-                      $(window).on("load", function () {
-                        url1 = "/confirmFarmerReconfirmDate/<%=singleData.data.id%>/" + URLdate + "/" + URLpage + "/" + URLorderID + "/" + URLallPage + "/" + URLBDEName + "/" + URLRegionName + "/" + URLSEName;
-                        $("#confirmFarmerReconfirmDate<%=singleData.data.id%>").attr("href", url1);
-
-                        var farmerRescheduleURL = "/farmerReschedule/<%=singleData.data.id%>/" + URLdate + "/" + URLpage + "/" + URLorderID + "/" + URLallPage + "/" + URLBDEName + "/" + URLRegionName + "/" + URLSEName;
-                        $("#farmerReschedule<%=singleData.data.id%>").attr("href", farmerRescheduleURL);
-                      });
-                    </script>
-                    <div class="modal fade" id="openFollowupModal<%=singleData.data.id%>" tabindex="-1" role="dialog"
-                      data-keyboard="false" data-backdrop="static">
-                      <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h4 class="modal-title" id="largeModalLabel">Add Confirmed Date</h4>
-                          </div>
-                          <div class="modal-body">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                              <div><input type="date" class="form-control date" id="dateTime<%=singleData.data.id%>"
-                                  onchange="handler<%=singleData.data.id%>(event)"></div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                              <select id="timeframe<%=singleData.data.id%>"
-                                onchange="selectedTimeFrameFunction<%=singleData.data.id%>()">
-                                <option value="">--Select Time--</option>
-                                <option value="7AM - 10AM">7:00 AM - 10:00 AM</option>
-                                <option value="10AM - 1PM">10:00 AM - 1:00 PM</option>
-                                <option value="2PM - 5PM">2:00 PM - 5:00 PM</option>
-                                <option value="7AM - 1PM">7:00 AM - 1:00 PM</option>
-                                <option value="7AM - 5PM">7:00 AM - 5:00 PM</option>
-                              </select>
-                            </div>
-                          </div>
+                        </script>
 
 
-
-                          <div class="modal-footer">
-                            <a href="#" id="addBtn<%=singleData.data.id%>"><button id="followupBtn" type="button"
-                                class="btn btn-link waves-effect bg-teal">ASSIGN DATE</button></a>
-                            <button type="button" class="btn btn-link waves-effect bg-red"
-                              data-dismiss="modal">CLOSE</button>
-                          </div>
-
-                          <script>
-                            function handler<%=singleData.data.id%> (e) {
-                              var selectedDate = document.getElementById("dateTime<%=singleData.data.id%>").value;
-                              var selectedTimeframe = document.getElementById("timeframe<%=singleData.data.id%>").value;
-
-                              url = "/assignDateFromReconfirm/<%=singleData.data.id%>/" + selectedDate + "/" + selectedTimeframe + "/" + URLdate + "/" + URLpage + "/" + URLorderID + "/" + URLallPage + "/" + URLBDEName + "/" + URLRegionName + "/" + URLSEName;
-                              $("#addBtn<%=singleData.data.id%>").attr("href", url);
-
-                              return true;
-                            }
-
-
-                            function selectedTimeFrameFunction<%=singleData.data.id%> () {
-                              var selectedDate = document.getElementById("dateTime<%=singleData.data.id%>").value;
-                              var selectedTimeframe = document.getElementById("timeframe<%=singleData.data.id%>").value;
-
-                              url = "/assignDateFromReconfirm/<%=singleData.data.id%>/" + selectedDate + "/" + selectedTimeframe + "/" + URLdate + "/" + URLpage + "/" + URLorderID + "/" + URLallPage + "/" + URLBDEName + "/" + URLRegionName + "/" + URLSEName;
-                              $("#addBtn<%=singleData.data.id%>").attr("href", url);
-
-                              return true;
-                            }
-                          </script>
-                        </div>
-                      </div>
-                    </div>
-
-
-
-
-                    <% }) %>
-                </tbody>
-
-
-                <script>
-                  var table, rows, switching, i, x, y, shouldSwitch;
-                  table = document.getElementById("reconfirmOrdersTable");
-                  switching = true;
-                  while (switching) {
-                    switching = false;
-                    rows = table.rows;
-                    for (i = 1; i < (rows.length - 1); i++) {
-                      shouldSwitch = false;
-                      x = rows[i].getElementsByTagName("TD")[0];
-                      y = rows[i + 1].getElementsByTagName("TD")[0];
-                      if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                        shouldSwitch = true;
-                        break;
-                      }
-                    }
-                    if (shouldSwitch) {
-                      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                      switching = true;
-                    }
-                  }
-                </script>
-
-
-                <nav>
-                  <ul class="pagination">
-                    <% if(dataPaginationPrevious==null){%>
-                      <li class="disabled">
-                        <a href="javascript:void(0);">
-                          <i class="material-icons">chevron_left</i>
-                        </a>
-                      </li>
-                      <%}else{%>
-                        <li>
-                          <a href="/reconfirm/0/<%=dataPaginationPageNo-1%>/0/<%=totalDataPaginationPageNo%>/0/0/0">
-                            <i class="material-icons">chevron_left</i>
-                          </a>
-                        </li>
-                        <%}%>
-                          <li class="active"><a href="javascript:void(0);">Page <%=dataPaginationPageNo%> of
-                                <%=dataPaginationTotalPages%></a></li>
-
-                          <% if(dataPaginationNext==null){%>
-                            <li class="disabled">
-                              <a href="javascript:void(0);">
-                                <i class="material-icons">chevron_right</i>
-                              </a>
-                            </li>
-                            <%}else{%>
-                              <li>
-                                <a
-                                  href="/reconfirm/0/<%=dataPaginationPageNo-1%>/0/<%=totalDataPaginationPageNo%>/0/0/0">
-                                  <i class="material-icons">chevron_right</i>
+                        <nav>
+                          <ul class="pagination">
+                            <% if(dataPaginationPrevious==null){%>
+                              <li class="disabled">
+                                <a href="javascript:void(0);">
+                                  <i class="material-icons">chevron_left</i>
                                 </a>
                               </li>
-                              <%}%>
-                  </ul>
-                </nav>
+                              <%}else{%>
+                                <li>
+                                  <a
+                                    href="/reconfirm/0/<%=dataPaginationPageNo-1%>/0/<%=totalDataPaginationPageNo%>/0/0/0">
+                                    <i class="material-icons">chevron_left</i>
+                                  </a>
+                                </li>
+                                <%}%>
+                                  <li class="active"><a href="javascript:void(0);">Page <%=dataPaginationPageNo%> of
+                                        <%=dataPaginationTotalPages%></a></li>
+
+                                  <% if(dataPaginationNext==null){%>
+                                    <li class="disabled">
+                                      <a href="javascript:void(0);">
+                                        <i class="material-icons">chevron_right</i>
+                                      </a>
+                                    </li>
+                                    <%}else{%>
+                                      <li>
+                                        <a
+                                          href="/reconfirm/0/<%=dataPaginationPageNo-1%>/0/<%=totalDataPaginationPageNo%>/0/0/0">
+                                          <i class="material-icons">chevron_right</i>
+                                        </a>
+                                      </li>
+                                      <%}%>
+                          </ul>
+                        </nav>
 
 
-                <div class="modal fade" id="openFollowupModal" tabindex="-1" role="dialog" data-keyboard="false"
-                  data-backdrop="static">
-                  <div class="modal-dialog modal-sm" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h4 class="modal-title" id="largeModalLabel">Add Confirmed Date</h4>
-                      </div>
-                      <div class="modal-body">
-                        <div class="row clearfix">
-                          <div><input type="datetime-local" class="form-control date" id="followupDate" required></div>
+                        <div class="modal fade" id="openFollowupModal" tabindex="-1" role="dialog" data-keyboard="false"
+                          data-backdrop="static">
+                          <div class="modal-dialog modal-sm" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h4 class="modal-title" id="largeModalLabel">Add Confirmed Date</h4>
+                              </div>
+                              <div class="modal-body">
+                                <div class="row clearfix">
+                                  <div><input type="datetime-local" class="form-control date" id="followupDate"
+                                      required>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="modal-footer">
+                                <a href="#" id="followupBtn"><button id="followupBtn" type="button"
+                                    class="btn btn-link waves-effect bg-teal">ASSIGN DATE</button></a>
+                                <button type="button" class="btn btn-link waves-effect bg-red"
+                                  data-dismiss="modal">CLOSE</button>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                      <div class="modal-footer">
-                        <a href="#" id="followupBtn"><button id="followupBtn" type="button"
-                            class="btn btn-link waves-effect bg-teal">ASSIGN DATE</button></a>
-                        <button type="button" class="btn btn-link waves-effect bg-red"
-                          data-dismiss="modal">CLOSE</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </table>
+                      </table>
 
-            </div>
+                  </div>
+              </div>
           </div>
         </div>
-      </div>
-      <!-- #END# Hover Rows -->
+        <!-- #END# Hover Rows -->
 
 
 
@@ -865,191 +906,182 @@
 
 
 
-      <!-- Hover Rows -->
-      <div class="row clearfix">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-          <div class="card">
-            <div class="header">
-              <h2>
-                All Reconfirm Orders - <%=totalReconfirmOrdersCount%> Orders
-              </h2>
-              <ul class="header-dropdown m-r--5">
+        <!-- Hover Rows -->
+        <div class="row clearfix">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+              <div class="header">
+                <h2>
+                  All Reconfirm Orders - <%=totalReconfirmOrdersCount%> Orders
+                </h2>
+                <ul class="header-dropdown m-r--5">
 
-                <!-- <li class="dropdown">
-                  <div class="row clearfix col-lg-12 col-md-12">
-                    <div class="col-lg-10 col-md-10">
-                      <input type="text" class="form-control" id="orderID" placeholder="Order ID" oninput="searchByOrderID()">
-                    </div>
-                    <div class="col-lg-2 col-md-2">
-                      <a href="/reconfirm/0/1/0/1" id="searchByOrderID">
-                        <button type="button" class="btn bg-teal waves-effect">
-                          <i class="material-icons">search</i>
-                        </button>
-                      </a>
-                    </div>
-                    <script>
-                      function searchByOrderID() {
-                        var orderID = document.getElementById("orderID").value;
+                </ul>
+              </div>
 
-                        var url = "/reconfirm/0/1/"+orderID;
-                        $("#searchByOrderID").attr("href", url);
-                      }
-                    </script>
-                  </div>
-                </li> -->
+              <style>
+                .wrapper {
+                  width: 100%;
+                  height: 800px;
+                  overflow: auto;
+                  position: relative;
+                }
 
+                table {
+                  table-layout: fixed;
+                }
 
-                <!-- <li class="dropdown">
-                  <div class="row clearfix col-lg-12 col-md-12">
-                    <div class="col-lg-10 col-md-10">
-                        <input type="date" class="form-control date" id="date"
-                            onchange="handler(event)">
-                    </div>
-                    <div class="col-lg-2 col-md-2">
-                        <a href="reconfirm/0/1/0" id="dateFilter">
-                            <button type="button" class="btn bg-teal waves-effect">
-                                <i class="material-icons">search</i>
-                            </button>
-                        </a>
-                    </div>
-                    <script>
-                        function handler(e) {
-                            var date = e.target.value;
-                            url = "/reconfirm/" + date +"/1/0";
-                            $("#dateFilter").attr("href", url);
-                            return true;
-                        }
-                    </script>
-                </div>
-                </li> -->
-              </ul>
-            </div>
-            <div class="body table-responsive">
-              <table class="table table-bordered table-striped table-hover js-basic-example dataTable"
-                id="reconfirmOrdersTableAll">
-                <thead>
-                  <tr>
-                    <th style="text-align: center;">ORDER ID</th>
-                    <th style="text-align: center;">ORDERED BY</th>
-                    <th style="text-align: center;">BDE NAME</th>
-                    <th style="text-align: center;">INSTALLATION DATE</th>
-                    <th style="text-align: center;">FARMER NAME</th>
-                    <th style="text-align: center;">FARM NAME</th>
-                    <th style="text-align: center;">FARMER MOBILE</th>
-                    <th style="text-align: center;">REGION</th>
-                    <th style="text-align: center;">ITEMS &nbsp;-&nbsp; ORD &nbsp;-&nbsp; INST</th>
-                    <th style="text-align: center;">REMARKS</th>
-                    <!-- <th style="text-align: center;">ACTION</th> -->
-                  </tr>
-                </thead>
-                <tbody style="text-align: center;">
-                  <% totalReconfirmOrdersList.forEach(function(singleData){ %>
-                    <tr>
-                      <td>
-                        <%= singleData.data.order.woo_commerce_order_id %>
-                      </td>
-                      <td width="5%">
-                        <%= singleData.data.order.customer %>
-                      </td>
-                      <td>
-                        <%= singleData.data.order.farmer.relationship_BDE.first_name %>
-                      </td>
-                      <td>
-                        <% if (!singleData.data.confirmed_date){%>
-                          --
-                          <%}else{%>
-                            <%= singleData.data.confirmed_date.substring(0,10) %>
-                              <%}%>
-                      </td>
-                      <td>
-                        <%= singleData.data.order.farmer.firstname %>
-                      </td>
-                      <td>
-                        <% singleData.data.farms.forEach(singleFarmName=>{%>
-                          <%= singleFarmName.farm.farm_name %> </br>
-                            <%}) %>
+                thead,
+                tr>th {
+                  position: sticky;
+                  background: #fff;
+                }
 
-                      </td>
-                      <td>
-                        <%= singleData.data.order.farmer.mobile_number %></br><a
-                            href="tel:<%= singleData.data.order.farmer.mobile_number %>"><button type="button"
-                              class="btn bg-teal btn-circle waves-effect waves-circle waves-float">
-                              <i class="material-icons">call</i>
-                            </button></a>
-                      </td>
-                      <td> <button data-trigger="focus" data-container="body" data-toggle="popover" data-placement="top"
-                          title="Shipping Address" data-content="<%= singleData.data.order.shipping %>">
-                          <%= singleData.data.region %>
-                        </button>
-                      </td>
-                      <td style="width: 15%;">
-                        <% if(singleData.powermonItems !="Powermon - 0 - 0" ){ %>
-                          <%= singleData.powermonItems %></br>
-                            <%}%>
-                              <% if(singleData.apfcItems !="APFC - 0 - 0" ){ %>
-                                <%= singleData.apfcItems %></br>
-                                  <%}%>
-                                    <% if(singleData.powermonApfcItems !="Powermon(APFC) - 0 - 0" ){ %>
-                                      <%= singleData.powermonApfcItems %></br>
+                thead {
+                  top: 0;
+                  z-index: 2;
+                }
+
+                tr>th {
+                  left: 0;
+                  z-index: 1;
+                }
+
+                thead tr>th:first-child {
+                  z-index: 3;
+                }
+              </style>
+              <% if(totalReconfirmOrdersCount>2){ %>
+                <div class="body table-responsive wrapper">
+                  <% }else{%>
+                    <div class="body table-responsive">
+                      <%}%>
+                        <table class="table table-bordered table-striped table-hover js-basic-example dataTable"
+                          id="reconfirmOrdersTableAll">
+                          <thead>
+                            <tr>
+                              <th style="text-align: center;">ORDER ID</th>
+                              <th style="text-align: center;">ORDERED BY</th>
+                              <th style="text-align: center;">BDE NAME</th>
+                              <th style="text-align: center;">INSTALLATION DATE</th>
+                              <th style="text-align: center;">FARMER NAME</th>
+                              <th style="text-align: center;">FARM NAME</th>
+                              <th style="text-align: center;">FARMER MOBILE</th>
+                              <th style="text-align: center;">REGION</th>
+                              <th style="text-align: center;">ITEMS &nbsp;-&nbsp; ORD &nbsp;-&nbsp; INST</th>
+                              <th style="text-align: center;">REMARKS</th>
+                              <!-- <th style="text-align: center;">ACTION</th> -->
+                            </tr>
+                          </thead>
+                          <tbody style="text-align: center;">
+                            <% totalReconfirmOrdersList.forEach(function(singleData){ %>
+                              <tr>
+                                <td>
+                                  <%= singleData.data.order.woo_commerce_order_id %>
+                                </td>
+                                <td width="5%">
+                                  <%= singleData.data.order.customer %>
+                                </td>
+                                <td>
+                                  <%= singleData.data.order.farmer.relationship_BDE.first_name %>
+                                </td>
+                                <td>
+                                  <% if (!singleData.data.confirmed_date){%>
+                                    --
+                                    <%}else{%>
+                                      <%= singleData.data.confirmed_date.substring(0,10) %>
                                         <%}%>
-                      </td>
-                      <td>
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                </td>
+                                <td>
+                                  <%= singleData.data.order.farmer.firstname %>
+                                </td>
+                                <td>
+                                  <% singleData.data.farms.forEach(singleFarmName=>{%>
+                                    <%= singleFarmName.farm.farm_name %> </br>
+                                      <%}) %>
 
-                          <% singleData.remarks.slice(0, 3).forEach(singleRemark=> {%>
-                            <% if(singleRemark.remarks.length !=0 ){%>
-                              <%= singleRemark.remarks%></br>
-                                <%}else if(singleRemark.remarks.length==0){%>
-                                  No Remarks
-                                  <%}%>
-                                    <% }) %>
+                                </td>
+                                <td>
+                                  <%= singleData.data.order.farmer.mobile_number %></br><a
+                                      href="tel:<%= singleData.data.order.farmer.mobile_number %>"><button type="button"
+                                        class="btn bg-teal btn-circle waves-effect waves-circle waves-float">
+                                        <i class="material-icons">call</i>
+                                      </button></a>
+                                </td>
+                                <td> <button data-trigger="focus" data-container="body" data-toggle="popover"
+                                    data-placement="top" title="Shipping Address"
+                                    data-content="<%= singleData.data.order.shipping %>">
+                                    <%= singleData.data.region %>
+                                  </button>
+                                </td>
+                                <td style="width: 15%;">
+                                  <% if(singleData.powermonItems !="Powermon - 0 - 0" ){ %>
+                                    <%= singleData.powermonItems %></br>
+                                      <%}%>
+                                        <% if(singleData.apfcItems !="APFC - 0 - 0" ){ %>
+                                          <%= singleData.apfcItems %></br>
+                                            <%}%>
+                                              <% if(singleData.powermonApfcItems !="Powermon(APFC) - 0 - 0" ){ %>
+                                                <%= singleData.powermonApfcItems %></br>
+                                                  <%}%>
+                                </td>
+                                <td>
+                                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
-                                      <div class="modal fade" id="modal<%=singleData.data.id%>" tabindex="-1"
-                                        role="dialog">
-                                        <div class="modal-dialog" role="document">
-                                          <div class="modal-content">
-                                            <div class="modal-header">
-                                              <h4 class="modal-title" id="defaultModalLabel">REMARKS</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                              <table>
-                                                <% singleData.remarks.forEach(singleRemark=> {%>
-                                                  <% if(singleRemark.remarks.length !=0 ){%>
-                                                    <tr>
-                                                      <td>
-                                                        <%= singleRemark.modified_date%>
-                                                      </td>
-                                                      <td>
-                                                        <%= singleRemark.remarks%>
-                                                      </td>
-                                                    </tr>
-                                                    <%}else if(singleRemark.remarks.length==0){%>
-                                                      No Remarks
-                                                      <%}%>
-                                                        <% }) %>
-                                              </table>
-                                            </div>
-                                            <div class="modal-footer">
-                                              <button type="button" class="btn btn-link waves-effect"
-                                                data-dismiss="modal">CLOSE</button>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
+                                    <% singleData.remarks.slice(0, 3).forEach(singleRemark=> {%>
+                                      <% if(singleRemark.remarks.length !=0 ){%>
+                                        <%= singleRemark.remarks%></br>
+                                          <%}else if(singleRemark.remarks.length==0){%>
+                                            No Remarks
+                                            <%}%>
+                                              <% }) %>
+
+                                                <div class="modal fade" id="modal<%=singleData.data.id%>" tabindex="-1"
+                                                  role="dialog">
+                                                  <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                      <div class="modal-header">
+                                                        <h4 class="modal-title" id="defaultModalLabel">REMARKS</h4>
+                                                      </div>
+                                                      <div class="modal-body">
+                                                        <table>
+                                                          <% singleData.remarks.forEach(singleRemark=> {%>
+                                                            <% if(singleRemark.remarks.length !=0 ){%>
+                                                              <tr>
+                                                                <td>
+                                                                  <%= singleRemark.modified_date%>
+                                                                </td>
+                                                                <td>
+                                                                  <%= singleRemark.remarks%>
+                                                                </td>
+                                                              </tr>
+                                                              <%}else if(singleRemark.remarks.length==0){%>
+                                                                No Remarks
+                                                                <%}%>
+                                                                  <% }) %>
+                                                        </table>
+                                                      </div>
+                                                      <div class="modal-footer">
+                                                        <button type="button" class="btn btn-link waves-effect"
+                                                          data-dismiss="modal">CLOSE</button>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
 
 
-                                      <i class="material-icons" data-toggle="modal"
-                                        data-target="#modal<%=singleData.data.id%>">more_horiz</i>
+                                                <i class="material-icons" data-toggle="modal"
+                                                  data-target="#modal<%=singleData.data.id%>">more_horiz</i>
 
-                        </div>
-                        <style>
-                          li {
-                            list-style-type: none;
-                          }
-                        </style>
+                                  </div>
+                                  <style>
+                                    li {
+                                      list-style-type: none;
+                                    }
+                                  </style>
 
-                      </td>
-                      <!-- <td style="width: 10%;">
+                                </td>
+                                <!-- <td style="width: 10%;">
                           <a href="/confirmFarmerReconfirmDate/<%=singleData.data.id%>"><button class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12">Confirm</button>
                         </a></br>
                         <a><button data-toggle="modal" data-target="#openFollowupModal<%=singleData.data.id%>" class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12"> Confirm Date</button>
@@ -1057,37 +1089,38 @@
                         <a href="/farmerReschedule/<%=singleData.data.id%>"><button class="btn bg-orange waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12" >Reschedule</button>
                         </a>
                       </td> -->
-                    </tr>
+                              </tr>
 
 
 
 
-                    <div class="modal fade" id="openFollowupModal<%=singleData.data.id%>" tabindex="-1" role="dialog"
-                      data-keyboard="false" data-backdrop="static">
-                      <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h4 class="modal-title" id="largeModalLabel">Add Confirmed Date</h4>
-                          </div>
-                          <div class="modal-body">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                              <div><input type="date" class="form-control date" id="dateTime<%=singleData.data.id%>"
-                                  onchange="handler<%=singleData.data.id%>(event)"></div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                              <select id="timeframe<%=singleData.data.id%>"
-                                onchange="selectedTimeFrameFunction<%=singleData.data.id%>()">
-                                <option value="">--Select Time--</option>
-                                <option value="7AM - 10AM">7:00 AM - 10:00 AM</option>
-                                <option value="10AM - 1PM">10:00 AM - 1:00 PM</option>
-                                <option value="2PM - 5PM">2:00 PM - 5:00 PM</option>
-                                <option value="7AM - 1PM">7:00 AM - 1:00 PM</option>
-                                <option value="7AM - 5PM">7:00 AM - 5:00 PM</option>
-                              </select>
-                            </div>
-                          </div>
+                              <div class="modal fade" id="openFollowupModal<%=singleData.data.id%>" tabindex="-1"
+                                role="dialog" data-keyboard="false" data-backdrop="static">
+                                <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h4 class="modal-title" id="largeModalLabel">Add Confirmed Date</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <div><input type="date" class="form-control date"
+                                            id="dateTime<%=singleData.data.id%>"
+                                            onchange="handler<%=singleData.data.id%>(event)"></div>
+                                      </div>
+                                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <select id="timeframe<%=singleData.data.id%>"
+                                          onchange="selectedTimeFrameFunction<%=singleData.data.id%>()">
+                                          <option value="">--Select Time--</option>
+                                          <option value="7AM - 10AM">7:00 AM - 10:00 AM</option>
+                                          <option value="10AM - 1PM">10:00 AM - 1:00 PM</option>
+                                          <option value="2PM - 5PM">2:00 PM - 5:00 PM</option>
+                                          <option value="7AM - 1PM">7:00 AM - 1:00 PM</option>
+                                          <option value="7AM - 5PM">7:00 AM - 5:00 PM</option>
+                                        </select>
+                                      </div>
+                                    </div>
 
-                          <!-- <script>
+                                    <!-- <script>
                             function handler<%=singleData.data.id%> (e) {
                               var selectedDate = document.getElementById("dateTime<%=singleData.data.id%>").value;
                               var selectedTimeframe = document.getElementById("timeframe<%=singleData.data.id%>").value;
@@ -1111,112 +1144,118 @@
                           </script> -->
 
 
-                          <div class="modal-footer">
-                            <a href="#" id="addBtn<%=singleData.data.id%>"><button id="followupBtn" type="button"
-                                class="btn btn-link waves-effect bg-teal">ASSIGN DATE</button></a>
-                            <button type="button" class="btn btn-link waves-effect bg-red"
-                              data-dismiss="modal">CLOSE</button>
+                                    <div class="modal-footer">
+                                      <a href="#" id="addBtn<%=singleData.data.id%>"><button id="followupBtn"
+                                          type="button" class="btn btn-link waves-effect bg-teal">ASSIGN
+                                          DATE</button></a>
+                                      <button type="button" class="btn btn-link waves-effect bg-red"
+                                        data-dismiss="modal">CLOSE</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+
+
+
+                              <% }) %>
+                          </tbody>
+
+
+                          <script>
+                            var table, rows, switching, i, x, y, shouldSwitch;
+                            table = document.getElementById("reconfirmOrdersTableAll");
+                            switching = true;
+                            while (switching) {
+                              switching = false;
+                              rows = table.rows;
+                              for (i = 1; i < (rows.length - 1); i++) {
+                                shouldSwitch = false;
+                                x = rows[i].getElementsByTagName("TD")[2];
+                                y = rows[i + 1].getElementsByTagName("TD")[2];
+                                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                                  shouldSwitch = true;
+                                  break;
+                                }
+                              }
+                              if (shouldSwitch) {
+                                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                                switching = true;
+                              }
+                            }
+                          </script>
+
+
+                          <nav>
+                            <ul class="pagination">
+                              <% if(totalDataPaginationPrevious==null){%>
+                                <li class="disabled">
+                                  <a href="javascript:void(0);">
+                                    <i class="material-icons">chevron_left</i>
+                                  </a>
+                                </li>
+                                <%}else{%>
+                                  <li>
+                                    <a
+                                      href="/reconfirm/0/<%=dataPaginationPageNo%>/0/<%=totalDataPaginationPageNo - 1%>/0/0/0">
+                                      <i class="material-icons">chevron_left</i>
+                                    </a>
+                                  </li>
+                                  <%}%>
+                                    <li class="active"><a href="javascript:void(0);">Page
+                                        <%=totalDataPaginationPageNo%> of
+                                          <%=totalDataPaginationTotalPages%>
+                                      </a></li>
+
+                                    <% if(totalDataPaginationNext==null){%>
+                                      <li class="disabled">
+                                        <a href="javascript:void(0);">
+                                          <i class="material-icons">chevron_right</i>
+                                        </a>
+                                      </li>
+                                      <%}else{%>
+                                        <li>
+                                          <a
+                                            href="/reconfirm/0/<%=dataPaginationPageNo%>/0/<%=totalDataPaginationPageNo + 1%>/0/0/0">
+                                            <i class="material-icons">chevron_right</i>
+                                          </a>
+                                        </li>
+                                        <%}%>
+                            </ul>
+                          </nav>
+
+
+                          <div class="modal fade" id="openFollowupModal" tabindex="-1" role="dialog"
+                            data-keyboard="false" data-backdrop="static">
+                            <div class="modal-dialog modal-sm" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h4 class="modal-title" id="largeModalLabel">Add Confirmed Date</h4>
+                                </div>
+                                <div class="modal-body">
+                                  <div class="row clearfix">
+                                    <div><input type="datetime-local" class="form-control date" id="followupDate"
+                                        required>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="modal-footer">
+                                  <a href="#" id="followupBtn"><button id="followupBtn" type="button"
+                                      class="btn btn-link waves-effect bg-teal">ASSIGN DATE</button></a>
+                                  <button type="button" class="btn btn-link waves-effect bg-red"
+                                    data-dismiss="modal">CLOSE</button>
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      </div>
+                        </table>
+
                     </div>
-
-
-
-
-                    <% }) %>
-                </tbody>
-
-
-                <script>
-                  var table, rows, switching, i, x, y, shouldSwitch;
-                  table = document.getElementById("reconfirmOrdersTableAll");
-                  switching = true;
-                  while (switching) {
-                    switching = false;
-                    rows = table.rows;
-                    for (i = 1; i < (rows.length - 1); i++) {
-                      shouldSwitch = false;
-                      x = rows[i].getElementsByTagName("TD")[2];
-                      y = rows[i + 1].getElementsByTagName("TD")[2];
-                      if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                        shouldSwitch = true;
-                        break;
-                      }
-                    }
-                    if (shouldSwitch) {
-                      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                      switching = true;
-                    }
-                  }
-                </script>
-
-
-                <nav>
-                  <ul class="pagination">
-                    <% if(totalDataPaginationPrevious==null){%>
-                      <li class="disabled">
-                        <a href="javascript:void(0);">
-                          <i class="material-icons">chevron_left</i>
-                        </a>
-                      </li>
-                      <%}else{%>
-                        <li>
-                          <a href="/reconfirm/0/<%=dataPaginationPageNo%>/0/<%=totalDataPaginationPageNo - 1%>/0/0/0">
-                            <i class="material-icons">chevron_left</i>
-                          </a>
-                        </li>
-                        <%}%>
-                          <li class="active"><a href="javascript:void(0);">Page <%=totalDataPaginationPageNo%> of
-                                <%=totalDataPaginationTotalPages%></a></li>
-
-                          <% if(totalDataPaginationNext==null){%>
-                            <li class="disabled">
-                              <a href="javascript:void(0);">
-                                <i class="material-icons">chevron_right</i>
-                              </a>
-                            </li>
-                            <%}else{%>
-                              <li>
-                                <a
-                                  href="/reconfirm/0/<%=dataPaginationPageNo%>/0/<%=totalDataPaginationPageNo + 1%>/0/0/0">
-                                  <i class="material-icons">chevron_right</i>
-                                </a>
-                              </li>
-                              <%}%>
-                  </ul>
-                </nav>
-
-
-                <div class="modal fade" id="openFollowupModal" tabindex="-1" role="dialog" data-keyboard="false"
-                  data-backdrop="static">
-                  <div class="modal-dialog modal-sm" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h4 class="modal-title" id="largeModalLabel">Add Confirmed Date</h4>
-                      </div>
-                      <div class="modal-body">
-                        <div class="row clearfix">
-                          <div><input type="datetime-local" class="form-control date" id="followupDate" required></div>
-                        </div>
-                      </div>
-                      <div class="modal-footer">
-                        <a href="#" id="followupBtn"><button id="followupBtn" type="button"
-                            class="btn btn-link waves-effect bg-teal">ASSIGN DATE</button></a>
-                        <button type="button" class="btn btn-link waves-effect bg-red"
-                          data-dismiss="modal">CLOSE</button>
-                      </div>
-                    </div>
-                  </div>
                 </div>
-              </table>
-
             </div>
           </div>
+          <!-- #END# Hover Rows -->
         </div>
-      </div>
-      <!-- #END# Hover Rows -->
-    </div>
 
   </section>
 

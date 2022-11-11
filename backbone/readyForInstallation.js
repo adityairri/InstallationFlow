@@ -865,8 +865,7 @@ module.exports = function () {
   //   });
   // }
 
-  app.get(
-    "/readyForInstallationOrdersExport/:date/:pageNo/:searchByOrderID/:AllPageNo/:bdeName/:regionName/:urlSEname",
+  app.get("/readyForInstallationOrdersExport/:date/:pageNo/:searchByOrderID/:AllPageNo/:bdeName/:regionName/:urlSEname",
     async function (req, res) {
       if (
         req.params.searchByOrderID == 0 &&

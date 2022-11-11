@@ -592,107 +592,109 @@
               </ul>
             </div>
             <style>
-              #boxThis.box {
-                margin-top: 70px;
-                position: fixed;
+              .wrapper {
+                width: 100%;
+                height: 800px;
+                overflow: auto;
+                position: relative;
+              }
+
+              table {
+                table-layout: fixed;
+              }
+
+              thead,
+              tr>th {
+                position: sticky;
+                background: #fff;
+              }
+
+              thead {
                 top: 0;
-                z-index: 9999;
-                background-color: white;
-                width: auto;
+                z-index: 2;
+              }
+
+              tr>th {
+                left: 0;
+                z-index: 1;
+              }
+
+              thead tr>th:first-child {
+                z-index: 3;
               }
             </style>
-            <!-- <script>
-              function boxtothetop() {
-                var windowTop = $(window)
-                  .scrollTop();
-                var top = $('#boxHere')
-                  .offset()
-                  .top;
-                if (windowTop > top) {
-                  $('#boxThis')
-                    .addClass('box');
-                  $('#boxHere')
-                    .height($('#boxThis')
-                      .outerHeight());
-                } else {
-                  $('#boxThis')
-                    .removeClass('box');
-                  $('#boxHere')
-                    .height(0);
-                }
-              }
-              $(function () {
-                $(window)
-                  .scroll(boxtothetop);
-                boxtothetop();
-              });
-            </script> -->
-            <div class="body table-responsive">
-              <table class="table table-bordered table-striped table-hover js-basic-example dataTable"
-                id="openOrdersTable" style="width: 100%;">
-                <thead>
-                  <div id="boxHere"></div>
-                  <tr id="boxThis" width: auto;>
-                    <th style="text-align: center;">ORDER ID</th>
-                    <th style="text-align: center;">ORDERED BY</th>
-                    <th style="text-align: center;">BDE NAME</th>
-                    <th style="text-align: center;">ORDERED DATE</th>
-                    <th style="text-align: center;">FOLLOWUP DATE</th>
-                    <th style="text-align: center;">FARMER NAME</th>
-                    <th style="text-align: center;">FARM NAME</th>
-                    <th style="text-align: center;">FARMER MOBILE</th>
-                    <th style="text-align: center;">REGION</th>
-                    <th style="text-align: center;" style="width: 15%;">ITEMS &nbsp;-&nbsp; ORD &nbsp;-&nbsp; INST
-                    </th>
-                    <th style="text-align: center;">REMARKS</th>
-                    <th style="text-align: center;">ACTION</th>
-                  </tr>
-                </thead>
-                <tbody style="text-align: center;">
-                  <% data1.forEach(function(singleData){ %>
-                    <tr>
-                      <td width="5%">
-                        <%= singleData.data.order.woo_commerce_order_id %>
-                      </td>
-                      <td width="5%">
-                        <%= singleData.data.order.customer %>
-                      </td>
-                      <td width="7%">
-                        <% if(singleData.data.order.farmer.relationship_BDE.first_name=="Archived" ){%>
-                          --
-                          <%}else{%>
-                            <%= singleData.data.order.farmer.relationship_BDE.first_name %>
-                              <%}%>
-                      </td>
-                      <td width="7%">
-                        <%= singleData.data.order.ordercreated.substring(0,10) %>
-                      </td>
-                      <td width="7%">
-                        <% if(singleData.data.followup_date !=null){%>
-                          <%=singleData.data.followup_date.substring(0,10)%>
-                            <%}else{%>
-                              No Followups
-                              <%}%>
-                      </td>
-                      <td>
-                        <% if(singleData.data.order.farmer.firstname=="Default" ){%>
-                          --
-                          <%}else{%>
-                            <%= singleData.data.order.farmer.firstname %>
-                              <%}%>
 
-                      </td>
-                      <td>
-                        <!-- onchange="selectedFarm<%=singleData.id%>()" -->
-                        <select multiple="multiple" id="farmNamesId<%=singleData.data.id%>" multiple>
-                          <% singleData.data.order.farmer.farms.forEach(function(farmNames){ %>
-                            <option value="<%=farmNames.id%>">
-                              <%=farmNames.farm_name%>
-                            </option>
-                            <%});%>
-                        </select>
 
-                        <!-- <script>
+            <% if(newOrdersCount>2){ %>
+              <div class="body table-responsive wrapper">
+                <% }else{%>
+                  <div class="body table-responsive">
+                    <%}%>
+                      <table class="table table-bordered table-striped table-hover js-basic-example"
+                        id="openOrdersTable" style="width: 100%;">
+                        <thead>
+                          <tr id="boxThis" width: auto;>
+                            <th style="text-align: center;">ORDER ID</th>
+                            <th style="text-align: center;">ORDERED BY</th>
+                            <th style="text-align: center;">BDE NAME</th>
+                            <th style="text-align: center;">ORDERED DATE</th>
+                            <th style="text-align: center;">FOLLOWUP DATE</th>
+                            <th style="text-align: center;">FARMER NAME</th>
+                            <th style="text-align: center;">FARM NAME</th>
+                            <th style="text-align: center;">FARMER MOBILE</th>
+                            <th style="text-align: center;">REGION</th>
+                            <th style="text-align: center;" style="width: 15%;">ITEMS &nbsp;-&nbsp; ORD &nbsp;-&nbsp;
+                              INST
+                            </th>
+                            <th style="text-align: center;">REMARKS</th>
+                            <th style="text-align: center;">ACTION</th>
+                          </tr>
+                        </thead>
+                        <tbody style="text-align: center;">
+                          <% data1.forEach(function(singleData){ %>
+                            <tr>
+                              <td width="5%">
+                                <%= singleData.data.order.woo_commerce_order_id %>
+                              </td>
+                              <td width="5%">
+                                <%= singleData.data.order.customer %>
+                              </td>
+                              <td width="7%">
+                                <% if(singleData.data.order.farmer.relationship_BDE.first_name=="Archived" ){%>
+                                  --
+                                  <%}else{%>
+                                    <%= singleData.data.order.farmer.relationship_BDE.first_name %>
+                                      <%}%>
+                              </td>
+                              <td width="7%">
+                                <%= singleData.data.order.ordercreated.substring(0,10) %>
+                              </td>
+                              <td width="7%">
+                                <% if(singleData.data.followup_date !=null){%>
+                                  <%=singleData.data.followup_date.substring(0,10)%>
+                                    <%}else{%>
+                                      No Followups
+                                      <%}%>
+                              </td>
+                              <td>
+                                <% if(singleData.data.order.farmer.firstname=="Default" ){%>
+                                  --
+                                  <%}else{%>
+                                    <%= singleData.data.order.farmer.firstname %>
+                                      <%}%>
+
+                              </td>
+                              <td>
+                                <!-- onchange="selectedFarm<%=singleData.id%>()" -->
+                                <select multiple="multiple" id="farmNamesId<%=singleData.data.id%>" multiple>
+                                  <% singleData.data.order.farmer.farms.forEach(function(farmNames){ %>
+                                    <option value="<%=farmNames.id%>">
+                                      <%=farmNames.farm_name%>
+                                    </option>
+                                    <%});%>
+                                </select>
+
+                                <!-- <script>
                           $(function () {
                             $('#farmNamesId<%=singleData.data.id%>').change(function (e) {
 
@@ -712,488 +714,498 @@
                             });
                           });
                         </script> -->
-                      </td>
-                      <td>
-                        <% if(singleData.data.order.farmer.mobile_number=="9000278567" ){%>
-                          --
-                          <%}else{%>
-                            <%= singleData.data.order.farmer.mobile_number %></br><a
-                                href="tel:<%= singleData.data.order.farmer.mobile_number %>"><button type="button"
-                                  class="btn bg-teal btn-circle waves-effect waves-circle waves-float">
-                                  <i class="material-icons">call</i>
-                                </button></a>
-                              <%}%>
+                              </td>
+                              <td>
+                                <% if(singleData.data.order.farmer.mobile_number=="9000278567" ){%>
+                                  --
+                                  <%}else{%>
+                                    <%= singleData.data.order.farmer.mobile_number %></br><a
+                                        href="tel:<%= singleData.data.order.farmer.mobile_number %>"><button
+                                          type="button"
+                                          class="btn bg-teal btn-circle waves-effect waves-circle waves-float">
+                                          <i class="material-icons">call</i>
+                                        </button></a>
+                                      <%}%>
 
 
 
-                      </td>
-                      <td> <button data-trigger="focus" data-container="body" data-toggle="popover" data-placement="top"
-                          title="Shipping Address" data-content="<%= singleData.data.order.shipping %>">
-                          <%= singleData.data.region %>
-                        </button>
-                      </td>
-                      <td style="width: 15%;">
-                        <% if(singleData.powermonItems !="Powermon - 0 - 0" ){ %>
-                          <%= singleData.powermonItems %></br>
-                            <%}%>
-                              <% if(singleData.apfcItems !="APFC - 0 - 0" ){ %>
-                                <%= singleData.apfcItems %></br>
-                                  <%}%>
-                                    <% if(singleData.powermonApfcItems !="Powermon(APFC) - 0 - 0" ){ %>
-                                      <%= singleData.powermonApfcItems %></br>
-                                        <%}%>
-
-                      </td>
-                      <td style="width: 20%;">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                          <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-
-                            <% singleData.remarks.slice(0, 3).forEach(singleRemark=> {%>
-                              <% if(singleRemark.remarks.length !=0 ){%>
-                                <%= singleRemark.remarks%></br>
-                                  <%}else if(singleRemark.remarks.length==0){%>
-                                    No Remarks
+                              </td>
+                              <td> <button data-trigger="focus" data-container="body" data-toggle="popover"
+                                  data-placement="top" title="Shipping Address"
+                                  data-content="<%= singleData.data.order.shipping %>">
+                                  <%= singleData.data.region %>
+                                </button>
+                              </td>
+                              <td style="width: 15%;">
+                                <% if(singleData.powermonItems !="Powermon - 0 - 0" ){ %>
+                                  <%= singleData.powermonItems %></br>
                                     <%}%>
-                                      <% }) %>
+                                      <% if(singleData.apfcItems !="APFC - 0 - 0" ){ %>
+                                        <%= singleData.apfcItems %></br>
+                                          <%}%>
+                                            <% if(singleData.powermonApfcItems !="Powermon(APFC) - 0 - 0" ){ %>
+                                              <%= singleData.powermonApfcItems %></br>
+                                                <%}%>
 
-                                        <div class="modal fade" id="modal<%=singleData.data.id%>" tabindex="-1"
-                                          role="dialog">
-                                          <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                              <div class="modal-header">
-                                                <h4 class="modal-title" id="defaultModalLabel">REMARKS</h4>
-                                              </div>
-                                              <div class="modal-body">
-                                                <table>
-                                                  <% singleData.remarks.forEach(singleRemark=> {%>
-                                                    <% if(singleRemark.remarks.length !=0 ){%>
-                                                      <tr>
-                                                        <td>
-                                                          <%= singleRemark.modified_date%>
-                                                        </td>
-                                                        <td>
-                                                          <%= singleRemark.remarks%>
-                                                        </td>
-                                                      </tr>
-                                                      <%}else if(singleRemark.remarks.length==0){%>
-                                                        No Remarks
-                                                        <%}%>
-                                                          <% }) %>
-                                                </table>
-                                              </div>
-                                              <div class="modal-footer">
-                                                <button type="button" class="btn btn-link waves-effect"
-                                                  data-dismiss="modal">CLOSE</button>
+                              </td>
+                              <td style="width: 20%;">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                  <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+
+                                    <% singleData.remarks.slice(0, 3).forEach(singleRemark=> {%>
+                                      <% if(singleRemark.remarks.length !=0 ){%>
+                                        <%= singleRemark.remarks%></br>
+                                          <%}else if(singleRemark.remarks.length==0){%>
+                                            No Remarks
+                                            <%}%>
+                                              <% }) %>
+
+                                                <div class="modal fade" id="modal<%=singleData.data.id%>" tabindex="-1"
+                                                  role="dialog">
+                                                  <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                      <div class="modal-header">
+                                                        <h4 class="modal-title" id="defaultModalLabel">REMARKS</h4>
+                                                      </div>
+                                                      <div class="modal-body">
+                                                        <table>
+                                                          <% singleData.remarks.forEach(singleRemark=> {%>
+                                                            <% if(singleRemark.remarks.length !=0 ){%>
+                                                              <tr>
+                                                                <td>
+                                                                  <%= singleRemark.modified_date%>
+                                                                </td>
+                                                                <td>
+                                                                  <%= singleRemark.remarks%>
+                                                                </td>
+                                                              </tr>
+                                                              <%}else if(singleRemark.remarks.length==0){%>
+                                                                No Remarks
+                                                                <%}%>
+                                                                  <% }) %>
+                                                        </table>
+                                                      </div>
+                                                      <div class="modal-footer">
+                                                        <button type="button" class="btn btn-link waves-effect"
+                                                          data-dismiss="modal">CLOSE</button>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+
+
+                                                <i class="material-icons" data-toggle="modal"
+                                                  data-target="#modal<%=singleData.data.id%>">more_horiz</i>
+                                  </div>
+
+                                  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                    <ul>
+                                      <li class="dropdown">
+                                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"
+                                          role="button" aria-haspopup="true" aria-expanded="false">
+                                          <i class="material-icons">keyboard_arrow_down</i>
+                                        </a>
+                                        <ul class="dropdown-menu pull-right">
+                                          <li><a href="javascript:void(0)"
+                                              onclick="enableSubmitButton<%=singleData.data.id%>(1,'CS - Call Pickedup and Confirmed')">Call
+                                              Pickedup and
+                                              Confirmed</a></li>
+                                          <li><a href="javascript:void(0)"
+                                              onclick="enableSubmitButton<%=singleData.data.id%>(1,'CS - BDE Confirmed')">BDE
+                                              Confirmed</a>
+                                          </li>
+                                          <li><a href="/addRemarks/<%=singleData.data.id%>/CS - Didnt Pick Call"
+                                              onclick="enableSubmitButton<%=singleData.data.id%>(0)">Didn't Pick
+                                              Call</a>
+                                          </li>
+                                          <li><a href="/addRemarks/<%=singleData.data.id%>/CS - Number doesnt exist"
+                                              onclick="enableSubmitButton<%=singleData.data.id%>(0)">Number doesn't
+                                              exist</a>
+                                          </li>
+                                          <li onclick="openFollowupModal<%=singleData.data.id%>()"><a>Call me later</a>
+                                          </li>
+                                          <li><a href="/addRemarks/<%=singleData.data.id%>/CS - Customer Abused"
+                                              onclick="enableSubmitButton<%=singleData.data.id%>(0)">Customer Abused</a>
+                                          </li>
+                                        </ul>
+                                      </li>
+                                    </ul>
+
+
+
+                                    <div class="modal fade" id="followbackModal<%=singleData.data.id%>" tabindex="-1"
+                                      role="dialog" data-keyboard="false" data-backdrop="static">
+                                      <div class="modal-dialog modal-sm" role="document">
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <h4 class="modal-title" id="largeModalLabel">Add Followup Date</h4>
+                                          </div>
+                                          <div class="modal-body">
+                                            <div class="row clearfix">
+                                              <div><input type="datetime-local" class="form-control date"
+                                                  id="followupDate<%=singleData.data.id%>"
+                                                  onchange="addFollowupDate<%=singleData.data.id%>(event)" required>
                                               </div>
                                             </div>
                                           </div>
+                                          <div class="modal-footer">
+                                            <a href="#" id="followupBtn<%=singleData.data.id%>"><button
+                                                id="followupBtn<%=singleData.data.id%>1" type="button"
+                                                class="btn btn-link waves-effect bg-teal">CREATE
+                                                FOLLOWUP</button></a>
+                                            <button type="button" class="btn btn-link waves-effect bg-red"
+                                              data-dismiss="modal">CLOSE</button>
+                                          </div>
                                         </div>
-
-
-                                        <i class="material-icons" data-toggle="modal"
-                                          data-target="#modal<%=singleData.data.id%>">more_horiz</i>
-                          </div>
-
-                          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <ul>
-                              <li class="dropdown">
-                                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"
-                                  role="button" aria-haspopup="true" aria-expanded="false">
-                                  <i class="material-icons">keyboard_arrow_down</i>
-                                </a>
-                                <ul class="dropdown-menu pull-right">
-                                  <li><a href="javascript:void(0)"
-                                      onclick="enableSubmitButton<%=singleData.data.id%>(1,'CS - Call Pickedup and Confirmed')">Call
-                                      Pickedup and
-                                      Confirmed</a></li>
-                                  <li><a href="javascript:void(0)"
-                                      onclick="enableSubmitButton<%=singleData.data.id%>(1,'CS - BDE Confirmed')">BDE
-                                      Confirmed</a>
-                                  </li>
-                                  <li><a href="/addRemarks/<%=singleData.data.id%>/CS - Didnt Pick Call"
-                                      onclick="enableSubmitButton<%=singleData.data.id%>(0)">Didn't Pick Call</a>
-                                  </li>
-                                  <li><a href="/addRemarks/<%=singleData.data.id%>/CS - Number doesnt exist"
-                                      onclick="enableSubmitButton<%=singleData.data.id%>(0)">Number doesn't exist</a>
-                                  </li>
-                                  <li onclick="openFollowupModal<%=singleData.data.id%>()"><a>Call me later</a>
-                                  </li>
-                                  <li><a href="/addRemarks/<%=singleData.data.id%>/CS - Customer Abused"
-                                      onclick="enableSubmitButton<%=singleData.data.id%>(0)">Customer Abused</a></li>
-                                </ul>
-                              </li>
-                            </ul>
-
-
-
-                            <div class="modal fade" id="followbackModal<%=singleData.data.id%>" tabindex="-1"
-                              role="dialog" data-keyboard="false" data-backdrop="static">
-                              <div class="modal-dialog modal-sm" role="document">
-                                <div class="modal-content">
-                                  <div class="modal-header">
-                                    <h4 class="modal-title" id="largeModalLabel">Add Followup Date</h4>
-                                  </div>
-                                  <div class="modal-body">
-                                    <div class="row clearfix">
-                                      <div><input type="datetime-local" class="form-control date"
-                                          id="followupDate<%=singleData.data.id%>"
-                                          onchange="addFollowupDate<%=singleData.data.id%>(event)" required></div>
+                                      </div>
                                     </div>
+
+
+                                    <script>
+                                      function openFollowupModal<%=singleData.data.id%> () {
+                                        $('#followbackModal<%=singleData.data.id%>').modal('show');
+                                      }
+
+                                      function addFollowupDate<%=singleData.data.id%> (e) {
+                                        var followupDate = document.getElementById("followupDate<%=singleData.data.id%>").value;
+
+                                        url = "/assignFollowupDate/<%=singleData.data.id%>/Call me later/" + followupDate;
+                                        $("#followupBtn<%=singleData.data.id%>").attr("href", url);
+
+                                        return true;
+                                      }
+                                    </script>
+
+
                                   </div>
-                                  <div class="modal-footer">
-                                    <a href="#" id="followupBtn<%=singleData.data.id%>"><button
-                                        id="followupBtn<%=singleData.data.id%>1" type="button"
-                                        class="btn btn-link waves-effect bg-teal">CREATE
-                                        FOLLOWUP</button></a>
-                                    <button type="button" class="btn btn-link waves-effect bg-red"
-                                      data-dismiss="modal">CLOSE</button>
-                                  </div>
+
                                 </div>
-                              </div>
-                            </div>
+                                <script>
+                                  function enableSubmitButton<%=singleData.data.id%> (a, b) {
+
+                                    if (a == 1) {
+                                      $("#addBtn<%=singleData.data.id%>1").attr("disabled", false);
+
+                                      localStorage.removeItem("remarks<%= singleData.data.id%>");
+                                      var x = b;
+                                      localStorage.setItem("remarks<%= singleData.data.id%>", x);
+                                    } else if (a == 0) {
+                                      $("#addBtn<%=singleData.data.id%>1").attr("disabled", true);
+                                      // localStorage.removeItem("remarks<%= singleData.data.id%>");
+                                    }
 
 
-                            <script>
-                              function openFollowupModal<%=singleData.data.id%> () {
-                                $('#followbackModal<%=singleData.data.id%>').modal('show');
-                              }
+                                    return true;
+                                  }
+                                </script>
+                                <style>
+                                  li {
+                                    list-style-type: none;
+                                  }
+                                </style>
 
-                              function addFollowupDate<%=singleData.data.id%> (e) {
-                                var followupDate = document.getElementById("followupDate<%=singleData.data.id%>").value;
-
-                                url = "/assignFollowupDate/<%=singleData.data.id%>/Call me later/" + followupDate;
-                                $("#followupBtn<%=singleData.data.id%>").attr("href", url);
-
-                                return true;
-                              }
-                            </script>
-
-
-                          </div>
-
-                        </div>
-                        <script>
-                          function enableSubmitButton<%=singleData.data.id%> (a, b) {
-
-                            if (a == 1) {
-                              $("#addBtn<%=singleData.data.id%>1").attr("disabled", false);
-
-                              localStorage.removeItem("remarks<%= singleData.data.id%>");
-                              var x = b;
-                              localStorage.setItem("remarks<%= singleData.data.id%>", x);
-                            } else if (a == 0) {
-                              $("#addBtn<%=singleData.data.id%>1").attr("disabled", true);
-                              // localStorage.removeItem("remarks<%= singleData.data.id%>");
-                            }
-
-
-                            return true;
-                          }
-                        </script>
-                        <style>
-                          li {
-                            list-style-type: none;
-                          }
-                        </style>
-
-                      </td>
+                              </td>
 
 
 
-                      <td style="width: 10%;">
-                        <a><button data-toggle="modal" data-target="#openScheduleDateModal<%=singleData.data.id%>"
-                            class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12"
-                            id="addBtn<%=singleData.data.id%>1" disabled>Schedule Date</button>
-                        </a></br>
-                        <!-- <a><button data-toggle="modal" data-target="#openMarkAsCompleteModal<%=singleData.data.id%>"
+                              <td style="width: 10%;">
+                                <a><button data-toggle="modal"
+                                    data-target="#openScheduleDateModal<%=singleData.data.id%>"
+                                    class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                                    id="addBtn<%=singleData.data.id%>1" disabled>Schedule Date</button>
+                                </a></br>
+                                <!-- <a><button data-toggle="modal" data-target="#openMarkAsCompleteModal<%=singleData.data.id%>"
                             class="btn bg-orange waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12"
                             id="addBtn<%=singleData.data.id%>1">Mark as Complete</button>
                         </a></br> -->
-                        <a><button data-toggle="modal" data-target="#cancelOrderModal<%=singleData.data.id%>"
-                            class="btn bg-red waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12"
-                            id="addBtn<%=singleData.data.id%>1">Cancel Order</button>
-                        </a>
+                                <a><button data-toggle="modal" data-target="#cancelOrderModal<%=singleData.data.id%>"
+                                    class="btn bg-red waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                                    id="addBtn<%=singleData.data.id%>1">Cancel Order</button>
+                                </a>
 
 
 
 
 
-                        <div class="modal fade" id="openMarkAsCompleteModal<%=singleData.data.id%>" tabindex="-1"
-                          role="dialog" data-keyboard="false" data-backdrop="static">
-                          <div class="modal-dialog modal-md" role="document">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h4 class="modal-title" id="largeModalLabel">Mark As Complete</h4>
-                              </div>
-                              <div class="modal-body">
-                                <div class="form-group">
-                                  <label>SE Name:</label>
-                                  <select id="SElistSelect<%=singleData.data.id%>"
-                                    onchange="handler1<%=singleData.data.id%>()">
-                                    <option value="">--SELECT EMPLOYEE--</option>
-                                    <% seList.forEach(function(SEdetails){ %>
-                                      <option value="<%=SEdetails.id%>">
-                                        <%=SEdetails.first_name%>
-                                          <%=SEdetails.last_name%>
-                                      </option>
-                                      <%})%>
-                                  </select></br></br>
-                                  <label>Farm Name:</label></br>
-                                  <select multiple="multiple" id="farmNamesSelect<%=singleData.data.id%>" multiple>
-                                    <% singleData.data.order.farmer.farms.forEach(function(farmNames){ %>
-                                      <option value="<%=farmNames.id%>">
-                                        <%=farmNames.farm_name%>
-                                      </option>
-                                      <%});%>
-                                  </select></br></br>
-                                  <label>Date of Completion</label>
-                                  <div class="form-line"><input type="date" class="form-control date"
-                                      id="dateTime1<%=singleData.data.id%>"
-                                      onchange="handler1<%=singleData.data.id%>()"></div>
+                                <div class="modal fade" id="openMarkAsCompleteModal<%=singleData.data.id%>"
+                                  tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
+                                  <div class="modal-dialog modal-md" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h4 class="modal-title" id="largeModalLabel">Mark As Complete</h4>
+                                      </div>
+                                      <div class="modal-body">
+                                        <div class="form-group">
+                                          <label>SE Name:</label>
+                                          <select id="SElistSelect<%=singleData.data.id%>"
+                                            onchange="handler1<%=singleData.data.id%>()">
+                                            <option value="">--SELECT EMPLOYEE--</option>
+                                            <% seList.forEach(function(SEdetails){ %>
+                                              <option value="<%=SEdetails.id%>">
+                                                <%=SEdetails.first_name%>
+                                                  <%=SEdetails.last_name%>
+                                              </option>
+                                              <%})%>
+                                          </select></br></br>
+                                          <label>Farm Name:</label></br>
+                                          <select multiple="multiple" id="farmNamesSelect<%=singleData.data.id%>"
+                                            multiple>
+                                            <% singleData.data.order.farmer.farms.forEach(function(farmNames){ %>
+                                              <option value="<%=farmNames.id%>">
+                                                <%=farmNames.farm_name%>
+                                              </option>
+                                              <%});%>
+                                          </select></br></br>
+                                          <label>Date of Completion</label>
+                                          <div class="form-line"><input type="date" class="form-control date"
+                                              id="dateTime1<%=singleData.data.id%>"
+                                              onchange="handler1<%=singleData.data.id%>()"></div>
+                                        </div>
+                                      </div>
+                                      <div class="modal-footer">
+                                        <a href="#" id="confirmButtonWithDates<%=singleData.data.id%>"><button
+                                            id="confirmButton<%=singleData.data.id%>" type="button"
+                                            class="btn btn-link waves-effect bg-teal" disabled>Mark as
+                                            Completed</button></a>
+                                        <button type="button" class="btn btn-link waves-effect bg-red"
+                                          data-dismiss="modal">CLOSE</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <script>
+                                    function handler1<%=singleData.data.id%> () {
+                                      var orderID = <%=singleData.data.id%>;
+                                      var fromDate2 = fromDate;
+                                      var toDate2 = toDate;
+                                      var pageNo1 = pageNo;
+                                      var SEName = document.getElementById("SElistSelect<%=singleData.data.id%>").value;
+                                      var dateOfCompletion = document.getElementById("dateTime1<%=singleData.data.id%>").value;
+
+                                      var selectedFarmId = $('#farmNamesSelect<%=singleData.data.id%>').val() || [];
+                                      if (!selectedFarmId || selectedFarmId == null || selectedFarmId == undefined || selectedFarmId == '') {
+                                        selectedFarmId = 0;
+                                      }
+
+                                      url = "/markAsComplete/" + orderID + "/" + SEName + "/" + dateOfCompletion + "/" + fromDate2 + "/" + toDate2 + "/" + pageNo1 + "/" + selectedFarmId + "/" + urlBdeName + "/" + orderID + "/" + urlRegionName;
+                                      $("#confirmButtonWithDates<%=singleData.data.id%>").attr("href", url);
+
+                                      if (SEName != null && SEName != '' && SEName != undefined) {
+                                        if (dateOfCompletion != null && dateOfCompletion != '' && dateOfCompletion != undefined) {
+                                          $("#confirmButton<%=singleData.data.id%>").attr("disabled", false);
+                                        } else {
+                                          $("#confirmButton<%=singleData.data.id%>").attr("disabled", true);
+                                        }
+                                      } else {
+                                        $("#confirmButton<%=singleData.data.id%>").attr("disabled", true);
+                                      }
+                                      // return true;
+                                    }
+
+                                  </script>
                                 </div>
-                              </div>
-                              <div class="modal-footer">
-                                <a href="#" id="confirmButtonWithDates<%=singleData.data.id%>"><button
-                                    id="confirmButton<%=singleData.data.id%>" type="button"
-                                    class="btn btn-link waves-effect bg-teal" disabled>Mark as
-                                    Completed</button></a>
-                                <button type="button" class="btn btn-link waves-effect bg-red"
-                                  data-dismiss="modal">CLOSE</button>
-                              </div>
-                            </div>
-                          </div>
-                          <script>
-                            function handler1<%=singleData.data.id%> () {
-                              var orderID = <%=singleData.data.id%>;
-                              var fromDate2 = fromDate;
-                              var toDate2 = toDate;
-                              var pageNo1 = pageNo;
-                              var SEName = document.getElementById("SElistSelect<%=singleData.data.id%>").value;
-                              var dateOfCompletion = document.getElementById("dateTime1<%=singleData.data.id%>").value;
-
-                              var selectedFarmId = $('#farmNamesSelect<%=singleData.data.id%>').val() || [];
-                              if (!selectedFarmId || selectedFarmId == null || selectedFarmId == undefined || selectedFarmId == '') {
-                                selectedFarmId = 0;
-                              }
-
-                              url = "/markAsComplete/" + orderID + "/" + SEName + "/" + dateOfCompletion + "/" + fromDate2 + "/" + toDate2 + "/" + pageNo1 + "/" + selectedFarmId + "/" + urlBdeName + "/" + orderID + "/" + urlRegionName;
-                              $("#confirmButtonWithDates<%=singleData.data.id%>").attr("href", url);
-
-                              if (SEName != null && SEName != '' && SEName != undefined) {
-                                if (dateOfCompletion != null && dateOfCompletion != '' && dateOfCompletion != undefined) {
-                                  $("#confirmButton<%=singleData.data.id%>").attr("disabled", false);
-                                } else {
-                                  $("#confirmButton<%=singleData.data.id%>").attr("disabled", true);
-                                }
-                              } else {
-                                $("#confirmButton<%=singleData.data.id%>").attr("disabled", true);
-                              }
-                              // return true;
-                            }
-
-                          </script>
-                        </div>
 
 
 
 
 
-                        <div class="modal fade" id="cancelOrderModal<%=singleData.data.id%>" tabindex="-1" role="dialog"
-                          data-keyboard="false" data-backdrop="static">
-                          <div class="modal-dialog modal-sm" role="document">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h4 class="modal-title" id="largeModalLabel">Enter Order ID to Cancel Order</h4>
-                              </div>
-                              <div class="modal-body">
-                                <div class="form-group">
-                                  <div class="form-line">
-                                    <input type="text" class="form-control"
-                                      placeholder="<%=singleData.data.order.woo_commerce_order_id%>"
-                                      id="confirmCancelInput<%=singleData.data.id%>" />
+                                <div class="modal fade" id="cancelOrderModal<%=singleData.data.id%>" tabindex="-1"
+                                  role="dialog" data-keyboard="false" data-backdrop="static">
+                                  <div class="modal-dialog modal-sm" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h4 class="modal-title" id="largeModalLabel">Enter Order ID to Cancel Order</h4>
+                                      </div>
+                                      <div class="modal-body">
+                                        <div class="form-group">
+                                          <div class="form-line">
+                                            <input type="text" class="form-control"
+                                              placeholder="<%=singleData.data.order.woo_commerce_order_id%>"
+                                              id="confirmCancelInput<%=singleData.data.id%>" />
+                                          </div>
+                                        </div>
+                                        <!-- onchange="enableButton<%=singleData.data.id%>(this.value)"  -->
+                                      </div>
+                                      <div class="modal-footer">
+                                        <a href="#" id="cancelButtonWithDates<%=singleData.data.id%>"><button
+                                            id="calcelButton<%=singleData.data.id%>" type="button"
+                                            class="btn btn-link waves-effect bg-teal" disabled>Cancel Order</button></a>
+                                        <button type="button" class="btn btn-link waves-effect bg-red"
+                                          data-dismiss="modal">CLOSE</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <script>
+                                    url = "/cancelOrder/<%=singleData.data.order.woo_commerce_order_id%>/" + fromDate + "/" + fromDate + "/" + pageNo + "/" + urlBdeName + "/" + orderID + "/" + urlRegionName + "/" + urlSEname;
+
+                                    $("#cancelButtonWithDates<%=singleData.data.id%>").attr("href", url);
+                                  </script>
+                                  <script>
+
+                                    var el = document.getElementById("confirmCancelInput<%=singleData.data.id%>");
+                                    el.addEventListener('keyup', function () {
+                                      var inputValue = document.getElementById("confirmCancelInput<%=singleData.data.id%>").value;
+                                      var confirmValue = <%=singleData.data.order.woo_commerce_order_id%>;
+                                      if (parseInt(inputValue) == parseInt(confirmValue)) {
+                                        $("#calcelButton<%=singleData.data.id%>").attr("disabled", false);
+                                      } else {
+                                        $("#calcelButton<%=singleData.data.id%>").attr("disabled", true);
+                                      }
+                                      console.log(inputValue, confirmValue);
+                                    });
+                                  </script>
+                                </div>
+
+
+
+                              </td>
+                              <div class="modal fade" id="openScheduleDateModal<%=singleData.data.id%>" tabindex="-1"
+                                role="dialog" data-keyboard="false" data-backdrop="static">
+                                <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h4 class="modal-title" id="largeModalLabel">Add Confirmed Date</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><input type="date"
+                                          class="form-control date" id="dateTime<%=singleData.data.id%>"
+                                          onchange="handler<%=singleData.data.id%>(event)" required></div>
+                                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <select id="timeframe<%=singleData.data.id%>"
+                                          onchange="handler<%=singleData.data.id%>(event)">
+                                          <option value="">--Select Time--</option>
+                                          <option value="7AM - 10AM">7:00 AM - 10:00 AM</option>
+                                          <option value="10AM - 1PM">10:00 AM - 1:00 PM</option>
+                                          <option value="2PM - 5PM">2:00 PM - 5:00 PM</option>
+                                          <option value="7AM - 1PM">7:00 AM - 1:00 PM</option>
+                                          <option value="7AM - 5PM">7:00 AM - 5:00 PM</option>
+                                        </select>
+                                      </div>
+                                    </div>
+
+                                    <script>
+                                      function handler<%=singleData.data.id%> (e) {
+                                        var selectedFarmId = $('#farmNamesId<%=singleData.data.id%>').val() || [];
+                                        if (!selectedFarmId || selectedFarmId == null || selectedFarmId == undefined || selectedFarmId == '') {
+                                          selectedFarmId = 0;
+                                        }
+                                        var selectedDate = document.getElementById("dateTime<%=singleData.data.id%>").value;
+                                        var selectedTimeframe = document.getElementById("timeframe<%=singleData.data.id%>").value;
+                                        // var remarks = document.getElementById("remarks<%= singleData.data.id%>").value;
+                                        var remarks = localStorage.getItem("remarks<%= singleData.data.id%>");
+                                        var fromDate1 = fromDate;
+                                        var toDate1 = toDate;
+                                        var pageNo1 = pageNo;
+
+                                        url = "/assignDate/<%=singleData.data.id%>/" + selectedFarmId + "/" + selectedDate + "/" + selectedTimeframe + "/" + remarks + "/" + fromDate1 + "/" + toDate1 + "/" + pageNo1 + "/" + urlBdeName + "/" + orderID + "/" + urlRegionName + "/" + urlSEname;
+                                        $("#addBtn<%=singleData.data.id%>").attr("href", url);
+                                        if (selectedDate != null && selectedDate != '' && selectedDate != undefined) {
+                                          if (selectedTimeframe != null && selectedTimeframe != '' && selectedTimeframe != undefined) {
+                                            $("#addBtn11<%=singleData.data.id%>").attr("disabled", false);
+                                          }
+                                        }
+                                        return true;
+                                      }
+
+                                    </script>
+
+
+                                    <div class="modal-footer">
+                                      <a href="#" id="addBtn<%=singleData.data.id%>"><button
+                                          id="addBtn11<%=singleData.data.id%>" type="button"
+                                          class="btn btn-link waves-effect bg-teal" disabled>ASSIGN
+                                          DATE</button></a>
+                                      <button type="button" class="btn btn-link waves-effect bg-red"
+                                        data-dismiss="modal">CLOSE</button>
+                                    </div>
                                   </div>
                                 </div>
-                                <!-- onchange="enableButton<%=singleData.data.id%>(this.value)"  -->
                               </div>
-                              <div class="modal-footer">
-                                <a href="#" id="cancelButtonWithDates<%=singleData.data.id%>"><button
-                                    id="calcelButton<%=singleData.data.id%>" type="button"
-                                    class="btn btn-link waves-effect bg-teal" disabled>Cancel Order</button></a>
-                                <button type="button" class="btn btn-link waves-effect bg-red"
-                                  data-dismiss="modal">CLOSE</button>
-                              </div>
-                            </div>
-                          </div>
-                          <script>
-                            url = "/cancelOrder/<%=singleData.data.order.woo_commerce_order_id%>/" + fromDate + "/" + fromDate + "/" + pageNo + "/" + urlBdeName + "/" + orderID + "/" + urlRegionName + "/" + urlSEname;
 
-                            $("#cancelButtonWithDates<%=singleData.data.id%>").attr("href", url);
-                          </script>
-                          <script>
+                            </tr>
+                            <% }) %>
+                        </tbody>
 
-                            var el = document.getElementById("confirmCancelInput<%=singleData.data.id%>");
-                            el.addEventListener('keyup', function () {
-                              var inputValue = document.getElementById("confirmCancelInput<%=singleData.data.id%>").value;
-                              var confirmValue = <%=singleData.data.order.woo_commerce_order_id%>;
-                              if (parseInt(inputValue) == parseInt(confirmValue)) {
-                                $("#calcelButton<%=singleData.data.id%>").attr("disabled", false);
-                              } else {
-                                $("#calcelButton<%=singleData.data.id%>").attr("disabled", true);
-                              }
-                              console.log(inputValue, confirmValue);
-                            });
-                          </script>
-                        </div>
+                        <script>
 
+                          function setURLs() {
+                            var fromDateLocalStorage = fromDate;
+                            var toDateLocalStorage = toDate;
 
+                            url1 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo-1%>/" + orderID + "/" + urlBdeName + "/" + urlRegionName + "/" + urlSEname;
+                            $("#previosPageUrl").attr("href", url1);
 
-                      </td>
-                      <div class="modal fade" id="openScheduleDateModal<%=singleData.data.id%>" tabindex="-1"
-                        role="dialog" data-keyboard="false" data-backdrop="static">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h4 class="modal-title" id="largeModalLabel">Add Confirmed Date</h4>
-                            </div>
-                            <div class="modal-body">
-                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><input type="date"
-                                  class="form-control date" id="dateTime<%=singleData.data.id%>"
-                                  onchange="handler<%=singleData.data.id%>(event)" required></div>
-                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                <select id="timeframe<%=singleData.data.id%>"
-                                  onchange="handler<%=singleData.data.id%>(event)">
-                                  <option value="">--Select Time--</option>
-                                  <option value="7AM - 10AM">7:00 AM - 10:00 AM</option>
-                                  <option value="10AM - 1PM">10:00 AM - 1:00 PM</option>
-                                  <option value="2PM - 5PM">2:00 PM - 5:00 PM</option>
-                                  <option value="7AM - 1PM">7:00 AM - 1:00 PM</option>
-                                  <option value="7AM - 5PM">7:00 AM - 5:00 PM</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            <script>
-                              function handler<%=singleData.data.id%> (e) {
-                                var selectedFarmId = $('#farmNamesId<%=singleData.data.id%>').val() || [];
-                                if (!selectedFarmId || selectedFarmId == null || selectedFarmId == undefined || selectedFarmId == '') {
-                                  selectedFarmId = 0;
-                                }
-                                var selectedDate = document.getElementById("dateTime<%=singleData.data.id%>").value;
-                                var selectedTimeframe = document.getElementById("timeframe<%=singleData.data.id%>").value;
-                                // var remarks = document.getElementById("remarks<%= singleData.data.id%>").value;
-                                var remarks = localStorage.getItem("remarks<%= singleData.data.id%>");
-                                var fromDate1 = fromDate;
-                                var toDate1 = toDate;
-                                var pageNo1 = pageNo;
-
-                                url = "/assignDate/<%=singleData.data.id%>/" + selectedFarmId + "/" + selectedDate + "/" + selectedTimeframe + "/" + remarks + "/" + fromDate1 + "/" + toDate1 + "/" + pageNo1 + "/" + urlBdeName + "/" + orderID + "/" + urlRegionName + "/" + urlSEname;
-                                $("#addBtn<%=singleData.data.id%>").attr("href", url);
-                                if (selectedDate != null && selectedDate != '' && selectedDate != undefined) {
-                                  if (selectedTimeframe != null && selectedTimeframe != '' && selectedTimeframe != undefined) {
-                                    $("#addBtn11<%=singleData.data.id%>").attr("disabled", false);
-                                  }
-                                }
-                                return true;
-                              }
-
-                            </script>
-
-
-                            <div class="modal-footer">
-                              <a href="#" id="addBtn<%=singleData.data.id%>"><button
-                                  id="addBtn11<%=singleData.data.id%>" type="button"
-                                  class="btn btn-link waves-effect bg-teal" disabled>ASSIGN
-                                  DATE</button></a>
-                              <button type="button" class="btn btn-link waves-effect bg-red"
-                                data-dismiss="modal">CLOSE</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                    </tr>
-                    <% }) %>
-                </tbody>
-
-                <script>
-
-                  function setURLs() {
-                    var fromDateLocalStorage = fromDate;
-                    var toDateLocalStorage = toDate;
-
-                    url1 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo-1%>/" + orderID + "/" + urlBdeName + "/" + urlRegionName + "/" + urlSEname;
-                    $("#previosPageUrl").attr("href", url1);
-
-                    url2 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo+1%>/" + orderID + "/" + urlBdeName + "/" + urlRegionName + "/" + urlSEname;
-                    $("#nextPageUrl").attr("href", url2);
-                    return true;
-                  }
-                </script>
-                <nav>
-                  <ul class="pagination">
-                    <% if(dataPaginationPrevious==null){%>
-                      <li class="disabled">
-                        <a href="javascript:void(0);">
-                          <i class="material-icons">chevron_left</i>
-                        </a>
-                      </li>
-                      <%}else{%>
-                        <li>
-                          <a id="previosPageUrl" href="#">
-                            <i class="material-icons">chevron_left</i>
-                          </a>
-                        </li>
-                        <%}%>
-                          <li class="active bg-teal"><a href="javascript:void(0);">Page <%=dataPaginationPageNo%> of
-                                <%=dataPaginationTotalPages%></a></li>
-
-                          <% if(dataPaginationNext==null){%>
-                            <li class="disabled">
-                              <a href="javascript:void(0);">
-                                <i class="material-icons">chevron_right</i>
-                              </a>
-                            </li>
-                            <%}else{%>
-                              <li>
-                                <a id="nextPageUrl" href="#">
-                                  <i class="material-icons">chevron_right</i>
+                            url2 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo+1%>/" + orderID + "/" + urlBdeName + "/" + urlRegionName + "/" + urlSEname;
+                            $("#nextPageUrl").attr("href", url2);
+                            return true;
+                          }
+                        </script>
+                        <nav>
+                          <ul class="pagination">
+                            <% if(dataPaginationPrevious==null){%>
+                              <li class="disabled">
+                                <a href="javascript:void(0);">
+                                  <i class="material-icons">chevron_left</i>
                                 </a>
                               </li>
-                              <%}%>
-                  </ul>
-                </nav>
-              </table>
+                              <%}else{%>
+                                <li>
+                                  <a id="previosPageUrl" href="#">
+                                    <i class="material-icons">chevron_left</i>
+                                  </a>
+                                </li>
+                                <%}%>
+                                  <li class="active bg-teal"><a href="javascript:void(0);">Page
+                                      <%=dataPaginationPageNo%> of
+                                        <%=dataPaginationTotalPages%>
+                                    </a></li>
 
-              <script>
-                var table, rows, switching, i, x, y, shouldSwitch;
-                table = document.getElementById("openOrdersTable");
-                switching = true;
-                while (switching) {
-                  switching = false;
-                  rows = table.rows;
-                  for (i = 1; i < (rows.length - 1); i++) {
-                    shouldSwitch = false;
-                    x = rows[i].getElementsByTagName("TD")[0];
-                    y = rows[i + 1].getElementsByTagName("TD")[0];
-                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                      shouldSwitch = true;
-                      break;
-                    }
-                  }
-                  if (shouldSwitch) {
-                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                    switching = true;
-                  }
-                }
-              </script>
+                                  <% if(dataPaginationNext==null){%>
+                                    <li class="disabled">
+                                      <a href="javascript:void(0);">
+                                        <i class="material-icons">chevron_right</i>
+                                      </a>
+                                    </li>
+                                    <%}else{%>
+                                      <li>
+                                        <a id="nextPageUrl" href="#">
+                                          <i class="material-icons">chevron_right</i>
+                                        </a>
+                                      </li>
+                                      <%}%>
+                          </ul>
+                        </nav>
+                      </table>
+
+                      <script>
+                        var table, rows, switching, i, x, y, shouldSwitch;
+                        table = document.getElementById("openOrdersTable");
+                        switching = true;
+                        while (switching) {
+                          switching = false;
+                          rows = table.rows;
+                          for (i = 1; i < (rows.length - 1); i++) {
+                            shouldSwitch = false;
+                            x = rows[i].getElementsByTagName("TD")[0];
+                            y = rows[i + 1].getElementsByTagName("TD")[0];
+                            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                              shouldSwitch = true;
+                              break;
+                            }
+                          }
+                          if (shouldSwitch) {
+                            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                            switching = true;
+                          }
+                        }
+                      </script>
 
 
-            </div>
+                  </div>
+              </div>
           </div>
         </div>
+        <!-- #END# Hover Rows -->
       </div>
-      <!-- #END# Hover Rows -->
-    </div>
 
   </section>
 

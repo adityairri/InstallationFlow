@@ -641,7 +641,39 @@
                         class="material-icons">filter_list</i></a></li>
                 </ul>
               </div>
-              <div class="body table-responsive">
+              <style>
+                .wrapper {
+                  width: 100%;
+                  height: 800px;
+                  overflow: auto;
+                  position: relative;
+                }
+
+                table {
+                  table-layout: fixed;
+                }
+
+                thead,
+                tr>th {
+                  position: sticky;
+                  background: #fff;
+                }
+
+                thead {
+                  top: 0;
+                  z-index: 2;
+                }
+
+                tr>th {
+                  left: 0;
+                  z-index: 1;
+                }
+
+                thead tr>th:first-child {
+                  z-index: 3;
+                }
+              </style>
+              <div class="body table-responsive wrapper">
                 <table class="table table-bordered table-striped table-hover js-basic-example dataTable1"
                   id="seRespStatusPendingTable">
                   <thead>
@@ -842,7 +874,39 @@
                             class="material-icons">filter_list</i></a></li>
                     </ul>
                   </div>
-                  <div class="body table-responsive">
+                  <style>
+                    .wrapper {
+                      width: 100%;
+                      height: 800px;
+                      overflow: auto;
+                      position: relative;
+                    }
+
+                    table {
+                      table-layout: fixed;
+                    }
+
+                    thead,
+                    tr>th {
+                      position: sticky;
+                      background: #fff;
+                    }
+
+                    thead {
+                      top: 0;
+                      z-index: 2;
+                    }
+
+                    tr>th {
+                      left: 0;
+                      z-index: 1;
+                    }
+
+                    thead tr>th:first-child {
+                      z-index: 3;
+                    }
+                  </style>
+                  <div class="body table-responsive wrapper">
                     <table class="table table-bordered table-striped table-hover js-basic-example dataTable2"
                       id="seRespStatusAcceptedTable">
                       <thead>
@@ -1044,7 +1108,39 @@
                               data-close="true"><i class="material-icons">filter_list</i></a></li>
                         </ul>
                       </div>
-                      <div class="body table-responsive">
+                      <style>
+                        .wrapper {
+                          width: 100%;
+                          height: 800px;
+                          overflow: auto;
+                          position: relative;
+                        }
+
+                        table {
+                          table-layout: fixed;
+                        }
+
+                        thead,
+                        tr>th {
+                          position: sticky;
+                          background: #fff;
+                        }
+
+                        thead {
+                          top: 0;
+                          z-index: 2;
+                        }
+
+                        tr>th {
+                          left: 0;
+                          z-index: 1;
+                        }
+
+                        thead tr>th:first-child {
+                          z-index: 3;
+                        }
+                      </style>
+                      <div class="body table-responsive wrapper">
                         <table class="table table-bordered table-striped table-hover js-basic-example dataTable3"
                           id="seRespStatusCancelTable">
                           <thead>
