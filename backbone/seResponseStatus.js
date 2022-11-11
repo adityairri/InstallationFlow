@@ -32,7 +32,7 @@ module.exports = function () {
   });
 
   app.get(
-    "/seResponseStatus/:SEid/:status/:pageNo/:searchByOrderID",
+    "/seResponseStatus/:status/:pageNo/:date/:searchByOrderID/:bdeName/:regionName/:urlSEname",
     async function (req, res) {
       // console.log(req.params);
       await getSEList();
@@ -44,28 +44,68 @@ module.exports = function () {
           navBarHighlight3: "",
         };
 
-        if (req.params.searchByOrderID == "0") {
-          if (req.params.SEid == "0") {
-            var reqBody = JSON.stringify({
-              filter: {
-                status: "ASSIGNED_SE",
-              },
-            });
-          } else {
-            var reqBody = JSON.stringify({
-              filter: {
-                status: "ASSIGNED_SE",
-                service_engineer: parseInt(req.params.SEid),
-              },
-            });
-          }
-        } else {
+        if (
+          req.params.searchByOrderID == 0 &&
+          req.params.date == 0 &&
+          req.params.bdeName == 0 &&
+          req.params.regionName == 0 &&
+          req.params.urlSEname == 0
+        ) {
+          var page = req.params.pageNo;
           var reqBody = JSON.stringify({
             filter: {
               status: "ASSIGNED_SE",
-              order_id: parseInt(req.params.searchByOrderID),
             },
           });
+        } else {
+          if (req.params.searchByOrderID != 0) {
+            var page = req.params.pageNo;
+            var reqBody = JSON.stringify({
+              filter: {
+                order_id: parseInt(req.params.searchByOrderID),
+                status: "ASSIGNED_SE",
+              },
+            });
+          }
+          if (req.params.date != 0) {
+            var page = req.params.pageNo;
+            var fromDate = req.params.date + " 00:00";
+            var toDate = fromDate;
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "ASSIGNED_SE",
+                from_date: fromDate,
+                to_date: toDate,
+              },
+            });
+          }
+          if (req.params.bdeName != 0) {
+            var page = req.params.pageNo;
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "ASSIGNED_SE",
+                bde: req.params.bdeName,
+              },
+            });
+          }
+          if (req.params.regionName != 0) {
+            var page = req.params.pageNo;
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "ASSIGNED_SE",
+                region: req.params.regionName,
+              },
+            });
+          }
+          if (req.params.urlSEname != 0) {
+            var page = req.params.pageNo;
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "ASSIGNED_SE",
+                service_engineer: req.params.urlSEname,
+              },
+            });
+          }
         }
       }
       if (req.params.status == "accepted") {
@@ -76,28 +116,68 @@ module.exports = function () {
           navBarHighlight3: "",
         };
 
-        if (req.params.searchByOrderID == "0") {
-          if (req.params.SEid == "0") {
-            var reqBody = JSON.stringify({
-              filter: {
-                status: "SEND_FARMER_CONFIRM",
-              },
-            });
-          } else {
-            var reqBody = JSON.stringify({
-              filter: {
-                status: "SEND_FARMER_CONFIRM",
-                service_engineer: parseInt(req.params.SEid),
-              },
-            });
-          }
-        } else {
+        if (
+          req.params.searchByOrderID == 0 &&
+          req.params.date == 0 &&
+          req.params.bdeName == 0 &&
+          req.params.regionName == 0 &&
+          req.params.urlSEname == 0
+        ) {
+          var page = req.params.pageNo;
           var reqBody = JSON.stringify({
             filter: {
               status: "SEND_FARMER_CONFIRM",
-              order_id: parseInt(req.params.searchByOrderID),
             },
           });
+        } else {
+          if (req.params.searchByOrderID != 0) {
+            var page = req.params.pageNo;
+            var reqBody = JSON.stringify({
+              filter: {
+                order_id: parseInt(req.params.searchByOrderID),
+                status: "SEND_FARMER_CONFIRM",
+              },
+            });
+          }
+          if (req.params.date != 0) {
+            var page = req.params.pageNo;
+            var fromDate = req.params.date + " 00:00";
+            var toDate = fromDate;
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "SEND_FARMER_CONFIRM",
+                from_date: fromDate,
+                to_date: toDate,
+              },
+            });
+          }
+          if (req.params.bdeName != 0) {
+            var page = req.params.pageNo;
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "SEND_FARMER_CONFIRM",
+                bde: req.params.bdeName,
+              },
+            });
+          }
+          if (req.params.regionName != 0) {
+            var page = req.params.pageNo;
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "SEND_FARMER_CONFIRM",
+                region: req.params.regionName,
+              },
+            });
+          }
+          if (req.params.urlSEname != 0) {
+            var page = req.params.pageNo;
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "SEND_FARMER_CONFIRM",
+                service_engineer: req.params.urlSEname,
+              },
+            });
+          }
         }
       }
       if (req.params.status == "declined") {
@@ -108,28 +188,68 @@ module.exports = function () {
           navBarHighlight3: "background-color: #E9E9E9; color: #555555;",
         };
 
-        if (req.params.searchByOrderID == "0") {
-          if (req.params.SEid == "0") {
-            var reqBody = JSON.stringify({
-              filter: {
-                status: "CANCELLED_SE",
-              },
-            });
-          } else {
-            var reqBody = JSON.stringify({
-              filter: {
-                status: "CANCELLED_SE",
-                service_engineer: parseInt(req.params.SEid),
-              },
-            });
-          }
-        } else {
+        if (
+          req.params.searchByOrderID == 0 &&
+          req.params.date == 0 &&
+          req.params.bdeName == 0 &&
+          req.params.regionName == 0 &&
+          req.params.urlSEname == 0
+        ) {
+          var page = req.params.pageNo;
           var reqBody = JSON.stringify({
             filter: {
               status: "CANCELLED_SE",
-              order_id: parseInt(req.params.searchByOrderID),
             },
           });
+        } else {
+          if (req.params.searchByOrderID != 0) {
+            var page = req.params.pageNo;
+            var reqBody = JSON.stringify({
+              filter: {
+                order_id: parseInt(req.params.searchByOrderID),
+                status: "CANCELLED_SE",
+              },
+            });
+          }
+          if (req.params.date != 0) {
+            var page = req.params.pageNo;
+            var fromDate = req.params.date + " 00:00";
+            var toDate = fromDate;
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "CANCELLED_SE",
+                from_date: fromDate,
+                to_date: toDate,
+              },
+            });
+          }
+          if (req.params.bdeName != 0) {
+            var page = req.params.pageNo;
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "CANCELLED_SE",
+                bde: req.params.bdeName,
+              },
+            });
+          }
+          if (req.params.regionName != 0) {
+            var page = req.params.pageNo;
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "CANCELLED_SE",
+                region: req.params.regionName,
+              },
+            });
+          }
+          if (req.params.urlSEname != 0) {
+            var page = req.params.pageNo;
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "CANCELLED_SE",
+                service_engineer: req.params.urlSEname,
+              },
+            });
+          }
         }
       }
 
@@ -246,6 +366,9 @@ module.exports = function () {
         await getAllStatusCount();
         await getAllStatusCount();
         await getDevicesList();
+        await getSEList();
+        await getBDEList();
+        await getRegionsList();
         res.render("seResponseStatus", {
           dataPaginationNext: data.links.next,
           dataPaginationPrevious: data.links.previous,
@@ -271,6 +394,10 @@ module.exports = function () {
           installationPendingList: SEAttended,
           installationPartialCompleteList: PartialCompleted,
           installationCompletedList: Completed,
+
+          BDElist: BDElist,
+          regionsList: regionsList,
+          seList: SElist,
 
           totalAPFC: totalAPFC,
           totalPowermon: totalPowermon,
@@ -590,7 +717,6 @@ module.exports = function () {
     });
   }
 
-
   var totalAPFC;
   var totalPowermon;
   var totalPowermonAPFC;
@@ -638,4 +764,297 @@ module.exports = function () {
         console.log("ERROR [Open Orders] - Region List:" + err);
       });
   }
+
+  var SElist;
+  async function getSEList(req, res) {
+    const resp = await fetch(apiURL + "/general/serviceengineers/", {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+    await resp.json().then((dataa) => {
+      // console.log(dataa);
+      SElist = dataa;
+    });
+  }
+
+  var regionsList;
+  async function getRegionsList(req, res) {
+    const resp = await fetch(apiURL + "/general/regions/", {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+    await resp.json().then((dataa) => {
+      // console.log(dataa);
+      regionsList = dataa;
+
+      //console.log(regionsList);
+    });
+  }
+
+  var BDElist;
+  async function getBDEList(req, res) {
+    const resp = await fetch(apiURL + "/general/bdes/", {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+    await resp.json().then((dataa) => {
+      // console.log(dataa);
+      BDElist = dataa;
+
+      //console.log(BDElist);
+    });
+  }
+
+  app.get(
+    "/seResponseStatusExport/:status/:pageNo/:date/:searchByOrderID/:bdeName/:regionName/:urlSEname",
+    async function (req, res) {
+      if (req.params.status == "pending") {
+        var variables = {
+          tableTitle: "PENDING",
+          navBarHighlight1: "background-color: #E9E9E9; color: #555555;",
+          navBarHighlight2: "",
+          navBarHighlight3: "",
+        };
+
+        if (
+          req.params.searchByOrderID == 0 &&
+          req.params.date == 0 &&
+          req.params.bdeName == 0 &&
+          req.params.regionName == 0 &&
+          req.params.urlSEname == 0
+        ) {
+          var page = req.params.pageNo;
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "ASSIGNED_SE",
+            },
+          });
+        } else {
+          if (req.params.searchByOrderID != 0) {
+            var page = req.params.pageNo;
+            var reqBody = JSON.stringify({
+              filter: {
+                order_id: parseInt(req.params.searchByOrderID),
+                status: "ASSIGNED_SE",
+              },
+            });
+          }
+          if (req.params.date != 0) {
+            var page = req.params.pageNo;
+            var fromDate = req.params.date + " 00:00";
+            var toDate = fromDate;
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "ASSIGNED_SE",
+                from_date: fromDate,
+                to_date: toDate,
+              },
+            });
+          }
+          if (req.params.bdeName != 0) {
+            var page = req.params.pageNo;
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "ASSIGNED_SE",
+                bde: req.params.bdeName,
+              },
+            });
+          }
+          if (req.params.regionName != 0) {
+            var page = req.params.pageNo;
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "ASSIGNED_SE",
+                region: req.params.regionName,
+              },
+            });
+          }
+          if (req.params.urlSEname != 0) {
+            var page = req.params.pageNo;
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "ASSIGNED_SE",
+                service_engineer: req.params.urlSEname,
+              },
+            });
+          }
+        }
+      }
+      if (req.params.status == "accepted") {
+        var variables = {
+          tableTitle: "ACCEPTED",
+          navBarHighlight1: "",
+          navBarHighlight2: "background-color: #E9E9E9; color: #555555;",
+          navBarHighlight3: "",
+        };
+
+        if (
+          req.params.searchByOrderID == 0 &&
+          req.params.date == 0 &&
+          req.params.bdeName == 0 &&
+          req.params.regionName == 0 &&
+          req.params.urlSEname == 0
+        ) {
+          var page = req.params.pageNo;
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "SEND_FARMER_CONFIRM",
+            },
+          });
+        } else {
+          if (req.params.searchByOrderID != 0) {
+            var page = req.params.pageNo;
+            var reqBody = JSON.stringify({
+              filter: {
+                order_id: parseInt(req.params.searchByOrderID),
+                status: "SEND_FARMER_CONFIRM",
+              },
+            });
+          }
+          if (req.params.date != 0) {
+            var page = req.params.pageNo;
+            var fromDate = req.params.date + " 00:00";
+            var toDate = fromDate;
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "SEND_FARMER_CONFIRM",
+                from_date: fromDate,
+                to_date: toDate,
+              },
+            });
+          }
+          if (req.params.bdeName != 0) {
+            var page = req.params.pageNo;
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "SEND_FARMER_CONFIRM",
+                bde: req.params.bdeName,
+              },
+            });
+          }
+          if (req.params.regionName != 0) {
+            var page = req.params.pageNo;
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "SEND_FARMER_CONFIRM",
+                region: req.params.regionName,
+              },
+            });
+          }
+          if (req.params.urlSEname != 0) {
+            var page = req.params.pageNo;
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "SEND_FARMER_CONFIRM",
+                service_engineer: req.params.urlSEname,
+              },
+            });
+          }
+        }
+      }
+      if (req.params.status == "declined") {
+        var variables = {
+          tableTitle: "DECLINED",
+          navBarHighlight1: "",
+          navBarHighlight2: "",
+          navBarHighlight3: "background-color: #E9E9E9; color: #555555;",
+        };
+
+        if (
+          req.params.searchByOrderID == 0 &&
+          req.params.date == 0 &&
+          req.params.bdeName == 0 &&
+          req.params.regionName == 0 &&
+          req.params.urlSEname == 0
+        ) {
+          var page = req.params.pageNo;
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "CANCELLED_SE",
+            },
+          });
+        } else {
+          if (req.params.searchByOrderID != 0) {
+            var page = req.params.pageNo;
+            var reqBody = JSON.stringify({
+              filter: {
+                order_id: parseInt(req.params.searchByOrderID),
+                status: "CANCELLED_SE",
+              },
+            });
+          }
+          if (req.params.date != 0) {
+            var page = req.params.pageNo;
+            var fromDate = req.params.date + " 00:00";
+            var toDate = fromDate;
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "CANCELLED_SE",
+                from_date: fromDate,
+                to_date: toDate,
+              },
+            });
+          }
+          if (req.params.bdeName != 0) {
+            var page = req.params.pageNo;
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "CANCELLED_SE",
+                bde: req.params.bdeName,
+              },
+            });
+          }
+          if (req.params.regionName != 0) {
+            var page = req.params.pageNo;
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "CANCELLED_SE",
+                region: req.params.regionName,
+              },
+            });
+          }
+          if (req.params.urlSEname != 0) {
+            var page = req.params.pageNo;
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "CANCELLED_SE",
+                service_engineer: req.params.urlSEname,
+              },
+            });
+          }
+        }
+      }
+
+      const resp = await fetch(
+        apiURL + "/getInstallationSchedule/?export=csv",
+        {
+          method: "post",
+          body: reqBody,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        }
+      );
+      resp
+        .text()
+        .then((data) => {
+          res.header("Content-Type", "text/csv");
+          res.attachment("SeResponseStatus.csv");
+          res.send(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  );
 };

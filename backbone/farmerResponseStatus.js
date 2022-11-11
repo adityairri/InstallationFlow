@@ -559,7 +559,6 @@ module.exports = function () {
     });
   }
 
-
   var totalAPFC;
   var totalPowermon;
   var totalPowermonAPFC;
