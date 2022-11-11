@@ -38,12 +38,10 @@ module.exports = function () {
     }
   );
 
-  app.get(
-    "/viewInstallationStatus/:status/:pageNo/:orderID/:fromDate/:toDate",
+  app.get("/viewInstallationStatus/:status/:pageNo/:date/:searchByOrderID/:bdeName/:regionName/:urlSEname",
     async function (req, res) {
       await getSEList();
       // await getinstallationCompleteCount();
-      if (req.params.orderID == 0) {
         if (req.params.status == "pending") {
           var variables = {
             tableTitle: "PROGRESS",
@@ -51,11 +49,69 @@ module.exports = function () {
             navBarHighlight2: "",
             navBarHighlight3: "",
           };
-          var reqBody = JSON.stringify({
-            filter: {
-              status: "SE_ATTENDED",
-            },
-          });
+          if (
+            req.params.searchByOrderID == 0 &&
+            req.params.date == 0 &&
+            req.params.bdeName == 0 &&
+            req.params.regionName == 0 &&
+            req.params.urlSEname == 0
+          ) {
+            var page = req.params.pageNo;
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "SE_ATTENDED",
+              },
+            });
+          } else {
+            if (req.params.searchByOrderID != 0) {
+              var page = req.params.pageNo;
+              var reqBody = JSON.stringify({
+                filter: {
+                  order_id: parseInt(req.params.searchByOrderID),
+                  status: "SE_ATTENDED",
+                },
+              });
+            }
+            if (req.params.date != 0) {
+              var page = req.params.pageNo;
+              var fromDate = req.params.date + " 00:00";
+              var toDate = fromDate;
+              var reqBody = JSON.stringify({
+                filter: {
+                  status: "SE_ATTENDED",
+                  from_date: fromDate,
+                  to_date: toDate,
+                },
+              });
+            }
+            if (req.params.bdeName != 0) {
+              var page = req.params.pageNo;
+              var reqBody = JSON.stringify({
+                filter: {
+                  status: "SE_ATTENDED",
+                  bde: req.params.bdeName,
+                },
+              });
+            }
+            if (req.params.regionName != 0) {
+              var page = req.params.pageNo;
+              var reqBody = JSON.stringify({
+                filter: {
+                  status: "SE_ATTENDED",
+                  region: req.params.regionName,
+                },
+              });
+            }
+            if (req.params.urlSEname != 0) {
+              var page = req.params.pageNo;
+              var reqBody = JSON.stringify({
+                filter: {
+                  status: "SE_ATTENDED",
+                  service_engineer: req.params.urlSEname,
+                },
+              });
+            }
+          }
         }
         if (req.params.status == "partial") {
           var variables = {
@@ -64,11 +120,69 @@ module.exports = function () {
             navBarHighlight2: "background-color: #E9E9E9; color: #555555;",
             navBarHighlight3: "",
           };
-          var reqBody = JSON.stringify({
-            filter: {
-              status: "PARTIAL_COMPLETED",
-            },
-          });
+          if (
+            req.params.searchByOrderID == 0 &&
+            req.params.date == 0 &&
+            req.params.bdeName == 0 &&
+            req.params.regionName == 0 &&
+            req.params.urlSEname == 0
+          ) {
+            var page = req.params.pageNo;
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "PARTIAL_COMPLETED",
+              },
+            });
+          } else {
+            if (req.params.searchByOrderID != 0) {
+              var page = req.params.pageNo;
+              var reqBody = JSON.stringify({
+                filter: {
+                  order_id: parseInt(req.params.searchByOrderID),
+                  status: "PARTIAL_COMPLETED",
+                },
+              });
+            }
+            if (req.params.date != 0) {
+              var page = req.params.pageNo;
+              var fromDate = req.params.date + " 00:00";
+              var toDate = fromDate;
+              var reqBody = JSON.stringify({
+                filter: {
+                  status: "PARTIAL_COMPLETED",
+                  from_date: fromDate,
+                  to_date: toDate,
+                },
+              });
+            }
+            if (req.params.bdeName != 0) {
+              var page = req.params.pageNo;
+              var reqBody = JSON.stringify({
+                filter: {
+                  status: "PARTIAL_COMPLETED",
+                  bde: req.params.bdeName,
+                },
+              });
+            }
+            if (req.params.regionName != 0) {
+              var page = req.params.pageNo;
+              var reqBody = JSON.stringify({
+                filter: {
+                  status: "PARTIAL_COMPLETED",
+                  region: req.params.regionName,
+                },
+              });
+            }
+            if (req.params.urlSEname != 0) {
+              var page = req.params.pageNo;
+              var reqBody = JSON.stringify({
+                filter: {
+                  status: "PARTIAL_COMPLETED",
+                  service_engineer: req.params.urlSEname,
+                },
+              });
+            }
+          }
         }
         if (req.params.status == "completed") {
           var variables = {
@@ -78,69 +192,30 @@ module.exports = function () {
             navBarHighlight3: "background-color: #E9E9E9; color: #555555;",
           };
 
-          if (req.params.fromDate == 0 || req.params.toDate == 0) {
-            var reqBody = JSON.stringify({
-              filter: {
-                status: "COMPLETED",
-              },
-              sort: {
-                field: "order__ordercompleted",
-                order: "desc",
-              },
-            });
-          } else if (req.params.fromDate != null && req.params.toDate != null) {
-            var reqBody = JSON.stringify({
-              filter: {
-                from_date: req.params.fromDate + " 00:00",
-                to_date: req.params.toDate + " 23:59",
-                status: "COMPLETED",
-              },
-              sort: {
-                field: "order__ordercompleted",
-                order: "desc",
-              },
-            });
-          }
-        }
-      } else if (req.params.orderID != 0) {
-        if (req.params.status == "pending") {
-          var variables = {
-            tableTitle: "PROGRESS",
-            navBarHighlight1: "background-color: #E9E9E9; color: #555555;",
-            navBarHighlight2: "",
-            navBarHighlight3: "",
-          };
+          
+      if (
+        req.params.searchByOrderID == 0 &&
+        req.params.date == 0 &&
+        req.params.bdeName == 0 &&
+        req.params.regionName == 0 &&
+        req.params.urlSEname == 0
+      ) {
+        var page = req.params.pageNo;
+        var reqBody = JSON.stringify({
+          filter: {
+            status: "COMPLETED",
+          },
+          sort: {
+            field: "order__ordercompleted",
+            order: "desc",
+          },
+        });
+      } else {
+        if (req.params.searchByOrderID != 0) {
+          var page = req.params.pageNo;
           var reqBody = JSON.stringify({
             filter: {
-              order_id: parseInt(req.params.orderID),
-              status: "SE_ATTENDED",
-            },
-          });
-        }
-        if (req.params.status == "partial") {
-          var variables = {
-            tableTitle: "PARTIAL",
-            navBarHighlight1: "",
-            navBarHighlight2: "background-color: #E9E9E9; color: #555555;",
-            navBarHighlight3: "",
-          };
-          var reqBody = JSON.stringify({
-            filter: {
-              order_id: parseInt(req.params.orderID),
-              status: "PARTIAL_COMPLETED",
-            },
-          });
-        }
-        if (req.params.status == "completed") {
-          var variables = {
-            tableTitle: "COMPLETED",
-            navBarHighlight1: "",
-            navBarHighlight2: "",
-            navBarHighlight3: "background-color: #E9E9E9; color: #555555;",
-          };
-          var reqBody = JSON.stringify({
-            filter: {
-              order_id: parseInt(req.params.orderID),
+              order_id: parseInt(req.params.searchByOrderID),
               status: "COMPLETED",
             },
             sort: {
@@ -149,7 +224,65 @@ module.exports = function () {
             },
           });
         }
+        if (req.params.date != 0) {
+          var page = req.params.pageNo;
+          var fromDate = req.params.date + " 00:00";
+          var toDate = fromDate;
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "COMPLETED",
+              from_date: fromDate,
+              to_date: toDate,
+            },
+            sort: {
+              field: "order__ordercompleted",
+              order: "desc",
+            },
+          });
+        }
+        if (req.params.bdeName != 0) {
+          var page = req.params.pageNo;
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "COMPLETED",
+              bde: req.params.bdeName,
+            },
+            sort: {
+              field: "order__ordercompleted",
+              order: "desc",
+            },
+          });
+        }
+        if (req.params.regionName != 0) {
+          var page = req.params.pageNo;
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "COMPLETED",
+              region: req.params.regionName,
+            },
+            sort: {
+              field: "order__ordercompleted",
+              order: "desc",
+            },
+          });
+        }
+        if (req.params.urlSEname != 0) {
+          var page = req.params.pageNo;
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "COMPLETED",
+              service_engineer: req.params.urlSEname,
+            },
+            sort: {
+              field: "order__ordercompleted",
+              order: "desc",
+            },
+          });
+        }
       }
+        }
+
+
       const resp = await fetch(
         apiURL + "/getInstallationSchedule/?page=" + req.params.pageNo + "",
         {
@@ -258,8 +391,10 @@ module.exports = function () {
         }
         // console.log(data);
         await getAllStatusCount();
-        await getAllStatusCount();
         await getDevicesList();
+        await getSEList();
+        await getBDEList();
+        await getRegionsList();
         res.render("installationStatus", {
           dataPaginationNext: data.links.next,
           dataPaginationPrevious: data.links.previous,
@@ -283,6 +418,10 @@ module.exports = function () {
           installationPendingList: SEAttended,
           installationPartialCompleteList: PartialCompleted,
           installationCompletedList: Completed,
+
+          BDElist: BDElist,
+          regionsList: regionsList,
+          seList: SElist,
 
           totalAPFC: totalAPFC,
           totalPowermon: totalPowermon,
@@ -583,6 +722,40 @@ module.exports = function () {
     });
   }
 
+  var regionsList;
+  async function getRegionsList(req, res) {
+    const resp = await fetch(apiURL + "/general/regions/", {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+    await resp.json().then((dataa) => {
+      // console.log(dataa);
+      regionsList = dataa;
+
+      //console.log(regionsList);
+    });
+  }
+
+  var BDElist;
+  async function getBDEList(req, res) {
+    const resp = await fetch(apiURL + "/general/bdes/", {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+    await resp.json().then((dataa) => {
+      // console.log(dataa);
+      BDElist = dataa;
+
+      //console.log(BDElist);
+    });
+  }
+
   var remarks = [];
   async function getRemarksList(req, res) {
     var req = req;
@@ -645,4 +818,271 @@ module.exports = function () {
         console.log("ERROR [Open Orders] - Region List:" + err);
       });
   }
+
+
+  app.get("/viewInstallationStatusExport/:status/:pageNo/:date/:searchByOrderID/:bdeName/:regionName/:urlSEname",
+  async function (req, res) {
+    if (req.params.status == "pending") {
+      var variables = {
+        tableTitle: "PROGRESS",
+        navBarHighlight1: "background-color: #E9E9E9; color: #555555;",
+        navBarHighlight2: "",
+        navBarHighlight3: "",
+      };
+      if (
+        req.params.searchByOrderID == 0 &&
+        req.params.date == 0 &&
+        req.params.bdeName == 0 &&
+        req.params.regionName == 0 &&
+        req.params.urlSEname == 0
+      ) {
+        var page = req.params.pageNo;
+        var reqBody = JSON.stringify({
+          filter: {
+            status: "SE_ATTENDED",
+          },
+        });
+      } else {
+        if (req.params.searchByOrderID != 0) {
+          var page = req.params.pageNo;
+          var reqBody = JSON.stringify({
+            filter: {
+              order_id: parseInt(req.params.searchByOrderID),
+              status: "SE_ATTENDED",
+            },
+          });
+        }
+        if (req.params.date != 0) {
+          var page = req.params.pageNo;
+          var fromDate = req.params.date + " 00:00";
+          var toDate = fromDate;
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "SE_ATTENDED",
+              from_date: fromDate,
+              to_date: toDate,
+            },
+          });
+        }
+        if (req.params.bdeName != 0) {
+          var page = req.params.pageNo;
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "SE_ATTENDED",
+              bde: req.params.bdeName,
+            },
+          });
+        }
+        if (req.params.regionName != 0) {
+          var page = req.params.pageNo;
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "SE_ATTENDED",
+              region: req.params.regionName,
+            },
+          });
+        }
+        if (req.params.urlSEname != 0) {
+          var page = req.params.pageNo;
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "SE_ATTENDED",
+              service_engineer: req.params.urlSEname,
+            },
+          });
+        }
+      }
+    }
+    if (req.params.status == "partial") {
+      var variables = {
+        tableTitle: "PARTIAL",
+        navBarHighlight1: "",
+        navBarHighlight2: "background-color: #E9E9E9; color: #555555;",
+        navBarHighlight3: "",
+      };
+      if (
+        req.params.searchByOrderID == 0 &&
+        req.params.date == 0 &&
+        req.params.bdeName == 0 &&
+        req.params.regionName == 0 &&
+        req.params.urlSEname == 0
+      ) {
+        var page = req.params.pageNo;
+        var reqBody = JSON.stringify({
+          filter: {
+            status: "PARTIAL_COMPLETED",
+          },
+        });
+      } else {
+        if (req.params.searchByOrderID != 0) {
+          var page = req.params.pageNo;
+          var reqBody = JSON.stringify({
+            filter: {
+              order_id: parseInt(req.params.searchByOrderID),
+              status: "PARTIAL_COMPLETED",
+            },
+          });
+        }
+        if (req.params.date != 0) {
+          var page = req.params.pageNo;
+          var fromDate = req.params.date + " 00:00";
+          var toDate = fromDate;
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "PARTIAL_COMPLETED",
+              from_date: fromDate,
+              to_date: toDate,
+            },
+          });
+        }
+        if (req.params.bdeName != 0) {
+          var page = req.params.pageNo;
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "PARTIAL_COMPLETED",
+              bde: req.params.bdeName,
+            },
+          });
+        }
+        if (req.params.regionName != 0) {
+          var page = req.params.pageNo;
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "PARTIAL_COMPLETED",
+              region: req.params.regionName,
+            },
+          });
+        }
+        if (req.params.urlSEname != 0) {
+          var page = req.params.pageNo;
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "PARTIAL_COMPLETED",
+              service_engineer: req.params.urlSEname,
+            },
+          });
+        }
+      }
+    }
+    if (req.params.status == "completed") {
+      var variables = {
+        tableTitle: "COMPLETED",
+        navBarHighlight1: "",
+        navBarHighlight2: "",
+        navBarHighlight3: "background-color: #E9E9E9; color: #555555;",
+      };
+
+      
+  if (
+    req.params.searchByOrderID == 0 &&
+    req.params.date == 0 &&
+    req.params.bdeName == 0 &&
+    req.params.regionName == 0 &&
+    req.params.urlSEname == 0
+  ) {
+    var page = req.params.pageNo;
+    var reqBody = JSON.stringify({
+      filter: {
+        status: "COMPLETED",
+      },
+      sort: {
+        field: "order__ordercompleted",
+        order: "desc",
+      },
+    });
+  } else {
+    if (req.params.searchByOrderID != 0) {
+      var page = req.params.pageNo;
+      var reqBody = JSON.stringify({
+        filter: {
+          order_id: parseInt(req.params.searchByOrderID),
+          status: "COMPLETED",
+        },
+        sort: {
+          field: "order__ordercompleted",
+          order: "desc",
+        },
+      });
+    }
+    if (req.params.date != 0) {
+      var page = req.params.pageNo;
+      var fromDate = req.params.date + " 00:00";
+      var toDate = fromDate;
+      var reqBody = JSON.stringify({
+        filter: {
+          status: "COMPLETED",
+          from_date: fromDate,
+          to_date: toDate,
+        },
+        sort: {
+          field: "order__ordercompleted",
+          order: "desc",
+        },
+      });
+    }
+    if (req.params.bdeName != 0) {
+      var page = req.params.pageNo;
+      var reqBody = JSON.stringify({
+        filter: {
+          status: "COMPLETED",
+          bde: req.params.bdeName,
+        },
+        sort: {
+          field: "order__ordercompleted",
+          order: "desc",
+        },
+      });
+    }
+    if (req.params.regionName != 0) {
+      var page = req.params.pageNo;
+      var reqBody = JSON.stringify({
+        filter: {
+          status: "COMPLETED",
+          region: req.params.regionName,
+        },
+        sort: {
+          field: "order__ordercompleted",
+          order: "desc",
+        },
+      });
+    }
+    if (req.params.urlSEname != 0) {
+      var page = req.params.pageNo;
+      var reqBody = JSON.stringify({
+        filter: {
+          status: "COMPLETED",
+          service_engineer: req.params.urlSEname,
+        },
+        sort: {
+          field: "order__ordercompleted",
+          order: "desc",
+        },
+      });
+    }
+  }
+    }
+
+    const resp = await fetch(
+      apiURL + "/getInstallationSchedule/?export=csv",
+      {
+        method: "post",
+        body: reqBody,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      }
+    );
+    resp
+      .text()
+      .then((data) => {
+        res.header("Content-Type", "text/csv");
+        res.attachment("InstallationStatus.csv");
+        res.send(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+);
 };
