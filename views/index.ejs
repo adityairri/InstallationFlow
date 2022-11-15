@@ -600,7 +600,7 @@
               }
 
               table {
-                table-layout: fixed;
+                table-layout: auto;
               }
 
               thead,
@@ -643,7 +643,7 @@
                             <th style="text-align: center;">FARM NAME</th>
                             <th style="text-align: center;">FARMER MOBILE</th>
                             <th style="text-align: center;">REGION</th>
-                            <th style="text-align: center;" style="width: 15%;">ITEMS &nbsp;-&nbsp; ORD &nbsp;-&nbsp;
+                            <th style="text-align: center;">ITEMS &nbsp;-&nbsp; ORD &nbsp;-&nbsp;
                               INST
                             </th>
                             <th style="text-align: center;">REMARKS</th>
@@ -653,23 +653,23 @@
                         <tbody style="text-align: center;">
                           <% data1.forEach(function(singleData){ %>
                             <tr>
-                              <td width="5%">
+                              <td>
                                 <%= singleData.data.order.woo_commerce_order_id %>
                               </td>
-                              <td width="5%">
+                              <td>
                                 <%= singleData.data.order.customer %>
                               </td>
-                              <td width="7%">
+                              <td>
                                 <% if(singleData.data.order.farmer.relationship_BDE.first_name=="Archived" ){%>
                                   --
                                   <%}else{%>
                                     <%= singleData.data.order.farmer.relationship_BDE.first_name %>
                                       <%}%>
                               </td>
-                              <td width="7%">
+                              <td>
                                 <%= singleData.data.order.ordercreated.substring(0,10) %>
                               </td>
-                              <td width="7%">
+                              <td>
                                 <% if(singleData.data.followup_date !=null){%>
                                   <%=singleData.data.followup_date.substring(0,10)%>
                                     <%}else{%>
@@ -736,7 +736,7 @@
                                   <%= singleData.data.region %>
                                 </button>
                               </td>
-                              <td style="width: 15%;">
+                              <td>
                                 <% if(singleData.powermonItems !="Powermon - 0 - 0" ){ %>
                                   <%= singleData.powermonItems %></br>
                                     <%}%>
@@ -748,7 +748,7 @@
                                                 <%}%>
 
                               </td>
-                              <td style="width: 20%;">
+                              <td>
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                   <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
 
@@ -908,7 +908,7 @@
 
 
 
-                              <td style="width: 10%;">
+                              <td>
                                 <a><button data-toggle="modal"
                                     data-target="#openScheduleDateModal<%=singleData.data.id%>"
                                     class="btn bg-teal waves-effect col-lg-12 col-md-12 col-sm-12 col-xs-12"
