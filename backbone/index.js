@@ -327,11 +327,11 @@ module.exports = function () {
   });
 
   app.get("/", async function (req, res) {
-    res.redirect("/page/0/0/1/0/0/0/0");
+    res.redirect("/page/0/0/1/0/0/0/0/Def");
   });
 
   app.get(
-    "/page/:fromDate/:toDate/:pageNo/:searchByOrderID/:bdeName/:regionName/:urlSEname",
+    "/page/:fromDate/:toDate/:pageNo/:searchByOrderID/:bdeName/:regionName/:urlSEname/:sortByDate",
     async function (req, res) {
       if (
         req.params.searchByOrderID == 0 &&
@@ -341,11 +341,29 @@ module.exports = function () {
         req.params.regionName == 0 &&
         req.params.urlSEname == 0
       ) {
-        var reqBody = JSON.stringify({
-          filter: {
-            status: "NEW_ORDER",
-          },
-        });
+        if (req.params.sortByDate == "Def") {
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "NEW_ORDER",
+            },
+          });
+        }
+        if (req.params.sortByDate == "Asc") {
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "NEW_ORDER",
+            },
+            sort: { field: "order__ordercreated", order: "asc" },
+          });
+        }
+        if (req.params.sortByDate == "Desc") {
+          var reqBody = JSON.stringify({
+            filter: {
+              status: "NEW_ORDER",
+            },
+            sort: { field: "order__ordercreated", order: "desc" },
+          });
+        }
       } else {
         if (req.params.searchByOrderID != 0) {
           var reqBody = JSON.stringify({
@@ -356,83 +374,121 @@ module.exports = function () {
           });
         }
         if (req.params.fromDate != 0 && req.params.toDate != 0) {
-          var reqBody = JSON.stringify({
-            filter: {
-              from_date: req.params.fromDate + " 00:00",
-              to_date: req.params.toDate + " 23:59",
-              status: "NEW_ORDER",
-            },
-          });
+          if (req.params.sortByDate == "Def") {
+            var reqBody = JSON.stringify({
+              filter: {
+                from_date: req.params.fromDate + " 00:00",
+                to_date: req.params.toDate + " 23:59",
+                status: "NEW_ORDER",
+              },
+            });
+          }
+          if (req.params.sortByDate == "Asc") {
+            var reqBody = JSON.stringify({
+              filter: {
+                from_date: req.params.fromDate + " 00:00",
+                to_date: req.params.toDate + " 23:59",
+                status: "NEW_ORDER",
+              },
+              sort: { field: "order__ordercreated", order: "asc" },
+            });
+          }
+          if (req.params.sortByDate == "Desc") {
+            var reqBody = JSON.stringify({
+              filter: {
+                from_date: req.params.fromDate + " 00:00",
+                to_date: req.params.toDate + " 23:59",
+                status: "NEW_ORDER",
+              },
+              sort: { field: "order__ordercreated", order: "desc" },
+            });
+          }
         }
         if (req.params.bdeName != 0) {
-          var reqBody = JSON.stringify({
-            filter: {
-              status: "NEW_ORDER",
-              bde: req.params.bdeName,
-            },
-          });
+          if (req.params.sortByDate == "Def") {
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "NEW_ORDER",
+                bde: req.params.bdeName,
+              },
+            });
+          }
+          if (req.params.sortByDate == "Asc") {
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "NEW_ORDER",
+                bde: req.params.bdeName,
+              },
+              sort: { field: "order__ordercreated", order: "asc" },
+            });
+          }
+          if (req.params.sortByDate == "Desc") {
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "NEW_ORDER",
+                bde: req.params.bdeName,
+              },
+              sort: { field: "order__ordercreated", order: "desc" },
+            });
+          }
         }
         if (req.params.regionName != 0) {
-          var reqBody = JSON.stringify({
-            filter: {
-              status: "NEW_ORDER",
-              region: req.params.regionName,
-            },
-          });
+          if (req.params.sortByDate == "Def") {
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "NEW_ORDER",
+                region: req.params.regionName,
+              },
+            });
+          }
+          if (req.params.sortByDate == "Asc") {
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "NEW_ORDER",
+                region: req.params.regionName,
+              },
+              sort: { field: "order__ordercreated", order: "asc" },
+            });
+          }
+          if (req.params.sortByDate == "Desc") {
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "NEW_ORDER",
+                region: req.params.regionName,
+              },
+              sort: { field: "order__ordercreated", order: "desc" },
+            });
+          }
         }
         if (req.params.urlSEname != 0) {
-          var reqBody = JSON.stringify({
-            filter: {
-              status: "NEW_ORDER",
-              service_engineer: req.params.urlSEname,
-            },
-          });
+          if (req.params.sortByDate == "Def") {
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "NEW_ORDER",
+                service_engineer: req.params.urlSEname,
+              },
+            });
+          }
+          if (req.params.sortByDate == "Asc") {
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "NEW_ORDER",
+                service_engineer: req.params.urlSEname,
+              },
+              sort: { field: "order__ordercreated", order: "asc" },
+            });
+          }
+          if (req.params.sortByDate == "Desc") {
+            var reqBody = JSON.stringify({
+              filter: {
+                status: "NEW_ORDER",
+                service_engineer: req.params.urlSEname,
+              },
+              sort: { field: "order__ordercreated", order: "desc" },
+            });
+          }
         }
       }
-
-      // if (req.params.searchByOrderID == 0) {
-      //   if (req.params.fromDate == 0 || req.params.toDate == 0) {
-      //     var reqBody = JSON.stringify({
-      //       filter: {
-      //         status: "NEW_ORDER",
-      //       },
-      //     });
-      //   } else if (req.params.fromDate != null && req.params.toDate != null) {
-      //     var reqBody = JSON.stringify({
-      //       filter: {
-      //         from_date: req.params.fromDate + " 00:00",
-      //         to_date: req.params.toDate + " 23:59",
-      //         status: "NEW_ORDER",
-      //       },
-      //     });
-      //   }
-      // } else if (req.params.searchByOrderID != 0) {
-      //   var reqBody = JSON.stringify({
-      //     filter: {
-      //       order_id: parseInt(req.params.searchByOrderID),
-      //       status: "NEW_ORDER",
-      //     },
-      //   });
-      // }
-      // if (req.params.bdeName != 0) {
-      //   if (req.params.fromDate == 0 || req.params.toDate == 0) {
-      //     var reqBody = JSON.stringify({
-      //       filter: {
-      //         status: "NEW_ORDER",
-      //         bde: req.params.bdeName,
-      //       },
-      //     });
-      //   } else if (req.params.fromDate != null && req.params.toDate != null) {
-      //     var reqBody = JSON.stringify({
-      //       filter: {
-      //         from_date: req.params.fromDate + " 00:00",
-      //         to_date: req.params.toDate + " 23:59",
-      //         status: "NEW_ORDER",
-      //         bde: req.params.bdeName,
-      //       },
-      //     });
-      //   }
-      // }
 
       const resp = await fetch(
         apiURL + "/getInstallationSchedule/?page=" + req.params.pageNo + "",
@@ -574,6 +630,8 @@ module.exports = function () {
           installedAPFC: installedAPFC,
           installedPowermon: installedPowermon,
           installedPowermonAPFC: installedPowermonAPFC,
+
+          sortByDate: req.params.sortByDate,
         });
         console.log("SUCCESS [Open Orders] - Page Loaded");
       });

@@ -73,6 +73,11 @@
     } else if (pathArray[8] != undefined) {
       var urlSEname = pathArray[8];
     }
+    if (pathArray[9] == undefined) {
+      var urlSortByAscDes = "Def";
+    } else if (pathArray[9] != undefined) {
+      var urlSortByAscDes = pathArray[9];
+    }
 
   </script>
 
@@ -189,7 +194,7 @@
                     oninput="searchByOrderID()">
                 </div>
                 <div class="col-lg-2 col-md-2">
-                  <a href="/page/0/0/1/0/0/0/0" id="searchByOrderID">
+                  <a href="/page/0/0/1/0/0/0/0/Def" id="searchByOrderID">
                     <button type="button" class="btn bg-teal waves-effect">
                       <i class="material-icons">search</i>
                     </button>
@@ -199,7 +204,7 @@
                   function searchByOrderID() {
                     var orderID = document.getElementById("orderID").value;
 
-                    var url = "/page/0/0/1/" + orderID + "/0/0/0";
+                    var url = "/page/0/0/1/" + orderID + "/0/0/0/Def";
                     $("#searchByOrderID").attr("href", url);
                   }
                 </script>
@@ -219,7 +224,7 @@
                 <input type="date" class="form-control date" id="ToDate" onchange="handler()">
               </div></br></br>
               <div class="col-lg-12 col-md-12">
-                <a href="/page/0/0/1/0/0/0/0" id="dateRangeFilter">
+                <a href="/page/0/0/1/0/0/0/0/Def" id="dateRangeFilter">
                   <button type="button" class="btn btn-lg bg-teal waves-effect">
                     <!-- <i class="material-icons">search</i> --> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Filter by Date
                     Range&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -233,17 +238,17 @@
                   var fromDateLocalStorage = fromDate;
                   var toDateLocalStorage = toDate;
 
-                  var url = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/1/0/0/0/0";
+                  var url = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/1/0/0/0/0/" + urlSortByAscDes;
                   $("#dateRangeFilter").attr("href", url);
 
 
                   var fromDateLocalStorage = fromDate;
                   var toDateLocalStorage = toDate;
 
-                  url1 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo-1%>/" + orderID + "/" + urlBdeName + "/" + urlRegionName + "/" + urlSEname;
+                  url1 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo-1%>/" + orderID + "/" + urlBdeName + "/" + urlRegionName + "/" + urlSEname + "/" + urlSortByAscDes;
                   $("#previosPageUrl").attr("href", url1);
 
-                  url2 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo+1%>/" + orderID + "/" + urlBdeName + "/" + urlRegionName + "/" + urlSEname;
+                  url2 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo+1%>/" + orderID + "/" + urlBdeName + "/" + urlRegionName + "/" + urlSEname + "/" + urlSortByAscDes;
                   $("#nextPageUrl").attr("href", url2);
 
                 }
@@ -253,10 +258,10 @@
                   var fromDateLocalStorage = fromDate;
                   var toDateLocalStorage = toDate;
 
-                  url1 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo-1%>/" + orderID + "/" + urlBdeName + "/" + urlRegionName + "/" + urlSEname;
+                  url1 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo-1%>/" + orderID + "/" + urlBdeName + "/" + urlRegionName + "/" + urlSEname + "/" + urlSortByAscDes;
                   $("#previosPageUrl").attr("href", url1);
 
-                  url2 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo+1%>/" + orderID + "/" + urlBdeName + "/" + urlRegionName + "/" + urlSEname;
+                  url2 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo+1%>/" + orderID + "/" + urlBdeName + "/" + urlRegionName + "/" + urlSEname + "/" + urlSortByAscDes;
                   $("#nextPageUrl").attr("href", url2);
                 });
               </script>
@@ -280,7 +285,7 @@
                   </select>
                 </div>
                 <div class="col-sm-2">
-                  <a href="/page/0/0/1/0/0/0/0" id="BDEnameFilter">
+                  <a href="/page/0/0/1/0/0/0/0/Def" id="BDEnameFilter">
                     <button type="button" class="btn bg-teal waves-effect">
                       <i class="material-icons">search</i>
                     </button>
@@ -291,7 +296,7 @@
                 function selectedBDE() {
                   var bdeName = document.getElementById("selectedBDE").value;
 
-                  var url = "/page/0/0/1/0/" + bdeName + "/0/0";
+                  var url = "/page/0/0/1/0/" + bdeName + "/0/0/" + urlSortByAscDes;
                   $("#BDEnameFilter").attr("href", url);
                 }
               </script>
@@ -315,7 +320,7 @@
                   </select>
                 </div>
                 <div class="col-sm-2">
-                  <a href="/page/0/0/1/0/0/0/0" id="RegionNnameFilter">
+                  <a href="/page/0/0/1/0/0/0/0/Def" id="RegionNnameFilter">
                     <button type="button" class="btn bg-teal waves-effect">
                       <i class="material-icons">search</i>
                     </button>
@@ -327,7 +332,7 @@
                 function selectedRegion() {
                   var regionName = document.getElementById("selectedRegion").value;
 
-                  var url = "/page/0/0/1/0/0/" + regionName + "/0";
+                  var url = "/page/0/0/1/0/0/" + regionName + "/0/" + urlSortByAscDes;
                   $("#RegionNnameFilter").attr("href", url);
                 }
               </script>
@@ -352,7 +357,7 @@
                   </select>
                 </div>
                 <div class="col-sm-2">
-                  <a href="/page/0/0/1/0/0/0/0" id="SEnameFilter">
+                  <a href="/page/0/0/1/0/0/0/0/Def" id="SEnameFilter">
                     <button type="button" class="btn bg-teal waves-effect">
                       <i class="material-icons">search</i>
                     </button>
@@ -363,7 +368,7 @@
                 function selectedSE() {
                   var seName = document.getElementById("selectedSE").value;
 
-                  var url = "/page/0/0/1/0/0/0/" + seName;
+                  var url = "/page/0/0/1/0/0/0/" + seName + "/" + urlSortByAscDes;
                   $("#SEnameFilter").attr("href", url);
                 }
               </script>
@@ -584,7 +589,7 @@
                   });
                 </script>
 
-                <li><a href="/page/0/0/1/0/0/0/0"><i class="material-icons">refresh</i></a>
+                <li><a href="/page/0/0/1/0/0/0/0/Def"><i class="material-icons">refresh</i></a>
                 </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
                 <li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i
@@ -637,19 +642,44 @@
                             <th style="text-align: center;">ORDER ID</th>
                             <th style="text-align: center;">ORDERED BY</th>
                             <th style="text-align: center;">BDE NAME</th>
-                            <th style="text-align: center;">ORDERED DATE</th>
-                            <th style="text-align: center;">FOLLOWUP DATE</th>
-                            <th style="text-align: center;">FARMER NAME</th>
-                            <th style="text-align: center;">FARM NAME</th>
-                            <th style="text-align: center;">FARMER MOBILE</th>
-                            <th style="text-align: center;">REGION</th>
-                            <th style="text-align: center;">ITEMS &nbsp;-&nbsp; ORD &nbsp;-&nbsp;
-                              INST
-                            </th>
-                            <th style="text-align: center;">REMARKS</th>
-                            <th style="text-align: center;">ACTION</th>
+                            <% if(sortByDate=="Def" ){ %>
+                              <th style="text-align: center;"><a href="" id="sortByDef">ORDERED DATE</a></th>
+                              <% } %>
+                                <% if(sortByDate=="Asc" ){ %>
+                                  <th style="text-align: center;"><a href="" id="sortByAsc">ORDERED DATE (Asc)</a></th>
+                                  <% } %>
+                                    <% if(sortByDate=="Desc" ){ %>
+                                      <th style="text-align: center;"><a href="" id="sortByDesc">ORDERED DATE (Desc)</a>
+                                      </th>
+                                      <% } %>
+                                        <th style="text-align: center;">FOLLOWUP DATE</th>
+                                        <th style="text-align: center;">FARMER NAME</th>
+                                        <th style="text-align: center;">FARM NAME</th>
+                                        <th style="text-align: center;">FARMER MOBILE</th>
+                                        <th style="text-align: center;">REGION</th>
+                                        <th style="text-align: center;">ITEMS &nbsp;-&nbsp; ORD &nbsp;-&nbsp;
+                                          INST
+                                        </th>
+                                        <th style="text-align: center;">REMARKS</th>
+                                        <th style="text-align: center;">ACTION</th>
                           </tr>
                         </thead>
+                        <script>
+                          $(window).on("load", function () {
+                            if (urlSortByAscDes == "Def") {
+                              url1 = "/page/" + fromDate + "/" + toDate + "/" + pageNo + "/" + orderID + "/" + urlBdeName + "/" + urlRegionName + "/" + urlSEname + "/Asc";
+                              $("#sortByDef").attr("href", url1);
+                            }
+                            if (urlSortByAscDes == "Asc") {
+                              url1 = "/page/" + fromDate + "/" + toDate + "/" + pageNo + "/" + orderID + "/" + urlBdeName + "/" + urlRegionName + "/" + urlSEname + "/Desc";
+                              $("#sortByAsc").attr("href", url1);
+                            }
+                            if (urlSortByAscDes == "Desc") {
+                              url1 = "/page/" + fromDate + "/" + toDate + "/" + pageNo + "/" + orderID + "/" + urlBdeName + "/" + urlRegionName + "/" + urlSEname + "/Def";
+                              $("#sortByDesc").attr("href", url1);
+                            }
+                          });
+                        </script>
                         <tbody style="text-align: center;">
                           <% data1.forEach(function(singleData){ %>
                             <tr>
@@ -1133,10 +1163,10 @@
                             var fromDateLocalStorage = fromDate;
                             var toDateLocalStorage = toDate;
 
-                            url1 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo-1%>/" + orderID + "/" + urlBdeName + "/" + urlRegionName + "/" + urlSEname;
+                            url1 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo-1%>/" + orderID + "/" + urlBdeName + "/" + urlRegionName + "/" + urlSEname + "/" + urlSortByAscDes;
                             $("#previosPageUrl").attr("href", url1);
 
-                            url2 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo+1%>/" + orderID + "/" + urlBdeName + "/" + urlRegionName + "/" + urlSEname;
+                            url2 = "/page/" + fromDateLocalStorage + "/" + toDateLocalStorage + "/<%=dataPaginationPageNo+1%>/" + orderID + "/" + urlBdeName + "/" + urlRegionName + "/" + urlSEname + "/" + urlSortByAscDes;
                             $("#nextPageUrl").attr("href", url2);
                             return true;
                           }
@@ -1179,24 +1209,70 @@
                       </table>
 
                       <script>
-                        var table, rows, switching, i, x, y, shouldSwitch;
-                        table = document.getElementById("openOrdersTable");
-                        switching = true;
-                        while (switching) {
-                          switching = false;
-                          rows = table.rows;
-                          for (i = 1; i < (rows.length - 1); i++) {
-                            shouldSwitch = false;
-                            x = rows[i].getElementsByTagName("TD")[0];
-                            y = rows[i + 1].getElementsByTagName("TD")[0];
-                            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                              shouldSwitch = true;
-                              break;
+                        if (urlSortByAscDes == "Def") {
+                          var table, rows, switching, i, x, y, shouldSwitch;
+                          table = document.getElementById("openOrdersTable");
+                          switching = true;
+                          while (switching) {
+                            switching = false;
+                            rows = table.rows;
+                            for (i = 1; i < (rows.length - 1); i++) {
+                              shouldSwitch = false;
+                              x = rows[i].getElementsByTagName("TD")[0];
+                              y = rows[i + 1].getElementsByTagName("TD")[0];
+                              if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                                shouldSwitch = true;
+                                break;
+                              }
+                            }
+                            if (shouldSwitch) {
+                              rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                              switching = true;
                             }
                           }
-                          if (shouldSwitch) {
-                            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                            switching = true;
+                        }
+                        if (urlSortByAscDes == "Asc") {
+                          var table, rows, switching, i, x, y, shouldSwitch;
+                          table = document.getElementById("openOrdersTable");
+                          switching = true;
+                          while (switching) {
+                            switching = false;
+                            rows = table.rows;
+                            for (i = 1; i < (rows.length - 1); i++) {
+                              shouldSwitch = false;
+                              x = rows[i].getElementsByTagName("TD")[3];
+                              y = rows[i + 1].getElementsByTagName("TD")[3];
+                              if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                                shouldSwitch = true;
+                                break;
+                              }
+                            }
+                            if (shouldSwitch) {
+                              rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                              switching = true;
+                            }
+                          }
+                        }
+                        if (urlSortByAscDes == "Desc") {
+                          var table, rows, switching, i, x, y, shouldSwitch;
+                          table = document.getElementById("openOrdersTable");
+                          switching = true;
+                          while (switching) {
+                            switching = false;
+                            rows = table.rows;
+                            for (i = 1; i < (rows.length - 1); i++) {
+                              shouldSwitch = false;
+                              x = rows[i].getElementsByTagName("TD")[3];
+                              y = rows[i + 1].getElementsByTagName("TD")[3];
+                              if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                                shouldSwitch = true;
+                                break;
+                              }
+                            }
+                            if (shouldSwitch) {
+                              rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                              switching = true;
+                            }
                           }
                         }
                       </script>
